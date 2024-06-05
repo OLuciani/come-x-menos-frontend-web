@@ -19,8 +19,8 @@ export interface Business {
   businessName: string,
   businessType: string,
   address: string,
-  //latitude: Number;
-  //longitude: Number;
+  city: string,
+  country: string,
   ownerId: string,
   imageURL: File | null;
   _id: string;
@@ -35,12 +35,25 @@ export interface UserLogin {
 export interface Discount {
   title: string;
   description: string;
+  normalPrice: string;
   discountAmount: string;
   imageURL: File | null;
   businessName: string;
   businessId: string;
   businessType: string;
   isActive: boolean;
+}
+
+export interface DiscountsList {
+  businessId: string;
+  userToken: string;
+  title: string;
+  description: string;
+  discountAmount: string;
+  imageURL: string;
+  normalPrice: string;
+  priceWithDiscount: string;
+  _id: string;
 }
 
 
@@ -135,8 +148,8 @@ export async function createBusiness(data: Business): Promise<Business | string>
         businessName: data.businessName,
         businessType: data.businessType,
         address: data.address, //Cambiar por businessAddress
-        //latitude: data.;
-        //longitude: ;
+        city: data.city,
+        country: data.country,
         ownerId: data.ownerId,
         imageURL: data.imageURL,
       }, 
@@ -163,7 +176,7 @@ export async function createBusiness(data: Business): Promise<Business | string>
 
 
 
-export async function createDiscount(data: FormData): Promise<Discount | string> {
+export async function createDiscount(data: FormData, userToken: string): Promise<Discount | string> {
  
   try {
     const response = await axios.post(
@@ -173,6 +186,7 @@ export async function createDiscount(data: FormData): Promise<Discount | string>
       {
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${userToken}`,
         },
       }
     );
@@ -187,5 +201,34 @@ export async function createDiscount(data: FormData): Promise<Discount | string>
   } catch (error: any) {
     console.error("Error al crear el descuento:", error.message);
     return "Error al crear el descuento";
+  }
+}
+
+
+export async function discountsList(businessId: string, userToken: string): Promise<DiscountsList[] | string> {
+  try {
+    console.log("Valor de userId en pedido get: ", businessId);
+    console.log("Valor de userToken en pedido get: ", userToken);
+
+    const response = await axios.get(
+      "https://discount-project-backend.onrender.com/api/business_list",
+      //`http://localhost:5050/api/discounts_list_one_business/${businessId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${userToken}`,
+        },
+      }
+    );
+
+    if (response.status === 200 && response.data) {
+      console.log("Listado de descuentos vigentes del negocio traidos de MongoDB Atlas:", response.data);
+      return response.data;
+    } else {
+      console.log("El pedido de la lista de descuentos al backend no fue exitoso:", response.data);
+      return "Error al pedir el listado de descuentos del negocio al backend";
+    }
+  } catch (error: any) {
+    console.error("Error al pedir un listado de descuentos del negocio al backend:", error.message);
+    return "Error al pedir un listado de descuentos del negocio al backend";
   }
 }

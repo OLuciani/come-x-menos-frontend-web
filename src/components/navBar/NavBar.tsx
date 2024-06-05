@@ -204,11 +204,11 @@ const Navbar = () => {
                 )}
 
               </div>
-                {(selectedOption === "Cerrar sesión") && <div className="w-full h-[3px] mt-2 bg-[#FFCF91]"></div>} 
+               {/*  {(selectedOption === "Cerrar sesión") && <div className="w-full h-[3px] mt-2 bg-[#FFCF91]"></div>}  */}
                 </div>
           )}
 
-          <div className="lg:hidden">
+          <div className="lg:hidden flex items-center">
             {!open ? (
               <GiHamburgerMenu size={25} color="white" onClick={openMenu} />
             ) : (
