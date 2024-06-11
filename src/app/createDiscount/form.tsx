@@ -98,7 +98,7 @@ export default function FormCreateDiscount() {
         if (typeof response === "object" && response !== null) {
           setError("");
           setTimeout(() => {
-            navigation.push("/login");
+            navigation.push("/myDiscounts"); //Luego de crear un descuento se redirije a la vista de Mis descuentos.
           }, 2000);
         } else {
           setError(response);

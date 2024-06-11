@@ -117,10 +117,10 @@ const LoginForm = () => {
     },
   });
 
-  console.log(
+  /* console.log(
     "Valor de token en localStorage: ",
     localStorage.getItem("token")
-  );
+  ); */
   console.log("Valor de userId en estado: ", userId); // Asegúrate de que userId esté actualizado
   console.log("Valor de newToken en estado: ", userToken);
   console.log("Valor de newRole en estado:", newRole);

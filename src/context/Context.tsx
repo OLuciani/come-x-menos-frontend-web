@@ -1,5 +1,6 @@
 "use client";
 import React, { createContext, useState, ReactNode } from "react";
+import {  DiscountDetail } from "@/services/apiCall";
 
 interface ContextProps {
   userId: string;
@@ -18,6 +19,10 @@ interface ContextProps {
   setBusinessId: React.Dispatch<React.SetStateAction<string>>;
   businessType: string;
   setBusinessType: React.Dispatch<React.SetStateAction<string>>;
+  discountId: string;
+  setDiscountId: React.Dispatch<React.SetStateAction<string>>;
+  discountRecovered: DiscountDetail | null;
+  setDiscountRecovered: React.Dispatch<React.SetStateAction<DiscountDetail | null>>;
 }
 
 export const Context = createContext<ContextProps>({
@@ -37,6 +42,10 @@ export const Context = createContext<ContextProps>({
   setBusinessId: () => {},
   businessType: "",
   setBusinessType: () => {},
+  discountId: "",
+  setDiscountId: () => {},
+  discountRecovered: null,
+  setDiscountRecovered: () => {},
 });
 
 export default function ContextProvider({ children }: { children: ReactNode }) {
@@ -49,6 +58,8 @@ const [backgroundButtonNavBar, setBackgroundButtonNavBar] = useState<boolean>(fa
 const [businessName, setBusinessName] = useState<string>("");
 const [businessId, setBusinessId] = useState<string>("");
 const [businessType, setBusinessType] = useState<string>("");
+const [discountId, setDiscountId] = useState<string>("");
+const [discountRecovered, setDiscountRecovered] = useState<DiscountDetail | null>(null);
   
   return (
     <Context.Provider
@@ -68,7 +79,11 @@ const [businessType, setBusinessType] = useState<string>("");
         businessId, 
         setBusinessId,
         businessType, 
-        setBusinessType
+        setBusinessType,
+        discountId, 
+        setDiscountId,
+        discountRecovered, 
+        setDiscountRecovered
       }}
     >
       {children}
