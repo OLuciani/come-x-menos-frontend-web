@@ -246,7 +246,7 @@ export async function discountsList(businessId: string, userToken: string): Prom
     console.log("Valor de userToken en pedido get: ", userToken);
 
     const response = await axios.get(
-      "https://discount-project-backend.onrender.com/api/discounts_list_one_business/${businessId}",
+      `https://discount-project-backend.onrender.com/api/discounts_list_one_business/${businessId}`,
       //`http://localhost:5050/api/discounts_list_one_business/${businessId}`,
       {
         headers: {
@@ -275,7 +275,7 @@ export async function discountDetail(discountId: string, userToken: string): Pro
     console.log("Valor de userToken en pedido get: ", userToken);
 
     const response = await axios.get(
-      "https://discount-project-backend.onrender.com/api/discount_detail/${discountId}",
+      `https://discount-project-backend.onrender.com/api/discount_detail/${discountId}`,
       //`http://localhost:5050/api/discount_detail/${discountId}`,
       {
         headers: {
