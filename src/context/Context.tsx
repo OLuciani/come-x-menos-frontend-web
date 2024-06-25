@@ -23,6 +23,8 @@ interface ContextProps {
   setDiscountId: React.Dispatch<React.SetStateAction<string>>;
   discountRecovered: DiscountDetail | null;
   setDiscountRecovered: React.Dispatch<React.SetStateAction<DiscountDetail | null>>;
+  selectedOption: string;
+  setSelectedOption: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export const Context = createContext<ContextProps>({
@@ -46,6 +48,8 @@ export const Context = createContext<ContextProps>({
   setDiscountId: () => {},
   discountRecovered: null,
   setDiscountRecovered: () => {},
+  selectedOption: "",
+  setSelectedOption: () => {},
 });
 
 export default function ContextProvider({ children }: { children: ReactNode }) {
@@ -60,6 +64,7 @@ const [businessId, setBusinessId] = useState<string>("");
 const [businessType, setBusinessType] = useState<string>("");
 const [discountId, setDiscountId] = useState<string>("");
 const [discountRecovered, setDiscountRecovered] = useState<DiscountDetail | null>(null);
+const [selectedOption, setSelectedOption] = useState<string>("Inicio");
   
   return (
     <Context.Provider
@@ -83,7 +88,9 @@ const [discountRecovered, setDiscountRecovered] = useState<DiscountDetail | null
         discountId, 
         setDiscountId,
         discountRecovered, 
-        setDiscountRecovered
+        setDiscountRecovered,
+        selectedOption, 
+        setSelectedOption
       }}
     >
       {children}

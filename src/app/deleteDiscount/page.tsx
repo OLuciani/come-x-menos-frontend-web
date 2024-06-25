@@ -1,16 +1,16 @@
 import React from "react";
 import { Krona_One } from "next/font/google";
-import FormCreateDiscount from "./form";
+import DeleteDiscountForm from "./form";
 
 const krona = Krona_One({ weight: "400", subsets: ["latin"] });
 
-export default function CreateDiscountPage() {
+export default function DeleteDiscountPage() {
   return (
     <div className="w-screen flex flex-col items-center">
       <div className="w-full sm:w-[450px] pb-2 rounded-t-[40px] max-md:top-0 max-md:rounded-none max-md:h-auto">
-        <h1 className={`${krona.className} my-2 text-[34px] text-[#FD7B03] text-center`}>Crear un descuento</h1>
+        <h1 className={`${krona.className} mt-16 text-[34px] text-red-500 text-center`}>Estás a punto de eliminar el descuento</h1>
         <div className="items-center justify-center pb-[3%]">
-          <FormCreateDiscount />
+          <DeleteDiscountForm />
         </div>
       </div>
     </div>

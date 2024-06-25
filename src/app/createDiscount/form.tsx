@@ -23,6 +23,7 @@ export default function FormCreateDiscount() {
     setBusinessId,
     businessType,
     setBusinessType,
+    setSelectedOption
   } = useContext(Context);
   const [error, setError] = useState<string | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(false);
@@ -44,6 +45,8 @@ export default function FormCreateDiscount() {
     if (thereIsBusinessName) setBusinessName(thereIsBusinessName);
     if (thereIsBusinessId) setBusinessId(thereIsBusinessId);
     if (thereIsBusinessType) setBusinessId(thereIsBusinessType);
+
+    setSelectedOption("Mi cuenta");
   }, []);
 
   const validationSchema = Yup.object({
@@ -112,9 +115,10 @@ export default function FormCreateDiscount() {
   });
 
   return (
-    <div>
+    <div className="w-sreen flex justify-center">
+      <div className="w-full px-6 sm:w-[500px] sm:px-0">
       <form
-        className="flex flex-col items-center mx-auto gap-4"
+        className="flex flex-col items-center mx-auto gap-6"
         onSubmit={formik.handleSubmit}
       >
         <input
@@ -152,7 +156,7 @@ export default function FormCreateDiscount() {
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           rows={4}
-          className="w-full min-h-24 border-[2px] border-[#FD7B03] rounded-3xl mt-[-10px] p-2"
+          className="w-full min-h-24 border-[1px] border-[#FD7B03] rounded-3xl mt-[-10px] p-2"
           required
         />
 
@@ -169,21 +173,6 @@ export default function FormCreateDiscount() {
         {formik.touched.normalPrice && formik.errors.normalPrice ? (
           <p className="text-red-700">{formik.errors.normalPrice}</p>
         ) : null}
-
-        {/* <Input
-          label="Porcentaje de descuento a aplicar (%)"
-          placeholder="20"
-          type="number"
-          name="discountAmount"
-          value={formik.values.discountAmount.toString()}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          minLength={0}
-        />
-        {formik.touched.discountAmount && formik.errors.discountAmount ? (
-          <p className="text-red-700">{formik.errors.discountAmount}</p>
-        ) : null}
- */}
         
         <div className="w-full flex justify-start text-sm font-normal text-[#FD7B03]">
           <label className="text-sm font-medium text-black ml-3">
@@ -195,7 +184,7 @@ export default function FormCreateDiscount() {
           value={formik.values.discountAmount}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          className="w-full h-[60px] border-[2px] border-[#FD7B03] rounded-[30px] px-3"
+          className="w-full h-[60px] border-[1px] border-[#FD7B03] rounded-[30px] px-3"
         >
           {[...Array(100).keys()].map((i) => {
             const value = i + 1;
@@ -248,6 +237,7 @@ export default function FormCreateDiscount() {
           <p className="text-center mb-2 text-red-700 font-semibold">{error}</p>
         )}
       </form>
-    </div>
+      </div>
+    </div> 
   );
 }

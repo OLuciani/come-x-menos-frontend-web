@@ -11,6 +11,7 @@ export interface User {
   email: string;
   password: string;
   repeatPassword?: string;
+  businessType: string;
 }
 
 export interface Business {
@@ -21,7 +22,20 @@ export interface Business {
   city: string,
   country: string,
   ownerId: string,
-  imageURL: File | null;
+  imageURL: File| Blob | null; // Aqui originalmente es imageURL: File | null;
+  _id: string;
+}
+
+
+export interface BusinessDetail {
+  ownerName: string,
+  businessName: string,
+  businessType: string,
+  address: string,
+  city: string,
+  country: string,
+  ownerId: string,
+  imageURL: File | null | string;
   _id: string;
 }
 
@@ -60,6 +74,7 @@ export interface DiscountsList {
   normalPrice: string;
   priceWithDiscount: string;
   _id: string;
+  isDeleted: string;
 }
 
 export interface DiscountDetail {
@@ -81,8 +96,8 @@ export async function login(
 ): Promise<{ userId: string; userLoged: boolean } | { error: string }> {
   try {
     const response = await axios.post(
-      //"https://discount-project-backend.onrender.com/api/login",
-      "http://localhost:5050/api/login",
+      "https://discount-project-backend.onrender.com/api/login",
+      //"http://localhost:5050/api/login",
       {
         email: data.email,
         password: data.password,
@@ -113,8 +128,8 @@ export async function login(
 export async function createUser(data: User): Promise<User | string> {
   try {
     const response = await axios.post(
-      //"https://discount-project-backend.onrender.com/api/user_register",
-      "http://localhost:5050/api/user_register",
+      "https://discount-project-backend.onrender.com/api/user_register",
+      //"http://localhost:5050/api/user_register",
       {
         name: data.name,
         lastName: data.lastName,
@@ -122,7 +137,7 @@ export async function createUser(data: User): Promise<User | string> {
         phone: data.phone,
         email: data.email,
         password: data.password,
-        role: "adminweb"  //Por el momento el usuario web van puestos todos como adminweb.
+        role: "user"  //Por el momento el usuario web van puestos todos como user.
       }
     );
 
@@ -144,8 +159,8 @@ export async function createUser(data: User): Promise<User | string> {
 export const updateUserWithBusinessId = async (userId: string, businessId: string, businessType: string) => {
   try {
     const response = await axios.patch(
-      //`https://discount-project-backend.onrender.com/api/user_update/${userId}`,
-      `http://localhost:5050/api/user_update/${userId}`,
+      `https://discount-project-backend.onrender.com/api/businessId_and_businessType_update/${userId}`,
+      //`http://localhost:5050/api/businessId_and_businessType_update/${userId}`,
     {
       businessId,
       businessType
@@ -157,11 +172,13 @@ export const updateUserWithBusinessId = async (userId: string, businessId: strin
 };
 
 
+
+
 export async function createBusiness(data: Business): Promise<Business | string> {
   try {
     const response = await axios.post(
-      //"https://discount-project-backend.onrender.com/api/business_create",
-      "http://localhost:5050/api/business_create",
+      "https://discount-project-backend.onrender.com/api/business_create",
+      //"http://localhost:5050/api/business_create",
       {
         ownerName: data.ownerName,
         businessName: data.businessName,
@@ -194,13 +211,12 @@ export async function createBusiness(data: Business): Promise<Business | string>
 }
 
 
-
 export async function createDiscount(data: FormData, userToken: string): Promise<Discount | string> {
  
   try {
     const response = await axios.post(
-      //"https://discount-project-backend.onrender.com/api/discount_create",
-      "http://localhost:5050/api/discount_create",
+      "https://discount-project-backend.onrender.com/api/discount_create",
+      //"http://localhost:5050/api/discount_create",
       data,
       {
         headers: {
@@ -230,8 +246,8 @@ export async function discountsList(businessId: string, userToken: string): Prom
     console.log("Valor de userToken en pedido get: ", userToken);
 
     const response = await axios.get(
-      //"https://discount-project-backend.onrender.com/api/discounts_list_one_business/${businessId}",
-      `http://localhost:5050/api/discounts_list_one_business/${businessId}`,
+      "https://discount-project-backend.onrender.com/api/discounts_list_one_business/${businessId}",
+      //`http://localhost:5050/api/discounts_list_one_business/${businessId}`,
       {
         headers: {
           Authorization: `Bearer ${userToken}`,
@@ -259,8 +275,8 @@ export async function discountDetail(discountId: string, userToken: string): Pro
     console.log("Valor de userToken en pedido get: ", userToken);
 
     const response = await axios.get(
-      //"https://discount-project-backend.onrender.com/api/discount_detail/${discountId}",
-      `http://localhost:5050/api/discount_detail/${discountId}`,
+      "https://discount-project-backend.onrender.com/api/discount_detail/${discountId}",
+      //`http://localhost:5050/api/discount_detail/${discountId}`,
       {
         headers: {
           Authorization: `Bearer ${userToken}`,
@@ -282,12 +298,12 @@ export async function discountDetail(discountId: string, userToken: string): Pro
 }
 
 
-/* export async function editDiscountModal(data: FormData, userToken: string, discountId: string): Promise<Discount | string> {
+export async function editDiscount(data: FormData, userToken: string, discountId: string): Promise<Discount | string> {
  
   try {
     const response = await axios.patch(
-      //`https://discount-project-backend.onrender.com/api/discount_update/${discountId}`,
-      `http://localhost:5050/api/discount_update/${discountId}`,
+      `https://discount-project-backend.onrender.com/api/discount_update/${discountId}`,
+      //`http://localhost:5050/api/discount_update/${discountId}`,
       data,
       {
         headers: {
@@ -308,41 +324,151 @@ export async function discountDetail(discountId: string, userToken: string): Pro
     console.error("Error al modificar el descuento:", error.message);
     return "Error al modificar el descuento";
   }
-} */
+}
 
 
-
-/* export async function editDiscountModal(
-  formData: FormData,
-  userToken: string,
-  discountId: string
-): Promise<any> {
+export async function deleteDiscount(discountId: string, userToken: string): Promise<{ success: boolean; message: string; } | string> {
+  console.log("valor de discountId en deleteDiscount", discountId)
   try {
-    const response = await axios.patch(
-      
-      //`https://discount-project-backend.onrender.com/api/discount_update/${discountId}`,
-      `http://localhost:5050/api/discount_update/${discountId}`,
-      formData,
+    
+    const response = await axios.delete(
+      `https://discount-project-backend.onrender.com/api/discount_delete/${discountId}`,
+      //`http://localhost:5050/api/discount_delete/${discountId}`,
       {
         headers: {
-          'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${userToken}`,
         },
       }
     );
-    return response.data;
-  } catch (error) {
-    console.error('Error in editDiscountModal:', error);
-    
-    if (axios.isAxiosError(error)) {
-      // Axios error tiene una respuesta
-      return error.response?.data || 'Error desconocido';
-    } else if (error instanceof Error) {
-      // Error general de JavaScript
-      return error.message;
+
+    if (response.status === 200) {
+      console.log("Descuento eliminado correctamente de MongoDB Atlas:", response.data);
+      return response.data;
     } else {
-      // Caso por defecto para otros tipos de errores
-      return 'Error desconocido';
+      console.log("La eliminación del descuento en MongoDB Atlas no fue exitosa:", response.data);
+      return "Error al eliminar el descuento";
     }
+  } catch (error: any) {
+    console.error("Error al eliminar el descuento:", error.message);
+    return "Error al eliminar el descuento";
   }
-} */
+}
+
+
+export async function businessDetail(businessId: string, userToken: string): Promise<Business | string> {
+  try {
+    console.log("Valor de businessId en pedido get: ", businessId);
+    console.log("Valor de userToken en pedido get: ", userToken);
+
+    const response = await axios.get(
+      `https://discount-project-backend.onrender.com/api/business_detail/${businessId}`,
+      //`http://localhost:5050/api/business_detail/${businessId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${userToken}`,
+        },
+      }
+    );
+
+    if (response.status === 200 && response.data) {
+      console.log("Detalle del negocio traido de MongoDB Atlas:", response.data);
+      return response.data as Business;
+    } else {
+      console.log("El pedido del detalle del negocio al backend no fue exitoso:", response.data);
+      return "Error al pedir detalles del negocio al backend";
+    }
+  } catch (error: any) {
+    console.error("Error al pedir detalles del negocio al backend:", error.message);
+    return "Error al pedir detalles del negocio al backend";
+  }
+}
+
+
+export const getUserById = async (userId: string, userToken: string) => {
+  const response = await axios.get(`https://discount-project-backend.onrender.com/api/user_detail/${userId}`,
+  //const response = await axios.get(`http://localhost:5050/api/user_detail/${userId}`,
+  {
+    headers: {
+      //"Content-Type": "multipart/form-data",
+      Authorization: `Bearer ${userToken}`,
+    },
+  }
+  );
+  return response.data;
+  console.log("Valor del detalle de usuario: ", response.data);
+};
+
+
+
+export const updateUser = async (userId: string, userToken: string,  data: Partial<User>) => {
+  try {
+    const response = await axios.patch(
+      `https://discount-project-backend.onrender.com/api/user_update/${userId}`,
+      //`http://localhost:5050/api/user_update/${userId}`,
+      {
+        name: data.name,
+        lastName: data.lastName,
+        businessName:data.businessName,
+        phone: data.phone,
+        businessType: data.businessType
+      },
+      {
+        headers: {
+          //"Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${userToken}`,
+        },
+      }
+    );
+
+    if (response.status === 200 && response.data) {
+      console.log("Descuento modificado correctamente en MongoDB Atlas:", response.data);
+      return response.data;
+    } else {
+      console.log("La modificación del descuento en MongoDB Atlas no fue exitosa:", response.data);
+      return "Error al modificar el descuento";
+    }
+  } catch (error: any) {
+    console.error("Error al modificar el descuento:", error.message);
+    return "Error al modificar el descuento";
+  }
+};
+
+
+export const getBusinessById = async (businessId: string, userToken: string) => {
+  const response = await axios.get(`https://discount-project-backend.onrender.com/api/business_detail/${businessId}`,
+  //const response = await axios.get(`http://localhost:5050/api/business_detail/${businessId}`,
+  {
+    headers: {
+      //"Content-Type": "multipart/form-data",
+      Authorization: `Bearer ${userToken}`,
+    },
+  }
+  );
+  return response.data;
+};
+
+
+export const updateBusiness = async (businessId: string, userToken: string, data: Partial<Business>) => {
+  console.log("Valor de businessId en updateBusiness: ", businessId);
+  console.log("Valor de userToken en updateBusiness: ", userToken);
+  console.log("Valor de data en updateBusiness: ", data);
+  const response = await axios.patch(`https://discount-project-backend.onrender.com/api/update_business/${businessId}`,
+  //const response = await axios.patch(`http://localhost:5050/api/update_business/${businessId}`,
+   {
+    businessName: data.businessName,
+    address: data.address,
+    city: data.city,
+    country: data.country,
+    businessType: data.businessType,
+    imageURL: data.imageURL
+   },
+    {
+    headers: { 
+    'Content-Type': 'multipart/form-data',
+    //'Content-Type': 'application/json',
+    Authorization: `Bearer ${userToken}`
+   }
+  });
+  return response.data;
+  console.log("El negocio se actualizo exitosamente: ", response.data);
+};

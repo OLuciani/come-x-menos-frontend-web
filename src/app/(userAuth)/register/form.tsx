@@ -105,31 +105,12 @@ export default function FormRegister() {
             ...values,
           };
 
-          /* const responseBusiness = await createBusiness(businessValues);
-          console.log("Valor de responseBusiness: ", responseBusiness);
-          
-          setTimeout(() => {
-            navigation.push("/login");
-          }, 2000);
-        } else {
-          setError(userResponse);
-        }
-       
-      } catch (err: any) {
-        setError("Network error or server is unreachable");
-      } finally {
-        setIsLoading(false);
-      }
-    },
-  }); */
 
           const responseBusiness = await createBusiness(businessValues);
           if (
             typeof responseBusiness === "object" &&
             responseBusiness !== null
           ) {
-            //const receivedBusinessId = responseBusiness._id;
-            //setBusinessId(receivedBusinessId);
             const businessId = responseBusiness._id;
             console.log(businessId);
 
@@ -173,7 +154,7 @@ export default function FormRegister() {
   return (
     <div>
       <form
-        className="flex flex-col items-center mx-auto gap-4"
+        className="flex flex-col items-center mx-auto gap-6"
         onSubmit={formik.handleSubmit}
       >
         <Input
@@ -221,7 +202,7 @@ export default function FormRegister() {
         <div className="w-full">
           <label
             htmlFor="businessType"
-            className="block text-sm font-medium text-gray-700"
+            className="block text-sm font-medium text-gray-700 ml-4"
           >
             Tipo de negocio
           </label>
@@ -231,7 +212,7 @@ export default function FormRegister() {
             value={formik.values.businessType}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            className="mt-1 block w-full h-[60px] px-3 border border-[#FD7B03] bg-white rounded-[30px] shadow-sm focus:outline-none focus:ring-[#FD7B03] focus:border-[#FD7B03] sm:text-sm"
           >
             <option value="" label="Seleccionar tipo de negocio" />
             <option value="Restaurantes" label="Restaurante" />

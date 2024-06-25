@@ -20,8 +20,8 @@ const LoginPage = () => {
             </p>
             <LoginForm />
             <p className="text-center my-5 text-sm font-medium">
-            ¿No eres miembro?{" "}
-            <span className="text-[#fc7b03]">
+            ¿No eres miembro? {" "}
+            <span className="text-[#fc7b03] ml-2">
                 <Link href="/register">Registrate gratis</Link>
             </span>
             </p>
@@ -31,5 +31,3 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
-
-// "dev": "next dev -p 8081",

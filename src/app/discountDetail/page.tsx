@@ -50,7 +50,8 @@ const DiscountDetailPage: React.FC<DiscountDetailPageProps> = ({}) => {
                 </div>
                 <div className="w-1/2  flex justify-center items-center relative">
                     <Image 
-                    src={"http://localhost:5050/" + discount.imageURL} alt="Imagen descuento" 
+                    src={"https://discount-project-backend.onrender.com/" + discount.imageURL} alt="Imagen descuento" 
+                    //src={"http://localhost:5050/" + discount.imageURL} alt="Imagen descuento" 
                     width={300} 
                     height={200}
                     className="w-[90%]"
@@ -79,7 +80,9 @@ const DiscountDetailPage: React.FC<DiscountDetailPageProps> = ({}) => {
                     <button className='text-16 text-bold text-white bg-blue-600 p-2 rounded-lg'>Editar descuento</button>
                 </Link>
 
-                <button className='text-16 text-bold text-white bg-red-500 p-2  rounded-lg'>Eliminar descuento</button>
+                <Link href={"/deleteDiscount"}>
+                    <button className='text-16 text-bold text-white bg-red-500 p-2  rounded-lg'>Eliminar descuento</button>
+                </Link>
             </div> 
         </div>
     </div>

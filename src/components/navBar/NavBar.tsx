@@ -12,10 +12,10 @@ import { FiUser } from "react-icons/fi";
 const krona = Krona_One({ weight: "400", subsets: ["latin"] });
 
 const Navbar = () => {
-  const { userId, setUserId, newRole, setNewRole, userToken, setUserToken, userName, setUserName, backgroundButtonNavBar } =
+  const { userId, setUserId, newRole, setNewRole, userToken, setUserToken, userName, setUserName, backgroundButtonNavBar, selectedOption, setSelectedOption } =
     useContext(Context);
   const [open, setOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState<string>("Inicio");
+  //const [selectedOption, setSelectedOption] = useState<string>("Inicio");
   const [userMenuOpen, setUserMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -51,6 +51,7 @@ const Navbar = () => {
 
   const closeMenu = () => {
     setOpen(false);
+    setSelectedOption(selectedOption);
   };
 
   const handleOptionClick = (optionName: string) => {
@@ -116,39 +117,6 @@ const Navbar = () => {
             </Link>
           )}
 
-          {/* {userToken !== "" && newRole === "adminweb" && (
-            <Link
-              href={"/myDiscounts"}
-              onClick={() => handleOptionClick("Mis Descuentos")}
-            >
-              <li
-                className={`border-[2px] border-[#FFCF91] py-2 px-4 hidden lg:flex ${
-                  selectedOption === "Mis Descuentos"
-                    ? "bg-[#FFCF91] text-[#FD7B03]"
-                    : "text-white hover:bg-[#FFCF91] hover:text-[#FD7B03]"
-                }`}
-              >
-                Mis Descuentos
-              </li>
-            </Link>
-          )} */}
-
-         {/*  {userToken !== "" && newRole === "adminweb" && (
-            <Link
-              href={"/createDiscount"}
-              onClick={() => handleOptionClick("Crear Descuento")}
-            >
-              <li
-                className={`border-[2px] border-[#FFCF91] py-2 px-4 hidden lg:flex ${
-                  selectedOption === "Crear Descuento"
-                    ? "bg-[#FFCF91] text-[#FD7B03]"
-                    : "text-white hover:bg-[#FFCF91] hover:text-[#FD7B03]"
-                }`}
-              >
-                Crear Descuento
-              </li>
-            </Link>
-          )} */}
 
           {userToken === "" && newRole === "" && (
             <Link
@@ -179,7 +147,7 @@ const Navbar = () => {
           )}
 
           {userToken && (
-              <div onClick={() => setSelectedOption("Cerrar sesión")}>
+              <div /* onClick={() => setSelectedOption("Cerrar sesión")} */>
             <div className="relative px-4 py-2 flex gap-2 items-center hover:bg-[#FFCF91] border-[2px] border-[#FFCF91] cursor-pointer" onClick={() => setUserMenuOpen(!userMenuOpen)}>
                 <div className="flex gap-2 items-center text-white hover:text-[#FD7B03] hover:bg-[#FFCF91]">
                   <FiUser
