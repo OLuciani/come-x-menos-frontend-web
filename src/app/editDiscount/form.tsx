@@ -8,17 +8,29 @@ import * as Yup from "yup";
 import TextareaAutosize from "react-textarea-autosize";
 import axios, { AxiosError } from "axios";
 import { Context } from "@/context/Context";
+import Cookies from "js-cookie";
 
 const FormEditDiscount: React.FC = () => {
-  const { userToken, discountId, discountRecovered } = useContext(Context);
+  const { discountId, discountRecovered, isLoggedIn, setDiscountId } = useContext(Context);
   const [error, setError] = useState<string | undefined>(undefined);
   const [discount, setDiscount] = useState<Discount | null>(null);
+  const [userToken, setUserToken] = useState<string>("");
   const navigation = useRouter();
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      const storedUserToken = Cookies.get("userToken") || "";
+      setUserToken(storedUserToken);
+    }
+  }, [isLoggedIn]); 
 
   useEffect(() => {
     if (discountRecovered !== null) {
       console.log("Setting discount from discountRecovered", discountRecovered);
       setDiscount(discountRecovered);
+
+      const cookieDiscountId = Cookies.get("discountId") || "";
+        setDiscountId(cookieDiscountId);
     }
   }, [discountRecovered]);
 
@@ -91,7 +103,7 @@ const FormEditDiscount: React.FC = () => {
           console.error("Error inesperado:", err);
           setError("Ocurrió un error inesperado.");
         }
-      } 
+      }
     },
   });
 
@@ -222,7 +234,6 @@ const FormEditDiscount: React.FC = () => {
             <p className="text-red-700">{formik.errors.discountAmount}</p>
           ) : null}
 
-
           <Input
             label="Cargar fotografía"
             placeholder=""
@@ -247,11 +258,10 @@ const FormEditDiscount: React.FC = () => {
             className="w-full bg-[#FFCF91] text-[18px] font-semibold text-white mt-3 h-[60px] rounded-[30px] border-[5px] border-[#FD7B03] transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-[#FFCF91] hover:border-[#FFCF91] cursor-pointer"
           >
             <div className="flex justify-center">
-          <div className="w-[98%] bg-[#FD7B03] rounded-[30px] py-[7px] hover:bg-[#FFCF91] hover:text-[#FD7B03]">
-            
-            Enviar datos
-          </div>
-        </div>
+              <div className="w-[98%] bg-[#FD7B03] rounded-[30px] py-[7px] hover:bg-[#FFCF91] hover:text-[#FD7B03]">
+                Enviar datos
+              </div>
+            </div>
           </button>
 
           {error && <p className="text-red-700">{error}</p>}

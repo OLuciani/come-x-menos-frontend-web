@@ -1,20 +1,60 @@
 "use client";
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Context } from "@/context/Context";
 import Link from "next/link";
+import Cookies from "js-cookie";
 
 const MyAccountPage = () => {
   const {
-    userId,
+    setSelectedOption,
+    isLoggedIn,
+    setUserRole,
     setUserId,
-    newRole,
-    setNewRole,
-    userToken,
-    setUserToken,
     setUserName,
+    setBusinessName,
+    setBusinessId,
+    setBusinessType
   } = useContext(Context);
+  const [userToken, setUserToken] = useState<string>("");
+  
+  Cookies.remove("discountId"); // Esta linea es para eliminar la cookie que se crea cuando se refresca editDiscount
+  
+ /*  useEffect(() => {
+    setSelectedOption("Mi cuenta");
+    const cookieUserRole = Cookies.get('userRole') || '';
+    setUserRole(cookieUserRole);
+  }, [setSelectedOption]);
+ */
 
   useEffect(() => {
+    const storedUserToken = Cookies.get("userToken") || "";
+    setUserToken(storedUserToken);
+
+    const cookieUserRole = Cookies.get('userRole') || '';
+    setUserRole(cookieUserRole); 
+
+    const cookieUserId = Cookies.get("userId") || "";
+    setUserId(cookieUserId);
+
+    const cookieUserName = Cookies.get("userName") || "";
+    setUserName(cookieUserName);
+
+    const cookieBusinessName = Cookies.get("businessName") || "";
+    setBusinessName(cookieBusinessName);
+
+    const cookieBusinessId = Cookies.get("businessId") || "";
+    setBusinessId(cookieBusinessId);
+
+    const cookieBusinessType = Cookies.get("businessType") || "";
+    setBusinessType(cookieBusinessType);
+  
+  setSelectedOption("Mi cuenta");
+}, [setSelectedOption]);  
+
+
+  
+
+ /*  useEffect(() => {
     const thereIsUserToken = localStorage.getItem("token");
     const thereIsUserRole = localStorage.getItem("role");
     const thereIsUserId = localStorage.getItem("_id");
@@ -35,7 +75,23 @@ const MyAccountPage = () => {
     if (thereIsUserName) {
       setUserName(thereIsUserName);
     }
-  }, [setUserToken, setNewRole, setUserId, setUserName]);
+  }, [setUserToken, setNewRole, setUserId, setUserName]); */
+
+ /*  useEffect(() => {
+    if(isLoggedIn) {
+
+      const storedToken = Cookies.get("token") || "";
+      console.log("Valor de storedToken: ", storedToken);
+  
+      const storedRole = Cookies.get("role") || "";
+      console.log("Valor de storedRole: ", storedRole);
+  
+      setToken(storedToken);
+      setRole(storedRole);
+      //Cookies.remove("token");
+      //Cookies.remove("role");
+    }
+  }, [isLoggedIn]); */
 
   return (
     <div className="w-screen py-3 /* flex flex-col justify-center items-center */">

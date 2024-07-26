@@ -1,4 +1,4 @@
-import React from 'react';
+/* import React from 'react';
 
 const Dashboard = () => {
   return (
@@ -8,4 +8,298 @@ const Dashboard = () => {
   )
 }
 
+export default Dashboard; */
+
+
+"use client"
+/* import React, { useEffect, useState, useContext } from 'react';
+import { getDashboardData, DashboardData } from "@/services/apiCall";
+import Header from '../../components/dashboardComponents/headerDashboard';
+import Sidebar from '../../components/dashboardComponents/sidebarDashboard';
+import { Line, Bar } from 'react-chartjs-2';
+import { Context } from "@/context/Context";
+
+const Dashboard: React.FC = () => {
+  const { userToken } = useContext(Context);
+  const [dashboardData, setDashboardData] = useState<DashboardData | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getDashboardData(userToken);
+        setDashboardData(data);
+      } catch (error) {
+        console.error('Error fetching dashboard data', error);
+      }
+    };
+    
+    fetchData();
+  }, []);
+
+  if (!dashboardData) return <div>Loading...</div>;
+
+  return (
+    <div className="min-h-screen flex flex-col">
+      <Header />
+      <div className="flex flex-1">
+        <Sidebar />
+        <main className="flex-1 p-6 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <section className="bg-white p-4 rounded-lg shadow-md">
+            <h2 className="text-xl font-semibold mb-2">Descuentos Totales</h2>
+            <p>{dashboardData.totalDiscounts}</p>
+          </section>
+
+          <section className="bg-white p-4 rounded-lg shadow-md">
+            <h2 className="text-xl font-semibold mb-2">Usuarios Activos</h2>
+            <p>{dashboardData.activeUsers}</p>
+          </section>
+
+          <section className="bg-white p-4 rounded-lg shadow-md">
+            <h2 className="text-xl font-semibold mb-2">Descuentos Canjeados</h2>
+            <p>{dashboardData.redeemedDiscounts}</p>
+          </section>
+
+          <section className="bg-white p-4 rounded-lg shadow-md col-span-1 md:col-span-2">
+            <h2 className="text-xl font-semibold mb-2">Uso de Descuentos</h2>
+            <Line
+              data={{
+                labels: dashboardData.usageOverTime.labels,
+                datasets: [{
+                  label: 'Descuentos Canjeados',
+                  data: dashboardData.usageOverTime.data,
+                  borderColor: 'rgba(75, 192, 192, 1)',
+                  borderWidth: 2,
+                  fill: false,
+                }]
+              }}
+            />
+          </section>
+
+          <section className="bg-white p-4 rounded-lg shadow-md col-span-1 md:col-span-2">
+            <h2 className="text-xl font-semibold mb-2">Descuentos por Tipo de Negocio</h2>
+            <Bar
+              data={{
+                labels: dashboardData.discountsByType.labels,
+                datasets: [{
+                  label: 'Descuentos',
+                  data: dashboardData.discountsByType.data,
+                  backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                  borderColor: 'rgba(75, 192, 192, 1)',
+                  borderWidth: 1,
+                }]
+              }}
+            />
+          </section>
+        </main>
+      </div>
+    </div>
+  );
+};
+
+export default Dashboard; */
+
+
+
+/* import React, { useEffect, useState } from 'react';
+import Header from '../../components/dashboardComponents/headerDashboard';
+import Sidebar from '../../components/dashboardComponents/sidebarDashboard';
+import { Line, Bar } from 'react-chartjs-2';
+import { ChartData } from 'chart.js';
+import { DashboardData } from '@/services/apiCall';
+
+const Dashboard: React.FC = () => {
+  const [dashboardData, setDashboardData] = useState<DashboardData | null>(null);
+
+  useEffect(() => {
+    // Datos estáticos para visualizar el dashboard
+    const staticData: DashboardData = {
+      totalDiscounts: 150,
+      activeUsers: 75,
+      redeemedDiscounts: 50,
+      usageOverTime: {
+        labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio'],
+        data: [10, 20, 30, 40, 50, 60],
+      },
+      discountsByType: {
+        labels: ['Restaurantes', 'Bares', 'Panaderías', 'Cafeterías'],
+        data: [40, 30, 20, 10],
+      },
+    };
+
+    // Simula la carga de datos
+    setTimeout(() => {
+      setDashboardData(staticData);
+    }, 1000);
+  }, []);
+
+  if (!dashboardData) return <div>Loading...</div>;
+
+  const lineChartData: ChartData<'line'> = {
+    labels: dashboardData.usageOverTime.labels,
+    datasets: [{
+      label: 'Descuentos Canjeados',
+      data: dashboardData.usageOverTime.data,
+      borderColor: 'rgba(75, 192, 192, 1)',
+      borderWidth: 2,
+      fill: false,
+    }],
+  };
+
+  const barChartData: ChartData<'bar'> = {
+    labels: dashboardData.discountsByType.labels,
+    datasets: [{
+      label: 'Descuentos',
+      data: dashboardData.discountsByType.data,
+      backgroundColor: 'rgba(75, 192, 192, 0.2)',
+      borderColor: 'rgba(75, 192, 192, 1)',
+      borderWidth: 1,
+    }],
+  };
+
+  return (
+    <div className="min-h-screen flex flex-col">
+      <Header />
+      <div className="flex flex-1">
+        <Sidebar />
+        <main className="flex-1 p-6 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <section className="bg-white p-4 rounded-lg shadow-md">
+            <h2 className="text-xl font-semibold mb-2">Descuentos Totales</h2>
+            <p>{dashboardData.totalDiscounts}</p>
+          </section>
+
+          <section className="bg-white p-4 rounded-lg shadow-md">
+            <h2 className="text-xl font-semibold mb-2">Usuarios Activos</h2>
+            <p>{dashboardData.activeUsers}</p>
+          </section>
+
+          <section className="bg-white p-4 rounded-lg shadow-md">
+            <h2 className="text-xl font-semibold mb-2">Descuentos Canjeados</h2>
+            <p>{dashboardData.redeemedDiscounts}</p>
+          </section>
+
+          <section className="bg-white p-4 rounded-lg shadow-md col-span-1 md:col-span-2">
+            <h2 className="text-xl font-semibold mb-2">Uso de Descuentos</h2>
+            <Line data={lineChartData} />
+          </section>
+
+          <section className="bg-white p-4 rounded-lg shadow-md col-span-1 md:col-span-2">
+            <h2 className="text-xl font-semibold mb-2">Descuentos por Tipo de Negocio</h2>
+            <Bar data={barChartData} />
+          </section>
+        </main>
+      </div>
+    </div>
+  );
+};
+
+export default Dashboard; */
+
+
+
+import React, { useEffect, useState } from 'react';
+import Header from '../../components/dashboardComponents/headerDashboard';
+import Sidebar from '../../components/dashboardComponents/sidebarDashboard';
+import { Line, Bar } from 'react-chartjs-2';
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
+import { ChartData } from 'chart.js';
+import { DashboardData } from '@/services/apiCall';
+
+// Registro de componentes de Chart.js
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
+
+const Dashboard: React.FC = () => {
+  const [dashboardData, setDashboardData] = useState<DashboardData | null>(null);
+
+  useEffect(() => {
+    // Datos estáticos para visualizar el dashboard
+    const staticData: DashboardData = {
+      totalDiscounts: 150,
+      activeUsers: 75,
+      redeemedDiscounts: 50,
+      usageOverTime: {
+        labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio'],
+        data: [10, 20, 30, 40, 50, 60],
+      },
+      discountsByType: {
+        labels: ['Restaurantes', 'Bares', 'Panaderías', 'Cafeterías'],
+        data: [40, 30, 20, 10],
+      },
+    };
+
+    // Simula la carga de datos
+    setTimeout(() => {
+      setDashboardData(staticData);
+    }, 1000);
+  }, []);
+
+  if (!dashboardData) return <div className='text-center text-lg mt-[15%]'>Cargando datos...</div>;
+
+  const lineChartData: ChartData<'line'> = {
+    labels: dashboardData.usageOverTime.labels,
+    datasets: [{
+      label: 'Descuentos Canjeados',
+      data: dashboardData.usageOverTime.data,
+      borderColor: 'rgba(75, 192, 192, 1)',
+      borderWidth: 2,
+      fill: false,
+    }],
+  };
+
+  const barChartData: ChartData<'bar'> = {
+    labels: dashboardData.discountsByType.labels,
+    datasets: [{
+      label: 'Descuentos',
+      data: dashboardData.discountsByType.data,
+      backgroundColor: 'rgba(75, 192, 192, 0.2)',
+      borderColor: 'rgba(75, 192, 192, 1)',
+      borderWidth: 1,
+    }],
+  };
+
+  return (
+    <div className="min-h-screen flex flex-col">
+      <Header />
+      <div className="flex flex-1">
+        <Sidebar />
+        <main className="flex-1 p-6 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <section className="bg-white p-4 rounded-lg shadow-md">
+            <h2 className="text-xl font-semibold mb-2">Descuentos Totales</h2>
+            <p>{dashboardData.totalDiscounts}</p>
+          </section>
+
+          <section className="bg-white p-4 rounded-lg shadow-md">
+            <h2 className="text-xl font-semibold mb-2">Usuarios Activos</h2>
+            <p>{dashboardData.activeUsers}</p>
+          </section>
+
+          <section className="bg-white p-4 rounded-lg shadow-md">
+            <h2 className="text-xl font-semibold mb-2">Descuentos Canjeados</h2>
+            <p>{dashboardData.redeemedDiscounts}</p>
+          </section>
+
+          <section className="bg-white p-4 rounded-lg shadow-md col-span-1 md:col-span-2">
+            <h2 className="text-xl font-semibold mb-2">Uso de Descuentos</h2>
+            <Line data={lineChartData} />
+          </section>
+
+          <section className="bg-white p-4 rounded-lg shadow-md col-span-1 md:col-span-2">
+            <h2 className="text-xl font-semibold mb-2">Descuentos por Tipo de Negocio</h2>
+            <Bar data={barChartData} />
+          </section>
+        </main>
+      </div>
+    </div>
+  );
+};
+
 export default Dashboard;
+

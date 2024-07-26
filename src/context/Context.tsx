@@ -5,8 +5,8 @@ import {  DiscountDetail } from "@/services/apiCall";
 interface ContextProps {
   userId: string;
   setUserId: React.Dispatch<React.SetStateAction<string>>;
-  newRole: string;
-  setNewRole: React.Dispatch<React.SetStateAction<string>>;
+  userRole: string;
+  setUserRole: React.Dispatch<React.SetStateAction<string>>;
   userToken: string;
   setUserToken: React.Dispatch<React.SetStateAction<string>>;
   userName: string;
@@ -25,13 +25,15 @@ interface ContextProps {
   setDiscountRecovered: React.Dispatch<React.SetStateAction<DiscountDetail | null>>;
   selectedOption: string;
   setSelectedOption: React.Dispatch<React.SetStateAction<string>>;
+  isLoggedIn: boolean;
+  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const Context = createContext<ContextProps>({
   userId: "",
   setUserId: () => {},
-  newRole: "",
-  setNewRole: () => {},
+  userRole: "",
+  setUserRole: () => {},
   userToken: "",
   setUserToken: () => {},
   userName: "",
@@ -50,12 +52,14 @@ export const Context = createContext<ContextProps>({
   setDiscountRecovered: () => {},
   selectedOption: "",
   setSelectedOption: () => {},
+  isLoggedIn: false,
+  setIsLoggedIn: () => {},
 });
 
 export default function ContextProvider({ children }: { children: ReactNode }) {
   
 const [userId, setUserId] = useState<string>("");
-const [newRole, setNewRole] = useState<string>("");
+const [userRole, setUserRole] = useState<string>("");
 const [userToken, setUserToken] = useState<string>("");
 const [userName, setUserName] = useState<string>("");
 const [backgroundButtonNavBar, setBackgroundButtonNavBar] = useState<boolean>(false);
@@ -65,14 +69,15 @@ const [businessType, setBusinessType] = useState<string>("");
 const [discountId, setDiscountId] = useState<string>("");
 const [discountRecovered, setDiscountRecovered] = useState<DiscountDetail | null>(null);
 const [selectedOption, setSelectedOption] = useState<string>("Inicio");
+const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   
   return (
     <Context.Provider
       value={{
         userId,
         setUserId,  
-        newRole, 
-        setNewRole,
+        userRole, 
+        setUserRole,
         userToken, 
         setUserToken,
         userName, 
@@ -90,7 +95,9 @@ const [selectedOption, setSelectedOption] = useState<string>("Inicio");
         discountRecovered, 
         setDiscountRecovered,
         selectedOption, 
-        setSelectedOption
+        setSelectedOption,
+        isLoggedIn, 
+        setIsLoggedIn
       }}
     >
       {children}

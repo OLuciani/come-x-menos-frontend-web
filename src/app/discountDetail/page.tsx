@@ -6,12 +6,63 @@ import Image from 'next/image';
 import EditDiscountModalForm from '../editDiscount/page';
 import Link from 'next/link';
 //import DeleteDiscountModal from '@/components/DeleteDiscountModal';
+import Cookies from "js-cookie";
 
 interface DiscountDetailPageProps {}
 
 const DiscountDetailPage: React.FC<DiscountDetailPageProps> = ({}) => {
     const [discount, setDiscount] = useState<DiscountDetail | null>(null);
-    const { discountId, userToken, discountRecovered, setDiscountRecovered } = useContext(Context);
+    const [userToken, setUserToken] = useState<string>("");
+    const { discountId, setDiscountId, discountRecovered, setDiscountRecovered, isLoggedIn, setUserRole, setUserId, setUserName, setBusinessName, setBusinessId, setBusinessType, setSelectedOption } = useContext(Context);
+
+    useEffect(() => {
+        if (isLoggedIn) {
+          const storedUserToken = Cookies.get("userToken") || "";
+          setUserToken(storedUserToken);
+
+          /* const storedDiscountId = Cookies.set('discountId', discountId, { expires: 1, secure: true, sameSite: 'strict' }); */
+        }
+      }, [isLoggedIn, setUserToken, discountId]); 
+
+
+      //A este useEffect lo creé para cuando se refresca la vista de este componente
+      useEffect(() => {
+        const storedUserToken = Cookies.get("userToken") || "";
+        setUserToken(storedUserToken);
+  
+        const cookieUserRole = Cookies.get('userRole') || '';
+        setUserRole(cookieUserRole); 
+  
+        const cookieUserId = Cookies.get("userId") || "";
+        setUserId(cookieUserId);
+  
+        const cookieUserName = Cookies.get("userName") || "";
+        setUserName(cookieUserName);
+  
+        const cookieBusinessName = Cookies.get("businessName") || "";
+        setBusinessName(cookieBusinessName);
+  
+        const cookieBusinessId = Cookies.get("businessId") || "";
+        setBusinessId(cookieBusinessId);
+  
+        const cookieBusinessType = Cookies.get("businessType") || "";
+        setBusinessType(cookieBusinessType);
+
+        const cookieDiscountId = Cookies.get("discountId") || "";
+        setDiscountId(cookieDiscountId);
+
+       setSelectedOption("Mi cuenta");
+
+    }, [setUserToken,
+        setUserRole,
+        setUserId,
+        setUserName,
+        setBusinessName,
+        setBusinessId,
+        setBusinessType,
+        setDiscountId,
+        setSelectedOption,]);  
+
 
      // Obtener descuentos del backend
     useEffect(() => {
@@ -21,6 +72,9 @@ const DiscountDetailPage: React.FC<DiscountDetailPageProps> = ({}) => {
             if (typeof response !== "string") {
                 console.log("Descuento recibido del backend: ", response); // Verifica si llegan datos
                 setDiscount(response); // Actualiza el estado con el descuento recibido
+
+                const storedDiscountId = Cookies.set('discountId', discountId, { expires: 1, secure: true, sameSite: 'strict' });  //Se crea una cookie con el valor del id del descuento
+                
                 setDiscountRecovered(response);
             } else {
                 console.error("Error al obtener el descuento: ", response);
@@ -32,6 +86,8 @@ const DiscountDetailPage: React.FC<DiscountDetailPageProps> = ({}) => {
   
       fetchDiscounts();
     }, [discountId, userToken]);
+
+    
 
     if (!discount) {
         return <p>Loading...</p>;
@@ -50,8 +106,8 @@ const DiscountDetailPage: React.FC<DiscountDetailPageProps> = ({}) => {
                 </div>
                 <div className="w-1/2  flex justify-center items-center relative">
                     <Image 
-                    src={"https://discount-project-backend.onrender.com/" + discount.imageURL} alt="Imagen descuento" 
-                    //src={"http://localhost:5050/" + discount.imageURL} alt="Imagen descuento" 
+                    //src={"https://discount-project-backend.onrender.com/" + discount.imageURL} alt="Imagen descuento" 
+                    src={"http://localhost:5050/" + discount.imageURL} alt="Imagen descuento" 
                     width={300} 
                     height={200}
                     className="w-[90%]"
@@ -77,11 +133,11 @@ const DiscountDetailPage: React.FC<DiscountDetailPageProps> = ({}) => {
 
             <div className='w-auto mx-3 xs:w-[380px] xs:mx-0 flex flex-row justify-between mt-6'>
                 <Link href={'/editDiscount'}>
-                    <button className='text-16 text-bold text-white bg-blue-600 p-2 rounded-lg'>Editar descuento</button>
+                    <button className='w-44 text-[16px] font-bold border-[8px] border-blue-600 text-gray-600 hover:text-white hover:bg-blue-600 p-1 rounded-lg'>Editar descuento</button>
                 </Link>
 
                 <Link href={"/deleteDiscount"}>
-                    <button className='text-16 text-bold text-white bg-red-500 p-2  rounded-lg'>Eliminar descuento</button>
+                    <button className='w-44 text-[16px] font-bold border-[8px] border-red-500 text-gray-600 hover:text-white hover:bg-red-500 p-1 rounded-lg'>Eliminar descuento</button>
                 </Link>
             </div> 
         </div>

@@ -48,7 +48,7 @@ export default function EditUserAndBusinessPage() {
   return (
     <div className="w-screen flex flex-col items-center">
       <div className="w-full sm:w-[450px] pb-2 rounded-t-[40px] max-md:top-0 max-md:rounded-none max-md:h-auto">
-        <h1 className="my-2 text-[34px] text-[#FD7B03] text-center">Editar cuenta</h1>
+        <h1 className="my-5 text-[34px] text-[#FD7B03] text-center">Editar cuenta</h1>
         <div className="items-center justify-center pb-[3%]">
         <FormEditUserAndBusiness businessId={businessId} />
 
