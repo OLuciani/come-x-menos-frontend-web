@@ -1,4 +1,5 @@
 import axios from "axios";
+import Cookies from "js-cookie";
 
 // Configuro Axios para enviar cookies automáticamente
 axios.defaults.withCredentials = true;
@@ -414,6 +415,7 @@ export const getUserById = async (userId: string, userToken: string) => {
 
 
 
+
 export const updateUser = async (userId: string, userToken: string,  data: Partial<User>) => {
   try {
     const response = await axios.patch(
@@ -422,7 +424,7 @@ export const updateUser = async (userId: string, userToken: string,  data: Parti
       {
         name: data.name,
         lastName: data.lastName,
-        businessName:data.businessName,
+        businessName: data.businessName,
         phone: data.phone,
         businessType: data.businessType
       },
@@ -435,7 +437,22 @@ export const updateUser = async (userId: string, userToken: string,  data: Parti
     );
 
     if (response.status === 200 && response.data) {
-      console.log("Descuento modificado correctamente en MongoDB Atlas:", response.data);
+     // console.log("Respuesta completa de la API:", response.data);
+
+      // Recupero el nuevo nombre del usuario en caso que el usuario lo cambie para que se refleje instantaneamente en el NavBar
+      if (response.data.updatedUser && response.data.updatedUser.name) {
+        const newUserName = response.data.updatedUser.name;
+        Cookies.set("userName", newUserName, {
+          expires: 1,
+          secure: true,
+          sameSite: "strict",
+        });
+
+        const cookieUserName = Cookies.get("userName") || "";
+      } else {
+        console.log("userName no se encontró en response.data.updatedUser");
+      }
+
       return response.data;
     } else {
       console.log("La modificación del descuento en MongoDB Atlas no fue exitosa:", response.data);
@@ -446,6 +463,7 @@ export const updateUser = async (userId: string, userToken: string,  data: Parti
     return "Error al modificar el descuento";
   }
 };
+
 
 
 export const getBusinessById = async (businessId: string, userToken: string) => {
@@ -478,7 +496,22 @@ export const updateBusiness = async (businessId: string, userToken: string, form
         'Content-Type': 'multipart/form-data',
       },
     });
-    console.log("Negocio actualizado correctamente en MongoDB Atlas:", response.data);
+    //console.log("Negocio actualizado correctamente en MongoDB Atlas:", response.data);
+
+    // Recupero el nuevo nombre del negocio en caso que el usuario lo cambie para que se refleje instantaneamente en las vistas
+    if (response.data.updatedBusiness && response.data.updatedBusiness.businessName) {
+      const newBusinessName = response.data.updatedBusiness.businessName;
+      Cookies.set("businessName", newBusinessName, {
+        expires: 1,
+        secure: true,
+        sameSite: "strict",
+      });
+
+      const cookieBusinessName = Cookies.get("businessName") || "";
+    } else {
+      console.log("businessName no se encontró en response.data.updatedUser");
+    }
+  
     return response.data;
   } catch (error) {
     console.error("Error al actualizar negocio:", error);

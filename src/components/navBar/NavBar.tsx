@@ -294,7 +294,7 @@ const Navbar = () => {
       //Cookies.remove("token");
       //Cookies.remove("role");
     }
-  }, [isLoggedIn]); // Solo se ejecuta una vez cuando el componente se monta y está iniciada la sesión de usuario
+  }, [isLoggedIn, setUserToken]); // Solo se ejecuta una vez cuando el componente se monta y está iniciada la sesión de usuario
 
 
   useEffect(() => {
@@ -309,7 +309,7 @@ const Navbar = () => {
       //Cookies.remove("token");
       //Cookies.remove("role");
       
-    }, []); // Solo se ejecuta una vez cuando el componente se monta
+    }, [setUserToken]); // Solo se ejecuta una vez cuando el componente se monta
     
     console.log("USERTOKENNNNNNNNNN: ", userToken);
 
@@ -318,9 +318,15 @@ const Navbar = () => {
 
   useEffect(() => {
     // Esto se asegura de que los valores se actualicen en el contexto
-    if (userToken) setUserToken(userToken);
-    if (userRole) setUserRole(userRole); //Este lo tenia anulado
-  }, [setSelectedOption]); // Ejecutar cada vez que cambian token o role
+    const storedToken = Cookies.get("userToken") || "";
+      console.log("Valor de storedToken: ", storedToken);
+  
+    const storedRole = Cookies.get("userRole") || "";
+    console.log("Valor de storedRole: ", storedRole);
+
+    if (storedToken) setUserToken(storedToken);
+    if (storedRole) setUserRole(storedRole); //Este lo tenia anulado
+  }, [setUserToken, setUserRole]); // Ejecutar cada vez que cambian token o role
 
   /* console.log(userToken);
   console.log(userRole);
@@ -350,11 +356,8 @@ const Navbar = () => {
       default:
         setSelectedOption("Inicio");
     }
-
-    console.log("VALOR DE USERTOKEN EN NAVBAR: ", userToken);
-    console.log("VALOR DE USERROLE EN NAVBAR: ", userRole);
     
-  }, []);
+  }, [setSelectedOption]);
 
   const openMenu = () => {
     setOpen(!open);
@@ -392,7 +395,7 @@ const Navbar = () => {
     if (backgroundButtonNavBar) {
       setSelectedOption("Inicio"); //Pone al selector de opciones en "Inicio" ni bien se loguea un usuario en el NavBar.
     }
-  }, [backgroundButtonNavBar]);
+  }, [backgroundButtonNavBar, setSelectedOption]);
 
   return (
     <nav className="bg-[#FD7B03] flex flex-row justify-between items-center px-5 py-4">

@@ -85,7 +85,7 @@ const DiscountDetailPage: React.FC<DiscountDetailPageProps> = ({}) => {
         };
   
       fetchDiscounts();
-    }, [discountId, userToken]);
+    }, [discountId, userToken, setDiscountRecovered]);
 
     
 
@@ -106,8 +106,8 @@ const DiscountDetailPage: React.FC<DiscountDetailPageProps> = ({}) => {
                 </div>
                 <div className="w-1/2  flex justify-center items-center relative">
                     <Image 
-                    //src={"https://discount-project-backend.onrender.com/" + discount.imageURL} alt="Imagen descuento" 
-                    src={"http://localhost:5050/" + discount.imageURL} alt="Imagen descuento" 
+                    src={"https://discount-project-backend.onrender.com/" + discount.imageURL} alt="Imagen descuento" 
+                    //src={"http://localhost:5050/" + discount.imageURL} alt="Imagen descuento" 
                     width={300} 
                     height={200}
                     className="w-[90%]"

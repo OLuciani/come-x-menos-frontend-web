@@ -6,7 +6,7 @@ import { Context } from "@/context/Context";
 
 
 export default function Home() {
-  const { userId, setUserId, newRole, setNewRole, userToken, setUserToken, setUserName, setBackgroundButtonNavBar } =
+  const { userId, setUserId, userRole, setUserRole, userToken, setUserToken, setUserName, setBackgroundButtonNavBar } =
   useContext(Context);
   useEffect(() => {
     const thereIsUserToken = localStorage.getItem("token");
@@ -19,7 +19,7 @@ export default function Home() {
     }
 
     if (thereIsUserRole ) {
-      setNewRole(thereIsUserRole);
+      setUserRole(thereIsUserRole);
     }
 
     if(thereIsUserId) {
@@ -33,7 +33,7 @@ export default function Home() {
     if(!userToken) {
       setBackgroundButtonNavBar(false);
     }
-  }, []);
+  }, [setBackgroundButtonNavBar, setUserId, setUserName, setUserRole, setUserToken, userToken]);
   
   console.log(userId);
   return (

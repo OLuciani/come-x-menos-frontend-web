@@ -317,6 +317,10 @@ const FormEditUserAndBusiness: React.FC<FormEditUserAndBusinessProps> = () => {
 
 export default FormEditUserAndBusiness; */
 
+
+
+
+//Este venia funcionando pero le agregue algunas cosas para que persistan los datos al refrescar pagina
 import React, { useState, useEffect, useContext } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -361,13 +365,12 @@ const FormEditUserAndBusiness: React.FC<FormEditUserAndBusinessProps> = () => {
     imageURL: null,
     businessType: "",
   });
-
+  
+  //const [userToken, setUserToken] = useState<string>("");
+  const { userId, businessId, setBusinessName, setBusinessType, isLoggedIn, userToken, setUserToken, setUserRole, setUserId, setUserName, setBusinessId, setSelectedOption } =
+    useContext(Context);
   const [user, setUser] = useState<any>(null);
   const [business, setBusiness] = useState<any>(null);
-
-  const [userToken, setUserToken] = useState<string>("");
-  const { userId, businessId, setBusinessName, setBusinessType, isLoggedIn } =
-    useContext(Context);
   const [error, setError] = useState<string | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(false);
   const [dataLoaded, setDataLoaded] = useState(false);
@@ -377,8 +380,11 @@ const FormEditUserAndBusiness: React.FC<FormEditUserAndBusinessProps> = () => {
     if (isLoggedIn) {
       const storedUserToken = Cookies.get("userToken") || "";
       setUserToken(storedUserToken);
+
+      const cookieUserRole = Cookies.get('userRole') || '';
+      setUserRole(cookieUserRole); 
     }
-  }, [isLoggedIn]);
+  }, [isLoggedIn, setUserToken, setUserRole]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -390,7 +396,14 @@ const FormEditUserAndBusiness: React.FC<FormEditUserAndBusinessProps> = () => {
         console.log("Fetched Business Data:", fetchedBusiness);
 
         setUser(fetchedUser);
+        
         setBusiness(fetchedBusiness);
+      
+        // Guardo al usuario recuperado en fetchedUser en una cookie 
+        Cookies.set("userRecovered", JSON.stringify(fetchedUser));
+     
+        // Guardo al negocio recuperado en fetchedBusiness en una cookie 
+        Cookies.set("businessRecovered", JSON.stringify(fetchedBusiness));
 
         setInitialValues({
           name: fetchedUser.name || "",
@@ -412,7 +425,74 @@ const FormEditUserAndBusiness: React.FC<FormEditUserAndBusinessProps> = () => {
     };
 
     fetchData();
-  }, [userId, businessId]);
+  }, [userId, businessId, userToken]);
+
+
+  //A este useEffect lo creé para cuando se refresca la vista de este componente
+  useEffect(() => {
+    try {
+    const storedUserToken = Cookies.get("userToken") || "";
+    setUserToken(storedUserToken);
+
+    const cookieUserRole = Cookies.get('userRole') || '';
+    setUserRole(cookieUserRole); 
+
+    const cookieUserId = Cookies.get("userId") || "";
+    setUserId(cookieUserId);
+
+    const cookieUserName = Cookies.get("userName") || "";
+    setUserName(cookieUserName);
+
+    const cookieBusinessName = Cookies.get("businessName") || "";
+    setBusinessName(cookieBusinessName);
+
+    const cookieBusinessId = Cookies.get("businessId") || "";
+    setBusinessId(cookieBusinessId);
+
+    const cookieBusinessType = Cookies.get("businessType") || "";
+    setBusinessType(cookieBusinessType);
+
+   setSelectedOption("Mi cuenta");
+
+   const savedUser = Cookies.get("userRecovered") || "";
+    
+      const parsedUser = JSON.parse(savedUser);
+      setUser(parsedUser);
+    
+
+    const savedBusiness = Cookies.get("businessRecovered") || "";
+    
+      const parsedBusiness = JSON.parse(savedBusiness);
+      setBusiness(parsedBusiness);
+  
+
+   setInitialValues({
+    name: parsedUser?.name || "",
+    lastName: parsedUser?.lastName || "",
+    businessName: parsedBusiness.businessName || "",
+    address: parsedBusiness.address || "",
+    city: parsedBusiness.city || "",
+    country: parsedBusiness.country || "",
+    email: parsedUser.email || "",
+    phone: parsedUser.phone || "",
+    imageURL: parsedBusiness.imageURL || null, // Use the existing URL if it exists
+    businessType: parsedBusiness.businessType || "",
+  });
+
+  setDataLoaded(true); // Set flag to true when data is loaded
+} catch (err) {
+  setError("Error al cargar los datos.");
+}
+
+}, [setUserToken,
+    setUserRole,
+    setUserId,
+    setUserName,
+    setBusinessName,
+    setBusinessId,
+    setBusinessType,
+    setSelectedOption
+    ]); 
 
   const validationSchema = Yup.object({
     name: Yup.string().min(3, "El nombre debe tener al menos 3 caracteres"),
@@ -478,11 +558,14 @@ const FormEditUserAndBusiness: React.FC<FormEditUserAndBusinessProps> = () => {
           formData
         );
 
+        //ARREGLAR ESTO DE ABAJO CAMBIANDO LOCALSTORAGE POR COOKIES................................
         if (userUpdate && businessUpdate) {
-          localStorage.setItem("businessName", values.businessName); //Esto lo hago para que Cambie el nombre del negocio en myDiscounts
-          localStorage.setItem("businessType", values.businessType);
-          setBusinessName(values.businessName);
-          setBusinessType(values.businessType);
+          const cookieBusinessName = Cookies.get("businessName") || "";
+          setBusinessName(cookieBusinessName);
+
+          const cookieBusinessType = Cookies.get("businessType") || "";
+          setBusinessType(cookieBusinessType);
+          
           setTimeout(() => {
             router.push("/myDiscounts");
           }, 2000);
@@ -498,7 +581,7 @@ const FormEditUserAndBusiness: React.FC<FormEditUserAndBusinessProps> = () => {
   });
 
   if (!dataLoaded) {
-    return <div>Cargando datos...</div>; // Display loading state while data is being fetched
+    return <div><p className="text-center">Cargando datos...</p></div>; // Display loading state while data is being fetched
   }
 
   console.log("Formik Values:", formik.values);
@@ -551,16 +634,6 @@ const FormEditUserAndBusiness: React.FC<FormEditUserAndBusinessProps> = () => {
           <p className="text-red-700">{formik.errors.businessName}</p>
         ) : null}
 
-        {/* <Input
-          label="Tipo de negocio"
-          placeholder=""
-          type="text"
-          name="businessType"
-          value={formik.values.businessType}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-        />
-        {formik.touched.businessType && formik.errors.businessType ? <p className="text-red-700">{formik.errors.businessType}</p> : null} */}
 
         <div className="w-full">
           <label
@@ -656,28 +729,7 @@ const FormEditUserAndBusiness: React.FC<FormEditUserAndBusinessProps> = () => {
           <p className="text-red-700">{formik.errors.phone}</p>
         ) : null}
 
-        {/* <div className="w-full">
-          <label
-            htmlFor="imageURL"
-            className="text-sm ml-[15px] font-medium text-black"
-          >
-            Imagen del negocio
-          </label>
-          <input
-            id="imageURL"
-            name="imageURL"
-            type="file"
-            accept="image/*"
-            onChange={(event) => {
-                formik.setFieldValue("imageURL", event.currentTarget.files ? event.currentTarget.files[0] : null);
-              }}
-            onBlur={formik.handleBlur}
-            className="mt-1 block w-full h-[60px] px-3 border border-[#FD7B03] bg-white rounded-[30px] shadow-sm focus:outline-none focus:ring-[#FD7B03] focus:border-[#FD7B03] sm:text-sm"
-          />
-          {formik.touched.imageURL && formik.errors.imageURL ? (
-            <p className="text-red-700">{formik.errors.imageURL}</p>
-          ) : null}
-        </div> */}
+        
 
         <div className="w-full ">
           <label

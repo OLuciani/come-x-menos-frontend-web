@@ -40,10 +40,10 @@ import FormEditUserAndBusiness from "./form"; // Ajusta la ruta según tu estruc
 export default function EditUserAndBusinessPage() {
   const { userId, businessId } = useContext(Context); // Obtén userId y businessId desde el contexto
 
-  if (!userId || !businessId) {
+  /* if (!userId || !businessId) {
     // Maneja el caso donde userId o businessId no están disponibles en el contexto
     return <div>Loading...</div>;
-  }
+  } */
 
   return (
     <div className="w-screen flex flex-col items-center">

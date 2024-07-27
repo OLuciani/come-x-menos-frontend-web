@@ -601,6 +601,14 @@ const MyDiscountsPage = () => {
     }
   }, [isLoggedIn]);
 
+  /* useEffect(() => {
+    const cookieUserName = Cookies.get("userName") || "";
+    setUserName(cookieUserName);
+
+    const cookieBusinessName = Cookies.get("businessName") || "";
+    setBusinessName(cookieBusinessName);
+  }, []); */
+
   useEffect(() => {
     const storedUserToken = Cookies.get("userToken") || "";
     setUserToken(storedUserToken);
@@ -624,7 +632,7 @@ const MyDiscountsPage = () => {
     setBusinessType(cookieBusinessType);
 
     setSelectedOption("Mi cuenta");
-  }, [setSelectedOption]);
+  }, [setSelectedOption, setBusinessId, setBusinessName, setBusinessType, setUserId, setUserName, setUserRole]);
 
   useEffect(() => {
     const fetchBusiness = async () => {
@@ -749,7 +757,8 @@ const MyDiscountsPage = () => {
     <div className="w-screen flex justify-center items-center">
       <div className="w-full sm:w-[380px] rounded-2xl pb-3 sm:pt-3 ">
         <Image
-          src={"http://localhost:5050/" + urlImageBusinessDetail}
+          src={"https://discount-project-backend.onrender.com/" + urlImageBusinessDetail}
+          //src={"http://localhost:5050/" + urlImageBusinessDetail}
           alt="Imagen descuento"
           width={300}
           height={200}
@@ -790,7 +799,8 @@ const MyDiscountsPage = () => {
                       </div>
                       <div className="w-1/2 flex justify-center items-center relative">
                         <Image
-                          src={"http://localhost:5050/" + discount.imageURL}
+                          src={"https://discount-project-backend.onrender.com/" + discount.imageURL}
+                          //src={"http://localhost:5050/" + discount.imageURL}
                           alt="Imagen descuento"
                           width={300}
                           height={200}

@@ -6,7 +6,7 @@ import { deleteDiscount } from '@/services/apiCall';
 import Cookies from "js-cookie";
 
 export default function DeleteDiscountButton() {
-  const { discountId, setSelectedOption, isLoggedIn, discountRecovered, setDiscountId } = useContext(Context);
+  const { discountId, setSelectedOption, isLoggedIn, discountRecovered, setDiscountId, setUserRole, setUserId, setUserName, setBusinessName, setBusinessId, setBusinessType } = useContext(Context);
   const [error, setError] = useState<string | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -17,6 +17,7 @@ export default function DeleteDiscountButton() {
     if (isLoggedIn) {
       const storedUserToken = Cookies.get("userToken") || "";
       setUserToken(storedUserToken);
+
     }
   }, [isLoggedIn]); 
 
@@ -28,7 +29,47 @@ export default function DeleteDiscountButton() {
       const cookieDiscountId = Cookies.get("discountId") || "";
         setDiscountId(cookieDiscountId);
     }
-  }, [discountRecovered]);
+  }, [discountRecovered, setDiscountId]);
+  
+
+  //A este useEffect lo creé para cuando se refresca la vista de este componente
+  useEffect(() => {
+    const storedUserToken = Cookies.get("userToken") || "";
+    setUserToken(storedUserToken);
+
+    const cookieUserRole = Cookies.get('userRole') || '';
+    setUserRole(cookieUserRole); 
+
+    const cookieUserId = Cookies.get("userId") || "";
+    setUserId(cookieUserId);
+
+    const cookieUserName = Cookies.get("userName") || "";
+    setUserName(cookieUserName);
+
+    const cookieBusinessName = Cookies.get("businessName") || "";
+    setBusinessName(cookieBusinessName);
+
+    const cookieBusinessId = Cookies.get("businessId") || "";
+    setBusinessId(cookieBusinessId);
+
+    const cookieBusinessType = Cookies.get("businessType") || "";
+    setBusinessType(cookieBusinessType);
+
+    const cookieDiscountId = Cookies.get("discountId") || "";
+    setDiscountId(cookieDiscountId);
+
+   setSelectedOption("Mi cuenta");
+
+}, [setUserToken,
+    setUserRole,
+    setUserId,
+    setUserName,
+    setBusinessName,
+    setBusinessId,
+    setBusinessType,
+    setDiscountId,
+    setSelectedOption
+    ]);   
 
   const openModal = () => {
     setShowModal(true);

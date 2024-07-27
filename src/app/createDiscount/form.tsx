@@ -39,7 +39,46 @@ export default function FormCreateDiscount() {
 
   useEffect(() => {
     setSelectedOption("Mi cuenta");
-  }, []);
+  }, [setSelectedOption]);
+
+  //A este useEffect lo creé para cuando se refresca la vista de este componente
+  useEffect(() => {
+    const storedUserToken = Cookies.get("userToken") || "";
+    setUserToken(storedUserToken);
+
+    const cookieUserRole = Cookies.get('userRole') || '';
+    setUserRole(cookieUserRole); 
+
+    const cookieUserId = Cookies.get("userId") || "";
+    setUserId(cookieUserId);
+
+    const cookieUserName = Cookies.get("userName") || "";
+    setUserName(cookieUserName);
+
+    const cookieBusinessName = Cookies.get("businessName") || "";
+    setBusinessName(cookieBusinessName);
+
+    const cookieBusinessId = Cookies.get("businessId") || "";
+    setBusinessId(cookieBusinessId);
+
+    const cookieBusinessType = Cookies.get("businessType") || "";
+    setBusinessType(cookieBusinessType);
+
+    /* const cookieDiscountId = Cookies.get("discountId") || "";
+    setDiscountId(cookieDiscountId); */
+
+   setSelectedOption("Mi cuenta");
+
+}, [setUserToken,
+    setUserRole,
+    setUserId,
+    setUserName,
+    setBusinessName,
+    setBusinessId,
+    setBusinessType,
+    //setDiscountId,
+    setSelectedOption
+    ]);   
 
   const validationSchema = Yup.object({
     businessName: Yup.string()

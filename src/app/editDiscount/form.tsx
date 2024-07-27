@@ -3,7 +3,7 @@ import React, { useState, useEffect, useContext } from "react";
 import Input from "@/components/InputAuth/Input";
 import { editDiscount, Discount } from "@/services/apiCall";
 import { useRouter } from "next/navigation";
-import { useFormik } from "formik";
+import { useFormik, FormikProps } from "formik";
 import * as Yup from "yup";
 import TextareaAutosize from "react-textarea-autosize";
 import axios, { AxiosError } from "axios";
@@ -11,7 +11,7 @@ import { Context } from "@/context/Context";
 import Cookies from "js-cookie";
 
 const FormEditDiscount: React.FC = () => {
-  const { discountId, discountRecovered, isLoggedIn, setDiscountId } = useContext(Context);
+  const { discountId, discountRecovered, isLoggedIn, setDiscountId, setUserRole, setUserId, setUserName, setBusinessName, setBusinessId, setBusinessType, setSelectedOption } = useContext(Context);
   const [error, setError] = useState<string | undefined>(undefined);
   const [discount, setDiscount] = useState<Discount | null>(null);
   const [userToken, setUserToken] = useState<string>("");
@@ -24,6 +24,7 @@ const FormEditDiscount: React.FC = () => {
     }
   }, [isLoggedIn]); 
 
+
   useEffect(() => {
     if (discountRecovered !== null) {
       console.log("Setting discount from discountRecovered", discountRecovered);
@@ -31,8 +32,59 @@ const FormEditDiscount: React.FC = () => {
 
       const cookieDiscountId = Cookies.get("discountId") || "";
         setDiscountId(cookieDiscountId);
+
+      // Guardar discountRecovered en una cookie
+      Cookies.set("discountRecovered", JSON.stringify(discountRecovered));
     }
-  }, [discountRecovered]);
+  }, [discountRecovered, setDiscountId]);
+
+
+  
+
+  //A este useEffect lo creé para cuando se refresca la vista de este componente
+  useEffect(() => {
+    const savedDiscount = Cookies.get("discountRecovered") || "";
+    if (savedDiscount) {
+      const parsedDiscount = JSON.parse(savedDiscount);
+      setDiscount(parsedDiscount);
+    }
+    
+    const storedUserToken = Cookies.get("userToken") || "";
+    setUserToken(storedUserToken);
+
+    const cookieUserRole = Cookies.get('userRole') || '';
+    setUserRole(cookieUserRole); 
+
+    const cookieUserId = Cookies.get("userId") || "";
+    setUserId(cookieUserId);
+
+    const cookieUserName = Cookies.get("userName") || "";
+    setUserName(cookieUserName);
+
+    const cookieBusinessName = Cookies.get("businessName") || "";
+    setBusinessName(cookieBusinessName);
+
+    const cookieBusinessId = Cookies.get("businessId") || "";
+    setBusinessId(cookieBusinessId);
+
+    const cookieBusinessType = Cookies.get("businessType") || "";
+    setBusinessType(cookieBusinessType);
+
+    const cookieDiscountId = Cookies.get("discountId") || "";
+    setDiscountId(cookieDiscountId);
+
+   setSelectedOption("Mi cuenta");
+
+}, [setUserToken,
+    setUserRole,
+    setUserId,
+    setUserName,
+    setBusinessName,
+    setBusinessId,
+    setBusinessType,
+    setDiscountId,
+    setSelectedOption
+    ]);   
 
   const validationSchema = Yup.object({
     businessName: Yup.string()
@@ -144,6 +196,26 @@ const FormEditDiscount: React.FC = () => {
       });
     }
   }, [discount]);
+
+  /* const syncFormikValues = (formik: FormikProps<any>, discount: Discount | null) => {
+    if (discount) {
+      formik.setValues({
+        title: discount.title || "",
+        description: discount.description || "",
+        normalPrice: discount.normalPrice || "",
+        discountAmount: discount.discountAmount || "",
+        businessName: discount.businessName || "",
+        businessId: discount.businessId || "",
+        businessType: discount.businessType || "",
+        isActive: discount.isActive ?? true,
+        imageURL: null,
+      });
+    }
+  };
+  
+  useEffect(() => {
+    syncFormikValues(formik, discount);
+  }, [discount]);  */
 
   return (
     <div className="w-sreen flex justify-center">

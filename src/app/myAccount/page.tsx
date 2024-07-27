@@ -49,7 +49,7 @@ const MyAccountPage = () => {
     setBusinessType(cookieBusinessType);
   
   setSelectedOption("Mi cuenta");
-}, [setSelectedOption]);  
+}, [setSelectedOption, setBusinessId, setBusinessName, setBusinessType, setUserId, setUserName, setUserRole]);  
 
 
   
