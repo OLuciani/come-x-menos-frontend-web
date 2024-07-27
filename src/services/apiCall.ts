@@ -242,6 +242,7 @@ export async function createDiscount(data: FormData, userToken: string): Promise
           "Content-Type": "multipart/form-data",
           //Authorization: `Bearer ${userToken}`,
         },
+        withCredentials: true // Esta línea asegura que las cookies (entre ellas va la del token que es indispensable en esta ruta) se envíen con la solicitud
       }
     );
 
@@ -267,7 +268,9 @@ export async function discountsList(businessId: string, userToken: string): Prom
     const response = await axios.get(
       `https://discount-project-backend.onrender.com/api/discounts_list_one_business/${businessId}`,
       //`http://localhost:5050/api/discounts_list_one_business/${businessId}`
-     
+      {
+        withCredentials: true
+      }
     );
 
     if (response.status === 200 && response.data) {
@@ -292,11 +295,9 @@ export async function discountDetail(discountId: string, userToken: string): Pro
     const response = await axios.get(
       `https://discount-project-backend.onrender.com/api/discount_detail/${discountId}`,
       //`http://localhost:5050/api/discount_detail/${discountId}`,
-      /* {
-        headers: {
-          Authorization: `Bearer ${userToken}`,
-        },
-      } */
+      {
+        withCredentials: true
+      }
     );
 
     if (response.status === 200 && response.data) {
@@ -322,9 +323,9 @@ export async function editDiscount(data: FormData, userToken: string, discountId
       data,
       {
         headers: {
-          "Content-Type": "multipart/form-data",
-          //Authorization: `Bearer ${userToken}`,
+          "Content-Type": "multipart/form-data"
         },
+        withCredentials: true
       }
     );
 
@@ -349,11 +350,9 @@ export async function deleteDiscount(discountId: string, userToken: string): Pro
     const response = await axios.delete(
       `https://discount-project-backend.onrender.com/api/discount_delete/${discountId}`,
       //`http://localhost:5050/api/discount_delete/${discountId}`,
-     /*  {
-        headers: {
-          Authorization: `Bearer ${userToken}`,
-        },
-      } */
+      {
+        withCredentials: true
+      }
     );
 
     if (response.status === 200) {
@@ -378,11 +377,7 @@ export async function businessDetail(businessId: string, userToken: string): Pro
     const response = await axios.get(
       `https://discount-project-backend.onrender.com/api/business_detail/${businessId}`,
       //`http://localhost:5050/api/business_detail/${businessId}`,
-      /* {
-        headers: {
-          Authorization: `Bearer ${userToken}`,
-        },
-      } */
+      
     );
 
     if (response.status === 200 && response.data) {
@@ -403,12 +398,9 @@ export const getUserById = async (userId: string, userToken: string) => {
   const response = await axios.get(`https://discount-project-backend.onrender.com/api/user_detail/${userId}`,
   //const response = await axios.get(`http://localhost:5050/api/user_detail/${userId}`,
   {
-    headers: {
-      //"Content-Type": "multipart/form-data",
-      //Authorization: `Bearer ${userToken}`,
-    },
+    withCredentials: true
   }
-  );
+);
   return response.data;
   console.log("Valor del detalle de usuario: ", response.data);
 };
@@ -429,10 +421,7 @@ export const updateUser = async (userId: string, userToken: string,  data: Parti
         businessType: data.businessType
       },
       {
-        headers: {
-          //"Content-Type": "multipart/form-data",
-          //Authorization: `Bearer ${userToken}`,
-        },
+        withCredentials: true
       }
     );
 
@@ -469,12 +458,6 @@ export const updateUser = async (userId: string, userToken: string,  data: Parti
 export const getBusinessById = async (businessId: string, userToken: string) => {
   const response = await axios.get(`https://discount-project-backend.onrender.com/api/business_detail/${businessId}`,
   //const response = await axios.get(`http://localhost:5050/api/business_detail/${businessId}`,
-  {
-    headers: {
-      //"Content-Type": "multipart/form-data",
-      //Authorization: `Bearer ${userToken}`,
-    },
-  }
   );
   return response.data;
 };
@@ -492,9 +475,9 @@ export const updateBusiness = async (businessId: string, userToken: string, form
     const response = await axios.patch(`https://discount-project-backend.onrender.com/api/update_business/${businessId}`, formData, {
     //const response = await axios.patch(`http://localhost:5050/api/update_business/${businessId}`, formData, {
       headers: {
-        //Authorization: `Bearer ${userToken}`,
         'Content-Type': 'multipart/form-data',
       },
+      withCredentials: true
     });
     //console.log("Negocio actualizado correctamente en MongoDB Atlas:", response.data);
 
@@ -522,11 +505,13 @@ export const updateBusiness = async (businessId: string, userToken: string, form
 
 
 export const getDashboardData = async (userToken: string): Promise<DashboardData> => {
-  const response = await fetch('https://discount-project-backend.onrender.com/api/dashboard', {
-    headers: {
-      //Authorization: `Bearer ${yourToken}`,  // Usa tu token de autenticación
-    },
-  });
+  const response = await fetch('https://discount-project-backend.onrender.com/api/dashboard', 
+    {
+      headers: {
+        //Authorization: `Bearer ${yourToken}`,  // Usa tu token de autenticación
+      },
+    }
+  );
 
   if (!response.ok) {
     throw new Error('Error fetching dashboard data');

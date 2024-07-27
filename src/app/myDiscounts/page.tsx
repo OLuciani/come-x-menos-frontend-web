@@ -600,14 +600,7 @@ const MyDiscountsPage = () => {
       setUserToken(storedUserToken);
     }
   }, [isLoggedIn]);
-
-  /* useEffect(() => {
-    const cookieUserName = Cookies.get("userName") || "";
-    setUserName(cookieUserName);
-
-    const cookieBusinessName = Cookies.get("businessName") || "";
-    setBusinessName(cookieBusinessName);
-  }, []); */
+  
 
   useEffect(() => {
     const storedUserToken = Cookies.get("userToken") || "";

@@ -246,11 +246,11 @@ const PasswordResetForm: React.FC = () => {
           email: email,
           newPassword: newPassword,
         },
-        {
+        /* {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }
+        } */
       );
 
       if (response.status === 200) {

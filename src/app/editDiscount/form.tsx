@@ -197,26 +197,6 @@ const FormEditDiscount: React.FC = () => {
     }
   }, [discount]);
 
-  /* const syncFormikValues = (formik: FormikProps<any>, discount: Discount | null) => {
-    if (discount) {
-      formik.setValues({
-        title: discount.title || "",
-        description: discount.description || "",
-        normalPrice: discount.normalPrice || "",
-        discountAmount: discount.discountAmount || "",
-        businessName: discount.businessName || "",
-        businessId: discount.businessId || "",
-        businessType: discount.businessType || "",
-        isActive: discount.isActive ?? true,
-        imageURL: null,
-      });
-    }
-  };
-  
-  useEffect(() => {
-    syncFormikValues(formik, discount);
-  }, [discount]);  */
-
   return (
     <div className="w-sreen flex justify-center">
       <div className="w-full px-6 sm:w-[500px] sm:px-0">

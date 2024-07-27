@@ -311,7 +311,7 @@ const Navbar = () => {
       
     }, [setUserToken]); // Solo se ejecuta una vez cuando el componente se monta
     
-    console.log("USERTOKENNNNNNNNNN: ", userToken);
+    //console.log("USERTOKENNNNNNNNNN: ", userToken);
 
    //Cookies.remove("token");
    //Cookies.remove("role");

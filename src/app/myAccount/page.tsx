@@ -51,48 +51,6 @@ const MyAccountPage = () => {
   setSelectedOption("Mi cuenta");
 }, [setSelectedOption, setBusinessId, setBusinessName, setBusinessType, setUserId, setUserName, setUserRole]);  
 
-
-  
-
- /*  useEffect(() => {
-    const thereIsUserToken = localStorage.getItem("token");
-    const thereIsUserRole = localStorage.getItem("role");
-    const thereIsUserId = localStorage.getItem("_id");
-    const thereIsUserName = localStorage.getItem("name");
-
-    if (thereIsUserToken) {
-      setUserToken(thereIsUserToken);
-    }
-
-    if (thereIsUserRole) {
-      setNewRole(thereIsUserRole);
-    }
-
-    if (thereIsUserId) {
-      setUserId(thereIsUserId);
-    }
-
-    if (thereIsUserName) {
-      setUserName(thereIsUserName);
-    }
-  }, [setUserToken, setNewRole, setUserId, setUserName]); */
-
- /*  useEffect(() => {
-    if(isLoggedIn) {
-
-      const storedToken = Cookies.get("token") || "";
-      console.log("Valor de storedToken: ", storedToken);
-  
-      const storedRole = Cookies.get("role") || "";
-      console.log("Valor de storedRole: ", storedRole);
-  
-      setToken(storedToken);
-      setRole(storedRole);
-      //Cookies.remove("token");
-      //Cookies.remove("role");
-    }
-  }, [isLoggedIn]); */
-
   return (
     <div className="w-screen py-3 /* flex flex-col justify-center items-center */">
       <h1 className="text-2xl pb-3">Mi cuenta</h1>
