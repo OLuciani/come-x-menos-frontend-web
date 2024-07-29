@@ -249,8 +249,8 @@ const PasswordResetForm: React.FC = () => {
         console.log("Contraseña restablecida correctamente en MongoDB");
         setShowMessage(true); // Para mostrar mensaje de restablecimiento exitoso de la contraseña
         setTimeout(() => {
-          // Redirige a la aplicación móvil usando el esquema de URL personalizado
-          window.location.href = 'navegacion-react-native://';
+        // Redirige a la aplicación móvil usando la URL de Expo para desarrollo. Esto sirve solo mientras desarrollo la app
+        window.location.href = 'exp://192.168.100.2:8081'; // Usa la URL local de Expo para desarrollo
 
           // Cierra la ventana si es posible
           setTimeout(() => {
