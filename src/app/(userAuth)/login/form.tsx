@@ -199,6 +199,7 @@ import { login } from "@/services/apiCall";
 import { loginUserWithFirebase } from "@/services/authService";
 import PasswordResetModal from "@/components/passwordResetModal/PasswordResetModal"; // Importa el modal
 import Cookies from "js-cookie";
+import Button from "@/components/button/Button";
 
 const LoginForm = () => {
   const [error, setError] = useState<string | undefined>(undefined);
@@ -452,7 +453,7 @@ const LoginForm = () => {
           {error && <p className="text-red-700 py-3">{error}</p>}
         </div>
 
-        <button
+        {/* <button
           className="w-full bg-[#FFCF91] text-[18px] font-semibold text-white mt-3 h-[60px] rounded-[30px] border-[5px] border-[#FD7B03] transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-[#FFCF91] hover:border-[#FFCF91]"
           type="submit"
           disabled={isLoading}
@@ -462,7 +463,8 @@ const LoginForm = () => {
               {isLoading ? "Cargando..." : "Iniciar sesión"}
             </div>
           </div>
-        </button>
+        </button> */}
+        <Button buttonText={isLoading ? "Cargando..." : "Iniciar sesión"} />
       </form>
 
       <PasswordResetModal

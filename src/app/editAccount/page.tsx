@@ -40,15 +40,10 @@ import FormEditUserAndBusiness from "./form"; // Ajusta la ruta según tu estruc
 export default function EditUserAndBusinessPage() {
   const { userId, businessId } = useContext(Context); // Obtén userId y businessId desde el contexto
 
-  /* if (!userId || !businessId) {
-    // Maneja el caso donde userId o businessId no están disponibles en el contexto
-    return <div>Loading...</div>;
-  } */
-
   return (
     <div className="w-screen flex flex-col items-center">
       <div className="w-full sm:w-[450px] pb-2 rounded-t-[40px] max-md:top-0 max-md:rounded-none max-md:h-auto">
-        <h1 className="my-5 text-[34px] text-[#FD7B03] text-center">Editar cuenta</h1>
+        <h1 className="my-5 text-2xl custom-w-450:text-3xl text-[gray] text-center">Editar cuenta</h1>
         <div className="items-center justify-center pb-[3%]">
         <FormEditUserAndBusiness businessId={businessId} />
 

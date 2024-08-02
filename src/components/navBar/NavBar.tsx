@@ -237,9 +237,6 @@ const Navbar = () => {
 
 export default Navbar; */
 
-
-
-
 import React, { useState, useEffect, useContext } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { AiOutlineClose } from "react-icons/ai";
@@ -269,8 +266,8 @@ const Navbar = () => {
     setSelectedOption,
     userToken,
     setUserToken,
-    isLoggedIn, 
-    setIsLoggedIn
+    isLoggedIn,
+    setIsLoggedIn,
   } = useContext(Context);
   const [open, setOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
@@ -281,14 +278,13 @@ const Navbar = () => {
   //const [userRole, setUserRole] = useState<string>("");
 
   useEffect(() => {
-    if(isLoggedIn) {
-
+    if (isLoggedIn) {
       const storedToken = Cookies.get("userToken") || "";
       console.log("Valor de storedToken: ", storedToken);
-  
+
       /* const storedRole = Cookies.get("userRole") || "";
       console.log("Valor de storedRole: ", storedRole); */
-  
+
       setUserToken(storedToken);
       //setUserRole(storedRole);
       //Cookies.remove("token");
@@ -296,31 +292,29 @@ const Navbar = () => {
     }
   }, [isLoggedIn, setUserToken]); // Solo se ejecuta una vez cuando el componente se monta y está iniciada la sesión de usuario
 
-
   useEffect(() => {
-      const storedToken = Cookies.get("userToken") || "";
-      console.log("Valor de storedToken: ", storedToken);
-  
-      /* const storedRole = Cookies.get("userRole") || "";
-      console.log("Valor de storedRole: ", storedRole); */
-  
-      setUserToken(storedToken);
-      //setUserRole(storedRole);
-      //Cookies.remove("token");
-      //Cookies.remove("role");
-      
-    }, [setUserToken]); // Solo se ejecuta una vez cuando el componente se monta
-    
-    //console.log("USERTOKENNNNNNNNNN: ", userToken);
+    const storedToken = Cookies.get("userToken") || "";
+    console.log("Valor de storedToken: ", storedToken);
 
-   //Cookies.remove("token");
-   //Cookies.remove("role");
+    /* const storedRole = Cookies.get("userRole") || "";
+      console.log("Valor de storedRole: ", storedRole); */
+
+    setUserToken(storedToken);
+    //setUserRole(storedRole);
+    //Cookies.remove("token");
+    //Cookies.remove("role");
+  }, [setUserToken]); // Solo se ejecuta una vez cuando el componente se monta
+
+  //console.log("USERTOKENNNNNNNNNN: ", userToken);
+
+  //Cookies.remove("token");
+  //Cookies.remove("role");
 
   useEffect(() => {
     // Esto se asegura de que los valores se actualicen en el contexto
     const storedToken = Cookies.get("userToken") || "";
-      console.log("Valor de storedToken: ", storedToken);
-  
+    console.log("Valor de storedToken: ", storedToken);
+
     const storedRole = Cookies.get("userRole") || "";
     console.log("Valor de storedRole: ", storedRole);
 
@@ -356,7 +350,6 @@ const Navbar = () => {
       default:
         setSelectedOption("Inicio");
     }
-    
   }, [setSelectedOption]);
 
   const openMenu = () => {
@@ -377,12 +370,17 @@ const Navbar = () => {
 
     Cookies.remove("userToken");
     Cookies.remove("userRole");
-    
+    /*  Cookies.remove("userId");
+    Cookies.remove("userName");
+    Cookies.remove("businessName");
+    Cookies.remove("businessId");
+    Cookies.remove("businessType"); */
+
     setUserId("");
     setUserRole("");
     setUserToken("");
     setUserName("");
-    
+
     setIsLoggedIn(false);
 
     setTimeout(() => {
@@ -398,132 +396,137 @@ const Navbar = () => {
   }, [backgroundButtonNavBar, setSelectedOption]);
 
   return (
-    <nav className="bg-[#FD7B03] flex flex-row justify-between items-center px-5 py-4">
-      <p
-        className={`${krona.className} text-[18px] text-white md:text-[22px] lg:text-[35px]`}
-      >
-        <Link href={"/"} onClick={() => handleOptionClick("Inicio")}>
-          Comé x menos
-        </Link>
-      </p>
-      <div>
-        <ul className="flex flex-row text-[18px] font-medium gap-4 lg:gap-8">
-          <Link href={"/"} onClick={() => handleOptionClick("Inicio")}>
-            <li
-              className={`border-[2px] border-[#FFCF91] py-2 px-4 hidden lg:flex text-white hover:bg-[#FFCF91] hover:text-[#FD7B03]`}
-            >
-              Inicio
-            </li>
-            {(selectedOption === "Inicio" ||
-              selectedOption === "Come x menos") && (
-              <div className="w-full h-[3px] mt-2 bg-[#FFCF91]"></div>
-            )}
-          </Link>
-
-          {userToken && userRole === "adminweb" && (
-            <Link
-              href={"/myAccount"}
-              onClick={() => handleOptionClick("Mi cuenta")}
-            >
+    <>
+      <nav className="bg-[#FD7B03] flex flex-row justify-between items-center px-2 sm:px-5 py-4">
+        <div className="w-auto">
+          <p
+            className={`${krona.className} text-[18px] text-white md:text-[22px] lg:text-[35px]`}
+          >
+            <Link href={"/"} onClick={() => handleOptionClick("Inicio")}>
+              Comé x menos
+            </Link>
+          </p>
+        </div>
+        <div className="w-auto">
+          <ul className="flex flex-row text-[18px] font-medium gap-2 sm:gap-6">
+            <Link href={"/"} onClick={() => handleOptionClick("Inicio")}>
               <li
                 className={`border-[2px] border-[#FFCF91] py-2 px-4 hidden lg:flex text-white hover:bg-[#FFCF91] hover:text-[#FD7B03]`}
               >
-                Mi cuenta
+                Inicio
               </li>
-              {selectedOption === "Mi cuenta" && (
+              {(selectedOption === "Inicio" ||
+                selectedOption === "Come x menos") && (
                 <div className="w-full h-[3px] mt-2 bg-[#FFCF91]"></div>
               )}
             </Link>
-          )}
 
-          {userToken === "" && userRole === "" && (
-            <Link
-              href={"/register"}
-              onClick={() => handleOptionClick("Crear cuenta")}
-            >
-              <li
-                className={`border-[2px] border-[#FFCF91] py-2 px-4 hidden lg:flex text-white hover:bg-[#FFCF91] hover:text-[#FD7B03]`}
+            {userToken && userRole === "adminweb" && (
+              <Link
+                href={"/myAccount"}
+                onClick={() => handleOptionClick("Mi cuenta")}
               >
-                Crear cuenta
-              </li>
-              {selectedOption === "Crear cuenta" && (
-                <div className="w-full h-[3px] mt-2 bg-[#FFCF91]"></div>
-              )}
-            </Link>
-          )}
-
-          {userToken === "" && userRole === "" && (
-            <Link
-              href={"/login"}
-              onClick={() => handleOptionClick("Iniciar sesión")}
-            >
-              <li
-                className={`border-[2px] border-[#FFCF91] py-2 px-4 hidden lg:flex text-white hover:bg-[#FFCF91] hover:text-[#FD7B03]`}
-              >
-                Iniciar sesión
-              </li>
-              {selectedOption === "Iniciar sesión" && (
-                <div className="w-full h-[3px] mt-2 bg-[#FFCF91]"></div>
-              )}
-            </Link>
-          )}
-
-          {userToken && (
-            <div>
-              <div
-                className="relative px-4 py-2 flex gap-2 items-center hover:bg-[#FFCF91] border-[2px] border-[#FFCF91] cursor-pointer"
-                onClick={() => setUserMenuOpen(!userMenuOpen)}
-              >
-                <div className="flex gap-2 items-center text-white hover:text-[#FD7B03] hover:bg-[#FFCF91]">
-                  <FiUser
-                    className="hover:text-[#FD7B03] cursor-pointer"
-                    size={22}
-                  />
-                  <p className="relative hidden sm:block cursor-pointer">
-                    {userName}
-                  </p>
-                </div>
-                {userMenuOpen && (
-                  <div className="absolute w-48 right-[-20px] mt-44 py-2 bg-[#FFCF91] rounded-lg shadow-xl">
-                    <span
-                      className="block text-gray-600 text-right pr-4 font-bold mb-1"
-                      onClick={() => setUserMenuOpen(!userMenuOpen)}
-                    >
-                      X
-                    </span>
-                    <span className="block px-4 py-2 text-gray-800 sm:hidden">
-                      {userName}
-                    </span>
-                    <Link href={"/"}>
-                      <button
-                        className="block w-full text-left px-4 py-2 text-[#FD7B03] hover:bg-white hover:text-[#FD7B03]"
-                        onClick={handleLogOutUser}
-                      >
-                        Cerrar sesión
-                      </button>
-                    </Link>
-                  </div>
+                <li
+                  className={`border-[2px] border-[#FFCF91] py-2 px-4 hidden lg:flex text-white hover:bg-[#FFCF91] hover:text-[#FD7B03]`}
+                >
+                  Mi cuenta
+                </li>
+                {selectedOption === "Mi cuenta" && (
+                  <div className="w-full h-[3px] mt-2 bg-[#FFCF91]"></div>
                 )}
-              </div>
-            </div>
-          )}
-
-          <div className="lg:hidden flex items-center">
-            {!open ? (
-              <GiHamburgerMenu size={25} color="white" onClick={openMenu} />
-            ) : (
-              <AiOutlineClose size={25} color="white" onClick={openMenu} />
+              </Link>
             )}
-            <Menu open={open} closeMenu={closeMenu} />
-          </div>
-        </ul>
+
+            {userToken === "" && userRole === "" && (
+              <Link
+                href={"/register"}
+                onClick={() => handleOptionClick("Crear cuenta")}
+              >
+                <li
+                  className={`border-[2px] border-[#FFCF91] py-2 px-4 hidden lg:flex text-white hover:bg-[#FFCF91] hover:text-[#FD7B03]`}
+                >
+                  Crear cuenta
+                </li>
+                {selectedOption === "Crear cuenta" && (
+                  <div className="w-full h-[3px] mt-2 bg-[#FFCF91]"></div>
+                )}
+              </Link>
+            )}
+
+            {userToken === "" && userRole === "" && (
+              <Link
+                href={"/login"}
+                onClick={() => handleOptionClick("Iniciar sesión")}
+              >
+                <li
+                  className={`border-[2px] border-[#FFCF91] py-2 px-4 hidden lg:flex text-white hover:bg-[#FFCF91] hover:text-[#FD7B03]`}
+                >
+                  Iniciar sesión
+                </li>
+                {selectedOption === "Iniciar sesión" && (
+                  <div className="w-full h-[3px] mt-2 bg-[#FFCF91]"></div>
+                )}
+              </Link>
+            )}
+
+            {userToken && (
+              <div>
+                <div
+                  className="relative px-4 py-2 flex gap-2 items-center hover:bg-[#FFCF91] border-[2px] border-[#FFCF91] cursor-pointer"
+                  onClick={() => setUserMenuOpen(!userMenuOpen)}
+                >
+                  <div className="flex gap-2 items-center text-white hover:text-[#FD7B03] hover:bg-[#FFCF91]">
+                    <FiUser
+                      className="hover:text-[#FD7B03] cursor-pointer"
+                      size={22}
+                    />
+                    <p className="hidden md:block cursor-pointer">{userName}</p>
+                  </div>
+                  {userMenuOpen && (
+                    <div className="absolute w-48 right-[-42px] sm:right-[-70px] lg:right-[-20px] mt-[190px] md:mt-[197px] lg:mt-[219px] py-2 bg-[#FFCF91] rounded-lg shadow-xl">
+                      <span
+                        className="block text-gray-600 text-right pr-4 font-bold mb-1"
+                        onClick={() => setUserMenuOpen(!userMenuOpen)}
+                      >
+                        X
+                      </span>
+                      <span className="block text-gray-600 text-xl text-center">
+                        {userName}
+                      </span>
+                      <Link href={"/"}>
+                        <button
+                          className="block w-full px-4 py-2 text-[#FD7B03] text-center hover:bg-white hover:text-[#FD7B03]"
+                          onClick={handleLogOutUser}
+                        >
+                          Cerrar sesión
+                        </button>
+                      </Link>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+
+            <div className="lg:hidden flex items-center">
+              {
+                <GiHamburgerMenu
+                  size={25}
+                  color="white"
+                  onClick={openMenu}
+                /> /*  : (
+              <AiOutlineClose size={25} color="white" onClick={openMenu} />
+            ) */
+              }
+              {/* <Menu open={open} closeMenu={closeMenu} /> */}
+            </div>
+          </ul>
+        </div>
+      </nav>
+      <div className="lg:hidden">
+        <Menu open={open} closeMenu={closeMenu} />
       </div>
-    </nav>
+    </>
   );
 };
 
 export default Navbar;
-
-
-
-

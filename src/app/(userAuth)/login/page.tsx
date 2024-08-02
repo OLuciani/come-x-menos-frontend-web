@@ -13,19 +13,14 @@ const LoginPage = () => {
   return (
     <div className="w-screen mt-[3%]">
         <div>
-            {/* <h1
-            className={`${krona.className} text-[34px] text-[#FD7B03] text-center mb-10`}
-            >
-            Comé x menos
-            </h1> */}
-            <p className="font-semibold text-3xl text-center text-[#FD7B03]">
+            <h1 className="font-semibold text-2xl custom-w-450:text-3xl text-center text-[gray]">  
             Iniciar sesión
-            </p>
+            </h1>
             <LoginForm />
             <p className="text-center my-5 text-sm font-medium">
             ¿No eres miembro? {" "}
-            <span className="text-[#fc7b03] ml-2" onClick={() => setSelectedOption("Crear cuenta")}>
-                <Link href="/register">Registrate gratis</Link>
+            <span className="text-sm text-blue-500 cursor-pointer ml-2" onClick={() => setSelectedOption("Crear cuenta")}>
+                <Link href="/register">Crea una cuenta</Link>
             </span>
             </p>
         </div>
@@ -34,3 +29,5 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
+
+//className="text-sm text-blue-500 cursor-pointer text-center mb-2"

@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { Context } from '@/context/Context';
 import { deleteDiscount } from '@/services/apiCall';
 import Cookies from "js-cookie";
+import Button from '@/components/button/Button';
 
 export default function DeleteDiscountButton() {
   const { discountId, setSelectedOption, isLoggedIn, discountRecovered, setDiscountId, setUserRole, setUserId, setUserName, setBusinessName, setBusinessId, setBusinessType } = useContext(Context);
@@ -113,7 +114,7 @@ export default function DeleteDiscountButton() {
     <div className=" flex justify-center">
       <div className="w-full px-6 sm:w-[500px] sm:px-0 mt-[15%]">
         <div className="flex flex-col items-center mx-auto gap-6">
-          <button
+          {/* <button
             onClick={openModal}
             className="w-full bg-[#FFCF91] text-[18px] text-white font-semibold mt-3 h-[60px] rounded-[30px] border-[5px] border-[#FD7B03] transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-[#FFCF91] hover:border-[#FFCF91]"
             disabled={isLoading}
@@ -123,7 +124,10 @@ export default function DeleteDiscountButton() {
                 {isLoading ? 'Cargando...' : 'Eliminar Descuento'}
               </div>
             </div>
-          </button>
+          </button> */}
+          
+          <Button buttonText={isLoading ? 'Cargando...' : 'Eliminar Descuento'} onClickButton={openModal} />
+          
           {error && (
             <p className="text-center mb-2 text-red-700 font-semibold">{error}</p>
           )}

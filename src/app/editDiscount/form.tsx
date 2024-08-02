@@ -9,6 +9,7 @@ import TextareaAutosize from "react-textarea-autosize";
 import axios, { AxiosError } from "axios";
 import { Context } from "@/context/Context";
 import Cookies from "js-cookie";
+import Button from "@/components/button/Button";
 
 const FormEditDiscount: React.FC = () => {
   const { discountId, discountRecovered, isLoggedIn, setDiscountId, setUserRole, setUserId, setUserName, setBusinessName, setBusinessId, setBusinessType, setSelectedOption } = useContext(Context);
@@ -16,6 +17,7 @@ const FormEditDiscount: React.FC = () => {
   const [discount, setDiscount] = useState<Discount | null>(null);
   const [userToken, setUserToken] = useState<string>("");
   const navigation = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -122,6 +124,7 @@ const FormEditDiscount: React.FC = () => {
     onSubmit: async (values) => {
       console.log("Form values before submission:", values);
       setError(undefined);
+      setIsLoading(true);
 
       const formData = new FormData();
       formData.append("title", values.title);
@@ -155,6 +158,8 @@ const FormEditDiscount: React.FC = () => {
           console.error("Error inesperado:", err);
           setError("Ocurrió un error inesperado.");
         }
+      } finally {
+        setIsLoading(false); // Esto se ejecuta sin importar si la solicitud tuvo éxito o falló
       }
     },
   });
@@ -212,9 +217,10 @@ const FormEditDiscount: React.FC = () => {
             onBlur={formik.handleBlur}
           />
 
+
           <Input
             label="Título del descuento"
-            placeholder="Mi descuento"
+            placeholder=""
             type="text"
             name="title"
             value={formik.values.title}
@@ -226,7 +232,8 @@ const FormEditDiscount: React.FC = () => {
             <p className="text-red-700">{formik.errors.title}</p>
           ) : null}
 
-          <div className="w-full flex justify-start text-sm font-normal text-[#FD7B03]">
+
+          <div className="w-full flex justify-start text-sm font-normal">
             <label className="text-sm ml-[15px] mb-[-10px] font-medium text-black">
               Descripción del descuento
             </label>
@@ -239,23 +246,33 @@ const FormEditDiscount: React.FC = () => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             rows={4}
-            className="w-full min-h-24 border-[2px] border-[#FD7B03] rounded-3xl mt-[-10px] p-2"
+            className="w-full min-h-24 border-[1px] border-[gray] rounded-[10px] mt-[-10px] p-2"
             required
           />
 
-          <Input
-            label="Precio normal sin descuento"
-            placeholder=""
-            type="number"
-            name="normalPrice"
-            value={formik.values.normalPrice}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            minLength={1}
-          />
-          {formik.touched.normalPrice && formik.errors.normalPrice ? (
-            <p className="text-red-700">{formik.errors.normalPrice}</p>
-          ) : null}
+
+          <div className="w-full">
+            <div className="w-full flex justify-start text-sm font-normal mb-1.5">
+              <label className="text-sm font-medium text-black ml-3">
+                Precio normal sin descuento
+              </label>
+            </div>
+            <input
+              //label="Precio normal sin descuento"
+              className="w-full border border-[gray] rounded-[10px] h-[50px] px-3 focus:outline-none focus:border-[2px] no-spin"
+              placeholder=""
+              type="number"
+              name="normalPrice"
+              value={formik.values.normalPrice}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              minLength={1}
+            />
+            {formik.touched.normalPrice && formik.errors.normalPrice ? (
+              <p className="text-red-700">{formik.errors.normalPrice}</p>
+            ) : null}
+          </div>
+
 
           <div className="w-full flex justify-start text-sm font-normal text-[#FD7B03]">
             <label className="text-sm font-medium text-black ml-3 mb-[-20px]">
@@ -267,7 +284,7 @@ const FormEditDiscount: React.FC = () => {
             value={formik.values.discountAmount}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            className="w-full h-[60px] border-[2px] border-[#FD7B03] rounded-[30px] px-3"
+            className="w-full h-[50px] border-[1px] border-[gray] rounded-[10px] px-3"
           >
             {[...Array(100).keys()].map((i) => {
               const value = i + 1;
@@ -285,6 +302,7 @@ const FormEditDiscount: React.FC = () => {
           {formik.touched.discountAmount && formik.errors.discountAmount ? (
             <p className="text-red-700">{formik.errors.discountAmount}</p>
           ) : null}
+
 
           <Input
             label="Cargar fotografía"
@@ -305,16 +323,18 @@ const FormEditDiscount: React.FC = () => {
             <p className="text-red-700">{formik.errors.imageURL}</p>
           ) : null}
 
-          <button
+          {/* <button
             type="submit"
-            className="w-full bg-[#FFCF91] text-[18px] font-semibold text-white mt-3 h-[60px] rounded-[30px] border-[5px] border-[#FD7B03] transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-[#FFCF91] hover:border-[#FFCF91] cursor-pointer"
+            className="w-full bg-[#FFCF91] text-[18px] font-semibold text-white mt-3 h-[50px] rounded-[10px] border-[5px] border-[#FD7B03] transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-[#FFCF91] hover:border-[#FFCF91] cursor-pointer"
           >
             <div className="flex justify-center">
-              <div className="w-[98%] bg-[#FD7B03] rounded-[30px] py-[7px] hover:bg-[#FFCF91] hover:text-[#FD7B03]">
+              <div className="w-[99%] bg-[#FD7B03] rounded-[10px] py-[3px] hover:bg-[#FFCF91] hover:text-[#FD7B03]">
                 Enviar datos
               </div>
             </div>
-          </button>
+          </button> */}
+
+          <Button buttonText={isLoading ? "Cargando..." : "Enviar"} />
 
           {error && <p className="text-red-700">{error}</p>}
         </form>

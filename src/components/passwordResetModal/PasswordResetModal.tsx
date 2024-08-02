@@ -4,6 +4,7 @@ import axios from "axios";
 import { confirmPasswordReset } from "firebase/auth";
 import { auth } from "../../utils/firebase-config";
 import { useRouter } from "next/navigation";
+import Button from "../button/Button";
 
 interface PasswordResetModalProps {
   visible: boolean;
@@ -90,7 +91,7 @@ const PasswordResetModal: React.FC<PasswordResetModalProps> = ({
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="bg-white p-6 rounded shadow-md w-[90%] sm:w-[50%] sm:h-[60%] flex items-center justify-center relative">
+      <div className="bg-white p-6 rounded shadow-md w-[90%] sm:w-[50%] sm:h-[60%] xl:w-[30%] flex items-center justify-center relative">
         {!showMessage ? (
           <div>
             <button
@@ -119,14 +120,20 @@ const PasswordResetModal: React.FC<PasswordResetModalProps> = ({
                 {errors.email && <p className="text-red-500">{errors.email}</p>}
               </div>
               <div className="mt-6">
-                <button
+                {/* <button
                   type="submit"
-                  className="w-full inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  className="w-full bg-[#FFCF91] text-[18px] font-semibold text-white mt-3 h-[60px] rounded-[30px] border-[5px] border-[#FD7B03] transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-[#FFCF91] hover:border-[#FFCF91]"
                 >
-                  Enviar enlace de restablecimiento
-                </button>
+                  <div className="flex justify-center">
+                    <div className="w-[98%] bg-[#FD7B03] rounded-[30px] py-[7px] hover:bg-[#FFCF91] hover:text-[#FD7B03]">
+                      Enviar enlace                    
+                    </div>
+                  </div>
+                </button> */}
+                <Button buttonText="Enviar enlace" />
               </div>
             </form>
+            <p className="text-[14px] mt-5">Se enviará un enlace a tu correo electrónico para que restablezcas tu contraseña.</p>
           </div>
         ) : (
           <div className="w-full h-full flex justify-center items-center">

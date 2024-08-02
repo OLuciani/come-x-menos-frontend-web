@@ -267,7 +267,7 @@ export async function discountsList(businessId: string, userToken: string): Prom
 
     const response = await axios.get(
       `https://discount-project-backend.onrender.com/api/discounts_list_one_business/${businessId}`,
-      //`http://localhost:5050/api/discounts_list_one_business/${businessId}`
+      //`http://localhost:5050/api/discounts_list_one_business/${businessId}`,
       {
         withCredentials: true
       }

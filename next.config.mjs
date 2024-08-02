@@ -37,7 +37,7 @@ const nextConfig = {
         pathname: '/img/**',
       },
     ],
-    domains: ['localhost', 'discount-project-backend.onrender.com'],
+    //domains: ['localhost', 'discount-project-backend.onrender.com'],
   },
 };
 

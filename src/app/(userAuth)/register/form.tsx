@@ -369,6 +369,7 @@ import {
 } from "@/services/apiCall";
 import { registerUserWithFirebase } from "@/services/authService";
 import { Context } from "@/context/Context";
+import Button from "@/components/button/Button";
 
 export default function FormRegister() {
   const { businessName } = useContext(Context);
@@ -573,7 +574,7 @@ export default function FormRegister() {
             value={formik.values.businessType}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            className="mt-1 block w-full h-[60px] px-3 border border-[#FD7B03] bg-white rounded-[30px] shadow-sm focus:outline-none focus:ring-[#FD7B03] focus:border-[#FD7B03] sm:text-sm"
+            className="mt-1 block w-full h-[50px] px-3 border border-[gray] bg-white rounded-[10px] shadow-sm focus:outline-none focus:ring-[#FD7B03] focus:border-[#FD7B03] sm:text-sm"
           >
             <option value="" label="Seleccionar tipo de negocio" />
             <option value="Restaurantes" label="Restaurante" />
@@ -713,7 +714,7 @@ export default function FormRegister() {
           <p className="text-red-700">{formik.errors.repeatPassword}</p>
         ) : null}
 
-        <button
+        {/* <button
           type="submit"
           className="w-full bg-[#FFCF91] text-[18px] text-white font-semibold mt-3 h-[60px] rounded-[30px] border-[5px] border-[#FD7B03] transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-[#FFCF91] hover:border-[#FFCF91]"
           disabled={isLoading}
@@ -723,7 +724,10 @@ export default function FormRegister() {
               {isLoading ? "Cargando..." : "Crear cuenta"}
             </div>
           </div>
-        </button>
+        </button> */}
+
+        <Button buttonText={isLoading ? "Cargando..." : "Crear cuenta"} />
+
         {error && (
           <p className="text-center mb-2 text-red-700 font-semibold">{error}</p>
         )}

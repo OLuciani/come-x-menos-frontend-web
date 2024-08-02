@@ -1,6 +1,7 @@
 import Link from "next/link";
 import React, { useState, useContext } from "react";
 import { Context } from "@/context/Context";
+import Cookies from "js-cookie";
 
 interface MenuProps {
   open: boolean;
@@ -8,11 +9,11 @@ interface MenuProps {
 }
 
 const Menu: React.FC<MenuProps> = ({ open, closeMenu }) => {
-  const { userId, setUserId, userRole, setUserRole, userToken, setUserToken } =
+  const { userId, setUserId, userRole, setUserRole, userToken, setUserToken, setUserName, setBusinessName, setBusinessId, setBusinessType } =
     useContext(Context);
   const [showSideBar, setShowSidebar] = useState(true);
   const activo =
-    "absolute top-14 w-[50%] right-0 py-2 bg-[#FFCF91] transition-opacity duration-200";
+    "absolute top-14 w-[50%] right-0 py-2 bg-[#FFCF91] transition-opacity duration-200 transition-opacity duration-200 z-50";
   const inactivo =
     "absolute top-14 w-screen left-0  py-2 bg-[#FFCF91] opacity-0 transition-opacity duration-200 -z-50";
 
@@ -32,16 +33,31 @@ const Menu: React.FC<MenuProps> = ({ open, closeMenu }) => {
     localStorage.removeItem("role");
     localStorage.removeItem("_id");
 
-    setUserId("");
-    setUserRole("");
+    Cookies.remove("userToken");
+    Cookies.remove("userRole");
+    /* Cookies.remove("userId");
+    Cookies.remove("userName");
+    Cookies.remove("businessName");
+    Cookies.remove("businessId");
+    Cookies.remove("businessType"); */
+
     setUserToken("");
+    setUserRole("");
+    setUserId("");
+    /* setUserName("");
+    setBusinessName("");
+    setBusinessId("");
+    setBusinessType(""); */
 
     closeMenu(); 
   };
 
   return (
-    <div className={`${open ? activo : inactivo} mt-0 ${userToken && "mt-[16px]"}`}>
-      <ul className="flex flex-col mb-2 text-[14px] font-medium">
+    <div className={`${open ? activo : inactivo} ${!userToken ? "mt-[3px] md:mt-[9px]": "mt-[17px] md:mt-[22px]"} `}>
+      <div className="w-[100%] h-4 relative">
+        <p className="absolute right-7 text-[15px] text-[#FD7B03] font-bold" onClick={handleLinkClick}>X</p>
+      </div>
+      <ul className="flex flex-col mb-2 text-[15px] font-medium">
         <Link href={"/"} onClick={handleLinkClick}>
           <li className="text-[#FD7B03] font-bold hover:bg-[#FFCF91] hover:text-[#FD7B03] py-2 px-8">
             Inicio
@@ -56,21 +72,6 @@ const Menu: React.FC<MenuProps> = ({ open, closeMenu }) => {
           </Link>
         )}
 
-        {/* {userToken !== "" && newRole === "adminweb" && (
-          <Link href={"/discounts"} onClick={handleLinkClick}>
-            <li className="text-white hover:bg-[#FFCF91] hover:text-[#FD7B03] px-8 py-2">
-              Mis descuentos
-            </li>
-          </Link>
-        )}
-
-        {userToken !== "" && newRole === "adminweb" && (
-          <Link href={"/createDiscount"} onClick={handleLinkClick}>
-            <li className="text-white hover:bg-[#FFCF91] hover:text-[#FD7B03] px-8 py-2">
-              Crear descuento
-            </li>
-          </Link>
-        )} */}
 
         {userToken === "" && userRole === "" && (
           <Link href={"/register"} onClick={handleLinkClick}>
@@ -107,3 +108,6 @@ const Menu: React.FC<MenuProps> = ({ open, closeMenu }) => {
 };
 
 export default Menu;
+
+
+

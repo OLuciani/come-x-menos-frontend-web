@@ -178,6 +178,7 @@ import * as Yup from "yup";
 import axios from "axios";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Context } from "@/context/Context";
+import Button from "@/components/button/Button";
 
 interface ValidationErrors {
   [key: string]: string;
@@ -239,6 +240,8 @@ const PasswordResetForm: React.FC = () => {
       // Primero, actualiza la contraseña en MongoDB
       const response = await axios.patch(
         `https://discount-project-backend.onrender.com/api/resetPassword`,
+       //`http://localhost:5050/api/resetPassword`,
+
         {
           email: email,
           newPassword: newPassword,
@@ -249,7 +252,8 @@ const PasswordResetForm: React.FC = () => {
         console.log("Contraseña restablecida correctamente en MongoDB");
         setShowMessage(true); // Para mostrar mensaje de restablecimiento exitoso de la contraseña
         setTimeout(() => {
-        // Redirige a la aplicación móvil usando la URL de Expo para desarrollo. Esto sirve solo mientras desarrollo la app
+        // Redirige a la aplicación móvil usando la URL de Expo para desarrollo. Esto sirve solo mientras desarrollo la app. Cambiar esto cuando tenga un dominio propio.
+        
         window.location.href = 'exp://192.168.100.2:8081'; // Usa la URL local de Expo para desarrollo
 
           // Cierra la ventana si es posible
@@ -322,12 +326,13 @@ const PasswordResetForm: React.FC = () => {
               )}
             </div>
             <div className="mt-6">
-              <button
+              {/* <button
                 type="submit"
                 className="w-full inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
                 Restablecer contraseña
-              </button>
+              </button> */}
+              <Button buttonText="Restablecer contraseña" />
             </div>
           </form>
         </div>

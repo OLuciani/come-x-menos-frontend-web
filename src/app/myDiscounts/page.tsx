@@ -582,6 +582,7 @@ const MyDiscountsPage = () => {
     setUserId,
     setUserName,
     setBusinessName,
+    businessType,
     setBusinessType,
   } = useContext(Context);
   const [discountsArrayList, setDiscountsArrayList] = useState<DiscountsList[]>(
@@ -710,7 +711,7 @@ const MyDiscountsPage = () => {
   if (loading) {
     return (
       <div className="w-screen h-full flex justify-center border-[2px]">
-        <div className="w-full sm:w-[380px] border-[1px] border-black rounded-2xl py-3 my-2">
+        <div className="w-full custom-w-450:w-[380px] border-[1px] border-black rounded-2xl py-3 my-2">
           <h3 className="text-base text-center">Descuentos de:</h3>
           <h1 className="mt-2 text-2xl font-bold text-center text-white pb-2">
             {businessName}
@@ -734,7 +735,7 @@ const MyDiscountsPage = () => {
   if (!discountsArrayList.length) {
     return (
       <div className="w-screen flex justify-center border-[2px]">
-        <div className="w-full sm:w-[380px] h-screen border-[1px] border-black rounded-2xl py-3 my-2">
+        <div className="w-full custom-w-450 h-screen border-[1px] border-black rounded-2xl py-3 my-2">
           <h3 className="text-base text-center">Descuentos de:</h3>
           <h1 className="mt-2 text-2xl font-bold text-center text-[#FD7B03] pb-2">
             {businessName}
@@ -748,28 +749,29 @@ const MyDiscountsPage = () => {
 
   return (
     <div className="w-screen flex justify-center items-center">
-      <div className="w-full sm:w-[380px] rounded-2xl pb-3 sm:pt-3 ">
+      <div className="w-full custom-w-450:w-[380px] rounded-2xl pb-3 custom-w-450:pt-3 ">
         <Image
           src={"https://discount-project-backend.onrender.com/" + urlImageBusinessDetail}
           //src={"http://localhost:5050/" + urlImageBusinessDetail}
           alt="Imagen descuento"
           width={300}
           height={200}
-          className="w-full sm:w-[380px] "
+          className="w-full custom-w-450:w-[380px] "
         />
         <div className="mb-16">
-          <div className="w-full sm:w-[380px] bg-[#FD7B03] rounded-t-2xl absolute mt-[-12px]">
-            <h3 className="text-base text-center text-white">Descuentos de:</h3>
-            <h1 className="mt-2 text-2xl font-bold text-center text-white pb-4">
+          <div className="w-full custom-w-450:w-[380px] bg-[#FD7B03] rounded-t-2xl absolute mt-[-12px] flex-row flex-wrap justify-center items-center gap-5">
+            <p className="text-base text-center text-white">Descuentos de:</p>
+            <p className="my-1 text-2xl font-bold text-center text-white">
               {businessName}
-            </h1>
+            </p>
+            <p className="text-center text-white">* {businessType} *</p>
           </div>
         </div>
         {discountsArrayList.map(
           (discount) =>
             !discount.isDeleted && (
               <div key={discount._id} className="bg-white">
-                <div className="py-5 border-gray-300 hover:border-[#FFCF91] border-[2px] hover:border-[4px]">
+                <div className="py-5 border-gray-300 hover:border-[#FFCF91] border-[2px] hover:border-[4px] cursor-pointer">
                   <Link
                     href={"/discountDetail"}
                     onClick={() => [
@@ -786,18 +788,18 @@ const MyDiscountsPage = () => {
                     </p>
                     <div className="h-auto flex flex-row flex-wrap">
                       <div className="w-1/2 flex items-center">
-                        <p className="w-[100%] h-auto px-4 text-[12px] text-center">
+                        <p className="w-[90%] h-auto px-4 text-[12px] text-center">
                           {discount.description}
                         </p>
                       </div>
-                      <div className="w-1/2 flex justify-center items-center relative">
+                      <div className="w-1/2 flex justify-center items-start relative">
                         <Image
                           src={"https://discount-project-backend.onrender.com/" + discount.imageURL}
                           //src={"http://localhost:5050/" + discount.imageURL}
                           alt="Imagen descuento"
-                          width={300}
-                          height={200}
-                          className="w-[90%]"
+                          width={169}
+                          height={112}
+                          className="w-[169px] h-[112px]"
                         />
                         <p className="text-[10px] text-black bg-yellow-300 font-bold p-[4px] rounded-[30px] absolute bottom-[8px] left-[18px]">
                           - {discount.discountAmount} %
@@ -835,9 +837,7 @@ const MyDiscountsPage = () => {
                           <p>Oferta sin límite de tiempo</p>
                         )}
                       </div>
-                      <div className="px-[6px] py-[2px] border-[1px] border-black rounded-lg text-[12px]">
-                        <p>{`% => 1.7 km.`}</p>
-                      </div>
+                      
                     </div>
                   </Link>
                 </div>

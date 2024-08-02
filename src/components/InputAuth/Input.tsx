@@ -26,7 +26,7 @@ const Input: React.FC<InputProps> = ({
 }) => {
   return (
     <div className="flex flex-col w-full mt-3">
-      <span className="flex justify-between text-sm font-normal text-[#FD7B03] pb-1">
+      <span className="flex justify-between text-sm font-normal pb-1">
         <label htmlFor={name} className="text-sm ml-[15px] font-medium text-black">
           {label}
         </label>
@@ -34,7 +34,7 @@ const Input: React.FC<InputProps> = ({
       </span>
       {type === "file" ? (
         <label
-          className={`border border-[#FD7B03] rounded-[30px] text-sm h-[60px] px-3 flex items-center justify-center outline-none ${
+          className={`border border-[gray] rounded-[10px] text-sm h-[50px] px-3 flex items-center justify-center ${
             value ? "file-selected" : ""
           }`}
         >
@@ -49,19 +49,19 @@ const Input: React.FC<InputProps> = ({
           />
           {value ? (
             <div className="w-full flex flex-row items-center gap-2">
-              <span className="min-w-32 border-[2px] border-[#FD7B03] rounded-lg px-2 py-1 hover:bg-[#FD7B03] hover:text-white cursor-pointer">Elegir archivo...</span>
+              <span className="min-w-32 border-[1px] border-[gray] rounded-lg px-2 py-1 hover:bg-[gray] hover:text-white cursor-pointer">Elegir archivo...</span>
               <div className="w-2/3 text-center truncate overflow-hidden">
                 <span className="w-full">{value instanceof File ? value.name : "Archivo seleccionado"}</span>
               </div>
             </div>
           ) : (
-            <span className="border-[2px] border-[#FD7B03] rounded-lg px-4 py-1 hover:bg-[#FD7B03] hover:text-white cursor-pointer">Elegir archivo...</span>
+            <span className="border-[1px] border-[gray] rounded-lg px-4 py-1 hover:bg-[gray] hover:text-white cursor-pointer">Elegir archivo...</span>
           )}
         </label>
       ) : (
         <input
           id={name}
-          className="border border-[#FD7B03] rounded-[30px] text-sm h-[60px] px-3 outline-none"
+          className="border border-[gray] rounded-[10px] h-[50px] px-3 focus:outline-none focus:border-[2px]"
           type={type}
           name={name}
           placeholder={placeholder}

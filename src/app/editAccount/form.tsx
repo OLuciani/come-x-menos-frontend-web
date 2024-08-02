@@ -334,6 +334,7 @@ import {
 import Input from "@/components/InputAuth/Input";
 import { Context } from "@/context/Context";
 import Cookies from "js-cookie";
+import Button from "@/components/button/Button";
 
 interface FormEditUserAndBusinessProps {
   businessId: string;
@@ -648,7 +649,7 @@ const FormEditUserAndBusiness: React.FC<FormEditUserAndBusinessProps> = () => {
             value={formik.values.businessType}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            className="mt-1 block w-full h-[60px] px-3 border border-[#FD7B03] bg-white rounded-[30px] shadow-sm focus:outline-none focus:ring-[#FD7B03] focus:border-[#FD7B03] sm:text-sm"
+            className="mt-1 block w-full h-[50px] px-3 border border-[gray] bg-white rounded-[10px] shadow-sm focus:outline-none focus:ring-[gray] focus:border-[gray] sm:text-sm"
           >
             <option value="" label="Seleccionar tipo de negocio" />
             <option value="Restaurantes" label="Restaurante" />
@@ -738,7 +739,7 @@ const FormEditUserAndBusiness: React.FC<FormEditUserAndBusinessProps> = () => {
           >
             Imagen del negocio
           </label>
-          <div className="mt-1 flex items-center w-full h-[60px] px-3 border border-[#FD7B03] bg-white rounded-[30px] shadow-sm focus:outline-none focus:ring-[#FD7B03] focus:border-[#FD7B03] sm:text-sm">
+          <div className="mt-1 flex items-center w-full h-[50px] px-3 border border-[gray] bg-white rounded-[10px] shadow-sm focus:outline-none focus:ring-[black] focus:border-[gray] sm:text-sm">
             <input
               id="imageURL"
               name="imageURL"
@@ -760,13 +761,15 @@ const FormEditUserAndBusiness: React.FC<FormEditUserAndBusinessProps> = () => {
           ) : null}
         </div>
 
-        <button
+        {/* <button
           type="submit"
           className="bg-[#FF9900] text-white w-[334px] h-[60px] rounded-[30px] text-xl border-[#FF9900] border-2 mt-[15px] mx-[15px] mb-[5px] focus:outline-none hover:bg-[#FF9900]"
           disabled={formik.isSubmitting || isLoading}
         >
           {isLoading ? "Guardando..." : "Guardar cambios"}
-        </button>
+        </button> */}
+
+        <Button buttonText={isLoading ? "Guardando..." : "Guardar cambios"} />
 
         {error && <p className="text-red-700">{error}</p>}
       </form>
