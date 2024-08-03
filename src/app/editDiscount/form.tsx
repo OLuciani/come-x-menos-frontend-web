@@ -200,7 +200,7 @@ const FormEditDiscount: React.FC = () => {
         imageURL: null,
       });
     }
-  }, [discount]);
+  }, [discount, formik]);
 
   return (
     <div className="w-sreen flex justify-center">
