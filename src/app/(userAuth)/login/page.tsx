@@ -11,7 +11,7 @@ const krona = Krona_One({ weight: "400", subsets: ["latin"] });
 const LoginPage = () => {
   const { setSelectedOption } = useContext(Context);
   return (
-    <div className="w-full h-full flex justify-center items-center">
+    <div className="w-screen h-full flex justify-center items-center">
         <div>
           <h1 className="font-semibold text-2xl custom-w-450:text-3xl text-center text-[gray] mt-[3%] xl:mt-[4%] 2xl:mt-[5%]">  
           Iniciar sesión
