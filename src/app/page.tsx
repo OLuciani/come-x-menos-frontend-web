@@ -227,8 +227,8 @@ export default function Home() {
   }, [setBackgroundButtonNavBar, setUserId, setUserName, setUserRole, setUserToken, userToken]);
   
   return (
-    <main className="">
-      <div className="home-container">
+    
+      <div className="w-full">
         <header className="hero-section bg-orange-600 text-center py-16">
           <div className="container mx-auto px-4">
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
@@ -325,7 +325,7 @@ export default function Home() {
           </button>
         </section>
       </div>
-    </main>
+    
   );
 }
 

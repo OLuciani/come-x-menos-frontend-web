@@ -714,18 +714,6 @@ export default function FormRegister() {
           <p className="text-red-700">{formik.errors.repeatPassword}</p>
         ) : null}
 
-        {/* <button
-          type="submit"
-          className="w-full bg-[#FFCF91] text-[18px] text-white font-semibold mt-3 h-[60px] rounded-[30px] border-[5px] border-[#FD7B03] transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-[#FFCF91] hover:border-[#FFCF91]"
-          disabled={isLoading}
-        >
-          <div className="flex justify-center">
-            <div className="w-[98%] bg-[#FD7B03] rounded-[30px] py-[7px] hover:bg-[#FFCF91] hover:text-[#FD7B03]">
-              {isLoading ? "Cargando..." : "Crear cuenta"}
-            </div>
-          </div>
-        </button> */}
-
         <Button buttonText={isLoading ? "Cargando..." : "Crear cuenta"} />
 
         {error && (

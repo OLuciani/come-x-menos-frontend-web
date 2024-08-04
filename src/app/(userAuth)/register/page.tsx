@@ -10,7 +10,7 @@ const krona = Krona_One({ weight: "400", subsets: ["latin"] });
 export default function RegisterPage() {
    const { setSelectedOption } = useContext(Context);
   return (
-    <div className="w-screen flex flex-col items-center mt-[2%]">
+    <div className="w-full flex flex-col items-center mt-[2%] box-sizing:border-box">
       <div className="w-full sm:w-[500px] px-8 pb-4 rounded-t-[40px] max-md:top-0 max-md:rounded-none max-md:h-auto">
         <h1 className="text-center text-2xl custom-w-450:text-3xl font-semibold mt-4 text-[gray]">Creá una cuenta</h1>
         <div className="items-center justify-center pb-[3%]">
