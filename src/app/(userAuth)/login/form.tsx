@@ -410,7 +410,7 @@ const LoginForm = () => {
     <div>
       <form
         onSubmit={formik.handleSubmit}
-        className="w-screen px-4 sm:w-[450px] flex flex-col justify-center items-center gap-10 mx-auto mt-4"
+        className="w-screen px-4 sm:w-[450px] flex flex-col justify-center items-center gap-12 mx-auto mt-4"
       >
         <div className="w-full">
           <Input

@@ -13,7 +13,7 @@ const LoginPage = () => {
   return (
     <div className="w-screen h-full flex justify-center items-center">
         <div>
-          <h1 className="font-semibold text-2xl custom-w-450:text-3xl text-center text-[gray] mt-[3%] xl:mt-[4%] 2xl:mt-[5%]">  
+          <h1 className="font-semibold text-2xl custom-w-450:text-3xl text-center text-[gray] mt-10 md:mt-[3%]">  
           Iniciar sesión
           </h1>
           <LoginForm />
