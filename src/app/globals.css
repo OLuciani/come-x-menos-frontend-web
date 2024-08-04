@@ -6,11 +6,11 @@ html, body {
   @apply h-full;
 } */
 
-@tailwind base;
+/* @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Custom styles */
+
 html, body {
   height: 100%;
   margin: 0;
@@ -28,4 +28,30 @@ body {
 
 main {
   flex-grow: 1;
+} */
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom styles */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* Evitar desbordamiento horizontal */
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100vw;
+  box-sizing: border-box;
+}
+
+main {
+  flex-grow: 1;
+  overflow-x: hidden; /* Evitar desbordamiento horizontal en el main */
 }

@@ -749,7 +749,7 @@ const MyDiscountsPage = () => {
 
   return (
     <div className="w-screen flex justify-center items-center">
-      <div className="w-full custom-w-450:w-[380px] rounded-2xl pb-3 custom-w-450:pt-3 ">
+      <div className="w-full custom-w-450:w-[380px] rounded-2xl pb-3 custom-w-450:pt-3 relative">
         <Image
           src={"https://discount-project-backend.onrender.com/" + urlImageBusinessDetail}
           //src={"http://localhost:5050/" + urlImageBusinessDetail}

@@ -11,18 +11,18 @@ const krona = Krona_One({ weight: "400", subsets: ["latin"] });
 const LoginPage = () => {
   const { setSelectedOption } = useContext(Context);
   return (
-    <div className="w-full]">
+    <div className="w-full h-full flex justify-center items-center">
         <div>
-            <h1 className="font-semibold text-2xl custom-w-450:text-3xl text-center text-[gray] mt-[3%] xl:mt-[4%] 2xl:mt-[5%]">  
-            Iniciar sesión
-            </h1>
-            <LoginForm />
-            <p className="text-center my-5 text-sm font-medium">
-            ¿No eres miembro? {" "}
-            <span className="text-sm text-blue-500 cursor-pointer ml-2" onClick={() => setSelectedOption("Crear cuenta")}>
-                <Link href="/register">Crea una cuenta</Link>
-            </span>
-            </p>
+          <h1 className="font-semibold text-2xl custom-w-450:text-3xl text-center text-[gray] mt-[3%] xl:mt-[4%] 2xl:mt-[5%]">  
+          Iniciar sesión
+          </h1>
+          <LoginForm />
+          <p className="text-center my-5 text-sm font-medium">
+          ¿No eres miembro? {" "}
+          <span className="text-sm text-blue-500 cursor-pointer ml-2" onClick={() => setSelectedOption("Crear cuenta")}>
+              <Link href="/register">Crea una cuenta</Link>
+          </span>
+          </p>
         </div>
     </div>
   );
