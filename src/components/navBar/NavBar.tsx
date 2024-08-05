@@ -234,7 +234,7 @@ const Navbar = () => {
             {userToken && (
               <div>
                 <div
-                  className="relative px-4 py-2 flex gap-2 items-center hover:bg-[#FFCF91] border-[2px] border-[#FFCF91] cursor-pointer"
+                  className="relative md:px-4 py-2 flex gap-2 items-center md:hover:bg-[#FFCF91] md:border-[2px] md:border-[#FFCF91] cursor-pointer"
                   onClick={() => setUserMenuOpen(!userMenuOpen)}
                 >
                   <div className="flex gap-2 items-center text-white hover:text-[#FD7B03] hover:bg-[#FFCF91]">
@@ -245,7 +245,7 @@ const Navbar = () => {
                     <p className="hidden md:block cursor-pointer">{userName}</p>
                   </div>
                   {userMenuOpen && (
-                    <div className="absolute w-48 right-[-52px] custom-w-450:right-[-67px] lg:right-[-16px] mt-[196px] md:mt-[197px] lg:mt-[219px] py-2 bg-[#FFCF91] rounded-lg shadow-xl">
+                    <div className="absolute w-48 right-[-52px] custom-w-450:right-[-50px] sm:right-[-66px] md:right-[-71px] lg:right-[-22px] mt-[189px] custom-w-450:mt-[194px] lg:mt-[219px] py-2 bg-[#FFCF91] rounded-lg shadow-xl">
                       <span
                         className="block text-gray-600 text-right pr-4 font-bold mb-1"
                         onClick={() => setUserMenuOpen(!userMenuOpen)}
@@ -272,7 +272,7 @@ const Navbar = () => {
             <div className="lg:hidden flex items-center">
               {
                 <GiHamburgerMenu
-                  size={25}
+                  className="text-[22px] md:text-[25px]"
                   color="white"
                   onClick={openMenu}
                 /> 

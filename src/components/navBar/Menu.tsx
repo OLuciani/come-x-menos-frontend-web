@@ -53,7 +53,7 @@ const Menu: React.FC<MenuProps> = ({ open, closeMenu }) => {
   };
 
   return (
-    <div className={`${open ? activo : inactivo} ${!userToken ? "mt-[9px] custom-w-450:mt-[21px]": "mt-[18px] custom-w-450:mt-[22px]"} `}>
+    <div className={`${open ? activo : inactivo} ${!userToken ? "mt-[9px] custom-w-450:mt-[21px]": "mt-[14px] custom-w-450:mt-[21px]"} `}>
       <div className="w-[100%] h-4 relative">
         <p className="absolute right-7 text-[15px] text-[#FD7B03] font-bold" onClick={handleLinkClick}>X</p>
       </div>
