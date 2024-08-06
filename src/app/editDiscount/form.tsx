@@ -97,7 +97,7 @@ const FormEditDiscount: React.FC = () => {
       .required("El título es requerido"),
     description: Yup.string()
       .min(3, "La descripción debe tener al menos 3 caracteres")
-      .max(80, "La descripción no puede tener más de 80 caracteres")
+      .max(130, "La descripción no puede tener más de 130 caracteres")
       .required("La descripción es requerida"),
     normalPrice: Yup.string()
       .min(1, "El precio del descuento debe ser al menos 1")
@@ -250,6 +250,10 @@ const FormEditDiscount: React.FC = () => {
             required
           />
 
+          {formik.touched.description && formik.errors.description ? (
+            <p className="text-red-700">{formik.errors.description}</p>
+          ) : null}
+
 
           <div className="w-full">
             <div className="w-full flex justify-start text-sm font-normal mb-1.5">
@@ -305,7 +309,7 @@ const FormEditDiscount: React.FC = () => {
 
 
           <Input
-            label="Cargar fotografía"
+            label="Cargar Imagen"
             placeholder=""
             type="file"
             name="imageURL"
@@ -323,17 +327,7 @@ const FormEditDiscount: React.FC = () => {
             <p className="text-red-700">{formik.errors.imageURL}</p>
           ) : null}
 
-          {/* <button
-            type="submit"
-            className="w-full bg-[#FFCF91] text-[18px] font-semibold text-white mt-3 h-[50px] rounded-[10px] border-[5px] border-[#FD7B03] transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-[#FFCF91] hover:border-[#FFCF91] cursor-pointer"
-          >
-            <div className="flex justify-center">
-              <div className="w-[99%] bg-[#FD7B03] rounded-[10px] py-[3px] hover:bg-[#FFCF91] hover:text-[#FD7B03]">
-                Enviar datos
-              </div>
-            </div>
-          </button> */}
-
+          
           <Button buttonText={isLoading ? "Cargando..." : "Enviar"} />
 
           {error && <p className="text-red-700">{error}</p>}

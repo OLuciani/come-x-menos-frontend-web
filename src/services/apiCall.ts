@@ -92,6 +92,8 @@ export interface DiscountDetail {
   businessType: string;
   isActive: boolean;
   priceWithDiscount: string;
+  validityPeriod: number;
+  startDateTime: Date;
 }
 
 

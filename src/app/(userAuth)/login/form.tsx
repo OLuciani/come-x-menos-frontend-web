@@ -189,6 +189,8 @@ const LoginForm = () => {
 
 export default LoginForm; */
 
+
+//Este funciona perfecto
 import React, { useContext, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useFormik } from "formik";
@@ -392,7 +394,7 @@ const LoginForm = () => {
                 setSelectedOption("Iniciar sesión");
               }, expirationTime);
 
-              router.push("/");
+              router.push("/myAccount");
             } else {
               setError("Respuesta inválida del servidor");
             }
@@ -415,7 +417,7 @@ const LoginForm = () => {
         <div className="w-full">
           <Input
             label="Email"
-            placeholder="rafaric@yahoo.com.ar"
+            placeholder="santiago@gmail.com"
             type="email"
             name="email"
             value={formik.values.email}
@@ -453,17 +455,6 @@ const LoginForm = () => {
           {error && <p className="text-red-700 py-3">{error}</p>}
         </div>
 
-        {/* <button
-          className="w-full bg-[#FFCF91] text-[18px] font-semibold text-white mt-3 h-[60px] rounded-[30px] border-[5px] border-[#FD7B03] transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-[#FFCF91] hover:border-[#FFCF91]"
-          type="submit"
-          disabled={isLoading}
-        >
-          <div className="flex justify-center">
-            <div className="w-[98%] bg-[#FD7B03] rounded-[30px] py-[7px] hover:bg-[#FFCF91] hover:text-[#FD7B03]">
-              {isLoading ? "Cargando..." : "Iniciar sesión"}
-            </div>
-          </div>
-        </button> */}
         <Button buttonText={isLoading ? "Cargando..." : "Iniciar sesión"} />
       </form>
 

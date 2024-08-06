@@ -158,6 +158,7 @@ import EditDiscountModalForm from '../editDiscount/page';
 import Link from 'next/link';
 //import DeleteDiscountModal from '@/components/DeleteDiscountModal';
 import Cookies from "js-cookie";
+import CountdownTimer from '@/components/countdownTimer/CountdownTimer';
 
 interface DiscountDetailPageProps {}
 
@@ -251,7 +252,8 @@ const DiscountDetailPage: React.FC<DiscountDetailPageProps> = ({}) => {
 
             <div className="w-[90%] mx-3 xs:w-[380px] xs:mx-0 border-[1px] border-black rounded-lg py-5 ">
                 <p className="text-[14px] font-bold text-center mb-[10px]">{discount.title}</p>
-                <div className="h-auto flex flex-row flex-wrap">
+
+                {/* <div className="h-auto flex flex-row flex-wrap">
                 <div className="w-1/2 flex items-center">
                     <p className="w-[100%] h-auto px-4 text-[12px] text-center">{discount.description}</p>
                 </div>
@@ -267,7 +269,27 @@ const DiscountDetailPage: React.FC<DiscountDetailPageProps> = ({}) => {
                     <p className="text-[10px] text-black bg-yellow-300 font-bold p-[4px] rounded-[30px] absolute bottom-[8px] left-[18px]">- {discount.discountAmount} %</p>
                 </div>
                 
-                </div>
+                </div> */}
+                <div className="w-full h-auto flex flex-row flex-wrap justify-evenly">
+                      <div className="w-[45%] flex items-center ">
+                        <p className="w-full h-auto text-[12px] text-left line-clamp-6 break-words">
+                          {discount.description}
+                        </p>
+                      </div>
+                      <div className="w-[45%] flex justify-center items-start relative">
+                        <Image
+                          src={"https://discount-project-backend.onrender.com/" + discount.imageURL}
+                          //src={"http://localhost:5050/" + discount.imageURL}
+                          alt="Imagen descuento"
+                          width={169}
+                          height={112}
+                          className="w-[169px] h-[112px]"
+                        />
+                        <p className="text-[10px] text-black bg-yellow-300 font-bold p-[4px] rounded-[30px] absolute bottom-[8px] left-[4%]"> {/* antes tenía left-[18px] */}
+                          - {discount.discountAmount} %
+                        </p>
+                      </div>
+                    </div>
 
                 <div className="flex felx-row gap-[20px] mt-[10px] justify-center">
                 <div className="flex felx-row items-center">
@@ -280,6 +302,25 @@ const DiscountDetailPage: React.FC<DiscountDetailPageProps> = ({}) => {
 
                 <p className="flex flex-row text-[12px]">Con Descuento: $ {discount.priceWithDiscount}</p>
                 </div>
+
+                <div className="w-full flex justify-evenly items-center mt-5 text-[12px]">
+                      <div className="flex justify-center items-center gap-1 px-[6px] py-[3px] border-[1px] border-black rounded-lg">
+                        {discount.validityPeriod ? (
+                          <>
+                            <p>Oferta termina en: </p>
+                            <div className="font-bold">
+                              <CountdownTimer
+                                startDateTime={discount.startDateTime}
+                                durationDays={discount.validityPeriod}
+                              />
+                            </div>
+                          </>
+                        ) : (
+                          <p>Oferta sin límite de tiempo</p>
+                        )}
+                      </div>
+                      
+                    </div>
             </div>
 
             <div className='w-[90%] mx-3 xs:w-[380px] xs:mx-0 flex flex-col justify-between gap-5 mt-6 '>

@@ -90,7 +90,7 @@ export default function FormCreateDiscount() {
       .required("El título es requerido"),
     description: Yup.string()
       .min(3, "La descripción debe tener al menos 3 caracteres")
-      .max(85, "La descripción no puede tener más de 80 caracteres")
+      .max(130, "La descripción no puede tener más de 130 caracteres")
       .required("La descripción es requerida"),
     normalPrice: Yup.number()
       .min(1, "El precio del descuento debe tener al menos 1 caracter")
@@ -310,18 +310,6 @@ export default function FormCreateDiscount() {
               <p className="text-red-700 text-center mt-1">{formik.errors.validityPeriod}</p>
             ) : null}
           </div>
-
-          {/* <button
-            type="submit"
-            className="w-full bg-[#FFCF91] text-[18px] text-white font-semibold mt-3 h-[60px] rounded-[30px] border-[5px] border-[#FD7B03] transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-[#FFCF91] hover:border-[#FFCF91]"
-            disabled={isLoading}
-          >
-            <div className="flex justify-center">
-              <div className="w-[98%] bg-[#FD7B03] rounded-[30px] py-[7px] hover:bg-[#FFCF91] hover:text-[#FD7B03]">
-                {isLoading ? "Cargando..." : "Enviar"}
-              </div>
-            </div>
-          </button> */}
 
           <Button buttonText={isLoading ? "Cargando..." : "Enviar"} />  
            

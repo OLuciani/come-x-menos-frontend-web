@@ -30,4 +30,40 @@ const LoginPage = () => {
 
 export default LoginPage;
 
-//className="text-sm text-blue-500 cursor-pointer text-center mb-2"
+
+
+/* import { Krona_One } from "next/font/google";
+import Link from "next/link";
+import React, { useContext } from "react";
+import LoginForm from "./form";
+import { Context } from "@/context/Context";
+
+const krona = Krona_One({ weight: "400", subsets: ["latin"] });
+
+const LoginPage = () => {
+  const { setSelectedOption } = useContext(Context);
+
+  return (
+    <div className="min-h-screen flex flex-col justify-center items-center py-4 sm:py-6">
+      <h1 className="font-semibold text-2xl text-center text-gray-600 mt-4 sm:mt-8">
+        Iniciar sesión
+      </h1>
+      <div className="w-full max-w-md p-6 bg-white rounded-md shadow-md mt-4 sm:mt-6">
+        <LoginForm />
+        <p className="text-center my-5 text-sm text-gray-700">
+          ¿No tienes una cuenta?{" "}
+          <Link href="/register">
+            <span
+              onClick={() => setSelectedOption("Registrarse")}
+              className="text-blue-700 mx-1 cursor-pointer"
+            >
+              Regístrate
+            </span>
+          </Link>
+        </p>
+      </div>
+    </div>
+  );
+};
+
+export default LoginPage; */

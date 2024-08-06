@@ -35,6 +35,7 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'discount-project-backend.onrender.com',
         pathname: '/img/**',
+        //pathname: '/**',
       },
     ],
     //domains: ['localhost', 'discount-project-backend.onrender.com'],

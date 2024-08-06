@@ -53,11 +53,11 @@ const Menu: React.FC<MenuProps> = ({ open, closeMenu }) => {
   };
 
   return (
-    <div className={`${open ? activo : inactivo} ${!userToken ? "mt-[9px] custom-w-450:mt-[21px]": "mt-[14px] custom-w-450:mt-[21px]"} `}>
+    <div className={`${open ? activo : inactivo} ${!userToken ? "mt-[9px] custom-w-450:mt-[21px]": "mt-[14px] custom-w-450:mt-[21px]"}`}>
       <div className="w-[100%] h-4 relative">
         <p className="absolute right-7 text-[15px] text-[#FD7B03] font-bold" onClick={handleLinkClick}>X</p>
       </div>
-      <ul className="flex flex-col mb-2 text-[15px] font-medium">
+      <ul className="flex flex-col gap-2 mb-2 text-[15px] font-medium">
         <Link href={"/"} onClick={handleLinkClick}>
           <li className="text-[#FD7B03] font-bold hover:bg-[#FFCF91] hover:text-[#FD7B03] py-2 px-8">
             Inicio

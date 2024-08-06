@@ -232,14 +232,14 @@ const Navbar = () => {
             )}
 
             {userToken && (
-              <div>
+              <div className="">
                 <div
-                  className="relative md:px-4 py-2 flex gap-2 items-center md:hover:bg-[#FFCF91] md:border-[2px] md:border-[#FFCF91] cursor-pointer"
+                  className="relative md:px-4 py-2 flex gap-2 items-center md:hover:bg-[#FFCF91] md:border-[2px] md:border-[#FFCF91] cursor-pointer text-white md:hover:text-[#FD7B03] z-10"
                   onClick={() => setUserMenuOpen(!userMenuOpen)}
                 >
-                  <div className="flex gap-2 items-center text-white hover:text-[#FD7B03] hover:bg-[#FFCF91]">
+                  <div className="flex gap-2 items-center md:hover:bg-[#FFCF91]">
                     <FiUser
-                      className="hover:text-[#FD7B03] cursor-pointer"
+                      className="cursor-pointer"
                       size={22}
                     />
                     <p className="hidden md:block cursor-pointer">{userName}</p>
