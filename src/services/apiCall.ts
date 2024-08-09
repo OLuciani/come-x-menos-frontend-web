@@ -1,8 +1,333 @@
-import axios from "axios";
+/* import axios, { AxiosResponse } from "axios";
 import Cookies from "js-cookie";
 
 // Configuro Axios para enviar cookies automáticamente
 axios.defaults.withCredentials = true;
+
+export interface User {
+  _id: string,
+  name: string;
+  lastName: string;
+  businessName: string;
+  phone: string;
+  email: string;
+  password: string;
+  repeatPassword?: string;
+  businessType: string;
+}
+
+export interface Business {
+  ownerName: string,
+  businessName: string,
+  businessType: string,
+  address: string;
+  addressNumber: string;
+  city: string;
+  country: string;
+  ownerId: string;
+  imageURL: File | Blob | null; // Aqui originalmente es imageURL: File | null;
+  _id: string;
+}
+
+export interface BusinessDetail {
+  ownerName: string,
+  businessName: string,
+  businessType: string,
+  address: string;
+  city: string;
+  country: string;
+  ownerId: string;
+  imageURL: File | null | string;
+  _id: string;
+}
+
+export interface UserLogin {
+  email: string;
+  password: string;
+}
+
+export interface Discount {
+  title: string;
+  description: string;
+  normalPrice: string;
+  discountAmount: string;
+  imageURL: string | File | null;
+  businessName: string;
+  businessId: string;
+  businessType: string;
+  isActive: boolean;
+  validityPeriod: number;
+}
+
+export interface ApiResponse {
+  success: boolean;
+  message: string;
+  discount?: Discount;
+}
+
+export interface DiscountsList {
+  businessId: string;
+  userToken: string;
+  title: string;
+  description: string;
+  discountAmount: string;
+  imageURL: string;
+  normalPrice: string;
+  priceWithDiscount: string;
+  _id: string;
+  isDeleted: string;
+  validityPeriod: number;
+  startDateTime: Date;
+}
+
+export interface DiscountDetail {
+  title: string;
+  description: string;
+  normalPrice: string;
+  discountAmount: string;
+  imageURL: File | null;
+  businessName: string;
+  businessId: string;
+  businessType: string;
+  isActive: boolean;
+  priceWithDiscount: string;
+  validityPeriod: number;
+  startDateTime: Date;
+}
+
+export interface DashboardData {
+  totalDiscounts: number;
+  activeUsers: number;
+  redeemedDiscounts: number;
+  usageOverTime: {
+    labels: string[];
+    data: number[];
+  };
+  discountsByType: {
+    labels: string[];
+    data: number[];
+  };
+}
+
+const handleResponse = <T>(response: AxiosResponse<T>): T | string => {
+  if (response.status === 200 && response.data) {
+    return response.data;
+  }
+  throw new Error("Request failed");
+};
+
+const handleError = (error: any): string => {
+  if (error.response) {
+    return error.response.data.message;
+  } else if (error.request) {
+    return "No se recibió respuesta del servidor";
+  } else {
+    return error.message;
+  }
+};
+
+export async function login(data: UserLogin): Promise<{ userId: string; userLoged: boolean } | { error: string }> {
+  try {
+    const response = await axios.post("https://discount-project-backend.onrender.com/api/login", data);
+    return handleResponse(response);
+  } catch (error) {
+    return { error: handleError(error) };
+  }
+}
+
+export async function createUser(data: User): Promise<User | string> {
+  try {
+    const response = await axios.post("https://discount-project-backend.onrender.com/api/user_register", data);
+    return handleResponse(response);
+  } catch (error) {
+    return handleError(error);
+  }
+}
+
+export const updateUserWithBusinessId = async (userId: string, businessId: string, businessType: string) => {
+  try {
+    const response = await axios.patch(`https://discount-project-backend.onrender.com/api/businessId_and_businessType_update/${userId}`, {
+      businessId,
+      businessType,
+    });
+    return handleResponse(response);
+  } catch (error) {
+    return handleError(error);
+  }
+};
+
+export async function createBusiness(data: Business): Promise<Business | string> {
+  try {
+    const response = await axios.post("https://discount-project-backend.onrender.com/api/business_create", data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return handleResponse(response);
+  } catch (error) {
+    return handleError(error);
+  }
+}
+
+export async function createDiscount(data: FormData): Promise<Discount | string> {
+  try {
+    const response = await axios.post("https://discount-project-backend.onrender.com/api/discount_create", data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return handleResponse(response);
+  } catch (error) {
+    return handleError(error);
+  }
+}
+
+export async function discountsList(businessId: string): Promise<DiscountsList[] | string> {
+  try {
+    const response = await axios.get(`https://discount-project-backend.onrender.com/api/discounts_list_one_business/${businessId}`);
+    return handleResponse(response);
+  } catch (error) {
+    return handleError(error);
+  }
+}
+
+export async function discountDetail(discountId: string): Promise<DiscountDetail | string> {
+  try {
+    const response = await axios.get(`https://discount-project-backend.onrender.com/api/discount_detail/${discountId}`);
+    return handleResponse(response);
+  } catch (error) {
+    return handleError(error);
+  }
+}
+
+export async function editDiscount(data: FormData, discountId: string): Promise<Discount | string> {
+  try {
+    const response = await axios.patch(`https://discount-project-backend.onrender.com/api/discount_update/${discountId}`, data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return handleResponse(response);
+  } catch (error) {
+    return handleError(error);
+  }
+}
+
+export async function deleteDiscount(discountId: string): Promise<{ success: boolean; message: string } | string> {
+  try {
+    const response = await axios.delete(`https://discount-project-backend.onrender.com/api/discount_delete/${discountId}`);
+    return handleResponse(response);
+  } catch (error) {
+    return handleError(error);
+  }
+}
+
+export async function businessDetail(businessId: string): Promise<Business | string> {
+  try {
+    const response = await axios.get(`https://discount-project-backend.onrender.com/api/business_detail/${businessId}`);
+    return handleResponse(response);
+  } catch (error) {
+    return handleError(error);
+  }
+}
+
+export const getUserById = async (userId: string) => {
+  try {
+    const response = await axios.get(`https://discount-project-backend.onrender.com/api/user_detail/${userId}`);
+    console.log("Valor del detalle de usuario: ", response.data);
+    return handleResponse(response);
+  } catch (error) {
+    return handleError(error);
+  }
+};
+
+export const updateUser = async (userId: string, data: Partial<User>) => {
+  try {
+    const response = await axios.patch(`https://discount-project-backend.onrender.com/api/user_update/${userId}`, data, {
+      withCredentials: true,
+    });
+
+    if (response.status === 200 && response.data) {
+      // Recupero el nuevo nombre del usuario en caso que el usuario lo cambie para que se refleje instantáneamente en el NavBar
+      if (response.data.updatedUser && response.data.updatedUser.name) {
+        const newUserName = response.data.updatedUser.name;
+        Cookies.set("userName", newUserName, {
+          expires: 1,
+          secure: true,
+          sameSite: "strict",
+        });
+      } else {
+        console.log("userName no se encontró en response.data.updatedUser");
+      }
+
+      return handleResponse(response);
+    } else {
+      return "Error al modificar el descuento";
+    }
+  } catch (error) {
+    return handleError(error);
+  }
+};
+
+export const getBusinessById = async (businessId: string) => {
+  try {
+    const response = await axios.get(`https://discount-project-backend.onrender.com/api/business_detail/${businessId}`);
+    return handleResponse(response);
+  } catch (error) {
+    return handleError(error);
+  }
+};
+
+export const updateBusiness = async (businessId: string, formData: FormData) => {
+  try {
+    const response = await axios.patch(`https://discount-project-backend.onrender.com/api/business_update/${businessId}`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return handleResponse(response);
+  } catch (error) {
+    return handleError(error);
+  }
+};
+
+export const getDashboardData = async (businessId: string) => {
+  try {
+    const response = await axios.get(`https://discount-project-backend.onrender.com/api/dashboard_data/${businessId}`);
+    return handleResponse(response);
+  } catch (error) {
+    return handleError(error);
+  }
+};
+ */
+
+
+import axios, { AxiosResponse } from "axios";
+import Cookies from "js-cookie";
+import { verifyToken } from './tokenVerification';
+
+// Configuro Axios para enviar cookies automáticamente
+axios.defaults.withCredentials = true;
+
+const handleResponse = <T>(response: AxiosResponse<T>): T | string => {
+  if (response.status === 200 && response.data) {
+    return response.data;
+  }
+  throw new Error("Request failed");
+};
+
+const handleError = (error: any): string => {
+  if (error.response) {
+    return error.response.data.message;
+  } else if (error.request) {
+    return "No se recibió respuesta del servidor";
+  } else {
+    return error.message;
+  }
+};
+
+
+
 
 export interface User {
   _id: string,
@@ -58,6 +383,7 @@ export interface Discount {
   businessId: string;
   businessType: string;
   isActive: boolean;
+  validityPeriod: number;
 }
 
 export interface ApiResponse {
@@ -145,7 +471,11 @@ export async function login(
 } 
 
 
+
+
+
 export async function createUser(data: User): Promise<User | string> {
+  
   try {
     const response = await axios.post(
       "https://discount-project-backend.onrender.com/api/user_register",
@@ -233,7 +563,12 @@ export async function createBusiness(data: Business): Promise<Business | string>
 
 
 export async function createDiscount(data: FormData, userToken: string): Promise<Discount | string> {
-    console.log("Valor de userToken en CreateDiscount, en apiCall: ", userToken);
+  // Verifico el token antes de hacer la solicitud
+  const isTokenValid = await verifyToken();
+  if (!isTokenValid) { 
+    return 'Token inválido o expirado';
+  }
+
   try {
     const response = await axios.post(
       "https://discount-project-backend.onrender.com/api/discount_create",
@@ -263,6 +598,12 @@ export async function createDiscount(data: FormData, userToken: string): Promise
 
 
 export async function discountsList(businessId: string, userToken: string): Promise<DiscountsList[] | string> {
+  // Verifico el token antes de hacer la solicitud
+  const isTokenValid = await verifyToken();
+  if (!isTokenValid) { 
+    return 'Token inválido o expirado';
+  }
+
   try {
     console.log("Valor de userId en pedido get: ", businessId);
     console.log("Valor de userToken en pedido get: ", userToken);
@@ -290,9 +631,15 @@ export async function discountsList(businessId: string, userToken: string): Prom
 
 
 export async function discountDetail(discountId: string, userToken: string): Promise<DiscountDetail | string> {
+  // Verifico el token antes de hacer la solicitud
+  const isTokenValid = await verifyToken();
+  if (!isTokenValid) { 
+    return 'Token inválido o expirado';
+  }
+
   try {
-    console.log("Valor de discountId en pedido get: ", discountId);
-    console.log("Valor de userToken en pedido get: ", userToken);
+    //console.log("Valor de discountId en pedido get: ", discountId);
+    //console.log("Valor de userToken en pedido get: ", userToken);
 
     const response = await axios.get(
       `https://discount-project-backend.onrender.com/api/discount_detail/${discountId}`,
@@ -346,7 +693,14 @@ export async function editDiscount(data: FormData, userToken: string, discountId
 
 
 export async function deleteDiscount(discountId: string, userToken: string): Promise<{ success: boolean; message: string; } | string> {
-  console.log("valor de discountId en deleteDiscount", discountId)
+  //console.log("valor de discountId en deleteDiscount", discountId)
+
+  // Verifico el token antes de hacer la solicitud
+  const isTokenValid = await verifyToken();
+  if (!isTokenValid) { 
+    return 'Token inválido o expirado';
+  }
+
   try {
     
     const response = await axios.delete(
@@ -411,6 +765,12 @@ export const getUserById = async (userId: string, userToken: string) => {
 
 
 export const updateUser = async (userId: string, userToken: string,  data: Partial<User>) => {
+   // Verifico el token antes de hacer la solicitud
+   const isTokenValid = await verifyToken();
+   if (!isTokenValid) { 
+     return 'Token inválido o expirado';
+   }
+
   try {
     const response = await axios.patch(
       `https://discount-project-backend.onrender.com/api/user_update/${userId}`,
@@ -460,6 +820,9 @@ export const updateUser = async (userId: string, userToken: string,  data: Parti
 export const getBusinessById = async (businessId: string, userToken: string) => {
   const response = await axios.get(`https://discount-project-backend.onrender.com/api/business_detail/${businessId}`,
   //const response = await axios.get(`http://localhost:5050/api/business_detail/${businessId}`,
+  {
+    withCredentials: true
+  }
   );
   return response.data;
 };
@@ -467,6 +830,12 @@ export const getBusinessById = async (businessId: string, userToken: string) => 
 
 
 export const updateBusiness = async (businessId: string, userToken: string, formData: FormData) => {
+   // Verifico el token antes de hacer la solicitud
+   const isTokenValid = await verifyToken();
+   if (!isTokenValid) { 
+     return 'Token inválido o expirado';
+   }
+
   try {
     console.log("Valor de businessId en updateBusiness: ", businessId);
     console.log("Valor de userToken en updateBusiness: ", userToken);

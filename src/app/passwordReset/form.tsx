@@ -184,6 +184,9 @@ interface ValidationErrors {
   [key: string]: string;
 }
 
+// Configuro Axios para enviar cookies automáticamente
+axios.defaults.withCredentials = true;
+
 const PasswordResetForm: React.FC = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -209,6 +212,8 @@ const PasswordResetForm: React.FC = () => {
     setEmail(emailFromUrl);
   }, [searchParams]);
 
+  console.log(token);
+
   const resetValidationSchema = Yup.object().shape({
     newPassword: Yup.string()
       .min(6, "La contraseña debe tener al menos 6 caracteres")
@@ -223,6 +228,7 @@ const PasswordResetForm: React.FC = () => {
 
   const handleSubmitReset = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log(token);
     try {
       await resetValidationSchema.validate(
         { newPassword, confirmPassword },
@@ -241,10 +247,14 @@ const PasswordResetForm: React.FC = () => {
       const response = await axios.patch(
         `https://discount-project-backend.onrender.com/api/resetPassword`,
        //`http://localhost:5050/api/resetPassword`,
-
         {
           email: email,
           newPassword: newPassword,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
 
@@ -326,12 +336,6 @@ const PasswordResetForm: React.FC = () => {
               )}
             </div>
             <div className="mt-6">
-              {/* <button
-                type="submit"
-                className="w-full inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              >
-                Restablecer contraseña
-              </button> */}
               <Button buttonText="Restablecer contraseña" />
             </div>
           </form>

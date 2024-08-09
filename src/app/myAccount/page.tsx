@@ -18,8 +18,8 @@ const MyAccountPage = () => {
   } = useContext(Context);
   const [userToken, setUserToken] = useState<string>("");
   
-  Cookies.remove("discountId"); // Esta linea es para eliminar la cookie que se crea cuando se refresca editDiscount
-
+  //Cookies.remove("discountId"); // Esta linea es para eliminar la cookie que se crea cuando se refresca editDiscount
+  
   useEffect(() => {
     const storedUserToken = Cookies.get("userToken") || "";
     setUserToken(storedUserToken);

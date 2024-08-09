@@ -335,6 +335,7 @@ import Input from "@/components/InputAuth/Input";
 import { Context } from "@/context/Context";
 import Cookies from "js-cookie";
 import Button from "@/components/button/Button";
+import TokenExpiredModal from "@/components/tokenExpiredModal/TokenExpiredModal";
 
 interface FormEditUserAndBusinessProps {
   businessId: string;
@@ -375,6 +376,7 @@ const FormEditUserAndBusiness: React.FC<FormEditUserAndBusinessProps> = () => {
   const [error, setError] = useState<string | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(false);
   const [dataLoaded, setDataLoaded] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false); // Estado para manejar el modal TokenExpiredModal.tsx
   const router = useRouter();
 
   useEffect(() => {
@@ -559,8 +561,7 @@ const FormEditUserAndBusiness: React.FC<FormEditUserAndBusinessProps> = () => {
           formData
         );
 
-        //ARREGLAR ESTO DE ABAJO CAMBIANDO LOCALSTORAGE POR COOKIES................................
-        if (userUpdate && businessUpdate) {
+        if (userUpdate !== "Token inválido o expirado" || businessUpdate !== "Token inválido o expirado") {
           const cookieBusinessName = Cookies.get("businessName") || "";
           setBusinessName(cookieBusinessName);
 
@@ -571,6 +572,7 @@ const FormEditUserAndBusiness: React.FC<FormEditUserAndBusinessProps> = () => {
             router.push("/myDiscounts");
           }, 2000);
         } else {
+          setIsModalOpen(true); // Muestra el modal TokenExpiredModal.tsx si el token es inválido y redirecciona a login
           setError("Error al actualizar los datos.");
         }
       } catch (err) {
@@ -589,6 +591,8 @@ const FormEditUserAndBusiness: React.FC<FormEditUserAndBusinessProps> = () => {
 
   return (
     <div>
+      <TokenExpiredModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+
       <form
         className="flex flex-col items-center mx-auto gap-6 px-4"
         onSubmit={formik.handleSubmit}

@@ -5,6 +5,7 @@ import { Context } from '@/context/Context';
 import { deleteDiscount } from '@/services/apiCall';
 import Cookies from "js-cookie";
 import Button from '@/components/button/Button';
+import TokenExpiredModal from '@/components/tokenExpiredModal/TokenExpiredModal';
 
 export default function DeleteDiscountButton() {
   const { discountId, setSelectedOption, isLoggedIn, discountRecovered, setDiscountId, setUserRole, setUserId, setUserName, setBusinessName, setBusinessId, setBusinessType } = useContext(Context);
@@ -12,6 +13,7 @@ export default function DeleteDiscountButton() {
   const [isLoading, setIsLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [userToken, setUserToken] = useState<string>("");
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false); // Estado para manejar el modal TokenExpiredModal.tsx
   const navigation = useRouter();
 
   useEffect(() => {
@@ -85,7 +87,9 @@ export default function DeleteDiscountButton() {
     setIsLoading(true);
     try {
       const response = await deleteDiscount(discountId, userToken);
-      console.log("Valor que devuelve response al eliminar el descuento: ", response);
+      if(response === "Token inválido o expirado") {
+        setIsModalOpen(true); // Muestra el modal TokenExpiredModal.tsx si el token es inválido y redirecciona a login
+      }
       
       if (typeof response === "string") {
         console.log("Valor que devuelve response dentro del if al eliminar el descuento: ", response);
@@ -111,54 +115,57 @@ export default function DeleteDiscountButton() {
   };
 
   return (
-    <div className=" flex justify-center">
-      <div className="w-full px-6 sm:w-[500px] sm:px-0 mt-[15%]">
-        <div className="flex flex-col items-center mx-auto gap-6">
-          {/* <button
-            onClick={openModal}
-            className="w-full bg-[#FFCF91] text-[18px] text-white font-semibold mt-3 h-[60px] rounded-[30px] border-[5px] border-[#FD7B03] transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-[#FFCF91] hover:border-[#FFCF91]"
-            disabled={isLoading}
-          >
-            <div className="flex justify-center">
-              <div className="w-[98%] bg-[#FD7B03] rounded-[30px] py-[7px] hover:bg-[#FFCF91] hover:text-[#FD7B03]">
-                {isLoading ? 'Cargando...' : 'Eliminar Descuento'}
-              </div>
-            </div>
-          </button> */}
-          
-          <Button buttonText={isLoading ? 'Cargando...' : 'Eliminar Descuento'} onClickButton={openModal} />
-          
-          {error && (
-            <p className="text-center mb-2 text-red-700 font-semibold">{error}</p>
-          )}
-          {showModal && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
-              <div className="bg-white rounded-lg w-[85%] h-[300px] sm:w-[50%] sm:h-[50%] mx-auto text-center flex flex-col justify-evenly">
-                <p className="text-lg font-semibold ">
-                  ¿Estás seguro que deseas eliminar este descuento?
-                </p>
-                <div className="flex justify-center gap-4 px-2">
-                  <button
-                    onClick={confirmDelete}
-                    className="w-[120px] bg-[#FFCF91] text-[18px] text-white font-semibold h-[40px] rounded-[20px] border-[5px] border-[#FD7B03] transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-[#FFCF91] hover:border-[#FFCF91]"
-                    disabled={isLoading}
-                  >
-                    {isLoading ? 'Cargando...' : 'Eliminar'}
-                  </button>
-                  <button
-                    onClick={closeModal}
-                    className="w-[120px] bg-gray-300 text-[18px] text-gray-700 font-semibold h-[40px] rounded-[20px] border-[5px] border-gray-400 transition-colors duration-300 ease-in-out hover:bg-gray-400 hover:text-gray-900 hover:border-gray-900"
-                    disabled={isLoading}
-                  >
-                    Cancelar
-                  </button>
+    <>
+      <TokenExpiredModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      <div className=" flex justify-center">
+        <div className="w-full px-6 sm:w-[500px] sm:px-0 mt-[15%]">
+          <div className="flex flex-col items-center mx-auto gap-6">
+            {/* <button
+              onClick={openModal}
+              className="w-full bg-[#FFCF91] text-[18px] text-white font-semibold mt-3 h-[60px] rounded-[30px] border-[5px] border-[#FD7B03] transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-[#FFCF91] hover:border-[#FFCF91]"
+              disabled={isLoading}
+            >
+              <div className="flex justify-center">
+                <div className="w-[98%] bg-[#FD7B03] rounded-[30px] py-[7px] hover:bg-[#FFCF91] hover:text-[#FD7B03]">
+                  {isLoading ? 'Cargando...' : 'Eliminar Descuento'}
                 </div>
               </div>
-            </div>
-          )}
+            </button> */}
+            
+            <Button buttonText={isLoading ? 'Cargando...' : 'Eliminar Descuento'} onClickButton={openModal} />
+            
+            {error && (
+              <p className="text-center mb-2 text-red-700 font-semibold">{error}</p>
+            )}
+            {showModal && (
+              <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
+                <div className="bg-white rounded-lg w-[85%] h-[300px] sm:w-[50%] sm:h-[50%] mx-auto text-center flex flex-col justify-evenly">
+                  <p className="text-lg font-semibold ">
+                    ¿Estás seguro que deseas eliminar este descuento?
+                  </p>
+                  <div className="flex justify-center gap-4 px-2">
+                    <button
+                      onClick={confirmDelete}
+                      className="w-[120px] bg-[#FFCF91] text-[18px] text-white font-semibold h-[40px] rounded-[20px] border-[5px] border-[#FD7B03] transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-[#FFCF91] hover:border-[#FFCF91]"
+                      disabled={isLoading}
+                    >
+                      {isLoading ? 'Cargando...' : 'Eliminar'}
+                    </button>
+                    <button
+                      onClick={closeModal}
+                      className="w-[120px] bg-gray-300 text-[18px] text-gray-700 font-semibold h-[40px] rounded-[20px] border-[5px] border-gray-400 transition-colors duration-300 ease-in-out hover:bg-gray-400 hover:text-gray-900 hover:border-gray-900"
+                      disabled={isLoading}
+                    >
+                      Cancelar
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
