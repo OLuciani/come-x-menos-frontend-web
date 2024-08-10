@@ -212,7 +212,8 @@ const PasswordResetForm: React.FC = () => {
     setEmail(emailFromUrl);
   }, [searchParams]);
 
-  console.log(token);
+  console.log("Valor del token: ", token);
+  console.log("Valor del email que llega en el resetLink: ", email);
 
   const resetValidationSchema = Yup.object().shape({
     newPassword: Yup.string()
