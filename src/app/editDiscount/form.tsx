@@ -607,7 +607,7 @@ const FormEditDiscount: React.FC = () => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               rows={4}
-              className="w-full min-h-24 border-[1px] border-[gray] rounded-[10px] mt-[-10px] p-2 text-sm"
+              className="w-full min-h-24 border-[1px] border-[gray] rounded-[10px] mt-[-10px] p-2 text-base"
               required
             />
 
@@ -639,7 +639,7 @@ const FormEditDiscount: React.FC = () => {
             </div>
 
 
-            <div className="w-full flex justify-start text-sm font-normal text-[#FD7B03]">
+            <div className="w-full flex justify-start text-sm font-normal">
               <label className="text-sm font-medium text-black ml-3 mb-[-20px]">
                 Porcentaje de descuento a aplicar (%)
               </label>

@@ -237,9 +237,11 @@ export default function Home() {
             <p className="text-lg md:text-xl text-white mb-8">
               Únete a la plataforma donde restaurantes, cafés y bares impulsan su negocio con ofertas irresistibles.
             </p>
-            <button className="bg-white text-orange-600 font-semibold py-3 px-6 rounded-full shadow-lg hover:bg-gray-100">
-              Comienza Ahora
-            </button>
+            <Link href={"/register"}>
+              <button className="bg-white text-orange-600 font-semibold py-3 px-6 rounded-full shadow-lg hover:bg-gray-200 hover:text-orange-700">
+                Comienza Ahora
+              </button>
+            </Link>
           </div>
         </header>
 

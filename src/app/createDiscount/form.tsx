@@ -210,7 +210,7 @@ export default function FormCreateDiscount() {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 rows={4}
-                className="w-full min-h-24 border-[1px] border-[gray] rounded-[10px] mt-[-10px] p-2 focus:outline-none focus:border-[2px] text-sm"
+                className="w-full min-h-24 border-[1px] border-[gray] rounded-[10px] mt-[-10px] p-2 focus:outline-none focus:border-[2px] text-base"
                 required
               />
 

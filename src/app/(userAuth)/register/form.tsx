@@ -574,7 +574,7 @@ export default function FormRegister() {
             value={formik.values.businessType}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            className="mt-1 block w-full h-[50px] px-3 border border-[gray] bg-white rounded-[10px] shadow-sm focus:outline-none focus:ring-[#FD7B03] focus:border-[#FD7B03] sm:text-sm"
+            className="mt-1 block w-full h-[50px] px-3 border border-[gray] bg-white rounded-[10px] shadow-sm focus:outline-none focus:ring-[gray] focus:border-[gray] sm:text-sm"
           >
             <option value="" label="Seleccionar tipo de negocio" />
             <option value="Restaurantes" label="Restaurante" />
