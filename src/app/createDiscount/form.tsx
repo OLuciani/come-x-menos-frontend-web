@@ -202,7 +202,7 @@ export default function FormCreateDiscount() {
                   Descripción del descuento
                 </label>
               </div>
-              <TextareaAutosize
+              <textarea
                 id="message"
                 name="description"
                 placeholder="Haz una descripción de tu oferta de descuento de no más de 85 caracteres."

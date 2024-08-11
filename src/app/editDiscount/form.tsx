@@ -354,6 +354,7 @@ import axios, { AxiosError } from "axios";
 import { Context } from "@/context/Context";
 import Cookies from "js-cookie";
 import Button from "@/components/button/Button";
+import TokenExpiredModal from "@/components/tokenExpiredModal/TokenExpiredModal";
 
 const FormEditDiscount: React.FC = () => {
   const { discountId, discountRecovered, isLoggedIn, setDiscountId, setUserRole, setUserId, setUserName, setBusinessName, setBusinessId, setBusinessType, setSelectedOption } = useContext(Context);
@@ -362,6 +363,7 @@ const FormEditDiscount: React.FC = () => {
   const [userToken, setUserToken] = useState<string>("");
   const navigation = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -495,6 +497,10 @@ const FormEditDiscount: React.FC = () => {
 
       try {
         const response = await editDiscount(formData, userToken, discountId);
+        if(response === "Token inválido o expirado") {
+          setIsModalOpen(true); // Muestra el modal TokenExpiredModal.tsx si el token es inválido y redirecciona a login
+        }
+
         if (typeof response === "object" && response !== null) {
           setError("");
           setTimeout(() => {
@@ -556,158 +562,161 @@ const FormEditDiscount: React.FC = () => {
   }, [discount]);
 
   return (
-    <div className="w-sreen flex justify-center">
-      <div className="w-full px-6 sm:w-[500px] sm:px-0">
-        <form
-          className="flex flex-col items-center mx-auto gap-6"
-          onSubmit={formik.handleSubmit}
-        >
-          <input
-            type="hidden"
-            name="businessName"
-            value={formik.values.businessName}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-          />
-
-
-          <Input
-            label="Título del descuento"
-            placeholder=""
-            type="text"
-            name="title"
-            value={formik.values.title}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            minLength={3}
-          />
-          {formik.touched.title && formik.errors.title ? (
-            <p className="text-red-700">{formik.errors.title}</p>
-          ) : null}
-
-
-          <div className="w-full flex justify-start text-sm font-normal">
-            <label className="text-sm ml-[15px] mb-[-10px] font-medium text-black">
-              Descripción del descuento
-            </label>
-          </div>
-          <TextareaAutosize
-            id="message"
-            name="description"
-            placeholder="Haz una descripción de tu oferta de descuento de no más de 85 caracteres."
-            value={formik.values.description}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            rows={4}
-            className="w-full min-h-24 border-[1px] border-[gray] rounded-[10px] mt-[-10px] p-2 text-base"
-            required
-          />
-
-          {formik.touched.description && formik.errors.description ? (
-            <p className="text-red-700">{formik.errors.description}</p>
-          ) : null}
-
-
-          <div className="w-full">
-            <div className="w-full flex justify-start text-sm font-normal mb-1.5">
-              <label className="text-sm font-medium text-black ml-3">
-                Precio normal sin descuento
-              </label>
-            </div>
+    <>
+      <TokenExpiredModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      <div className="w-sreen flex justify-center">
+        <div className="w-full px-6 sm:w-[500px] sm:px-0">
+          <form
+            className="flex flex-col items-center mx-auto gap-6"
+            onSubmit={formik.handleSubmit}
+          >
             <input
-              //label="Precio normal sin descuento"
-              className="w-full border border-[gray] rounded-[10px] h-[50px] px-3 focus:outline-none focus:border-[2px] no-spin"
-              placeholder=""
-              type="number"
-              name="normalPrice"
-              value={formik.values.normalPrice}
+              type="hidden"
+              name="businessName"
+              value={formik.values.businessName}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              minLength={1}
             />
-            {formik.touched.normalPrice && formik.errors.normalPrice ? (
-              <p className="text-red-700">{formik.errors.normalPrice}</p>
+
+
+            <Input
+              label="Título del descuento"
+              placeholder=""
+              type="text"
+              name="title"
+              value={formik.values.title}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              minLength={3}
+            />
+            {formik.touched.title && formik.errors.title ? (
+              <p className="text-red-700">{formik.errors.title}</p>
             ) : null}
-          </div>
 
 
-          <div className="w-full flex justify-start text-sm font-normal text-[#FD7B03]">
-            <label className="text-sm font-medium text-black ml-3 mb-[-20px]">
-              Porcentaje de descuento a aplicar (%)
-            </label>
-          </div>
-          <select
-            name="discountAmount"
-            value={formik.values.discountAmount}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            className="w-full h-[50px] border-[1px] border-[gray] rounded-[10px] px-3"
-          >
-            {[...Array(100).keys()].map((i) => {
-              const value = i + 1;
-              return (
-                <option
-                  key={value}
-                  value={value}
-                  style={value % 5 === 0 ? { fontWeight: "bold" } : {}}
-                >
-                  {value} %
-                </option>
-              );
-            })}
-          </select>
-          {formik.touched.discountAmount && formik.errors.discountAmount ? (
-            <p className="text-red-700">{formik.errors.discountAmount}</p>
-          ) : null}
+            <div className="w-full flex justify-start text-sm font-normal">
+              <label className="text-sm ml-[15px] mb-[-10px] font-medium text-black">
+                Descripción del descuento
+              </label>
+            </div>
+            <textarea
+              id="message"
+              name="description"
+              placeholder="Haz una descripción de tu oferta de descuento de no más de 85 caracteres."
+              value={formik.values.description}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              rows={4}
+              className="w-full min-h-24 border-[1px] border-[gray] rounded-[10px] mt-[-10px] p-2 text-base"
+              required
+            />
 
-
-          <Input
-            label="Cargar Imagen"
-            placeholder=""
-            type="file"
-            name="imageURL"
-            onChange={(event) => {
-              if (event.currentTarget.files && event.currentTarget.files[0]) {
-                formik.setFieldValue("imageURL", event.currentTarget.files[0]);
-              } else {
-                formik.setFieldValue("imageURL", null); // Limpiar el valor si se cancela la selección
-              }
-            }}
-            onBlur={formik.handleBlur}
-            value={formik.values.imageURL}
-          />
-          {formik.touched.imageURL && formik.errors.imageURL ? (
-            <p className="text-red-700">{formik.errors.imageURL}</p>
-          ) : null}
+            {formik.touched.description && formik.errors.description ? (
+              <p className="text-red-700">{formik.errors.description}</p>
+            ) : null}
 
 
             <div className="w-full">
-            <Input
-              label="Periodo de Validez del descuento (Es opcional, y por días)"
-              placeholder="1"
-              type="number"
-              name="validityPeriod"
-              value={
-                formik.values.validityPeriod
-                  ? formik.values.validityPeriod.toString()
-                  : ""
-              } // Convertir a cadena o dejar vacío
+              <div className="w-full flex justify-start text-sm font-normal mb-1.5">
+                <label className="text-sm font-medium text-black ml-3">
+                  Precio normal sin descuento
+                </label>
+              </div>
+              <input
+                //label="Precio normal sin descuento"
+                className="w-full border border-[gray] rounded-[10px] h-[50px] px-3 focus:outline-none focus:border-[2px] no-spin"
+                placeholder=""
+                type="number"
+                name="normalPrice"
+                value={formik.values.normalPrice}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                minLength={1}
+              />
+              {formik.touched.normalPrice && formik.errors.normalPrice ? (
+                <p className="text-red-700">{formik.errors.normalPrice}</p>
+              ) : null}
+            </div>
+
+
+            <div className="w-full flex justify-start text-sm font-normal text-[#FD7B03]">
+              <label className="text-sm font-medium text-black ml-3 mb-[-20px]">
+                Porcentaje de descuento a aplicar (%)
+              </label>
+            </div>
+            <select
+              name="discountAmount"
+              value={formik.values.discountAmount}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-            />
-            
-             {(formik.touched.validityPeriod || formik.submitCount > 0) && formik.errors.validityPeriod ? (
-              <p className="text-red-700 text-center mt-1">{formik.errors.validityPeriod}</p>
+              className="w-full h-[50px] border-[1px] border-[gray] rounded-[10px] px-3"
+            >
+              {[...Array(100).keys()].map((i) => {
+                const value = i + 1;
+                return (
+                  <option
+                    key={value}
+                    value={value}
+                    style={value % 5 === 0 ? { fontWeight: "bold" } : {}}
+                  >
+                    {value} %
+                  </option>
+                );
+              })}
+            </select>
+            {formik.touched.discountAmount && formik.errors.discountAmount ? (
+              <p className="text-red-700">{formik.errors.discountAmount}</p>
             ) : null}
-          </div>
 
-          
-          <Button buttonText={isLoading ? "Cargando..." : "Enviar"} />
 
-          {error && <p className="text-red-700">{error}</p>}
-        </form>
+            <Input
+              label="Cargar Imagen"
+              placeholder=""
+              type="file"
+              name="imageURL"
+              onChange={(event) => {
+                if (event.currentTarget.files && event.currentTarget.files[0]) {
+                  formik.setFieldValue("imageURL", event.currentTarget.files[0]);
+                } else {
+                  formik.setFieldValue("imageURL", null); // Limpiar el valor si se cancela la selección
+                }
+              }}
+              onBlur={formik.handleBlur}
+              value={formik.values.imageURL}
+            />
+            {formik.touched.imageURL && formik.errors.imageURL ? (
+              <p className="text-red-700">{formik.errors.imageURL}</p>
+            ) : null}
+
+
+              <div className="w-full">
+              <Input
+                label="Periodo de Validez del descuento (Es opcional, y por días)"
+                placeholder="1"
+                type="number"
+                name="validityPeriod"
+                value={
+                  formik.values.validityPeriod
+                    ? formik.values.validityPeriod.toString()
+                    : ""
+                } // Convertir a cadena o dejar vacío
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+              />
+              
+              {(formik.touched.validityPeriod || formik.submitCount > 0) && formik.errors.validityPeriod ? (
+                <p className="text-red-700 text-center mt-1">{formik.errors.validityPeriod}</p>
+              ) : null}
+            </div>
+
+            
+            <Button buttonText={isLoading ? "Cargando..." : "Enviar"} />
+
+            {error && <p className="text-red-700">{error}</p>}
+          </form>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

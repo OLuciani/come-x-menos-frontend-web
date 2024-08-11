@@ -664,6 +664,11 @@ export async function discountDetail(discountId: string, userToken: string): Pro
 
 
 export async function editDiscount(data: FormData, userToken: string, discountId: string): Promise<Discount | string> {
+  // Verifico el token antes de hacer la solicitud
+  const isTokenValid = await verifyToken();
+  if (!isTokenValid) { 
+    return 'Token inválido o expirado';
+  }
  
   try {
     const response = await axios.patch(
