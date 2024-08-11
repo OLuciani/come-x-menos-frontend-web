@@ -607,7 +607,7 @@ const FormEditDiscount: React.FC = () => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               rows={4}
-              className="w-full min-h-24 border-[1px] border-[gray] rounded-[10px] mt-[-10px] p-2 text-base"
+              className="w-full min-h-24 border-[1px] border-[gray] rounded-[10px] mt-[-10px] p-2 text-sm"
               required
             />
 
