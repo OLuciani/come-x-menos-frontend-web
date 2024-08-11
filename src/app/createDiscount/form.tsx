@@ -210,7 +210,7 @@ export default function FormCreateDiscount() {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 rows={4}
-                className="w-full min-h-24 border-[1px] border-[gray] rounded-[10px] mt-[-10px] p-2 focus:outline-none focus:border-[2px]"
+                className="w-full min-h-24 border-[1px] border-[gray] rounded-[10px] mt-[-10px] p-2 focus:outline-none focus:border-[2px] text-base"
                 required
               />
 
@@ -228,7 +228,7 @@ export default function FormCreateDiscount() {
               </div>
               <input
                 //label="Precio normal sin descuento (en números y sin el signo $)"
-                className="w-full border border-[gray] rounded-[10px] h-[50px] px-3 focus:outline-none focus:border-[2px] no-spin"
+                className="w-full border border-[gray] rounded-[10px] h-[50px] px-3 focus:outline-none focus:border-[2px] no-spin text-base"
                 placeholder=""
                 type="number"
                 name="normalPrice"
@@ -255,7 +255,7 @@ export default function FormCreateDiscount() {
                 value={formik.values.discountAmount}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                className="w-full h-[50px] border-[1px] border-[gray] rounded-[10px] px-3 focus:outline-none focus:border-[2px]"
+                className="w-full h-[50px] border-[1px] border-[gray] rounded-[10px] px-3 focus:outline-none focus:border-[2px] text-base"
               >
                 {[...Array(100).keys()].map((i) => {
                   const value = i + 1;
@@ -264,6 +264,7 @@ export default function FormCreateDiscount() {
                       key={value}
                       value={value}
                       style={value % 5 === 0 ? { fontWeight: "bold" } : {}}
+                      className="text-base"
                     >
                       {value}%
                     </option>

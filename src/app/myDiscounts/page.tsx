@@ -830,7 +830,9 @@ const MyDiscountsPage = () => {
               (discount) =>
                 !discount.isDeleted && ( 
                   <div key={discount._id} className="w-full custom-w-450:w-[380px] px-2 custom-w-450:px-0 bg-white">
-                    <div className="w-full custom-w-450:w-[380px] py-5 border-[2px] border-gray-300 hover:border-[#FFCF91] rounded-2xl cursor-pointer">
+                    {/* <div className="w-full custom-w-450:w-[380px] border-[2px] border-gray-300 hover:border-[#FD7B03]    rounded-2xl cursor-pointer"> */}
+                    <div className="w-full custom-w-450:w-[380px] py-5 border-[2px] border-gray-300 hover:border-hidden hover:outline hover:outline-[3px] hover:outline-[#FFCF91] hover:shadow-[0_0_0_6px_rgba(253,123,3,0.5)] rounded-2xl cursor-pointer">
+
                       <Link
                         href={"/discountDetail"}
                         onClick={() => [

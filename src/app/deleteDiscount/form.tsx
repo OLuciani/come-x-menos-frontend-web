@@ -140,7 +140,7 @@ export default function DeleteDiscountButton() {
             {showModal && (
               <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
                 <div className="bg-white rounded-lg w-[85%] h-[300px] sm:w-[50%] sm:h-[50%] mx-auto text-center flex flex-col justify-evenly">
-                  <p className="text-lg font-semibold ">
+                  <p className="text-xl font-semibold">
                     ¿Estás seguro que deseas eliminar este descuento?
                   </p>
                   <div className="flex justify-center gap-4 px-2">

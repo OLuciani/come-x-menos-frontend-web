@@ -61,7 +61,7 @@ const Input: React.FC<InputProps> = ({
       ) : (
         <input
           id={name}
-          className="border border-[gray] rounded-[10px] h-[50px] px-3 focus:outline-none focus:border-[2px]"
+          className="border border-[gray] rounded-[10px] h-[50px] px-3 focus:outline-none focus:border-[2px] text-base"
           type={type}
           name={name}
           placeholder={placeholder}
