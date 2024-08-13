@@ -700,7 +700,11 @@ const MyDiscountsPage = () => {
     const fetchBusiness = async () => {
       if (businessId && userToken) {
         try {
-          const businessResponse = await businessDetail(businessId, userToken);
+          //const businessResponse = await businessDetail(businessId, userToken);
+          const businessResponse = await businessDetail();
+          if(businessResponse === "Token inválido o expirado en businessDetail") {
+            setIsModalOpen(true); // Muestra el modal TokenExpiredModal.tsx si el token es inválido y redirecciona a login
+          }
           if (typeof businessResponse !== "string") {
             setBusinessDetails(businessResponse);
             const imageURL =
@@ -722,10 +726,11 @@ const MyDiscountsPage = () => {
 
     const fetchDiscounts = async () => {
       try {
-        if (businessId && userToken) {
-          const response = await discountsList(businessId, userToken);
+        if (userToken) {
+          console.log("Valor de userToken en fetchDiscounts: ", userToken);
+          const response = await discountsList();
 
-          if(response === "Token inválido o expirado") {
+          if(response === "Token inválido o expirado en discountList") {
             setIsModalOpen(true); // Muestra el modal TokenExpiredModal.tsx si el token es inválido y redirecciona a login
           }
           if (typeof response !== "string") {
@@ -825,13 +830,20 @@ const MyDiscountsPage = () => {
       <div className="screen py-5 box-border">
         <h2 className="text-center text-xl text-[gray] font-semibold md:text-2xl pb-2">Descuentos activos</h2>
         <h5 className="text-center text-xl text-[gray] font-semibold md:text-2xl pb-5">{businessName}</h5>
+
+        {loading ? (
+          <div className="w-full flex justify-center items-center mt-[8%]">
+            <CircularProgress color="secondary" size={24} className="mr-2" />
+            <span className="text-gray-600">Cargando datos...</span>
+          </div>
+        ) : (
         <div className="w-full flex flex-col justify-center md:flex-row md:flex-wrap gap-10 md:justify-evenly items-center">
             {discountsArrayList.map(
               (discount) =>
                 !discount.isDeleted && ( 
                   <div key={discount._id} className="w-full custom-w-450:w-[380px] px-2 custom-w-450:px-0 bg-white">
                     {/* <div className="w-full custom-w-450:w-[380px] border-[2px] border-gray-300 hover:border-[#FD7B03]    rounded-2xl cursor-pointer"> */}
-                    <div className="w-full custom-w-450:w-[380px] py-5 border-[2px] border-gray-300 hover:border-0 hover:outline hover:outline-[3px] hover:outline-[#FFCF91] hover:shadow-[0_0_0_6px_rgba(253,123,3,0.5)] rounded-2xl cursor-pointer">
+                    <div className="w-full custom-w-450:w-[380px] py-5 border-[2px] border-gray-300 hover:outline hover:outline-[3px] hover:outline-[#FFCF91] hover:shadow-[0_0_0_6px_rgba(253,123,3,0.5)] rounded-2xl cursor-pointer">
 
                       <Link
                         href={"/discountDetail"}
@@ -910,6 +922,7 @@ const MyDiscountsPage = () => {
                 )
             )}
         </div>
+         )}
       </div>
     </>
   );

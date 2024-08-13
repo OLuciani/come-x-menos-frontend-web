@@ -148,6 +148,8 @@ const DiscountDetailPage: React.FC<DiscountDetailPageProps> = ({}) => {
 
 export default DiscountDetailPage; */
 
+
+
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "@/context/Context";
 import { discountDetail, DiscountDetail } from "@/services/apiCall";
@@ -158,6 +160,7 @@ import Link from "next/link";
 import Cookies from "js-cookie";
 import CountdownTimer from "@/components/countdownTimer/CountdownTimer";
 import TokenExpiredModal from "@/components/tokenExpiredModal/TokenExpiredModal";
+import Button from "@/components/button/Button";
 
 interface DiscountDetailPageProps {}
 
@@ -355,7 +358,7 @@ const DiscountDetailPage: React.FC<DiscountDetailPageProps> = ({}) => {
               </div>
             </div>
 
-            <div className="w-[90%] mx-3 xs:w-[380px] xs:mx-0 flex flex-col justify-between gap-5 my-6 ">
+            {/* <div className="w-[90%] mx-3 xs:w-[380px] xs:mx-0 flex flex-col justify-between gap-5 my-6 ">
               <Link href={"/editDiscount"}>
                 <button className="w-[100%] text-[16px] font-bold border-[5px] border-blue-600 text-gray-600 hover:text-white hover:bg-blue-600 p-1 rounded-lg">
                   Editar descuento
@@ -367,7 +370,45 @@ const DiscountDetailPage: React.FC<DiscountDetailPageProps> = ({}) => {
                   Eliminar descuento
                 </button>
               </Link>
-            </div>
+            </div> */}
+
+            {/* <div className="w-[90%] mx-3 xs:w-[380px] xs:mx-0 flex flex-col justify-between gap-5 my-6">
+              <Link href={"/editDiscount"}>
+                <button className="w-full text-[16px] font-bold border-2 border-blue-600 text-blue-600 hover:text-white hover:bg-blue-600 py-2 rounded-lg shadow-md transition-all duration-300 ease-in-out transform hover:scale-105">
+                  Editar descuento
+                </button>
+              </Link>
+
+              <Link href={"/deleteDiscount"}>
+                <button className="w-full text-[16px] font-bold border-2 border-red-600 text-red-600 hover:text-white hover:bg-red-600 py-2 rounded-lg shadow-md transition-all duration-300 ease-in-out transform hover:scale-105">
+                  Eliminar descuento
+                </button>
+              </Link>
+            </div> */}
+
+<div className="w-[90%] mx-3 xs:w-[380px] xs:mx-0 flex flex-col justify-between gap-5 my-6">
+  <Link href={"/editDiscount"}>
+    {/* <button className="w-full text-[16px] font-bold border-2 border-[#FD7B03] text-[#FD7B03] hover:text-white hover:bg-[#FD7B03] py-2 rounded-lg shadow-md transition-all duration-300 ease-in-out transform hover:scale-105">
+      Editar descuento
+    </button> */}
+    <Button buttonText="Editar descuento" />
+  </Link>
+
+  <Link href={"/deleteDiscount"}>
+    <button
+      type="submit"
+      className="w-full bg-[#FF5C5C] text-[18px] font-semibold text-white mt-3 h-[50px] rounded-[10px] border-[5px] border-red-700 transition-colors duration-300 ease-in-out hover:bg-red-700 hover:text-[#FF5C5C] hover:border-[#FF5C5C] cursor-pointer"
+    >
+      <div className="flex justify-center">
+        <div className="w-[98.5%] bg-red-700 rounded-[10px] py-[3px] hover:bg-[#FF5C5C] hover:text-red-700">
+          Eliminar descuento
+        </div>
+      </div>
+    </button>
+  </Link>
+</div>
+
+
           </div>
         </div>
       )}

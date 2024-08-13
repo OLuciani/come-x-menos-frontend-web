@@ -373,6 +373,23 @@ export interface UserLogin {
   password: string;
 }
 
+export interface UserToProfile {
+  businessId: string;
+    businessName: string;
+    businessType: string;
+    email: string;
+    lastName: string;
+    name: string;
+    originalEmail: string;
+    phone: string;
+    role: string;
+    _id: string;
+}
+
+export interface UserProfile {
+  user: UserToProfile;
+}
+
 export interface Discount {
   title: string;
   description: string;
@@ -469,6 +486,38 @@ export async function login(
     }
   }
 } 
+
+
+export async function userProfile() {
+  try {
+    // Verifico el token antes de hacer la solicitud
+    const isTokenValid = await verifyToken();
+    if (!isTokenValid) { 
+      return 'Token inválido o expirado';
+    }
+    
+    const response = await axios.get(
+      `https://discount-project-backend.onrender.com/api/user_profile`,
+      //`http://localhost:5050/api/business_detail/${businessId}`,
+      {
+        withCredentials: true // Esta línea asegura que las cookies (entre ellas va la del token que es indispensable en esta ruta) se envíen con la solicitud
+      }
+      
+    );
+
+    if (response.status === 200 && response.data) {
+      console.log("Datos del perfil de usuario traido de MongoDB Atlas:", response.data);
+      return response.data;
+    } else {
+      console.log("El pedido del perfil del usuario al backend no fue exitoso:", response.data);
+      return "Error al pedir el perfil del usuario al backend";
+    }
+  } catch (error: any) {
+    console.error("Error al pedir el perfil del usuario al backend:", error.message);
+    return "Error al pedir el perfil del usuario al backend";
+  
+}
+}
 
 
 
@@ -597,19 +646,21 @@ export async function createDiscount(data: FormData, userToken: string): Promise
 }
 
 
-export async function discountsList(businessId: string, userToken: string): Promise<DiscountsList[] | string> {
+//export async function discountsList(businessId: string, userToken: string): Promise<DiscountsList[] | string> {
+  export async function discountsList(): Promise<DiscountsList[] | string> {
   // Verifico el token antes de hacer la solicitud
   const isTokenValid = await verifyToken();
   if (!isTokenValid) { 
-    return 'Token inválido o expirado';
+    console.log('Token inválido o expirado en discountList')
+    return 'Token inválido o expirado en discountList';
   }
 
   try {
-    console.log("Valor de userId en pedido get: ", businessId);
-    console.log("Valor de userToken en pedido get: ", userToken);
-
+    //console.log("Valor de userId en pedido get: ", businessId);
+    //console.log("Valor de userToken en pedido get: ", userToken);
     const response = await axios.get(
-      `https://discount-project-backend.onrender.com/api/discounts_list_one_business/${businessId}`,
+      //`https://discount-project-backend.onrender.com/api/discounts_list_one_business/${businessId}`,
+      `https://discount-project-backend.onrender.com/api/discounts_list_one_business`,
       //`http://localhost:5050/api/discounts_list_one_business/${businessId}`,
       {
         withCredentials: true
@@ -730,15 +781,22 @@ export async function deleteDiscount(discountId: string, userToken: string): Pro
 }
 
 
-export async function businessDetail(businessId: string, userToken: string): Promise<Business | string> {
+//export async function businessDetail(businessId: string, userToken: string): Promise<Business | string> {
+  export async function businessDetail(): Promise<Business | string> {
+  // Verifico el token antes de hacer la solicitud
+  const isTokenValid = await verifyToken();
+  if (!isTokenValid) { 
+    console.log('Token inválido o expirado en businessDetail');
+    return 'Token inválido o expirado en businessDetail';
+  }
   try {
-    console.log("Valor de businessId en pedido get: ", businessId);
-    console.log("Valor de userToken en pedido get: ", userToken);
-
     const response = await axios.get(
-      `https://discount-project-backend.onrender.com/api/business_detail/${businessId}`,
+      //`https://discount-project-backend.onrender.com/api/business_detail/${businessId}`,
+      `https://discount-project-backend.onrender.com/api/business_detail`,
       //`http://localhost:5050/api/business_detail/${businessId}`,
-      
+      {
+        withCredentials: true
+      }
     );
 
     if (response.status === 200 && response.data) {
