@@ -638,14 +638,14 @@ interface ErrorResponse {
 
 const MyDiscountsPage = () => {
   const {
-    businessId,
+    //businessId,
     businessName,
     setDiscountId,
     setSelectedOption,
     isLoggedIn,
     setUserRole,
-    setBusinessId,
-    setUserId,
+    //setBusinessId,
+    //setUserId,
     setUserName,
     setBusinessName,
     businessType,
@@ -678,8 +678,8 @@ const MyDiscountsPage = () => {
     const cookieUserRole = Cookies.get("userRole") || "";
     setUserRole(cookieUserRole);
 
-    const cookieUserId = Cookies.get("userId") || "";
-    setUserId(cookieUserId);
+    /* const cookieUserId = Cookies.get("userId") || "";
+    setUserId(cookieUserId); */
 
     const cookieUserName = Cookies.get("userName") || "";
     setUserName(cookieUserName);
@@ -687,18 +687,18 @@ const MyDiscountsPage = () => {
     const cookieBusinessName = Cookies.get("businessName") || "";
     setBusinessName(cookieBusinessName);
 
-    const cookieBusinessId = Cookies.get("businessId") || "";
-    setBusinessId(cookieBusinessId);
+    /* const cookieBusinessId = Cookies.get("businessId") || "";
+    setBusinessId(cookieBusinessId); */
 
     const cookieBusinessType = Cookies.get("businessType") || "";
     setBusinessType(cookieBusinessType);
 
     setSelectedOption("Mi cuenta");
-  }, [setSelectedOption, setBusinessId, setBusinessName, setBusinessType, setUserId, setUserName, setUserRole]);
+  }, [setSelectedOption, setBusinessName, setBusinessType, setUserName, setUserRole]);
 
   useEffect(() => {
     const fetchBusiness = async () => {
-      if (businessId && userToken) {
+      if (userToken) {
         try {
           //const businessResponse = await businessDetail(businessId, userToken);
           const businessResponse = await businessDetail();
@@ -727,7 +727,7 @@ const MyDiscountsPage = () => {
     const fetchDiscounts = async () => {
       try {
         if (userToken) {
-          console.log("Valor de userToken en fetchDiscounts: ", userToken);
+          //console.log("Valor de userToken en fetchDiscounts: ", userToken);
           const response = await discountsList();
 
           if(response === "Token inválido o expirado en discountList") {
@@ -769,7 +769,7 @@ const MyDiscountsPage = () => {
     }
 
     setSelectedOption("Mi cuenta");
-  }, [userToken, businessId, setSelectedOption]);
+  }, [userToken, setSelectedOption]);
 
   // Intervalo para actualizar descuentos
   useEffect(() => {

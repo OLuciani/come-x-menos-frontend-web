@@ -392,8 +392,8 @@ const FormEditUserAndBusiness: React.FC<FormEditUserAndBusinessProps> = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const fetchedUser = await getUserById(userId, userToken);
-        const fetchedBusiness = await getBusinessById(businessId, userToken);
+        const fetchedUser = await getUserById();
+        const fetchedBusiness = await getBusinessById();
 
         console.log("Fetched User Data:", fetchedUser);
         console.log("Fetched Business Data:", fetchedBusiness);
@@ -526,7 +526,7 @@ const FormEditUserAndBusiness: React.FC<FormEditUserAndBusinessProps> = () => {
       setError(undefined);
       setIsLoading(true);
       try {
-        const userUpdate = await updateUser(userId, userToken, {
+        const userUpdate = await updateUser({
           name: values.name,
           lastName: values.lastName,
           email: values.email,
@@ -555,11 +555,7 @@ const FormEditUserAndBusiness: React.FC<FormEditUserAndBusinessProps> = () => {
           console.log(pair[0] + ": " + pair[1]);
         }
 
-        const businessUpdate = await updateBusiness(
-          businessId,
-          userToken,
-          formData
-        );
+        const businessUpdate = await updateBusiness(formData);
 
         if (userUpdate !== "Token inválido o expirado" || businessUpdate !== "Token inválido o expirado") {
           const cookieBusinessName = Cookies.get("businessName") || "";

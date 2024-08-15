@@ -131,14 +131,14 @@ export default function FormCreateDiscount() {
       formData.append("discountAmount", values.discountAmount); //Lo convierto a string para formData
       if (values.imageURL) formData.append("imageURL", values.imageURL);
       formData.append("businessName", values.businessName);
-      formData.append("businessId", values.businessId);
+      //formData.append("businessId", values.businessId);
       formData.append("isActive", values.isActive.toString()); // Para enviarlo con formData lo debo convertir de boolean a string.
       if (values.validityPeriod !== null) {
         formData.append("validityPeriod", values.validityPeriod.toString());
       }
 
       try {
-        const response = await createDiscount(formData, userToken);
+        const response = await createDiscount(formData);
         if(response === "Token inválido o expirado") {
           setIsModalOpen(true); // Muestra el modal TokenExpiredModal.tsx si el token es inválido y redirecciona a login
         }

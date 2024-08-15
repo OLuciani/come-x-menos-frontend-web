@@ -309,12 +309,10 @@ const krona = Krona_One({ weight: "400", subsets: ["latin"] });
 
 const Navbar = () => {
   const {
-    userId,
-    setUserId,
+    //userId,
+    //setUserId,
     userRole,
     setUserRole,
-    //userToken,
-    //setUserToken,
     userName,
     setUserName,
     backgroundButtonNavBar,
@@ -326,28 +324,23 @@ const Navbar = () => {
     setIsLoggedIn,
     setBusinessName,
     setBusinessType,
-    setBusinessId
+    //setBusinessId
   } = useContext(Context);
   const [open, setOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const [roleAdminWeb, setRoleAdminWeb] = useState<string | undefined>("");
 
   const router = useRouter();
-
-  //const [userToken, setUserToken] = useState<string>("");
-  //const [userRole, setUserRole] = useState<string>("");
 
   useEffect(() => {
     if (isLoggedIn) {
       const storedToken = Cookies.get("userToken") || "";
       console.log("Valor de storedToken: ", storedToken);
 
-      //const storedRole = Cookies.get("userRole") || "";
-      //console.log("Valor de storedRole: ", storedRole);
-
       setUserToken(storedToken);
-      //setUserRole(storedRole);
-      //Cookies.remove("token");
-      //Cookies.remove("role");
+    
+      const roleAdminWeb: string | undefined = process.env.NEXT_PUBLIC_ROLE_ADMINWEB;
+      setRoleAdminWeb(roleAdminWeb);
     }
   }, [isLoggedIn, setUserToken]); // Solo se ejecuta una vez cuando el componente se monta y está iniciada la sesión de usuario
 
@@ -355,19 +348,14 @@ const Navbar = () => {
     const storedToken = Cookies.get("userToken") || "";
     console.log("Valor de storedToken: ", storedToken);
 
-    //const storedRole = Cookies.get("userRole") || "";
-    //console.log("Valor de storedRole: ", storedRole);
+    const roleAdminWeb: string | undefined = process.env.NEXT_PUBLIC_ROLE_ADMINWEB;
+
+    setRoleAdminWeb(roleAdminWeb); //Esto es para que cuando se refresque alguna vista y por ende se pierden los valores de las variables de estado del Context vuelva tener valor la variable que utilizo en la condición para que se muestre el botón "Mi cuenta".
 
     setUserToken(storedToken);
-    //setUserRole(storedRole);
-    //Cookies.remove("token");
-    //Cookies.remove("role");
+    
   }, [setUserToken]); // Solo se ejecuta una vez cuando el componente se monta
 
-  //console.log("USERTOKENNNNNNNNNN: ", userToken);
-
-  //Cookies.remove("token");
-  //Cookies.remove("role");
 
   useEffect(() => {
     // Esto se asegura de que los valores se actualicen en el contexto
@@ -380,9 +368,6 @@ const Navbar = () => {
     if (storedToken) setUserToken(storedToken);
     if (storedRole) setUserRole(storedRole); //Este lo tenia anulado
   }, [setUserToken, setUserRole]); // Ejecutar cada vez que cambian token o role
-
-  //console.log(userToken);
-  //console.log(userRole);
  
   useEffect(() => {
     // Inicializar la opción seleccionada basada en la ruta actual
@@ -429,26 +414,16 @@ const Navbar = () => {
 
     Cookies.remove("userToken");
     Cookies.remove("userRole");
-    //Cookies.remove("userId");
-    //Cookies.remove("userName");
-    //Cookies.remove("businessName");
-    //Cookies.remove("businessId");
-    //Cookies.remove("businessType");
-    //Cookies.remove("userId");
     Cookies.remove("userName");
     Cookies.remove("businessName");
-    //Cookies.remove("businessId");
     Cookies.remove("businessType");
 
-    //setUserId("");
     setUserRole("");
     setUserToken("");
     setUserName("");
     setBusinessName("");
     setBusinessType("");
-    //setBusinessId("");
     
-
     setIsLoggedIn(false);
 
     setTimeout(() => {
@@ -489,7 +464,7 @@ const Navbar = () => {
               )}
             </Link>
 
-            {userToken  && userRole === "adminweb" && (
+            {userToken  && userRole === roleAdminWeb && (
               <Link
                 href={"/myAccount"}
                 onClick={() => handleOptionClick("Mi cuenta")}

@@ -1,7 +1,8 @@
 import Link from "next/link";
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Context } from "@/context/Context";
 import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
 
 interface MenuProps {
   open: boolean;
@@ -9,9 +10,20 @@ interface MenuProps {
 }
 
 const Menu: React.FC<MenuProps> = ({ open, closeMenu }) => {
-  const { userId, setUserId, userRole, setUserRole, userToken, setUserToken, setUserName, setBusinessName, setBusinessId, setBusinessType } =
+  const { userId, setUserId, userRole, setUserRole, userToken, setUserToken, setUserName, setBusinessName, setBusinessId, setBusinessType, setSelectedOption, setIsLoggedIn } =
     useContext(Context);
   const [showSideBar, setShowSidebar] = useState(true);
+  const [roleAdminWeb, setRoleAdminWeb] = useState<string | undefined>("");
+
+  const router = useRouter();
+
+  useEffect(() => {
+    const roleAdminWeb: string | undefined = process.env.NEXT_PUBLIC_ROLE_ADMINWEB;
+      setRoleAdminWeb(roleAdminWeb);
+  }, [])
+  
+
+
   const activo =
     "absolute top-14 w-[50%] right-0 py-2 bg-[#FFCF91] transition-opacity duration-200 transition-opacity duration-200 z-50";
   const inactivo =
@@ -27,7 +39,7 @@ const Menu: React.FC<MenuProps> = ({ open, closeMenu }) => {
 
 
   let handleLogOutUser = () => {
-    console.log("Cerrar sesión");
+    /* console.log("Cerrar sesión");
 
     localStorage.removeItem("token");
     localStorage.removeItem("role");
@@ -35,19 +47,40 @@ const Menu: React.FC<MenuProps> = ({ open, closeMenu }) => {
 
     Cookies.remove("userToken");
     Cookies.remove("userRole");
-    /* Cookies.remove("userId");
-    Cookies.remove("userName");
-    Cookies.remove("businessName");
-    Cookies.remove("businessId");
-    Cookies.remove("businessType"); */
+    //Cookies.remove("userId");
+   //Cookies.remove("userName");
+    //Cookies.remove("businessName");
+    //Cookies.remove("businessId");
+    //Cookies.remove("businessType"); 
 
     setUserToken("");
     setUserRole("");
     setUserId("");
-    /* setUserName("");
+    //setUserName("");
+    //setBusinessName("");
+    //setBusinessId("");
+    //setBusinessType("");  */
+
+    console.log("Cerrar sesión");
+
+    Cookies.remove("userToken");
+    Cookies.remove("userRole");
+    Cookies.remove("userName");
+    Cookies.remove("businessName");
+    Cookies.remove("businessType");
+
+    setUserRole("");
+    setUserToken("");
+    setUserName("");
     setBusinessName("");
-    setBusinessId("");
-    setBusinessType(""); */
+    setBusinessType("");
+    
+    setIsLoggedIn(false);
+
+    setTimeout(() => {
+      router.push("/login");
+      setSelectedOption("Iniciar sesión");
+    }, 1000); //Si no le doy 1 segundo con el setTimeout no funciona bien .
 
     closeMenu(); 
   };
@@ -64,7 +97,7 @@ const Menu: React.FC<MenuProps> = ({ open, closeMenu }) => {
           </li>
         </Link>
 
-        {userToken !== "" && userRole === "adminweb" && (
+        {userToken  && userRole === roleAdminWeb && (
           <Link href={"/myAccount"} onClick={handleLinkClick}>
             <li className="text-[#FD7B03] font-bold hover:bg-[#FFCF91] hover:text-[#FD7B03] px-8 py-2">
               Mi cuenta

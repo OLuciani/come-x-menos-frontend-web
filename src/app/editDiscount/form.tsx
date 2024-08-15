@@ -403,8 +403,8 @@ const FormEditDiscount: React.FC = () => {
     const cookieUserRole = Cookies.get('userRole') || '';
     setUserRole(cookieUserRole); 
 
-    const cookieUserId = Cookies.get("userId") || "";
-    setUserId(cookieUserId);
+    /* const cookieUserId = Cookies.get("userId") || "";
+    setUserId(cookieUserId); */
 
     const cookieUserName = Cookies.get("userName") || "";
     setUserName(cookieUserName);
@@ -412,8 +412,8 @@ const FormEditDiscount: React.FC = () => {
     const cookieBusinessName = Cookies.get("businessName") || "";
     setBusinessName(cookieBusinessName);
 
-    const cookieBusinessId = Cookies.get("businessId") || "";
-    setBusinessId(cookieBusinessId);
+    /* const cookieBusinessId = Cookies.get("businessId") || "";
+    setBusinessId(cookieBusinessId); */
 
     const cookieBusinessType = Cookies.get("businessType") || "";
     setBusinessType(cookieBusinessType);
@@ -425,10 +425,10 @@ const FormEditDiscount: React.FC = () => {
 
 }, [setUserToken,
     setUserRole,
-    setUserId,
+    //setUserId,
     setUserName,
     setBusinessName,
-    setBusinessId,
+    //setBusinessId,
     setBusinessType,
     setDiscountId,
     setSelectedOption
@@ -465,7 +465,7 @@ const FormEditDiscount: React.FC = () => {
       discountAmount: discount?.discountAmount || "",
       imageURL: null as File | Blob | null,
       businessName: discount?.businessName || "",
-      businessId: discount?.businessId || "",
+      //businessId: discount?.businessId || "",
       businessType: discount?.businessType || "",
       isActive: discount?.isActive ?? true,
       validityPeriod: discount?.validityPeriod || null as number | null,
@@ -482,7 +482,7 @@ const FormEditDiscount: React.FC = () => {
       formData.append("normalPrice", values.normalPrice);
       formData.append("discountAmount", values.discountAmount);
       formData.append("businessName", values.businessName);
-      formData.append("businessId", values.businessId);
+      //formData.append("businessId", values.businessId);
       formData.append("isActive", String(values.isActive));
       
       if (values.validityPeriod !== null) {
@@ -496,7 +496,7 @@ const FormEditDiscount: React.FC = () => {
       }
 
       try {
-        const response = await editDiscount(formData, userToken, discountId);
+        const response = await editDiscount(formData, discountId);
         if(response === "Token inválido o expirado") {
           setIsModalOpen(true); // Muestra el modal TokenExpiredModal.tsx si el token es inválido y redirecciona a login
         }
@@ -552,7 +552,7 @@ const FormEditDiscount: React.FC = () => {
         normalPrice: discount.normalPrice || "",
         discountAmount: discount.discountAmount || "",
         businessName: discount.businessName || "",
-        businessId: discount.businessId || "",
+        //businessId: discount.businessId || "",
         businessType: discount.businessType || "",
         isActive: discount.isActive ?? true,
         imageURL: null,

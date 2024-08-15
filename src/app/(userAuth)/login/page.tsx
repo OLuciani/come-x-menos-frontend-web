@@ -19,7 +19,7 @@ const LoginPage = () => {
           <LoginForm />
           <p className="text-center my-5 text-sm font-medium">
           ¿No eres miembro? {" "}
-          <span className="text-sm text-blue-500 cursor-pointer ml-2" onClick={() => setSelectedOption("Crear cuenta")}>
+          <span className="text-sm text-blue-500 hover:text-blue-700 transition duration-200 cursor-pointer ml-2" onClick={() => setSelectedOption("Crear cuenta")}>
               <Link href="/register">Crea una cuenta</Link>
           </span>
           </p>

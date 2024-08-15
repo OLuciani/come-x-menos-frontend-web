@@ -43,8 +43,8 @@ export default function DeleteDiscountButton() {
     const cookieUserRole = Cookies.get('userRole') || '';
     setUserRole(cookieUserRole); 
 
-    const cookieUserId = Cookies.get("userId") || "";
-    setUserId(cookieUserId);
+    /* const cookieUserId = Cookies.get("userId") || "";
+    setUserId(cookieUserId); */
 
     const cookieUserName = Cookies.get("userName") || "";
     setUserName(cookieUserName);
@@ -52,8 +52,8 @@ export default function DeleteDiscountButton() {
     const cookieBusinessName = Cookies.get("businessName") || "";
     setBusinessName(cookieBusinessName);
 
-    const cookieBusinessId = Cookies.get("businessId") || "";
-    setBusinessId(cookieBusinessId);
+    /* const cookieBusinessId = Cookies.get("businessId") || "";
+    setBusinessId(cookieBusinessId); */
 
     const cookieBusinessType = Cookies.get("businessType") || "";
     setBusinessType(cookieBusinessType);
@@ -86,7 +86,7 @@ export default function DeleteDiscountButton() {
     setError(undefined);
     setIsLoading(true);
     try {
-      const response = await deleteDiscount(discountId, userToken);
+      const response = await deleteDiscount(discountId);
       if(response === "Token inválido o expirado") {
         setIsModalOpen(true); // Muestra el modal TokenExpiredModal.tsx si el token es inválido y redirecciona a login
       }

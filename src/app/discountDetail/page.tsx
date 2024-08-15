@@ -200,8 +200,8 @@ const DiscountDetailPage: React.FC<DiscountDetailPageProps> = ({}) => {
     const cookieUserRole = Cookies.get("userRole") || "";
     setUserRole(cookieUserRole);
 
-    const cookieUserId = Cookies.get("userId") || "";
-    setUserId(cookieUserId);
+    /* const cookieUserId = Cookies.get("userId") || "";
+    setUserId(cookieUserId); */
 
     const cookieUserName = Cookies.get("userName") || "";
     setUserName(cookieUserName);
@@ -209,8 +209,8 @@ const DiscountDetailPage: React.FC<DiscountDetailPageProps> = ({}) => {
     const cookieBusinessName = Cookies.get("businessName") || "";
     setBusinessName(cookieBusinessName);
 
-    const cookieBusinessId = Cookies.get("businessId") || "";
-    setBusinessId(cookieBusinessId);
+    /* const cookieBusinessId = Cookies.get("businessId") || "";
+    setBusinessId(cookieBusinessId); */
 
     const cookieBusinessType = Cookies.get("businessType") || "";
     setBusinessType(cookieBusinessType);
@@ -225,7 +225,7 @@ const DiscountDetailPage: React.FC<DiscountDetailPageProps> = ({}) => {
     setUserId,
     setUserName,
     setBusinessName,
-    setBusinessId,
+    //setBusinessId,
     setBusinessType,
     setDiscountId,
     setSelectedOption,
@@ -235,7 +235,7 @@ const DiscountDetailPage: React.FC<DiscountDetailPageProps> = ({}) => {
   useEffect(() => {
     const fetchDiscounts = async () => {
       try {
-        const response = await discountDetail(discountId, userToken);
+        const response = await discountDetail(discountId);
         if (response === "Token inválido o expirado") {
           setIsModalOpen(true); // Muestra el modal TokenExpiredModal.tsx si el token es inválido y redirecciona a login
         }

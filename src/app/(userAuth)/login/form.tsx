@@ -779,6 +779,8 @@ const LoginForm = () => {
 
 export default LoginForm; */
 
+
+
 import React, { useContext, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { useFormik } from "formik";
@@ -816,7 +818,8 @@ const LoginForm = () => {
     setBusinessType,
     setIsLoggedIn,
     setBackgroundButtonNavBar,
-    setSelectedOption
+    setSelectedOption,
+    userRole
   } = useContext(Context);
 
   const validationSchema = Yup.object({
@@ -931,40 +934,41 @@ const LoginForm = () => {
   const fetchUserProfile = useCallback(async () => {
     try {
       const response = await userProfile();
+      console.log("Valor de rsponse en useProfile()", response);
 
       if (response === "Token inválido o expirado") {
         setIsModalOpen(true);
         return;
       }
 
-      Cookies.set("userRole", response.user.role, {
+      Cookies.set("userRole", response.userRole, {
         expires: 1,
         secure: true,
         sameSite: "strict",
       });
 
-      Cookies.set("userName", response.user.name, {
+      Cookies.set("userName", response.userName, {
         expires: 1,
         secure: true,
         sameSite: "strict",
       });
 
-      Cookies.set("businessName", response.user.businessName, {
+      Cookies.set("businessName", response.businessName, {
         expires: 1,
         secure: true,
         sameSite: "strict",
       });
 
-      Cookies.set("businessType", response.user.businessType, {
+      Cookies.set("businessType", response.businessType, {
         expires: 1,
         secure: true,
         sameSite: "strict",
       });
 
-      setUserRole(response.user.role);
-      setUserName(response.user.name);
-      setBusinessName(response.user.businessName);
-      setBusinessType(response.user.businessType);
+      setUserRole(response.userRole);
+      setUserName(response.userName);
+      setBusinessName(response.businessName);
+      setBusinessType(response.businessType);
 
       setBackgroundButtonNavBar(true);
 
@@ -990,7 +994,13 @@ const LoginForm = () => {
         setSelectedOption("Iniciar sesión");
       }, expirationTime);
 
-      router.push("/myAccount");
+      const roleAdminWeb = process.env.NEXT_PUBLIC_ROLE_ADMINWEB;
+
+      if(response.userRole === roleAdminWeb) {
+        router.push("/myAccount");
+      } else {
+        router.push("/");
+      }
     } catch (err) {
       console.error("Error al obtener el perfil del usuario:", err);
     }
@@ -1025,7 +1035,7 @@ const LoginForm = () => {
 
         <div className="w-full relative">
           <p
-            className="text-sm text-blue-500 cursor-pointer text-center mb-2 absolute right-3 top-3"
+            className="text-sm text-blue-500 hover:text-blue-700 transition duration-200 cursor-pointer text-center mb-2 absolute right-3 top-3"
             onClick={() => setPasswordResetModalVisible(true)}
           >
             ¿Olvidaste tu contraseña?

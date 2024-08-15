@@ -1,4 +1,5 @@
-"use client";
+"use client"
+//Funciona perfecto pero muestra businessId y userId
 /* import React, { useState, useContext } from "react";
 import Input from "@/components/InputAuth/Input";
 import { useRouter } from "next/navigation";
@@ -11,6 +12,7 @@ import {
 } from "@/services/apiCall";
 import { registerUserWithFirebase } from "@/services/authService";
 import { Context } from "@/context/Context";
+import Button from "@/components/button/Button";
 
 export default function FormRegister() {
   const { businessName } = useContext(Context);
@@ -33,6 +35,9 @@ export default function FormRegister() {
     address: Yup.string()
       .min(3, "La dirección debe tener al menos 3 caracteres")
       .required("La dirección es requerida"),
+      addressNumber: Yup.string()
+      .min(3, "El número de la dirección debe tener al menos 1 caracter")
+      .required("El núero de la dirección es requerido"),
     city: Yup.string()
       .min(3, "La ciudad debe tener al menos 3 caracteres")
       .required("La ciudad es requerida"),
@@ -63,6 +68,7 @@ export default function FormRegister() {
       lastName: "",
       businessName: "",
       address: "",
+      addressNumber: "",
       city: "",
       country: "",
       email: "",
@@ -104,7 +110,6 @@ export default function FormRegister() {
           const businessValues = {
             ...values,
           };
-
 
           const responseBusiness = await createBusiness(businessValues);
           if (
@@ -212,7 +217,7 @@ export default function FormRegister() {
             value={formik.values.businessType}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            className="mt-1 block w-full h-[60px] px-3 border border-[#FD7B03] bg-white rounded-[30px] shadow-sm focus:outline-none focus:ring-[#FD7B03] focus:border-[#FD7B03] sm:text-sm"
+            className="mt-1 block w-full h-[50px] px-3 border border-[gray] bg-white rounded-[10px] shadow-sm focus:outline-none focus:ring-[gray] focus:border-[gray] sm:text-sm"
           >
             <option value="" label="Seleccionar tipo de negocio" />
             <option value="Restaurantes" label="Restaurante" />
@@ -226,9 +231,9 @@ export default function FormRegister() {
         </div>
 
         <Input
-          label="Dirección del negocio"
-          placeholder=""
-          type="address"
+          label="Dirección del negocio (solo el nombre de la calle)"
+          placeholder="Calle Hermosa"
+          type="text"
           name="address"
           value={formik.values.address}
           onChange={formik.handleChange}
@@ -237,6 +242,20 @@ export default function FormRegister() {
         />
         {formik.touched.address && formik.errors.address ? (
           <p className="text-red-700">{formik.errors.address}</p>
+        ) : null}
+
+        <Input
+          label="Número de la dirección"
+          placeholder="1527"
+          type="text"
+          name="addressNumber"
+          value={formik.values.addressNumber}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          minLength={3}
+        />
+        {formik.touched.address && formik.errors.addressNumber ? (
+          <p className="text-red-700">{formik.errors.addressNumber}</p>
         ) : null}
 
         <Input
@@ -338,17 +357,8 @@ export default function FormRegister() {
           <p className="text-red-700">{formik.errors.repeatPassword}</p>
         ) : null}
 
-        <button
-          type="submit"
-          className="w-full bg-[#FFCF91] text-[18px] text-white font-semibold mt-3 h-[60px] rounded-[30px] border-[5px] border-[#FD7B03] transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-[#FFCF91] hover:border-[#FFCF91]"
-          disabled={isLoading}
-        >
-          <div className="flex justify-center">
-            <div className="w-[98%] bg-[#FD7B03] rounded-[30px] py-[7px] hover:bg-[#FFCF91] hover:text-[#FD7B03]">
-              {isLoading ? "Cargando..." : "Crear cuenta"}
-            </div>
-          </div>
-        </button>
+        <Button buttonText={isLoading ? "Cargando..." : "Crear cuenta"} />
+
         {error && (
           <p className="text-center mb-2 text-red-700 font-semibold">{error}</p>
         )}
@@ -356,6 +366,7 @@ export default function FormRegister() {
     </div>
   );
 } */
+
 
 import React, { useState, useContext } from "react";
 import Input from "@/components/InputAuth/Input";
@@ -722,4 +733,4 @@ export default function FormRegister() {
       </form>
     </div>
   );
-}
+} 

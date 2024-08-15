@@ -19,7 +19,7 @@ export default function RegisterPage() {
 
         <p className="text-center my-5 text-sm font-medium">
             ¿Ya tienes una cuenta? {" "}
-            <span className="text-sm text-blue-500 cursor-pointer ml-2" onClick={() => setSelectedOption("Iniciar sesión")}>
+            <span className="text-sm text-blue-500 hover:text-blue-700 transition duration-200 cursor-pointer ml-2" onClick={() => setSelectedOption("Iniciar sesión")}>
               <Link href="/login">Iniciar sesión</Link>
             </span>
             </p>
