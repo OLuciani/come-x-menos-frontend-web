@@ -1,4 +1,4 @@
-"use client";
+"use client"
 /* import React, { useContext, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -189,17 +189,44 @@ export default function Home() {
 
 
 
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Context } from "@/context/Context";
+import Cookies from "js-cookie";
 import { FaUserPlus, FaTags, FaUsers, FaChartLine, FaUserFriends, FaChartPie } from "react-icons/fa";
+//import { IoCloseCircleOutline } from 'react-icons/io5';
 
 export default function Home() {
-  const { userId, setUserId, userRole, setUserRole, userToken, setUserToken, setUserName, setBackgroundButtonNavBar } =
-  useContext(Context);
+  /* const { userId, setUserId, userRole, setUserRole, userToken, setUserToken, setUserName, setBackgroundButtonNavBar } =
+  useContext(Context); */
+
+  const {
+    userToken,
+    setUserToken,
+    selectedOption,
+    setSelectedOption,
+    isLoggedIn,
+    setUserRole,
+    //setUserId,
+    setUserName,
+    setBusinessName,
+    //setBusinessId,
+    setBusinessType,
+    setBackgroundButtonNavBar
+  } = useContext(Context);
+
+  const [showVideo, setShowVideo] = useState(false);
+
+  const handleShowVideo = () => {
+    setShowVideo(true);
+  };
+
+  const handleCloseVideo = () => {
+    setShowVideo(false);
+  };
   
-  useEffect(() => {
+  /* useEffect(() => {
     const thereIsUserToken = localStorage.getItem("token");
     const thereIsUserRole = localStorage.getItem("role");
     const thereIsUserId = localStorage.getItem("_id");
@@ -224,7 +251,37 @@ export default function Home() {
     if (!userToken) {
       setBackgroundButtonNavBar(false);
     }
-  }, [setBackgroundButtonNavBar, setUserId, setUserName, setUserRole, setUserToken, userToken]);
+  }, [setBackgroundButtonNavBar, setUserId, setUserName, setUserRole, setUserToken, userToken]); */
+
+  useEffect(() => {
+    const storedUserToken = Cookies.get("userToken") || "";
+    console.log("Token de usuario almacenado:", storedUserToken);
+    setUserToken(storedUserToken);
+
+    const cookieUserRole = Cookies.get('userRole') || '';
+    console.log("Rol de usuario de la cookie:", cookieUserRole);
+    setUserRole(cookieUserRole);
+
+    const cookieUserName = Cookies.get("userName") || "";
+    console.log("Nombre de usuario de la cookie:", cookieUserName);
+    setUserName(cookieUserName);
+
+    const cookieBusinessName = Cookies.get("businessName") || "";
+    console.log("Nombre del negocio de la cookie:", cookieBusinessName);
+    setBusinessName(cookieBusinessName);
+
+    const cookieBusinessType = Cookies.get("businessType") || "";
+    console.log("Tipo de negocio de la cookie:", cookieBusinessType);
+    setBusinessType(cookieBusinessType);
+    
+   
+    setSelectedOption("Inicio");
+
+    if (!userToken) {
+      setBackgroundButtonNavBar(false);
+    }
+      
+  }, [setUserToken, setUserRole, setUserName, setBusinessName, setBusinessType, setSelectedOption, setBackgroundButtonNavBar]);
   
   return (
     
@@ -320,14 +377,39 @@ export default function Home() {
 
 
 
-        <section className="demo my-10 text-center">
+        {/* <section className="demo my-10 text-center">
           <h2 className="text-2xl font-bold text-center mb-6">Véalo en Acción</h2>
           <button className="bg-orange-600 text-white font-semibold py-3 px-6 rounded-full shadow-lg hover:bg-orange-700">
             Ver Demostración
           </button>
-        </section>
-      </div>
-    
+        </section> */}
+        
+        <section className="demo my-10 text-center">
+      <h2 className="text-2xl font-bold text-center mb-6">Véalo en Acción</h2>
+      
+      <button 
+        onClick={() => setShowVideo(true)} 
+        className="bg-orange-600 text-white font-semibold py-3 px-6 rounded-full shadow-lg hover:bg-orange-700">
+        Ver Demostración
+      </button>
+
+      {showVideo && (
+        <div className="video-container my-6 relative">
+          <video controls className="mx-auto rounded-lg shadow-lg" width="800">
+            <source src="/videos/demo-video-app-funcionando.mp4" type="video/mp4" />
+            Tu navegador no soporta la etiqueta de video.
+          </video>
+
+          {/* <button 
+            onClick={() => setShowVideo(false)} 
+            className="absolute top-2 right-[21%] text-black text-3xl hover:text-gray-300">
+            <IoCloseCircleOutline size={30} color="black" />
+
+          </button> */}
+        </div>
+      )}
+    </section>
+    </div>
   );
 }
 

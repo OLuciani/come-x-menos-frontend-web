@@ -11,7 +11,7 @@ const Dashboard = () => {
 export default Dashboard; */
 
 
-"use client"
+
 /* import React, { useEffect, useState, useContext } from 'react';
 import { getDashboardData, DashboardData } from "@/services/apiCall";
 import Header from '../../components/dashboardComponents/headerDashboard';
@@ -196,7 +196,7 @@ export default Dashboard; */
 
 
 
-import React, { useEffect, useState } from 'react';
+/* import React, { useEffect, useState } from 'react';
 import Header from '../../components/dashboardComponents/headerDashboard';
 import Sidebar from '../../components/dashboardComponents/sidebarDashboard';
 import { Line, Bar } from 'react-chartjs-2';
@@ -299,6 +299,110 @@ const Dashboard: React.FC = () => {
       </div>
     </div>
   );
+};
+
+export default Dashboard; */
+
+
+
+"use client"
+import React, { useState, useContext, useEffect } from "react";
+import SidebarDashboard from "@/components/dashboardComponents/sidebarDashboard";
+import HeaderDashboard from "@/components/dashboardComponents/headerDashboard";
+import Overview from "@/components/dashboardComponents/overview/Overview";
+import DashboardDiscounts from "@/components/dashboardComponents/dashboardDiscounts/DashboardDiscounts";
+import EffectiveSales from "@/components/dashboardComponents/effectiveSales/EffectiveSales";
+import { Context } from "@/context/Context";
+import Cookies from "js-cookie";
+
+
+const Dashboard: React.FC = () => {
+  const { userToken, setUserToken, isLoggedIn, setUserRole, setUserName, setBusinessName, setBusinessType, setSelectedOption } = useContext(Context);
+  const [section, setSection] = useState("overview");
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      const storedUserToken = Cookies.get("userToken") || "";
+      setUserToken(storedUserToken);
+    }
+  }, [isLoggedIn]);
+
+  useEffect(() => {
+    const storedUserToken = Cookies.get("userToken") || "";
+    setUserToken(storedUserToken);
+
+    const cookieUserRole = Cookies.get("userRole") || "";
+    setUserRole(cookieUserRole);
+
+    const cookieUserName = Cookies.get("userName") || "";
+    setUserName(cookieUserName);
+
+    const cookieBusinessName = Cookies.get("businessName") || "";
+    setBusinessName(cookieBusinessName);
+
+    const cookieBusinessType = Cookies.get("businessType") || "";
+    setBusinessType(cookieBusinessType);
+
+    setSelectedOption("Mi cuenta");
+  }, [setSelectedOption, setBusinessName, setBusinessType, setUserName, setUserRole]);
+
+  
+
+  const renderSection = () => {
+    switch (section) {
+      case "resumen":
+        return <Overview />;
+      case "descuentos":
+        return <DashboardDiscounts />;
+      case "ventas":
+        return <EffectiveSales />;
+      default:
+        return <Overview />;
+    }
+  };
+
+  /* return (
+    <div className="flex flex-col lg:flex-row min-h-screen">
+      <SidebarDashboard setSection={setSection} />
+      <main className="flex-grow p-4 lg:p-8 bg-gray-100">
+      
+        {renderSection()}
+      </main>
+    </div>
+  );
+}; */
+return (
+  <div className="flex flex-col lg:flex-row min-h-screen">
+    <header className="w-full bg-[#FFCF91] p-2 flex justify-around fixed lg:hidden">
+      <button
+        onClick={() => setSection("resumen")}
+        className={section === "resumen" ? "text-[#FD7B03] font-bold" : "text-gray-700"}
+      >
+        Resumen
+      </button>
+      <button
+        onClick={() => setSection("descuentos")}
+        className={section === "descuentos" ? "text-[#FD7B03] font-bold" : "text-gray-700"}
+      >
+        Descuentos
+      </button>
+      <button
+        onClick={() => setSection("ventas")}
+        className={section === "ventas" ? "text-[#FD7B03] font-bold" : "text-gray-700"}
+      >
+        Ventas
+      </button>
+    </header>
+
+    <div className="hidden lg:block">
+      <SidebarDashboard setSection={setSection} />
+    </div>
+      
+    <main className="flex-grow p-4 lg:p-8 bg-gray-100 mt-4 lg:mt-0">
+      {renderSection()}
+    </main>
+  </div>
+);
 };
 
 export default Dashboard;

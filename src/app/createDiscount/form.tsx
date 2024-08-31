@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import React, { useState, useEffect, useContext } from "react";
 import Input from "@/components/InputAuth/Input";
 import { useRouter } from "next/navigation";

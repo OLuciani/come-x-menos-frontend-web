@@ -14,9 +14,8 @@ export const verifyToken = async (): Promise<boolean> => {
       return false;
     }
    
-    //const response = await axios.get(`https://discount-project-backend.onrender.com/api/protected_route/${userId}`, {
       const response = await axios.get(`https://discount-project-backend.onrender.com/api/protected_route`, 
-    //const response = await axios.get(`http://localhost:5050/api/protected_route/${userId}`, {
+    //const response = await axios.get(`http://localhost:5050/api/protected_route`, 
     {
       withCredentials: true,
     });

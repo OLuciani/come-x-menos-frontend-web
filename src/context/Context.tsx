@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import React, { createContext, useState, ReactNode } from "react";
 import {  DiscountDetail } from "@/services/apiCall";
 

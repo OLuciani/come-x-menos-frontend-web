@@ -1,4 +1,4 @@
-"use client";
+"use client"
 //Este codigo funciona perfecto pero solo con la aplicacion web, se cierra ni redirije a la app movil si hace falta.
 /* import { useState, useEffect, useContext, Suspense } from "react";
 import * as Yup from "yup";

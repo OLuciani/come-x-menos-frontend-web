@@ -1,3 +1,4 @@
+"use client"
 import { useState } from "react";
 import * as Yup from "yup";
 import axios from "axios";

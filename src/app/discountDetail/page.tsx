@@ -1,4 +1,4 @@
-"use client";
+"use client"
 //Funciona perfecto
 /* import React, { useContext, useEffect, useState } from 'react';
 import { Context } from "@/context/Context";

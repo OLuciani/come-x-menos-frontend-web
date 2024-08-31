@@ -122,6 +122,7 @@ export interface DiscountsList {
   isDeleted: string;
   validityPeriod: number;
   startDateTime: Date;
+  expirationDate: Date;
 }
 
 export interface DiscountDetail {
@@ -218,6 +219,7 @@ export async function userProfile() {
   
 }
 }
+
 
 //Función para saber si el usuario cuenta con los permisos para acceder a la vista myAccount
 export async function checkMyAccountPermissions() {
@@ -388,9 +390,8 @@ export async function createDiscount(data: FormData): Promise<Discount | string>
     //console.log("Valor de userId en pedido get: ", businessId);
     //console.log("Valor de userToken en pedido get: ", userToken);
     const response = await axios.get(
-      //`https://discount-project-backend.onrender.com/api/discounts_list_one_business/${businessId}`,
       `https://discount-project-backend.onrender.com/api/discounts_list_one_business`,
-      //`http://localhost:5050/api/discounts_list_one_business/${businessId}`,
+      //`http://localhost:5050/api/discounts_list_one_business`,
       {
         withCredentials: true
       }
@@ -521,9 +522,8 @@ export async function deleteDiscount(discountId: string): Promise<{ success: boo
   }
   try {
     const response = await axios.get(
-      //`https://discount-project-backend.onrender.com/api/business_detail/${businessId}`,
       `https://discount-project-backend.onrender.com/api/business_detail`,
-      //`http://localhost:5050/api/business_detail/${businessId}`,
+      //`http://localhost:5050/api/business_detail`,
       {
         withCredentials: true
       }

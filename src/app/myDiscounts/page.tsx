@@ -1,4 +1,4 @@
-"use client";
+"use client"
 /* import React, { useContext, useEffect, useState } from "react";
 import { Context } from "@/context/Context";
 import {
@@ -678,17 +678,11 @@ const MyDiscountsPage = () => {
     const cookieUserRole = Cookies.get("userRole") || "";
     setUserRole(cookieUserRole);
 
-    /* const cookieUserId = Cookies.get("userId") || "";
-    setUserId(cookieUserId); */
-
     const cookieUserName = Cookies.get("userName") || "";
     setUserName(cookieUserName);
 
     const cookieBusinessName = Cookies.get("businessName") || "";
     setBusinessName(cookieBusinessName);
-
-    /* const cookieBusinessId = Cookies.get("businessId") || "";
-    setBusinessId(cookieBusinessId); */
 
     const cookieBusinessType = Cookies.get("businessType") || "";
     setBusinessType(cookieBusinessType);

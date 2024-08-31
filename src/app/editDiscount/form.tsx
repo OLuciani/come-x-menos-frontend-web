@@ -1,4 +1,4 @@
-"use client";
+"use client"
 //Funciona perfecto pero sin poder modificar la duración de un descuento
 /* import React, { useState, useEffect, useContext } from "react";
 import Input from "@/components/InputAuth/Input";
