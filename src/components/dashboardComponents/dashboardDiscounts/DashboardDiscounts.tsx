@@ -216,6 +216,7 @@ const DashboardDiscounts: React.FC = () => {
 
     setSelectedOption("Mi cuenta");
   }, [setSelectedOption, setBusinessName, setBusinessType, setUserName, setUserRole]);
+  
 
   const fetchDiscounts = async () => {
     try {
@@ -283,10 +284,10 @@ const DashboardDiscounts: React.FC = () => {
         onClose={() => setIsModalOpen(false)}
       />
 
-      <div className="bg-white shadow-lg rounded-lg p-4 lg:p-6 h-full">
+      <div className="h-full bg-white shadow-lg rounded-lg p-4 lg:p-6">
         <div className="bg-orange-600 rounded-t-lg">
           <h2 className="text-xl lg:text-2xl font-semibold text-[#FFCF91] text-center lg:text-left pl-6 py-3 mb-4">
-            Descuentos vigentes ( {totalDiscounts} )
+            Descuentos generados vigentes ( {totalDiscounts} )
           </h2>
         </div>
 

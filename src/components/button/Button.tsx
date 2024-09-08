@@ -3,6 +3,7 @@ import React from 'react';
 interface ButtonProps {
   buttonText: string;
   onClickButton?: () => void;
+  disabled?: boolean;
 }
 
 const Button: React.FC<ButtonProps> = ({ buttonText, onClickButton }) => {

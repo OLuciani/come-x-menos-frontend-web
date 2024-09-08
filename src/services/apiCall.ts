@@ -35,6 +35,7 @@ export interface User {
   password: string;
   repeatPassword?: string;
   businessType: string;
+  //token: string;
 }
 
 export interface Business {
@@ -125,6 +126,18 @@ export interface DiscountsList {
   expirationDate: Date;
 }
 
+export interface UsersDiscountsList {
+  businessId: string;
+  businessName: string;
+  userId: string;
+  offeredDiscountId: string;
+  discountDetails: string;
+  createdAt: Date;
+  isValid: boolean;
+  isUsed: boolean;
+  expirationDate: Date;
+}
+
 export interface DiscountDetail {
   title: string;
   description: string;
@@ -155,6 +168,9 @@ export interface DashboardData {
   };
 }
 
+
+
+
 export async function login(
   data: UserLogin
 ): Promise<{ userId: string; userLoged: boolean } | { error: string }> {
@@ -165,7 +181,7 @@ export async function login(
       {
         email: data.email,
         password: data.password,
-      }
+      },
     );
 
     if (response.status === 200) {
@@ -255,7 +271,7 @@ export async function checkMyAccountPermissions() {
 
 
 
-export async function createUser(data: User): Promise<User | string> {
+export async function createUser(data: User, token: string, email: string): Promise<User | string> {
   
   try {
     const response = await axios.post(
@@ -266,9 +282,14 @@ export async function createUser(data: User): Promise<User | string> {
         lastName: data.lastName,
         businessName:data.businessName,
         phone: data.phone,
-        email: data.email,
+        email: email,
         password: data.password,
         role: "user"  //Por el momento el usuario web van puestos todos como user.
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       }
     );
 
@@ -409,6 +430,38 @@ export async function createDiscount(data: FormData): Promise<Discount | string>
     return "Error al pedir un listado de descuentos del negocio al backend";
   }
 }
+
+
+export async function usersDiscountsList(): Promise<UsersDiscountsList[] | string> {
+  // Verifico el token antes de hacer la solicitud
+  const isTokenValid = await verifyToken();
+  if (!isTokenValid) { 
+    console.log('Token inválido o expirado en discountList')
+    return 'Token inválido o expirado en discountList';
+  }
+
+  try {
+    const response = await axios.get(
+      `https://discount-project-backend.onrender.com/api/consumed_discounts`,
+      //`http://localhost:5050/api/consumed_discounts`,
+      {
+        withCredentials: true
+      }
+    );
+
+    if (response.status === 200 && response.data) {
+      console.log("Listado de descuentos consumidos por usuarios del negocio traidos de MongoDB Atlas:", response.data);
+      return response.data;
+    } else {
+      console.log("El pedido de la lista de descuentos consumidos por usuarios al backend no fue exitoso:", response.data);
+      return "Error al pedir el listado de descuentos consumidos por usuarios del negocio al backend";
+    }
+  } catch (error: any) {
+    console.error("Error al pedir un listado de descuentos consumidos por usuarios del negocio al backend:", error.message);
+    return "Error al pedir un listado de descuentos consumidos por usuarios del negocio al backend";
+  }
+}
+
 
 
 export async function discountDetail(discountId: string): Promise<DiscountDetail | string> {

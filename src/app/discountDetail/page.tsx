@@ -316,7 +316,7 @@ const DiscountDetailPage: React.FC<DiscountDetailPageProps> = ({}) => {
                     alt="Imagen descuento"
                     width={169}
                     height={112}
-                    className="w-[169px] h-[112px]"
+                    //className="w-[169px] h-[112px]"
                   />
                   <p className="text-[10px] text-black bg-yellow-300 font-bold p-[4px] rounded-[30px] absolute bottom-[8px] left-[4%]">
                     {" "}

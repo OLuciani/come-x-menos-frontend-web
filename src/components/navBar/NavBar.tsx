@@ -91,7 +91,8 @@ const Navbar = () => {
       case "/createDiscount":
         setSelectedOption("Crear Descuento");
         break;
-      case "/register":
+      /* case "/register": */
+      case "/emailConfirm":
         setSelectedOption("Crear cuenta");
         break;
       case "/login":
@@ -189,7 +190,8 @@ const Navbar = () => {
 
             {userToken === "" && userRole === "" && (
               <Link
-                href={"/register"}
+                //href={"/register"}
+                href={"/emailConfirm"}
                 onClick={() => handleOptionClick("Crear cuenta")}
               >
                 <li
