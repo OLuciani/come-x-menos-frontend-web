@@ -1,5 +1,5 @@
 "use client"
-import React, { useContext } from "react";
+import React, { useContext, Suspense } from "react";
 import { Krona_One } from "next/font/google";
 import FormRegister from "./form";
 import Link from "next/link";
@@ -14,7 +14,9 @@ export default function RegisterPage() {
       <div className="w-full sm:w-[500px] px-8 pb-4 rounded-t-[40px] max-md:top-0 max-md:rounded-none max-md:h-auto">
         <h1 className="text-center text-2xl custom-w-450:text-3xl font-semibold mt-4 text-[gray]">Creá una cuenta</h1>
         <div className="items-center justify-center pb-[3%]">
-          <FormRegister />
+          <Suspense fallback={<div>Cargando formulario...</div>}>
+            <FormRegister />
+          </Suspense>
         </div>
 
         <p className="text-center my-5 text-sm font-medium">
