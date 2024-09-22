@@ -4,7 +4,7 @@ import Input from "@/components/InputAuth/Input";
 import { useRouter } from "next/navigation";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { createDiscount } from "@/services/apiCall";
+import { createDiscount, BusinessDetail, businessDetail } from "@/services/apiCall";
 import { Context } from "@/context/Context";
 import TextareaAutosize from "react-textarea-autosize";
 import Cookies from "js-cookie";
@@ -31,6 +31,8 @@ export default function FormCreateDiscount() {
   const [isLoading, setIsLoading] = useState(false);
   const [userToken, setUserToken] = useState<string>("");
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false); // Estado para manejar el modal TokenExpiredModal.tsx
+  const [businessLocationLatitude, setBusinessLocationLatitude] = useState<number | undefined| null>(null);
+  const [businessLocationLongitude, setBusinessLocationLongitude] = useState<number | undefined | null>(null);
   const navigation = useRouter();
 
   useEffect(() => {
@@ -120,7 +122,7 @@ export default function FormCreateDiscount() {
       validityPeriod: null as number | null, // Asegurar que es número o null
     },
     validationSchema,
-    onSubmit: async (values) => {
+    /* onSubmit: async (values) => {
       setError(undefined);
       setIsLoading(true);
 
@@ -136,27 +138,127 @@ export default function FormCreateDiscount() {
       if (values.validityPeriod !== null) {
         formData.append("validityPeriod", values.validityPeriod.toString());
       }
+      formData.append('businessLocationLatitude', String(businessLocationLatitude ?? ''));
+      formData.append('businessLocationLongitude', String(businessLocationLongitude ?? ''));
 
+      
+
+      //Recupero latitud y longitud
       try {
-        const response = await createDiscount(formData);
+        const response = await businessDetail();
+        
         if(response === "Token inválido o expirado") {
           setIsModalOpen(true); // Muestra el modal TokenExpiredModal.tsx si el token es inválido y redirecciona a login
         }
 
         if (typeof response === "object" && response !== null) {
+          setBusinessLocationLatitude(response.latitude);
+          setBusinessLocationLongitude(response.longitude);
+          
           setError("");
-          setTimeout(() => {
-            navigation.push("/myDiscounts"); //Luego de crear un descuento se redirije a la vista de Mis descuentos.
-          }, 2000);
+          
+          
+            console.log("Valor de businessLocationLatitude: ", businessLocationLatitude);
+            console.log("Valor de businessLocationLongitude: ", businessLocationLongitude);
+            try {
+    
+                const response = await createDiscount(formData);
+                if(response === "Token inválido o expirado") {
+                  setIsModalOpen(true); // Muestra el modal TokenExpiredModal.tsx si el token es inválido y redirecciona a login
+                }
+        
+                if (typeof response === "object" && response !== null) {
+                  setError("");
+                  setTimeout(() => {
+                    navigation.push("/myDiscounts"); //Luego de crear un descuento se redirije a la vista de Mis descuentos.
+                  }, 2000);
+                } else {
+                  setError(response);
+                }
+              } catch (err: any) {
+                if (err.response && err.response.status === 401) {
+                  setError("Token inválido o expirado.");
+                } else {
+                  setError("Error en la red o el servidor no está disponible.");
+                }
+              } finally {
+                setIsLoading(false);
+              }
+        
+          
         } else {
           setError(response);
         }
       } catch (err: any) {
-        setError("Network error or server is unreachable");
+        if (err.response && err.response.status === 401) {
+          setError("Token inválido o expirado.");
+        } else {
+          setError("Error en la red o el servidor no está disponible.");
+        }
+      }
+    } */
+    onSubmit: async (values) => {
+      setError(undefined);
+      setIsLoading(true);
+    
+      try {
+        const response = await businessDetail();
+    
+        if (response === "Token inválido o expirado") {
+          setIsModalOpen(true);
+          return; // Detener el proceso si el token es inválido
+        }
+    
+        if (typeof response === "object" && response !== null) {
+          const latitude = response.latitude;
+          const longitude = response.longitude;
+    
+          setBusinessLocationLatitude(latitude);
+          setBusinessLocationLongitude(longitude);
+    
+          /* const formData = new FormData();
+          formData.append("title", values.title);
+          formData.append("description", values.description);
+          formData.append("normalPrice", values.normalPrice.toString());
+          formData.append("discountAmount", values.discountAmount);
+          formData.append("businessName", values.businessName);
+          formData.append("isActive", values.isActive.toString());
+          formData.append("businessLocationLatitude", String(latitude));
+          formData.append("businessLocationLongitude", String(longitude)); */
+
+          const formData = new FormData();
+          formData.append("title", values.title);
+          formData.append("description", values.description);
+          formData.append("normalPrice", values.normalPrice.toString()); //Lo convierto a string para formData
+          formData.append("discountAmount", values.discountAmount); //Lo convierto a string para formData
+          if (values.imageURL) formData.append("imageURL", values.imageURL);
+          formData.append("businessName", values.businessName);
+          //formData.append("businessId", values.businessId);
+          formData.append("isActive", values.isActive.toString()); // Para enviarlo con formData lo debo convertir de boolean a string.
+          if (values.validityPeriod !== null) {
+            formData.append("validityPeriod", values.validityPeriod.toString());
+          }
+          formData.append("businessLocationLatitude", String(latitude));
+          formData.append("businessLocationLongitude", String(longitude));
+    
+          // Enviar la solicitud para crear el descuento
+          const createResponse = await createDiscount(formData);
+          if (createResponse === "Token inválido o expirado") {
+            setIsModalOpen(true);
+          } else if (typeof createResponse === "object" && createResponse !== null) {
+            setError("");
+            navigation.push("/myDiscounts");
+          } else {
+            setError(createResponse);
+          }
+        }
+      } catch (err) {
+        setError("Error en la red o el servidor no está disponible.");
       } finally {
         setIsLoading(false);
       }
-    },
+    }
+    
   });
   
   return (

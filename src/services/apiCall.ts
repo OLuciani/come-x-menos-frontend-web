@@ -49,6 +49,8 @@ export interface Business {
   ownerId: string,
   imageURL: File| Blob | null; // Aqui originalmente es imageURL: File | null;
   _id: string;
+  latitude?: number;
+  longitude?: number;
 }
 
 
@@ -98,6 +100,8 @@ export interface Discount {
   businessType: string;
   isActive: boolean;
   validityPeriod: number;
+  businessLocationLatitude: number;
+  businessLocationLongitude: number;
 }
 
 export interface CheckMyAccountPermissions {
@@ -374,7 +378,7 @@ export async function createDiscount(data: FormData): Promise<Discount | string>
     const response = await axios.post(
       "https://discount-project-backend.onrender.com/api/discount_create",
       //"http://localhost:5050/api/discount_create",
-      data,
+        data,
       {
         headers: {
           "Content-Type": "multipart/form-data",

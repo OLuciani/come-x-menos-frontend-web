@@ -190,6 +190,7 @@ const DashboardDiscounts: React.FC = () => {
   const [discountsArrayList, setDiscountsArrayList] = useState<DiscountsList[]>([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false); 
   const [totalDiscounts, setTotalDiscounts] = useState<number>(0);
+  const [totalGeneratedThisDiscount, setTotalGeneratedThisDiscount] = useState<number>(0);
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -287,7 +288,7 @@ const DashboardDiscounts: React.FC = () => {
       <div className="h-full bg-white shadow-lg rounded-lg p-4 lg:p-6">
         <div className="bg-orange-600 rounded-t-lg">
           <h2 className="text-xl lg:text-2xl font-semibold text-[#FFCF91] text-center lg:text-left pl-6 py-3 mb-4">
-            Descuentos generados vigentes ( {totalDiscounts} )
+            Descuentos vigentes ( {totalDiscounts} )
           </h2>
         </div>
 
@@ -307,10 +308,24 @@ const DashboardDiscounts: React.FC = () => {
                       a las {format(new Date(discount.expirationDate), "HH:mm")} hs.
                     </p>
                   ) : (
-                    <p className="text-sm text-gray-600 mt-2">
-                      Valido hasta: Sin límite de tiempo.
-                    </p>
+                    <>
+                      <span className="text-sm font-semibold mt-2">
+                        Valido hasta: </span><span className="text-sm text-gray-600 mt-2">Sin límite de tiempo.
+                      </span>
+                    </>
                   )}
+
+                  <div>
+                    <span className="text-sm font-semibold mt-2">
+                      Total de descuentos generados x usuarios: </span><span className="text-sm text-gray-600 mt-2">{}
+                    </span>
+                  </div>
+                  
+                  <div>
+                    <span className="text-sm font-semibold mt-2">
+                    Total de descuentos consumidos x usuarios: </span><span className="text-sm text-gray-600 mt-2">{}
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>

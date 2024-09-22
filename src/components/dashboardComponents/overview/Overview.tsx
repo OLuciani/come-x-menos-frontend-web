@@ -149,18 +149,18 @@ const Overview: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {/* Ventas Totales */}
         <div className="flex items-center bg-blue-100 p-4 rounded-lg shadow-md">
-          <FaChartLine className="text-blue-500 text-3xl mr-4" />
+          <FaTags className="text-blue-500 text-3xl mr-4" />
           <div>
-            <h3 className="text-lg font-semibold">Descuentos de usuarios</h3>
+            <h3 className="text-lg font-semibold">Total de descuentos generados por usuarios.</h3>
             <p className="text-gray-700">{usersDiscountList.length}</p>
           </div>
         </div>
         
         {/* Usuarios Activos */}
         <div className="flex items-center bg-green-100 p-4 rounded-lg shadow-md">
-          <FaUsers className="text-green-500 text-3xl mr-4" />
+          <FaTags className="text-green-500 text-3xl mr-4" />
           <div>
-            <h3 className="text-lg font-semibold">Descuentos consumidos</h3>
+            <h3 className="text-lg font-semibold">Total de escuentos consumidos por usuarios.</h3>
             <p className="text-gray-700">{totalConsumedDiscounts}</p>
           </div>
         </div>
@@ -169,7 +169,7 @@ const Overview: React.FC = () => {
         <div className="flex items-center bg-yellow-100 p-4 rounded-lg shadow-md">
           <FaTags className="text-yellow-500 text-3xl mr-4" />
           <div>
-            <h3 className="text-lg font-semibold">Descuentos Generados Activos</h3>
+            <h3 className="text-lg font-semibold">Total de descuentos publicados por mi empresa activos.</h3>
             <p className="text-gray-700">{totalDiscounts}</p>
           </div>
         </div>

@@ -14,7 +14,7 @@ const Button: React.FC<ButtonProps> = ({ buttonText, onClickButton }) => {
       onClick={onClickButton}
     >
       <div className="flex justify-center">
-        <div className="w-[98.5%] bg-[#FD7B03] rounded-[10px] py-[3px] hover:bg-[#FFCF91] hover:text-[#FD7B03]">
+        <div className="w-[98.5%] bg-[#FD7B03] rounded-[5px] py-[3px] hover:bg-[#FFCF91] hover:text-[#FD7B03]">
           {buttonText}
         </div>
       </div>

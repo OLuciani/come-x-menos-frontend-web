@@ -108,7 +108,7 @@ const Menu: React.FC<MenuProps> = ({ open, closeMenu }) => {
 
 
         {userToken === "" && userRole === "" && (
-          <Link href={"/register"} onClick={handleLinkClick}>
+          <Link href={"/emailConfirm"} onClick={handleLinkClick}>
             <li className="text-[#FD7B03] font-bold hover:bg-[#FFCF91] hover:text-[#FD7B03] px-8 py-2">
               Crear cuenta
             </li>
