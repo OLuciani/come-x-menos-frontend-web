@@ -155,6 +155,8 @@ export interface DiscountDetail {
   priceWithDiscount: string;
   validityPeriod: number;
   startDateTime: Date;
+  businessLocationLatitude: number;
+  businessLocationLongitude: number;
 }
 
 
