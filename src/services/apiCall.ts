@@ -128,6 +128,9 @@ export interface DiscountsList {
   validityPeriod: number;
   startDateTime: Date;
   expirationDate: Date;
+  generatedDiscounts: number;
+  usedDiscounts: number;
+  discountViews: number;
 }
 
 export interface UsersDiscountsList {

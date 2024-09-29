@@ -240,6 +240,7 @@ export default function FormCreateDiscount() {
           }
           formData.append("businessLocationLatitude", String(latitude));
           formData.append("businessLocationLongitude", String(longitude));
+          formData.append("businessType", businessType);
     
           // Enviar la solicitud para crear el descuento
           const createResponse = await createDiscount(formData);

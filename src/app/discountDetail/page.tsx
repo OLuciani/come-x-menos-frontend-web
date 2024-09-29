@@ -308,11 +308,18 @@ const DiscountDetailPage: React.FC<DiscountDetailPageProps> = ({}) => {
                 </div>
                 <div className="w-[45%] flex justify-center items-start relative">
                   <Image
-                    src={
+                    /* src={
                       "https://discount-project-backend.onrender.com/" +
                       discount.imageURL
-                    }
+                    } */
                     //src={"http://localhost:5050/" + discount.imageURL}
+                    src={
+                      typeof discount.imageURL === 'string' && (discount.imageURL as string).includes('firebasestorage.googleapis.com')
+                        ? discount.imageURL  // Si es una URL de Firebase
+                        : typeof discount.imageURL === 'string'
+                          ? 'https://discount-project-backend.onrender.com/' + discount.imageURL // Si es de tu backend
+                          : '' // Si no es un string, manejar el caso con una cadena vacía o una imagen por defecto
+                    }   
                     alt="Imagen descuento"
                     width={169}
                     height={112}

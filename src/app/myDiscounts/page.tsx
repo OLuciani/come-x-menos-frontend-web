@@ -1,4 +1,4 @@
-"use client"
+"use client";
 /* import React, { useContext, useEffect, useState } from "react";
 import { Context } from "@/context/Context";
 import {
@@ -301,7 +301,6 @@ const MyDiscountsPage = () => {
 };
 
 export default MyDiscountsPage; */
-
 
 //Funciona perfecto mostrado como desde un celular
 /* import React, { useContext, useEffect, useState } from "react";
@@ -611,8 +610,6 @@ const MyDiscountsPage = () => {
 
 export default MyDiscountsPage; */
 
-
-
 //Versión para ver los descuentos como cards funcionando
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "@/context/Context";
@@ -629,7 +626,7 @@ import axios, { AxiosError } from "axios";
 import { CircularProgress } from "@mui/material";
 import Cookies from "js-cookie";
 import CountdownTimer from "@/components/countdownTimer/CountdownTimer";
-import { isAfter } from 'date-fns';
+import { isAfter } from "date-fns";
 import TokenExpiredModal from "@/components/tokenExpiredModal/TokenExpiredModal";
 
 interface ErrorResponse {
@@ -662,14 +659,12 @@ const MyDiscountsPage = () => {
   const [userToken, setUserToken] = useState<string>("");
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false); // Estado para manejar el modal TokenExpiredModal.tsx
 
-
   useEffect(() => {
     if (isLoggedIn) {
       const storedUserToken = Cookies.get("userToken") || "";
       setUserToken(storedUserToken);
     }
   }, [isLoggedIn]);
-  
 
   useEffect(() => {
     const storedUserToken = Cookies.get("userToken") || "";
@@ -688,7 +683,13 @@ const MyDiscountsPage = () => {
     setBusinessType(cookieBusinessType);
 
     setSelectedOption("Mi cuenta");
-  }, [setSelectedOption, setBusinessName, setBusinessType, setUserName, setUserRole]);
+  }, [
+    setSelectedOption,
+    setBusinessName,
+    setBusinessType,
+    setUserName,
+    setUserRole,
+  ]);
 
   useEffect(() => {
     const fetchBusiness = async () => {
@@ -696,7 +697,9 @@ const MyDiscountsPage = () => {
         try {
           //const businessResponse = await businessDetail(businessId, userToken);
           const businessResponse = await businessDetail();
-          if(businessResponse === "Token inválido o expirado en businessDetail") {
+          if (
+            businessResponse === "Token inválido o expirado en businessDetail"
+          ) {
             setIsModalOpen(true); // Muestra el modal TokenExpiredModal.tsx si el token es inválido y redirecciona a login
           }
           if (typeof businessResponse !== "string") {
@@ -724,14 +727,22 @@ const MyDiscountsPage = () => {
           //console.log("Valor de userToken en fetchDiscounts: ", userToken);
           const response = await discountsList();
 
-          if(response === "Token inválido o expirado en discountList") {
+          if (response === "Token inválido o expirado en discountList") {
             setIsModalOpen(true); // Muestra el modal TokenExpiredModal.tsx si el token es inválido y redirecciona a login
           }
           if (typeof response !== "string") {
             // Filtramos los descuentos expirados antes de establecer el estado
             const now = new Date();
-            const validDiscounts = response.filter(discount => 
-              !discount.validityPeriod || !isAfter(now, new Date(discount.startDateTime).setDate(new Date(discount.startDateTime).getDate() + discount.validityPeriod))
+            const validDiscounts = response.filter(
+              (discount) =>
+                !discount.validityPeriod ||
+                !isAfter(
+                  now,
+                  new Date(discount.startDateTime).setDate(
+                    new Date(discount.startDateTime).getDate() +
+                      discount.validityPeriod
+                  )
+                )
             );
             setDiscountsArrayList(validDiscounts);
           } else {
@@ -769,9 +780,17 @@ const MyDiscountsPage = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       const now = new Date();
-      setDiscountsArrayList(prevDiscounts =>
-        prevDiscounts.filter(discount => 
-          !discount.validityPeriod || !isAfter(now, new Date(discount.startDateTime).setDate(new Date(discount.startDateTime).getDate() + discount.validityPeriod))
+      setDiscountsArrayList((prevDiscounts) =>
+        prevDiscounts.filter(
+          (discount) =>
+            !discount.validityPeriod ||
+            !isAfter(
+              now,
+              new Date(discount.startDateTime).setDate(
+                new Date(discount.startDateTime).getDate() +
+                  discount.validityPeriod
+              )
+            )
         )
       );
     }, 60000); // Comprobar cada minuto
@@ -779,7 +798,7 @@ const MyDiscountsPage = () => {
     return () => clearInterval(interval);
   }, []);
 
- /*  if (loading) {
+  /*  if (loading) {
     return (
       <div className="w-screen h-full flex justify-center border-[2px]">
         <div className="w-full custom-w-450:w-[380px] border-[1px] border-black rounded-2xl py-3 my-2">
@@ -820,10 +839,32 @@ const MyDiscountsPage = () => {
 
   return (
     <>
-      <TokenExpiredModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
-      <div className="screen py-5 box-border">
-        <h2 className="text-center text-xl text-[gray] font-semibold md:text-2xl pb-2">Descuentos activos</h2>
-        <h5 className="text-center text-xl text-[gray] font-semibold md:text-2xl pb-5">{businessName}</h5>
+      <TokenExpiredModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
+      <div className="screen py-3 box-border">
+        {/* <h2 className="text-center text-xl text-[gray] font-semibold md:text-2xl pb-2">
+          Descuentos activos
+        </h2> */}
+        <h5 className="text-center text-xl text-[gray] font-semibold md:text-2xl pb-2">
+          {businessName}
+        </h5>
+
+        <div className="flex justify-center">
+            <Image
+              src={urlImageBusinessDetail}
+              alt="Imagen descuento"
+              width={169}
+              height={112}
+              className="w-[169px] h-[112px] rounded-md mb-4"
+              priority
+            />
+        </div>
+
+        <h2 className="text-center text-xl text-[gray] font-semibold md:text-2xl pb-2">
+          Descuentos activos
+        </h2>
 
         {loading ? (
           <div className="w-full flex justify-center items-center mt-[8%]">
@@ -831,14 +872,16 @@ const MyDiscountsPage = () => {
             <span className="text-gray-600">Cargando datos...</span>
           </div>
         ) : (
-        <div className="w-full flex flex-col justify-center md:flex-row md:flex-wrap gap-10 md:justify-evenly items-center">
+          <div className="w-full flex flex-col justify-center md:flex-row md:flex-wrap gap-10 md:justify-evenly items-center">
             {discountsArrayList.map(
               (discount) =>
-                !discount.isDeleted && ( 
-                  <div key={discount._id} className="w-full custom-w-450:w-[380px] px-2 custom-w-450:px-0 bg-white">
+                !discount.isDeleted && (
+                  <div
+                    key={discount._id}
+                    className="w-full custom-w-450:w-[380px] px-2 custom-w-450:px-0 bg-white"
+                  >
                     {/* <div className="w-full custom-w-450:w-[380px] border-[2px] border-gray-300 hover:border-[#FD7B03]    rounded-2xl cursor-pointer"> */}
                     <div className="w-full custom-w-450:w-[380px] py-5 border-[2px] border-gray-300 hover:outline hover:outline-[3px] hover:outline-[#FFCF91] hover:shadow-[0_0_0_6px_rgba(253,123,3,0.5)] rounded-2xl cursor-pointer">
-
                       <Link
                         href={"/discountDetail"}
                         onClick={() => [
@@ -854,7 +897,6 @@ const MyDiscountsPage = () => {
                           {discount.title}
                         </p>
 
-
                         <div className="w-full h-auto flex flex-row flex-wrap justify-evenly">
                           <div className="w-[45%] flex items-center ">
                             <p className="w-full h-auto text-[12px] text-left line-clamp-6 break-words">
@@ -863,20 +905,25 @@ const MyDiscountsPage = () => {
                           </div>
                           <div className="w-[45%] flex justify-center items-start relative">
                             <Image
-                              src={"https://discount-project-backend.onrender.com/" + discount.imageURL}
+                              //src={"https://discount-project-backend.onrender.com/" + discount.imageURL}
                               //src={"http://localhost:5050/" + discount.imageURL}
+                              /* src={
+                                discount.imageURL.includes('firebasestorage.googleapis.com') 
+                                ? discount.imageURL  // Si es una URL de Firebase
+                                : 'https://discount-project-backend.onrender.com/' + discount.imageURL // Si es de tu backend
+                              } */
+                              src={discount.imageURL}
                               alt="Imagen descuento"
                               width={169}
                               height={112}
                               className="w-[169px] h-[112px] rounded-md"
                               priority
                             />
-                            <p className="text-[10px] text-black bg-yellow-300 font-bold p-[4px] rounded-[30px] absolute bottom-[8px] left-[4%]"> 
+                            <p className="text-[10px] text-black bg-yellow-300 font-bold p-[4px] rounded-[30px] absolute bottom-[8px] left-[4%]">
                               - {discount.discountAmount} %
                             </p>
                           </div>
                         </div>
-
 
                         <div className="flex flex-row gap-[20px] mt-[10px] justify-center">
                           <div className="flex flex-row items-center">
@@ -909,15 +956,14 @@ const MyDiscountsPage = () => {
                               <p>Oferta sin límite de tiempo</p>
                             )}
                           </div>
-                          
                         </div>
                       </Link>
                     </div>
                   </div>
                 )
             )}
-        </div>
-         )}
+          </div>
+        )}
       </div>
     </>
   );

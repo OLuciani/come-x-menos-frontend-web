@@ -37,8 +37,13 @@ const nextConfig = {
         pathname: '/img/**',
         //pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'firebasestorage.googleapis.com', // Agrega esta sección
+        pathname: '/**', // Permitir todas las rutas de Firebase Storage
+      },
     ],
-    //domains: ['localhost', 'discount-project-backend.onrender.com'],
+    domains: ['discount-project-backend.onrender.com', 'firebasestorage.googleapis.com'],
   },
 };
 
