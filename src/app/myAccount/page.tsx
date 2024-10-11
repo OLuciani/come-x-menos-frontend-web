@@ -28,30 +28,6 @@ const MyAccountPage = () => {
 
   useEffect(() => {
     console.log("Entra en Mi cuenta");
-    
-    /* async function handlePermissions() {
-      console.log("Entra en handlePermissions");
-      try {
-        const result = await checkMyAccountPermissions();
-        console.log("Resultado de checkMyAccountPermissions:", result);
-
-        if (typeof result === 'string') {
-          console.log("Resultado es string:", result);
-        } else {
-          console.log("Mensaje del resultado:", result.message);
-
-          if (result.message === "Show myAccount") {
-            setShowMyAccount(true);
-            setSelectedOption("Mi cuenta");
-            console.log("handlePermisions", selectedOption);
-          } else {
-            console.log("Permiso denegado:", result.message);
-          }
-        }
-      } catch (error: any) {
-        console.error("Error en handlePermissions:", error);
-      }
-    } */
 
     async function handlePermissions() {
       try {

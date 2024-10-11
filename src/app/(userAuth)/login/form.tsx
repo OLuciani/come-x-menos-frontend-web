@@ -156,7 +156,7 @@ const LoginForm = () => {
   const fetchUserProfile = useCallback(async () => {
     try {
       const response = await userProfile();
-      console.log("Valor de rsponse en useProfile()", response);
+      console.log("Valor de response en userProfile()", response);
 
       if (response === "Token inválido o expirado") {
         setIsModalOpen(true);
@@ -218,7 +218,12 @@ const LoginForm = () => {
       }, expirationTime);
 
       const roleAdminWeb = process.env.NEXT_PUBLIC_ROLE_ADMINWEB;
+      const roleAdminApp = process.env.NEXT_PUBLIC_ROLE_ADMINAPP;
 
+      if(response.userRole === roleAdminApp) {
+        router.push("/dashboardAdmin");
+        setSelectedOption("Admin App");
+      } else
       if(response.userRole === roleAdminWeb) {
         router.push("/myAccount");
         setSelectedOption("Mi cuenta");

@@ -317,19 +317,19 @@ const DashboardDiscounts: React.FC = () => {
 
                   <div>
                     <span className="text-sm font-semibold mt-2">
-                      Generados: </span><span className="text-sm text-gray-600 mt-2">{discount.generatedDiscounts}
+                      Descuentos Generados: </span><span className="text-sm text-gray-600 mt-2">{discount.generatedDiscounts}
                     </span>
                   </div>
                   
                   <div>
                     <span className="text-sm font-semibold mt-2">
-                    Consumidos: </span><span className="text-sm text-gray-600 mt-2">{discount.usedDiscounts}
+                    Descuentos Consumidos: </span><span className="text-sm text-gray-600 mt-2">{discount.usedDiscounts}
                     </span>
                   </div>
 
                   <div>
                     <span className="text-sm font-semibold mt-2">
-                    Vistos: </span><span className="text-sm text-gray-600 mt-2">{discount.discountViews}
+                    Vistas del descuento: </span><span className="text-sm text-gray-600 mt-2">{discount.discountViews}
                     </span>
                   </div>
                 </div>

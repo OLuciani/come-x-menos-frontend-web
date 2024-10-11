@@ -35,6 +35,7 @@ const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [roleAdminWeb, setRoleAdminWeb] = useState<string | undefined>("");
+  const [roleAdminApp, setRoleAdminApp] = useState<string | undefined>("");
 
   const router = useRouter();
 
@@ -45,8 +46,15 @@ const Navbar = () => {
 
       setUserToken(storedToken);
     
-      const roleAdminWeb: string | undefined = process.env.NEXT_PUBLIC_ROLE_ADMINWEB;
-      setRoleAdminWeb(roleAdminWeb);
+      /* const roleAdminWeb: string | undefined = process.env.NEXT_PUBLIC_ROLE_ADMINWEB;
+      setRoleAdminWeb(roleAdminWeb); */
+      const adminWeb: string | undefined = process.env.NEXT_PUBLIC_ROLE_ADMINWEB;
+      setRoleAdminWeb(adminWeb);
+
+      /* const roleAdminApp: string | undefined = process.env.NEXT_PUBLIC_ROLE_ADMINWEB;
+      setRoleAdminApp(roleAdminApp); */
+      const adminApp: string | undefined = process.env.NEXT_PUBLIC_ROLE_ADMINAPP;
+      setRoleAdminApp(adminApp);
     }
   }, [isLoggedIn, setUserToken]); // Solo se ejecuta una vez cuando el componente se monta y está iniciada la sesión de usuario
 
@@ -55,8 +63,10 @@ const Navbar = () => {
     console.log("Valor de storedToken: ", storedToken);
 
     const roleAdminWeb: string | undefined = process.env.NEXT_PUBLIC_ROLE_ADMINWEB;
-
     setRoleAdminWeb(roleAdminWeb); //Esto es para que cuando se refresque alguna vista y por ende se pierden los valores de las variables de estado del Context vuelva tener valor la variable que utilizo en la condición para que se muestre el botón "Mi cuenta".
+
+    const roleAdminApp: string | undefined = process.env.NEXT_PUBLIC_ROLE_ADMINAPP;
+    setRoleAdminApp(roleAdminApp);
 
     setUserToken(storedToken);
     
@@ -84,6 +94,9 @@ const Navbar = () => {
         break;
       case "/myAccount":
         setSelectedOption("Mi cuenta");
+        break;
+      case "/dashboardAdmin":
+        setSelectedOption("Admin App");
         break;
       case "/myDiscounts":
         setSelectedOption("Mis Descuentos");
@@ -146,6 +159,13 @@ const Navbar = () => {
     }
   }, [backgroundButtonNavBar, setSelectedOption]);
 
+  useEffect(() => {
+    console.log("Valor de userRole en useEffect navbar: ", userRole);
+    console.log("Valor de rolAdminWeb en useEffect navbar: ", roleAdminWeb);
+    console.log("Valor de rolAdminApp en useEffect navbar: ", roleAdminApp);
+
+  }, []);
+
   return (
     <div className="w-screen">
       <nav className="w-full bg-[#FD7B03] flex flex-row justify-between items-center px-4 sm:px-5 py-4">
@@ -188,6 +208,24 @@ const Navbar = () => {
               </Link>
             )}
 
+
+            {userToken  && userRole === roleAdminApp && (
+              <Link
+                href={"/dashboardAdmin"}
+                onClick={() => handleOptionClick("Admin App")}
+              >
+                <li
+                  className={`border-[2px] border-[#FFCF91] py-2 px-4 hidden lg:flex text-white hover:bg-[#FFCF91] hover:text-[#FD7B03]`}
+                >
+                  Admin App
+                </li>
+                {selectedOption === "Admin App" && (
+                  <div className="w-full h-[3px] mt-2 bg-[#FFCF91]"></div>
+                )}
+              </Link>
+            )}
+
+
             {userToken === "" && userRole === "" && (
               <Link
                 //href={"/register"}
@@ -221,7 +259,7 @@ const Navbar = () => {
               </Link>
             )}
 
-            {userToken && userRole === roleAdminWeb && (
+            {userToken && (userRole === roleAdminWeb || userRole === roleAdminApp) && (
               <div className="">
                 <div
                   className="relative md:px-4 py-2 flex gap-2 items-center md:hover:bg-[#FFCF91] md:border-[2px] md:border-[#FFCF91] cursor-pointer text-white md:hover:text-[#FD7B03] z-10"

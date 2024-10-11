@@ -20,6 +20,9 @@ const PasswordResetModal: React.FC<PasswordResetModalProps> = ({
   visible,
   onClose,
 }) => {
+  //Creo constante con la variable de entorno de la url del backend
+  const BASE_BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+
   const router = useRouter();
   const [email, setEmail] = useState<string>("");
   const [token, setToken] = useState<string>("");
@@ -58,8 +61,9 @@ const PasswordResetModal: React.FC<PasswordResetModalProps> = ({
 
       console.log("Enviando solicitud de correo electrónico...");
       const responseCheckEmail = await axios.get(
-        `https://discount-project-backend.onrender.com/api/checkEmail/${email}`
+        //`https://discount-project-backend.onrender.com/api/checkEmail/${email}`
         //`http://localhost:5050/api/checkEmail/${email}`
+        `${BASE_BACKEND_URL}/api/checkEmail/${email}`
       );
       const dataCheckEmail = responseCheckEmail.data;
 

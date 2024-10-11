@@ -15,13 +15,18 @@ const Menu: React.FC<MenuProps> = ({ open, closeMenu }) => {
     useContext(Context);
   const [showSideBar, setShowSidebar] = useState(true);
   const [roleAdminWeb, setRoleAdminWeb] = useState<string | undefined>("");
+  const [roleAdminApp, setRoleAdminApp] = useState<string | undefined>("");
+
 
   const router = useRouter();
 
   useEffect(() => {
     const roleAdminWeb: string | undefined = process.env.NEXT_PUBLIC_ROLE_ADMINWEB;
-      setRoleAdminWeb(roleAdminWeb);
-  }, [])
+    setRoleAdminWeb(roleAdminWeb);
+
+    const roleAdminApp: string | undefined = process.env.NEXT_PUBLIC_ROLE_ADMINAPP;
+    setRoleAdminApp(roleAdminApp);
+  }, [setRoleAdminApp, setRoleAdminWeb])
   
 
 
@@ -102,6 +107,14 @@ const Menu: React.FC<MenuProps> = ({ open, closeMenu }) => {
           <Link href={"/myAccount"} onClick={handleLinkClick}>
             <li className="text-[#FD7B03] font-bold hover:bg-[#FFCF91] hover:text-[#FD7B03] px-8 py-2">
               Mi cuenta
+            </li>
+          </Link>
+        )}
+
+        {userToken  && userRole === roleAdminApp && (
+          <Link href={"/dashboardAdmin"} onClick={handleLinkClick}>
+            <li className="text-[#FD7B03] font-bold hover:bg-[#FFCF91] hover:text-[#FD7B03] px-8 py-2">
+              Admin App
             </li>
           </Link>
         )}

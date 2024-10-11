@@ -1,4 +1,4 @@
-"use client"
+"use client";
 //Funciona perfecto
 /* import React, { useContext, useEffect, useState } from 'react';
 import { Context } from "@/context/Context";
@@ -148,8 +148,6 @@ const DiscountDetailPage: React.FC<DiscountDetailPageProps> = ({}) => {
 
 export default DiscountDetailPage; */
 
-
-
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "@/context/Context";
 import { discountDetail, DiscountDetail } from "@/services/apiCall";
@@ -165,6 +163,9 @@ import Button from "@/components/button/Button";
 interface DiscountDetailPageProps {}
 
 const DiscountDetailPage: React.FC<DiscountDetailPageProps> = ({}) => {
+  //Creo constante con la variable de entorno de la url del backend
+  const BASE_BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+
   const [discount, setDiscount] = useState<DiscountDetail | null>(null);
   const [userToken, setUserToken] = useState<string>("");
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false); // Estado para manejar el modal TokenExpiredModal.tsx
@@ -308,18 +309,17 @@ const DiscountDetailPage: React.FC<DiscountDetailPageProps> = ({}) => {
                 </div>
                 <div className="w-[45%] flex justify-center items-start relative">
                   <Image
-                    /* src={
-                      "https://discount-project-backend.onrender.com/" +
-                      discount.imageURL
-                    } */
-                    //src={"http://localhost:5050/" + discount.imageURL}
                     src={
-                      typeof discount.imageURL === 'string' && (discount.imageURL as string).includes('firebasestorage.googleapis.com')
-                        ? discount.imageURL  // Si es una URL de Firebase
-                        : typeof discount.imageURL === 'string'
-                          ? 'https://discount-project-backend.onrender.com/' + discount.imageURL // Si es de tu backend
-                          : '' // Si no es un string, manejar el caso con una cadena vacía o una imagen por defecto
-                    }   
+                      typeof discount.imageURL === "string" &&
+                      (discount.imageURL as string).includes(
+                        "firebasestorage.googleapis.com"
+                      )
+                        ? discount.imageURL // Si es una URL de Firebase
+                        : typeof discount.imageURL === "string"
+                        ? /* ? 'https://discount-project-backend.onrender.com/' + discount.imageURL // Si es de tu backend */
+                          `${BASE_BACKEND_URL}/` + discount.imageURL // Si es de tu backend
+                        : "" // Si no es un string, manejar el caso con una cadena vacía o una imagen por defecto
+                    }
                     alt="Imagen descuento"
                     width={169}
                     height={112}
@@ -393,29 +393,27 @@ const DiscountDetailPage: React.FC<DiscountDetailPageProps> = ({}) => {
               </Link>
             </div> */}
 
-<div className="w-[90%] mx-3 xs:w-[380px] xs:mx-0 flex flex-col justify-between gap-5 my-6">
-  <Link href={"/editDiscount"}>
-    {/* <button className="w-full text-[16px] font-bold border-2 border-[#FD7B03] text-[#FD7B03] hover:text-white hover:bg-[#FD7B03] py-2 rounded-lg shadow-md transition-all duration-300 ease-in-out transform hover:scale-105">
+            <div className="w-[90%] mx-3 xs:w-[380px] xs:mx-0 flex flex-col justify-between gap-5 my-6">
+              <Link href={"/editDiscount"}>
+                {/* <button className="w-full text-[16px] font-bold border-2 border-[#FD7B03] text-[#FD7B03] hover:text-white hover:bg-[#FD7B03] py-2 rounded-lg shadow-md transition-all duration-300 ease-in-out transform hover:scale-105">
       Editar descuento
     </button> */}
-    <Button buttonText="Editar descuento" />
-  </Link>
+                <Button buttonText="Editar descuento" />
+              </Link>
 
-  <Link href={"/deleteDiscount"}>
-    <button
-      type="submit"
-      className="w-full bg-[#FF5C5C] text-[18px] font-semibold text-white mt-3 h-[50px] rounded-[10px] border-[5px] border-red-700 transition-colors duration-300 ease-in-out hover:bg-red-700 hover:text-[#FF5C5C] hover:border-[#FF5C5C] cursor-pointer"
-    >
-      <div className="flex justify-center">
-        <div className="w-[98.5%] bg-red-700 rounded-[10px] py-[3px] hover:bg-[#FF5C5C] hover:text-red-700">
-          Eliminar descuento
-        </div>
-      </div>
-    </button>
-  </Link>
-</div>
-
-
+              <Link href={"/deleteDiscount"}>
+                <button
+                  type="submit"
+                  className="w-full bg-[#FF5C5C] text-[18px] font-semibold text-white mt-3 h-[50px] rounded-[10px] border-[5px] border-red-700 transition-colors duration-300 ease-in-out hover:bg-red-700 hover:text-[#FF5C5C] hover:border-[#FF5C5C] cursor-pointer"
+                >
+                  <div className="flex justify-center">
+                    <div className="w-[98.5%] bg-red-700 rounded-[10px] py-[3px] hover:bg-[#FF5C5C] hover:text-red-700">
+                      Eliminar descuento
+                    </div>
+                  </div>
+                </button>
+              </Link>
+            </div>
           </div>
         </div>
       )}

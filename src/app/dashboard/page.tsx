@@ -474,7 +474,7 @@ return (
         <SidebarDashboard setSection={setSection} />
       </div>
         
-      <main className="flex-grow p-4 lg:p-8 bg-gray-100 mt-4 lg:mt-0">
+      <main className="flex-grow p-2 lg:p-8 bg-gray-100 mt-4 lg:mt-0">
         {renderSection()}
       </main>
     </div>

@@ -298,7 +298,7 @@ export default function Home() {
               <div className="relative bg-white w-full max-w-screen-sm sm:max-w-lg md:max-w-3xl lg:max-w-4xl px-2 sm:p-5 py-5 rounded-lg z-20">
                 <button
                   onClick={() => setShowVideo(false)}
-                  className="absolute top-0 right-2 text-gray-800 text-2xl hover:text-3xl transition duration-200 ease-in-out"
+                  className="absolute top-0 right-2 text-gray-800 text-2xl hover:text-3xl transition duration-200 ease-in-out cursor-pointer"
                 >
                   &times;
                 </button>

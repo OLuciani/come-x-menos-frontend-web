@@ -8,6 +8,7 @@ interface InputProps {
   name: string;
   minLength?: number;
   value?: string | File | Blob | null;
+  accept?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
   extraOnClick?: (e: React.FocusEvent<HTMLInputElement>) => void;

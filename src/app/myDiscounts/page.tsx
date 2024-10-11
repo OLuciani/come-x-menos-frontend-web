@@ -851,16 +851,19 @@ const MyDiscountsPage = () => {
           {businessName}
         </h5>
 
-        <div className="flex justify-center">
-            <Image
-              src={urlImageBusinessDetail}
-              alt="Imagen descuento"
-              width={169}
-              height={112}
-              className="w-[169px] h-[112px] rounded-md mb-4"
-              priority
-            />
-        </div>
+        {
+          urlImageBusinessDetail &&
+          <div className="flex justify-center">
+              <Image
+                src={urlImageBusinessDetail}
+                alt="Imagen descuento"
+                width={169}
+                height={112}
+                className="w-[169px] h-[112px] rounded-md mb-4"
+                priority
+              />
+          </div>
+        }
 
         <h2 className="text-center text-xl text-[gray] font-semibold md:text-2xl pb-2">
           Descuentos activos

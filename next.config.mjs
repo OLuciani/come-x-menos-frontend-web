@@ -43,7 +43,6 @@ const nextConfig = {
         pathname: '/**', // Permitir todas las rutas de Firebase Storage
       },
     ],
-    domains: ['discount-project-backend.onrender.com', 'firebasestorage.googleapis.com'],
   },
 };
 
