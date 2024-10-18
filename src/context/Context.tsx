@@ -29,6 +29,8 @@ interface ContextProps {
   setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
   validToken: boolean;
   setValidToken: React.Dispatch<React.SetStateAction<boolean>>;
+  selectDiscountTitle: string;
+  setSelectDiscountTitle: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export const Context = createContext<ContextProps>({
@@ -58,6 +60,8 @@ export const Context = createContext<ContextProps>({
   setIsLoggedIn: () => {},
   validToken: false,
   setValidToken: () => {},
+  selectDiscountTitle: "",
+  setSelectDiscountTitle: () => {}
 });
 
 export default function ContextProvider({ children }: { children: ReactNode }) {
@@ -75,6 +79,7 @@ const [discountRecovered, setDiscountRecovered] = useState<DiscountDetail | null
 const [selectedOption, setSelectedOption] = useState<string>("Inicio");
 const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 const [validToken, setValidToken] = useState<boolean>(false);
+const [selectDiscountTitle, setSelectDiscountTitle] = useState<string>("");
   
   return (
     <Context.Provider
@@ -104,7 +109,9 @@ const [validToken, setValidToken] = useState<boolean>(false);
         isLoggedIn, 
         setIsLoggedIn,
         validToken, 
-        setValidToken
+        setValidToken,
+        selectDiscountTitle, 
+        setSelectDiscountTitle
       }}
     >
       {children}

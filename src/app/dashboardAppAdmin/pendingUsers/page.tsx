@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import TokenExpiredModal from "@/components/tokenExpiredModal/TokenExpiredModal";
 import { fetchPendingUsersFromAPI, approveUser, UserPending, fetchPendingBusinessFromAPI, PendingBusiness } from "@/services/apiCall";
-import UserDetailsModal from "./UserDetailModals";
+import PendingUserDetailsModal from "./PendingUserDetailModal";
 import { Context } from "@/context/Context";
 import Cookies from "js-cookie";
 
@@ -104,7 +104,7 @@ const PendingUsers = () => {
       
       {/* Modal para ver detalles del usuario */}
       {(selectedUser && pendingBusiness) && (
-        <UserDetailsModal
+        <PendingUserDetailsModal
           user={selectedUser}
           business= {pendingBusiness}
           onClose={() => {

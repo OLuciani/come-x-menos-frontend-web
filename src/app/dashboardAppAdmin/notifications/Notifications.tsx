@@ -8,7 +8,8 @@ const Notifications = () => {
   ];
 
   return (
-    <div className="p-4">
+    
+    <div className="bg-white shadow-lg rounded-lg px-4 pb-4 lg:py-4 h-full">
       <h2 className="text-2xl mb-4 font-semibold">Notificaciones</h2>
       <ul>
         {notifications.map(notification => (

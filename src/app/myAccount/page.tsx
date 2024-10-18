@@ -5,6 +5,7 @@ import Link from "next/link";
 import Cookies from "js-cookie";
 import Button from "@/components/button/Button";
 import { FaTag, FaEdit, FaUserEdit, FaChartLine } from "react-icons/fa";
+import { MdDashboard } from "react-icons/md"; // Icono de dashboard
 import { checkMyAccountPermissions } from "@/services/apiCall";
 
 const MyAccountPage = () => {
@@ -108,7 +109,8 @@ const MyAccountPage = () => {
 
             <Link href={"/dashboard"} className="md:w-1/2 flex justify-center md:mb-12">
               <div className="w-[300px] h-[165px] p-4 border-[1px] border-gray-300 rounded-xl flex flex-col justify-center items-center transition-transform transform hover:scale-105 cursor-pointer">
-                <FaChartLine className="text-[#FD7B03] text-3xl mb-3" />
+                {/* <FaChartLine className="text-[#FD7B03] text-3xl mb-3" /> */}
+                <MdDashboard className="text-[#FD7B03] text-3xl mb-3" />
                 <p className="text-center">
                   Ver detalles de movimientos.
                 </p>

@@ -1,99 +1,18 @@
-/* "use client";
-import React, { useState, useContext, useEffect } from "react";
-import axios from "axios";
-import SidebarAdmin from "@/app/dashboardAdmin/SidebarAdmin";
-import HeaderAdmin from "@/app/dashboardAdmin/headerAdmin/HeaderAdmin";
-import PendingUsers from "@/app/dashboardAdmin/pendingUsers/PendingUsers";
-import RoleManagement from "@/app/dashboardAdmin/roleManagement/RoleManagement";
-import ActivityLogs from "@/app/dashboardAdmin/activityLogs/ActivityLosgs";
-import Notifications from "@/app/dashboardAdmin/notifications/Notifications";
-
-const DashboardAdmin: React.FC = () => {
-  const [section, setSection] = useState("usuariosPendientes");
-
-  const renderSection = () => {
-    switch (section) {
-      case "usuariosPendientes":
-        return <PendingUsers />;
-      case "rolesPermisos":
-        return <RoleManagement />;
-      case "notificaciones":
-        return <Notifications />;
-      case "historial":
-        return <ActivityLogs />;
-      default:
-        return <PendingUsers />;
-    }
-  };
-
-  return (
-    <div className="flex flex-col lg:flex-row min-h-screen">
-      <HeaderAdmin />
-      <SidebarAdmin />
-      <main className="flex-grow p-2 lg:p-8 bg-gray-100 mt-4 lg:mt-0">
-        {renderSection()}
-      </main>
-    </div>
-  );
-};
-
-export default DashboardAdmin; */
-
-/* "use client";
-import React, { useState } from "react";
-import SidebarAdmin from "@/app/dashboardAdmin/SidebarAdmin";
-import HeaderAdmin from "@/app/dashboardAdmin/headerAdmin/HeaderAdmin";
-import PendingUsers from "@/app/dashboardAdmin/pendingUsers/PendingUsers";
-import RoleManagement from "@/app/dashboardAdmin/roleManagement/RoleManagement";
-import ActivityLogs from "@/app/dashboardAdmin/activityLogs/ActivityLogs";
-import Notifications from "@/app/dashboardAdmin/notifications/Notifications";
-
-const DashboardAdmin: React.FC = () => {
-  const [section, setSection] = useState<string>("usuariosPendientes");
-  const [sidebarOpen, setSidebarOpen] = useState<boolean>(false); // Estado para controlar la visibilidad del sidebar
-
-  const renderSection = () => {
-    switch (section) {
-      case "usuariosPendientes":
-        return <PendingUsers />;
-      case "rolesPermisos":
-        return <RoleManagement />;
-      case "notificaciones":
-        return <Notifications />;
-      case "historial":
-        return <ActivityLogs />;
-      default:
-        return <PendingUsers />;
-    }
-  };
-
-  return (
-    <div className="flex flex-col min-h-screen">
-      <HeaderAdmin setSidebarOpen={setSidebarOpen} />
-      <div className="flex flex-1">
-        <SidebarAdmin isOpen={sidebarOpen} setSection={setSection} />
-        <main className="flex-grow p-4 bg-gray-100">
-          {renderSection()}
-        </main>
-      </div>
-    </div>
-  );
-};
-
-export default DashboardAdmin; */
-
 "use client";
 import React, { useState, useEffect, useContext } from "react";
 import { Context } from "@/context/Context";
 import Cookies from "js-cookie";
-import SidebarAdmin from "@/app/dashboardAdmin/SidebarAdmin";
-import HeaderAdmin from "@/app/dashboardAdmin/headerAdmin/HeaderAdmin";
+import SidebarAdmin from "@/app/dashboardAppAdmin/SidebarAdmin";
+import HeaderAdmin from "@/app/dashboardAppAdmin/headerAdmin/HeaderAdmin";
 import { checkAdminAppPermissions } from "@/services/apiCall";
-import PendingUsers from "@/app/dashboardAdmin/pendingUsers/PendingUsers";
-import RoleManagement from "@/app/dashboardAdmin/roleManagement/RoleManagement";
-import ActivityLogs from "@/app/dashboardAdmin/activityLogs/ActivityLogs";
-import Notifications from "@/app/dashboardAdmin/notifications/Notifications";
+import PendingUsers from "@/app/dashboardAppAdmin/pendingUsers/page";
+import RoleManagement from "@/app/dashboardAppAdmin/roleManagement/RoleManagement";
+import ActivityLogs from "@/app/dashboardAppAdmin/activityLogs/ActivityLogs";
+import Notifications from "@/app/dashboardAppAdmin/notifications/Notifications";
 import { useRouter } from "next/router";
+import CircularProgress from '@mui/material/CircularProgress';
+import TokenExpiredModal from "@/components/tokenExpiredModal/TokenExpiredModal";
+import ActiveBusinessesAdminsUsers from "@/app/dashboardAppAdmin/activeBusinessesAdmins/page";
 
 const DashboardAdmin: React.FC = () => {
   const {
@@ -107,13 +26,19 @@ const DashboardAdmin: React.FC = () => {
   } = useContext(Context);
   const [section, setSection] = useState<string>("usuariosPendientes");
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
-  const [showDashboardAdminApp, setShowDashboardAdminApp] =
-    useState<boolean>(false);
+  const [showDashboardAdminApp, setShowDashboardAdminApp] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true); 
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false); // Estado para manejar el modal TokenExpiredModal.tsx
+
 
   useEffect(() => {
     async function handlePermissions() {
       try {
         const result = await checkAdminAppPermissions();
+        if (result === "Token inválido o expirado") {
+          setIsModalOpen(true);
+        }
+
         if (
           result?.message === "Show the Admin App button and the dashboardAdmin"
         ) {
@@ -125,6 +50,8 @@ const DashboardAdmin: React.FC = () => {
         }
       } catch (error) {
         console.error("Error en handlePermissions:", error);
+      } finally {
+        setIsLoading(false); // Marcar como completado el proceso de carga
       }
     }
 
@@ -156,6 +83,8 @@ const DashboardAdmin: React.FC = () => {
     switch (section) {
       case "usuariosPendientes":
         return <PendingUsers />;
+      case "usuariosActivos":
+        return <ActiveBusinessesAdminsUsers />;
       case "rolesPermisos":
         return <RoleManagement />;
       case "notificaciones":
@@ -167,8 +96,21 @@ const DashboardAdmin: React.FC = () => {
     }
   };
 
+  if (isLoading) {
+    return (
+      <div className="w-full h-screen flex justify-center items-center bg-gray-50">
+        <CircularProgress color="primary" />
+      </div>
+    );
+  }
+
   return (
     <>
+      <TokenExpiredModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
+
       {showDashboardAdminApp ? (
         <div className="flex flex-col min-h-screen relative">
           <HeaderAdmin setSidebarOpen={setSidebarOpen} />
@@ -188,8 +130,7 @@ const DashboardAdmin: React.FC = () => {
               ⚠️ Acceso denegado
             </h2>
             <p className="text-lg text-gray-700 mb-6">
-              No tienes permisos de administrador o tu sesión ha expirado. Por
-              favor, prueba iniciar sesión nuevamente.
+              No tienes permisos de administrador.
             </p>
             <button
               onClick={() => window.location.reload()}

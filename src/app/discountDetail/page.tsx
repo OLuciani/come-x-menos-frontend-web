@@ -159,6 +159,8 @@ import Cookies from "js-cookie";
 import CountdownTimer from "@/components/countdownTimer/CountdownTimer";
 import TokenExpiredModal from "@/components/tokenExpiredModal/TokenExpiredModal";
 import Button from "@/components/button/Button";
+import { FaArrowLeft } from 'react-icons/fa';
+import DeleteDiscountPage from "../deleteDiscount/page";
 
 interface DiscountDetailPageProps {}
 
@@ -169,6 +171,7 @@ const DiscountDetailPage: React.FC<DiscountDetailPageProps> = ({}) => {
   const [discount, setDiscount] = useState<DiscountDetail | null>(null);
   const [userToken, setUserToken] = useState<string>("");
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false); // Estado para manejar el modal TokenExpiredModal.tsx
+  
   const {
     discountId,
     setDiscountId,
@@ -182,6 +185,7 @@ const DiscountDetailPage: React.FC<DiscountDetailPageProps> = ({}) => {
     setBusinessId,
     setBusinessType,
     setSelectedOption,
+    setSelectDiscountTitle
   } = useContext(Context);
 
   useEffect(() => {
@@ -263,6 +267,8 @@ const DiscountDetailPage: React.FC<DiscountDetailPageProps> = ({}) => {
     fetchDiscounts();
   }, [discountId, userToken, setDiscountRecovered]);
 
+
+ 
   return (
     <>
       <TokenExpiredModal
@@ -275,6 +281,15 @@ const DiscountDetailPage: React.FC<DiscountDetailPageProps> = ({}) => {
       ) : (
         <div className="w-screen flex justify-center ">
           <div className="w-full flex flex-col justify-center items-center">
+            <div className="w-screen mt-10 ml-10 md:ml-20">
+              <Link
+                href={"/myDiscounts"}
+                onClick={() => setSelectedOption("Mi cuenta")}
+              >
+                <FaArrowLeft size={20} color="black" />
+              </Link>
+            </div>
+
             <h1 className="text-[gray] text-center text-2xl custom-w-450:text-3xl mt-5 mb-6">
               Detalles del descuento
             </h1>
@@ -284,23 +299,6 @@ const DiscountDetailPage: React.FC<DiscountDetailPageProps> = ({}) => {
                 {discount.title}
               </p>
 
-              {/* <div className="h-auto flex flex-row flex-wrap">
-                  <div className="w-1/2 flex items-center">
-                      <p className="w-[100%] h-auto px-4 text-[12px] text-center">{discount.description}</p>
-                  </div>
-                  <div className="w-1/2  flex justify-center items-center relative">
-                      <Image 
-                      src={"https://discount-project-backend.onrender.com/" + discount.imageURL} alt="Imagen descuento" 
-                      //src={"http://localhost:5050/" + discount.imageURL} alt="Imagen descuento" 
-                      width={300} 
-                      height={200}
-                      className="w-[90%]"
-                      />
-
-                      <p className="text-[10px] text-black bg-yellow-300 font-bold p-[4px] rounded-[30px] absolute bottom-[8px] left-[18px]">- {discount.discountAmount} %</p>
-                  </div>
-                  
-                  </div> */}
               <div className="w-full h-auto flex flex-row flex-wrap justify-evenly">
                 <div className="w-[45%] flex items-center ">
                   <p className="w-full h-auto text-[12px] text-left line-clamp-6 break-words">
@@ -404,6 +402,7 @@ const DiscountDetailPage: React.FC<DiscountDetailPageProps> = ({}) => {
               <Link href={"/deleteDiscount"}>
                 <button
                   type="submit"
+                  onClick={() => {[setSelectDiscountTitle(discount.title)]}}
                   className="w-full bg-[#FF5C5C] text-[18px] font-semibold text-white mt-3 h-[50px] rounded-[10px] border-[5px] border-red-700 transition-colors duration-300 ease-in-out hover:bg-red-700 hover:text-[#FF5C5C] hover:border-[#FF5C5C] cursor-pointer"
                 >
                   <div className="flex justify-center">

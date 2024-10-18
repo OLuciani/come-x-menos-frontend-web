@@ -44,6 +44,8 @@ const nextConfig = {
       },
     ],
   },
+  // Deshabilita los source maps en producción
+  productionBrowserSourceMaps: false,
 };
 
 export default nextConfig;

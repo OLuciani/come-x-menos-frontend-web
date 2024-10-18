@@ -219,13 +219,21 @@ const LoginForm = () => {
 
       const roleAdminWeb = process.env.NEXT_PUBLIC_ROLE_ADMINWEB;
       const roleAdminApp = process.env.NEXT_PUBLIC_ROLE_ADMINAPP;
+      const roleUser = process.env.NEXT_PUBLIC_ROLE_USER;
 
+      console.log("Valor del rol que llega en response: ", response.userRole)
+
+      if(response.userRole === roleUser) {
+        router.push("/notifications");
+        setSelectedOption("Notificaciones");
+      } else
       if(response.userRole === roleAdminApp) {
-        router.push("/dashboardAdmin");
+        router.push("/dashboardAppAdmin");
         setSelectedOption("Admin App");
       } else
       if(response.userRole === roleAdminWeb) {
-        router.push("/myAccount");
+        //router.push("/myAccount");
+        router.push("/dashboardBusinessAdmin");
         setSelectedOption("Mi cuenta");
       } else {
         //router.push("/");

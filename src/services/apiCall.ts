@@ -36,7 +36,7 @@ export interface User {
   repeatPassword?: string;
   businessType: string;
   //token: string;
- /*  businessId: string;
+  /*  businessId: string;
   originalEmail: string;
   pdfBusinessRegistration: string;
   role: string;
@@ -44,6 +44,25 @@ export interface User {
 }
 
 export interface UserPending {
+  _id: string;
+  name: string;
+  lastName: string;
+  businessName: string;
+  phone: string;
+  email: string;
+  password: string;
+  repeatPassword?: string;
+  businessType: string;
+  //token: string;
+  businessId: string;
+  originalEmail: string;
+  pdfBusinessRegistration: string;
+  role: string;
+  status: string;
+  business: object | null;
+}
+
+export interface ActiveBusinessAdminUser {
   _id: string;
   name: string;
   lastName: string;
@@ -92,6 +111,17 @@ export interface BusinessDetail {
 }
 
 export interface PendingBusiness {
+  address: string;
+  addressNumber: string;
+  city: string;
+  country: string;
+  latitude: number;
+  longitude: number;
+  imageURL: string;
+  urlLogo: string;
+}
+
+export interface ActiveBusiness {
   address: string;
   addressNumber: string;
   city: string;
@@ -324,7 +354,6 @@ export async function checkMyAccountPermissions() {
   }
 }
 
-
 //Función para saber si el usuario cuenta con los permisos para acceder a la vista dashboardAdmin. Esta ruta en el backend la encuentro en el archivo de rutas checkAdminAppRote.js
 export async function checkAdminAppPermissions() {
   try {
@@ -359,7 +388,6 @@ export async function checkAdminAppPermissions() {
     return "Error al pedir acceso a dashboardAdmin al backend";
   }
 }
-
 
 export async function createUser(
   data: User,
@@ -429,45 +457,6 @@ export const updateUserWithBusinessId = async (
     return error.response ? error.response.data : error.message;
   }
 };
-
-//Esta funcion es la original y funciona perfecto sin enviar pdf y logo
-/* export async function createBusiness(data: Business): Promise<Business | string> {
-  try {
-    const response = await axios.post(
-      //"https://discount-project-backend.onrender.com/api/business_create",
-      //"http://localhost:5050/api/business_create",
-      `${BASE_BACKEND_URL}/api/business_create`,
-      {
-        ownerName: data.ownerName,
-        businessName: data.businessName,
-        businessType: data.businessType,
-        address: data.address, //Cambiar por businessAddress
-        addressNumber: data.addressNumber,
-        city: data.city,
-        country: data.country,
-        ownerId: data.ownerId,
-        imageURL: data.imageURL,
-      }, 
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }
-    );
-
-    // Verifica si el registro del negocio fue exitoso basado en la respuesta del backend
-    if (response.status === 200 && response.data) {
-      console.log("Negocio registrado en MongoDB Atlas correctamente:", response.data);
-    } else {
-      console.log("El registro del negocio en MongoDB Atlas no fue exitoso:", response.data);
-    }
-
-    return response.data;
-  } catch (error: any) {
-    console.error("Error al registrar el negocio en MongoDB Atlas:", error);
-    return "Error al registrar el negocio";
-  }
-} */
 
 export async function createBusiness(
   data: FormData
@@ -944,9 +933,6 @@ export const getDashboardData = async (
   return (await response.json()) as DashboardData;
 };
 
-
-
-
 export async function fetchPendingUsersFromAPI() {
   try {
     // Verifico el token antes de hacer la solicitud
@@ -987,22 +973,21 @@ export async function fetchPendingUsersFromAPI() {
 }
 
 
-
 export const approveUser = async (userId: string) => {
   console.log("Valor de userId en la funcion approveUser: ", userId);
   try {
     const response = await axios.patch(
       `${BASE_BACKEND_URL}/api/approve_user/${userId}`,
-      /* {}, */ // Puedes enviar datos adicionales aquí si es necesario
-      { withCredentials: true }  // Asegúrate de que las cookies de autenticación se envíen con la solicitud
+      {
+        withCredentials: true,
+      } // Asegúrate de que las cookies de autenticación se envíen con la solicitud
     );
     return response.data;
   } catch (error: any) {
-    console.error('Error al aprobar usuario:', error.message);
-    return 'Error al aprobar usuario';
+    console.error("Error al aprobar usuario:", error.message);
+    return "Error al aprobar usuario";
   }
 };
-
 
 export async function fetchPendingBusinessFromAPI(businessId: string | null) {
   try {
@@ -1012,8 +997,8 @@ export async function fetchPendingBusinessFromAPI(businessId: string | null) {
         withCredentials: true, // Asegura que las cookies se envíen con la solicitud.
       }
     );
-    
-    // Verificamos si la respuesta es exitosa
+
+    // Verifico si la respuesta es exitosa
     if (response.status === 200) {
       return response.data; // Retornamos los datos del negocio pendiente
       console.log("Valor de response.data en apiCall.ts: ", response.data);
@@ -1021,13 +1006,146 @@ export async function fetchPendingBusinessFromAPI(businessId: string | null) {
       throw new Error(`Error inesperado: ${response.status}`);
     }
   } catch (error) {
-    // Aquí manejamos los posibles errores de la solicitud
+    // Aquí manejo los posibles errores de la solicitud
     if (axios.isAxiosError(error)) {
       console.error("Error en la solicitud Axios:", error.response?.data);
-      throw new Error(error.response?.data.message || "Error en la solicitud al backend.");
+      throw new Error(
+        error.response?.data.message || "Error en la solicitud al backend."
+      );
     } else {
       console.error("Error inesperado:", error);
       throw new Error("Ocurrió un error inesperado.");
     }
   }
 }
+
+export async function fetchActiveBusinessesAdminsUsersFromAPI() {
+  try {
+    // Verifico el token antes de hacer la solicitud
+    const isTokenValid = await verifyToken();
+    if (!isTokenValid) {
+      return "Token inválido o expirado";
+    }
+
+    const response = await axios.get(
+      `${BASE_BACKEND_URL}/api/active_businessesAdmins_usersList`,
+      {
+        withCredentials: true, // Esta línea asegura que las cookies (entre ellas va la del token que es indispensable en esta ruta) se envíen con la solicitud
+      }
+    );
+
+    if (response.status === 200 && response.data) {
+      console.log(
+        "Datos de Usuarios Activos traidos de MongoDB Atlas:",
+        response.data
+      );
+      return response.data;
+    } else {
+      console.log(
+        "El pedido de Usuarios Activos al backend no fue exitoso:",
+        response.data
+      );
+      return "Error al pedir Usuarios Activos al backend";
+    }
+  } catch (error: any) {
+    console.error("Error al pedir Usuarios Activos al backend:", error.message);
+    return "Error al pedir Usuarios Activos al backend";
+  }
+}
+
+export async function fetchActiveBusinessFromAPI(businessId: string | null) {
+  try {
+    const response = await axios.get(
+      `${BASE_BACKEND_URL}/api/active_business/${businessId}`,
+      {
+        withCredentials: true, // Asegura que las cookies se envíen con la solicitud.
+      }
+    );
+
+    // Verifico si la respuesta es exitosa
+    if (response.status === 200) {
+      return response.data; // Retornamos los datos del negocio pendiente
+      console.log("Valor de response.data en apiCall.ts: ", response.data);
+    } else {
+      throw new Error(`Error inesperado: ${response.status}`);
+    }
+  } catch (error) {
+    // Aquí manejo los posibles errores de la solicitud
+    if (axios.isAxiosError(error)) {
+      console.error("Error en la solicitud Axios:", error.response?.data);
+      throw new Error(
+        error.response?.data.message || "Error en la solicitud al backend."
+      );
+    } else {
+      console.error("Error inesperado:", error);
+      throw new Error("Ocurrió un error inesperado.");
+    }
+  }
+}
+
+// Función para obtener las notificaciones del usuario
+export const getUserNotifications = async () => {
+  try {
+    const response = await axios.get(
+      `${BASE_BACKEND_URL}/api/user_pending_notifications`,
+      {
+        withCredentials: true, // Asegura que las cookies se envíen con la solicitud.
+      }
+    );
+    return response.data.notifications;
+    console.log("Valor de response en la petición userPendingNotifications: ", response);
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      throw new Error(
+        error.response?.data?.message || "Error al obtener las notificaciones"
+      );
+    }
+    throw new Error("Error desconocido al obtener las notificaciones");
+  }
+};
+
+
+
+export const sendUserNotification = async (userId: string, message: string) => {
+  try {
+    const response = await axios.post(
+      //`${BASE_BACKEND_URL}/api/send_notification_pending_user`,
+      `${BASE_BACKEND_URL}/api/send_user_notification`,
+      { userId, message },
+      { withCredentials: true } // Asegúrate de incluir esto si estás usando cookies
+    );
+    return response.data;
+  } catch (error: any) {
+    console.error("Error al enviar notificación:", error.message);
+    return { success: false, message: "Error al enviar notificación" };
+  }
+};
+
+
+export const markUserNotificationsAsRead = async (notificationId?: string) => {
+  console.log("Valor de notifictionId en la solicitud post:", notificationId);
+  try {
+      const response = await axios.post(`${BASE_BACKEND_URL}/api/mark_user_notification_as_read`, 
+          {},
+          {
+              withCredentials: true, // Asegura que las cookies se envíen con la solicitud.
+          }
+      );
+
+      return response.data; // Devuelves la respuesta para que el componente la maneje
+  } catch (error: unknown) {
+      console.error('Error al marcar la notificación como leída:', error);
+      
+      let errorMessage: string;
+      if (axios.isAxiosError(error)) {
+          // Si el error es un error de Axios, puedes acceder a la respuesta
+          errorMessage = error.response?.data?.message || 'Error desconocido';
+      } else {
+          errorMessage = 'Error desconocido';
+      }
+
+      return { success: false, message: errorMessage }; // Asegúrate de devolver un objeto con el mensaje de error
+  }
+};
+
+

@@ -96,7 +96,10 @@ const SidebarAdmin: React.FC<SidebarAdminProps> = ({ isOpen, setSection, onOptio
     >
       <ul>
         <li className="px-4 py-2">
-          <button onClick={() => handleOptionClick("usuariosPendientes")} className="text-left">Usuarios pendientes</button>
+          <button onClick={() => handleOptionClick("usuariosPendientes")} className="text-left">Usuarios/Negocios pendientes</button>
+        </li>
+        <li className="px-4 py-2">
+          <button onClick={() => handleOptionClick("usuariosActivos")} className="text-left">Usuarios/Negocios activos</button>
         </li>
         <li className="px-4 py-2">
           <button onClick={() => handleOptionClick("rolesPermisos")} className="text-left">Gestión de roles</button>

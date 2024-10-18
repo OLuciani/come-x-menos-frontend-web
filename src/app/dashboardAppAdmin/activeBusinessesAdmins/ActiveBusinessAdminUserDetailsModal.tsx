@@ -1,35 +1,37 @@
-// Este componente `UserDetailsModal` muestra un modal con la información del usuario pendiente
-// Incluye un botón para aprobar al usuario y enlaces para visualizar archivos relacionados (imágen de portada, logo, PDF de Affip).
-// Si el contenido del modal es desplazable, muestra una indicación de "scroll".
-
-"use client"
+"use client";
 import React, { useState, useEffect, useRef } from "react";
-import { UserPending, PendingBusiness } from "@/services/apiCall";
+import {
+  ActiveBusiness,
+  UserPending,
+  ActiveBusinessAdminUser,
+  //sendNotificationPendingUser,
+  sendUserNotification
+} from "@/services/apiCall";
 import Button from "@/components/button/Button";
 
-import { toast, ToastContainer } from 'react-toastify'; // Importo toast y ToastContainer
-import 'react-toastify/dist/ReactToastify.css'; // Importo los estilos
+import { toast, ToastContainer } from "react-toastify"; // Importo toast y ToastContainer
+import "react-toastify/dist/ReactToastify.css"; // Importo los estilos
 
 interface UserDetailsModalProps {
-  user: UserPending;
+  //user: UserPending;
+  user: ActiveBusinessAdminUser;
   onClose: () => void;
-  onApprove: (userId: string) => void;
-  successMessage: string | null;
-  business: PendingBusiness;
+  //onApprove: (userId: string) => void;
+  //successMessage: string | null;
+  business: ActiveBusiness;
 }
 
-const UserDetailsModal: React.FC<UserDetailsModalProps> = ({
+const ActiveBusinessAdminUserDetailsModal: React.FC<UserDetailsModalProps> = ({
   user,
   onClose,
-  onApprove,
-  successMessage,
+  //onApprove,
+  //successMessage,
   business,
 }) => {
   const [showScrollIndicator, setShowScrollIndicator] = useState(false);
   const modalContentRef = useRef<HTMLDivElement>(null);
 
-  //const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(!!successMessage);
-
+  const [message, setMessage] = useState(""); // Estado para el mensaje de notificación
 
   useEffect(() => {
     const modalContent = modalContentRef.current;
@@ -43,19 +45,35 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({
     }
   }, []);
 
-
-  const handleApprove = (userId: string) => {
+  /* const handleApprove = (userId: string) => {
     console.log("ID del usuario que será aprobado:", userId);
     onApprove(userId); // Llama a la función onApprove
     toast.success(`Usuario ${user.name} ${user.lastName} aprobado exitosamente!`, {
       autoClose: 5000,
     });
+  }; */
+
+  const handleSendNotification = async () => {
+    if (!message.trim()) {
+      toast.error("Por favor, escribe un mensaje antes de enviar."); // Validación simple
+      return;
+    }
+
+    //const response = await sendNotificationPendingUser(user._id, message);
+    const response = await sendUserNotification(user._id, message);
+
+    if (response.success) {
+      toast.success("Notificación enviada exitosamente."); // Mensaje de éxito
+      setMessage(""); // Limpiar el textarea
+    } else {
+      toast.error("Error al enviar la notificación."); // Mensaje de error
+    }
   };
 
   return (
     <>
       <ToastContainer />
-      
+
       <div className="fixed inset-0 bg-gray-900 bg-opacity-75 flex justify-center items-center z-50">
         <div
           className="bg-white py-3 rounded-lg w-[90%] max-w-lg max-h-[92vh] overflow-y-auto relative"
@@ -78,7 +96,7 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({
           </div>
 
           <h2 className="text-2xl text-center mb-4 font-semibold">
-            Revisar cuenta de {user.name} {user.lastName}
+            Detalles cuenta de {user.name} {user.lastName}
           </h2>
 
           <div className="px-8 pb-1">
@@ -162,19 +180,22 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({
             </a>
           </div>
 
-
-          {/* Mostrar el mensaje de éxito si existe */}
-          {/* {successMessage && (
-            <div className="w-full absolute top-1/2 bg-orange-600 text-white text-2xl text-center py-10 rounded z-50">
-              {successMessage}
-            </div>
-          )} */}
+          {/* Textarea para enviar notificación */}
+          <div className="px-8 pb-4">
+            <textarea
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              placeholder="Escribe un mensaje para el usuario..."
+              rows={4}
+              className="w-full p-2 border border-gray-300 rounded"
+            />
+          </div>
 
           <div className="mt-4 flex justify-center">
-            <div className="w-[80%]">
+            <div className="w-[40%] mr-2">
               <Button
-                buttonText="Aprobar"
-                onClickButton={() => {onApprove(user._id); handleApprove(user._id);}}
+                buttonText="Enviar Notificación"
+                onClickButton={handleSendNotification} // Llama a la función para enviar notificación
               />
             </div>
           </div>
@@ -184,5 +205,4 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({
   );
 };
 
-export default UserDetailsModal;
-
+export default ActiveBusinessAdminUserDetailsModal;

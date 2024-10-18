@@ -628,6 +628,7 @@ import Cookies from "js-cookie";
 import CountdownTimer from "@/components/countdownTimer/CountdownTimer";
 import { isAfter } from "date-fns";
 import TokenExpiredModal from "@/components/tokenExpiredModal/TokenExpiredModal";
+import { FaArrowLeft } from 'react-icons/fa';
 
 interface ErrorResponse {
   error: string;
@@ -843,10 +844,16 @@ const MyDiscountsPage = () => {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
       />
-      <div className="screen py-3 box-border">
-        {/* <h2 className="text-center text-xl text-[gray] font-semibold md:text-2xl pb-2">
-          Descuentos activos
-        </h2> */}
+      <div className="screen pb-3 box-border">
+        <div className="w-screen mt-10 ml-5 md:ml-10">
+          <Link
+            href={"/dashboard"}
+            onClick={() => setSelectedOption("Mi cuenta")}
+          >
+            <FaArrowLeft size={20} color="black" />
+          </Link>
+        </div>
+
         <h5 className="text-center text-xl text-[gray] font-semibold md:text-2xl pb-2">
           {businessName}
         </h5>
@@ -865,8 +872,8 @@ const MyDiscountsPage = () => {
           </div>
         }
 
-        <h2 className="text-center text-xl text-[gray] font-semibold md:text-2xl pb-2">
-          Descuentos activos
+        <h2 className="text-center text-xl text-[gray] font-semibold md:text-2xl pb-4">
+          Descuentos activos (selecciona uno)
         </h2>
 
         {loading ? (

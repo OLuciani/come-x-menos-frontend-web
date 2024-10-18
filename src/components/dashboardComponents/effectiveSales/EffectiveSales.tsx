@@ -8,8 +8,11 @@ const EffectiveSales: React.FC = () => {
   ];
 
   return (
-    <div className="bg-white shadow-lg rounded-lg p-4 lg:p-6 h-full">
-      <h2 className="text-xl lg:text-2xl font-semibold mb-4">Ventas Efectivas por Descuentos</h2>
+    <div className="bg-white shadow-lg rounded-lg px-4 pb-4 lg:py-4 h-full">
+      <div className="bg-orange-600 rounded-t-lg">
+        <h2 className="text-xl lg:text-2xl font-semibold text-[#FFCF91] text-center lg:text-l pl-6 py-4 mb-6">Ventas</h2>
+      </div>
+      
       <div className="space-y-4">
         {salesData.map((sale) => (
           <div key={sale.id} className="flex justify-between items-center border-b pb-2">

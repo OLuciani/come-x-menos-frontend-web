@@ -1,6 +1,8 @@
 "use client"
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { useRouter } from "next/navigation";
+import Cookies from 'js-cookie';
+import { Context } from "@/context/Context";
 
 interface SessionExpiredModalProps {
   isOpen: boolean;
@@ -8,12 +10,38 @@ interface SessionExpiredModalProps {
 }
 
 const TokenExpiredModal: React.FC<SessionExpiredModalProps> = ({ isOpen, onClose }) => {
+  const {
+    setUserRole,
+    setUserName,
+    setUserToken,
+    setIsLoggedIn,
+    setBusinessName,
+    setBusinessType,
+    setSelectedOption
+  } = useContext(Context);
+
   const router = useRouter();
 
   useEffect(() => {
     if (isOpen) {
       const timer = setTimeout(() => {
         onClose();
+
+        Cookies.remove("userToken");
+        Cookies.remove("token"); //Remueve la cookie con el token
+        Cookies.remove("userRole");
+        Cookies.remove("userName");
+        Cookies.remove("businessName");
+        Cookies.remove("businessType");
+
+        setUserRole("");
+        setUserToken("");
+        setUserName("");
+        setBusinessName("");
+        setBusinessType(""); 
+        setIsLoggedIn(false);
+        setSelectedOption("Iniciar sesión");
+
         router.push('/login');
       }, 6000);
       return () => clearTimeout(timer);

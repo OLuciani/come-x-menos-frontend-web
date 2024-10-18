@@ -7,8 +7,8 @@ export const verifyToken = async (): Promise<boolean> => {
   //Creo constante con la variable de entorno de la url del backend
   const BASE_BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
-    /* Cookies.remove('userToken');
-    Cookies.remove("userRole"); */
+    //Cookies.remove('userToken');
+    //Cookies.remove("userRole");
   try {
     const token = Cookies.get('userToken'); // O el nombre de la cookie que usas para almacenar el token
     
