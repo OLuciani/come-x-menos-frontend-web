@@ -179,7 +179,7 @@ const Menu: React.FC<MenuProps> = ({ open, closeMenu }) => {
   }, [setRoleAdminApp, setRoleAdminWeb]);
 
   const activo =
-    "absolute top-14 w-[50%] right-0 py-2 bg-[#FFCF91] p-2 transition-opacity duration-200 transition-opacity duration-200 z-50";
+    "absolute top-14 w-[60%] right-0 py-2 bg-[#FFCF91] p-2 transition-opacity duration-200 transition-opacity duration-200 z-50";
   const inactivo =
     "absolute top-14 w-screen left-0  py-2 bg-[#FFCF91] opacity-0 transition-opacity duration-200 -z-50";
 

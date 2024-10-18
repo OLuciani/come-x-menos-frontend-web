@@ -253,7 +253,7 @@ const PendingUserDetailsModal: React.FC<UserDetailsModalProps> = ({
       
       <div className="fixed inset-0 bg-gray-900 bg-opacity-75 flex justify-center items-center z-50">
         <div
-          className="bg-white py-3 rounded-lg w-[90%] max-w-lg max-h-[92vh] overflow-y-auto relative"
+          className="bg-white py-3 rounded-lg w-[95%] max-w-lg max-h-[92vh] overflow-y-auto relative"
           ref={modalContentRef}
         >
           {/* Flecha indicativa para scrollear */}
@@ -263,7 +263,7 @@ const PendingUserDetailsModal: React.FC<UserDetailsModalProps> = ({
             </div>
           )}
 
-          <div className="w-full h-6 relative">
+          <div className="w-full h-6 relative mb-2">
             <p
               onClick={onClose}
               className="absolute right-5 text-lg font-bold cursor-pointer"
@@ -272,11 +272,11 @@ const PendingUserDetailsModal: React.FC<UserDetailsModalProps> = ({
             </p>
           </div>
 
-          <h2 className="text-2xl text-center mb-4 font-semibold">
+          <h2 className="text-2xl text-center mb-4 font-semibold px-4">
             Revisar cuenta de {user.name} {user.lastName}
           </h2>
 
-          <div className="px-8 pb-1">
+          <div className="w-[full] px-4 custom-w-450:px-6 pb-1 flex flex-col gap-3">
             <p>
               <strong>Nombre:</strong> {user.name}
             </p>
@@ -355,27 +355,29 @@ const PendingUserDetailsModal: React.FC<UserDetailsModalProps> = ({
             >
               Ver el logo del negocio
             </a>
+
+            
+            {/* Textarea para enviar notificación */}
+            <div className="mt-3">
+              <textarea
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                placeholder="Escribe un mensaje para el usuario...(opcional)"
+                rows={4}
+                className="w-full p-2 border border-gray-300 rounded"
+              />
+            </div>
           </div>
 
-          {/* Textarea para enviar notificación */}
-          <div className="px-8 pb-4">
-            <textarea
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              placeholder="Escribe un mensaje para el usuario..."
-              rows={4}
-              className="w-full p-2 border border-gray-300 rounded"
-            />
-          </div>
 
-          <div className="mt-4 flex justify-center">
-            <div className="w-[40%] mr-2">
+          <div className="mt-4 flex flex-col items-center gap-3 lg:flex-row lg:justify-between">
+            <div className="w-full px-4 lg:px-0 lg:pl-6 lg:w-[48%]">
               <Button
                 buttonText="Enviar Notificación"
                 onClickButton={handleSendNotification} // Llama a la función para enviar notificación
               />
             </div>
-            <div className="w-[40%]">
+            <div className="w-full px-4 lg:px-0 lg:pr-6 lg:w-[48%]">
               <Button
                 buttonText="Aprobar"
                 onClickButton={() => { onApprove(user._id); handleApprove(user._id); }}
