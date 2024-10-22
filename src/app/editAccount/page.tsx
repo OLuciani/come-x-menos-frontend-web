@@ -25,7 +25,7 @@ export default function EditUserAndBusinessPage() {
     <div className="w-screen flex flex-col items-center">
       <div className="w-screen mt-10 ml-10 md:ml-20">
         <Link
-          href={"/dashboard"}
+          href={"/dashboardBusinessAdmin"}
           onClick={() => setSelectedOption("Mi cuenta")}
         >
           <FaArrowLeft size={20} color="black" />

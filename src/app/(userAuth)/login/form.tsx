@@ -228,8 +228,10 @@ const LoginForm = () => {
         setSelectedOption("Notificaciones");
       } else
       if(response.userRole === roleAdminApp) {
-        router.push("/dashboardAppAdmin");
-        setSelectedOption("Admin App");
+        //router.push("/dashboardAppAdmin");
+        router.push("/dashboardAplicationAdmin");
+        //setSelectedOption("Admin App");
+        setSelectedOption("Mi cuenta");
       } else
       if(response.userRole === roleAdminWeb) {
         //router.push("/myAccount");

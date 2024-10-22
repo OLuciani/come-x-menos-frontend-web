@@ -10,14 +10,14 @@ import { getUserNotifications } from "@/services/apiCall";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import Link from "next/link";
 
-const SidebarDashboard: React.FC<{ setSection: (section: string) => void }> = ({
+const SidebarDashboardAppAdmin: React.FC<{ setSection: (section: string) => void }> = ({
   setSection,
 }) => {
-  const { businessName, isLoggedIn } = useContext(Context);
+  const { userName, isLoggedIn } = useContext(Context);
   const [unreadCount, setUnreadCount] = useState(0);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  const fetchUnreadNotifications = async () => {
+  /* const fetchUnreadNotifications = async () => {
     try {
       const notificationsData = await getUserNotifications();
       const unreadNotifications = notificationsData.filter(
@@ -39,7 +39,7 @@ const SidebarDashboard: React.FC<{ setSection: (section: string) => void }> = ({
   useEffect(() => {
     if (!isLoggedIn) return;
     fetchUnreadNotifications();
-  }, [isLoggedIn, setSection]);
+  }, [isLoggedIn, setSection]); */
 
   return (
     <div className="">
@@ -50,7 +50,7 @@ const SidebarDashboard: React.FC<{ setSection: (section: string) => void }> = ({
       >
         {!isSidebarOpen && (
           <span className="lg:hidden text-2xl font-semibold">
-            {businessName}
+            {userName}
           </span>
         )}
         <button
@@ -75,68 +75,84 @@ const SidebarDashboard: React.FC<{ setSection: (section: string) => void }> = ({
       flex flex-col overflow-y-auto`}
     >
         <h1 className="text-2xl font-bold text-orange-600 text-center px-2 pt-4">
-          {businessName}
+          {userName}
         </h1>
         <nav className="flex-grow p-4">
           {/* Título para acciones en la cuenta */}
-          <h2 className="text-lg text-center font-bold mt-6">ESTADISTICAS:</h2>
+          <h2 className="text-lg text-center font-bold mt-6">ADMINISTRACION DE LA APP:</h2>
           <div className="button-group">
             {" "}
             {/* Usar una clase común para ambas secciones */}
             <button
               onClick={() => {
-                setSection("resumen");
+                setSection("pendingUsers");
                 setIsSidebarOpen(false);
               }}
               className="block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white"
             >
-              <FiFileText className="inline mr-2" />
-              Resumen
+              Usuarios/negocios pendientes
             </button>
+            
             <button
               onClick={() => {
-                setSection("descuentos");
+                setSection("usuariosActivos");
                 setIsSidebarOpen(false);
               }}
               className="block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white"
             >
-              <AiOutlineTag className="inline mr-2" />
-              Descuentos
+              Usuarios/Negocios activos
             </button>
+
             <button
               onClick={() => {
-                setSection("ventas");
+                setSection("rolesPermisos");
                 setIsSidebarOpen(false);
               }}
               className="block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white"
             >
-              <FaChartLine className="inline mr-2" />
-              Ventas
+              Gestión de roles
             </button>
+
             <button
               onClick={() => {
-                setSection("notificaciones");
-                handleNotificationClick();
+                setSection("historial");
+                //handleNotificationClick();
                 setIsSidebarOpen(false);
               }}
               className="block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white relative"
             >
-              <AiOutlineBell className="inline mr-2" />
-              Notificaciones
-              {unreadCount > 0 && (
+              Registros de actividad
+              {/* {unreadCount > 0 && (
                 <span className="ml-5 lg:absolute lg:top-[30%] lg:right-3 bg-red-600 text-white text-xs rounded-full px-2">
                   {unreadCount}
                 </span>
-              )}
+              )} */}
+            </button>
+
+            <button
+              onClick={() => {
+                setSection("notificaciones");
+                //handleNotificationClick();
+                setIsSidebarOpen(false);
+              }}
+              className="block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white relative"
+            >
+              {/* <AiOutlineBell className="inline mr-2" /> */}
+              Notificaciones
+              {/* {unreadCount > 0 && (
+                <span className="ml-5 lg:absolute lg:top-[30%] lg:right-3 bg-red-600 text-white text-xs rounded-full px-2">
+                  {unreadCount}
+                </span>
+              )} */}
             </button>
           </div>
 
-          {/* Título para acciones en la cuenta */}
-          <h2 className="text-lg text-center font-bold mt-6">
+         
+          {/* <h2 className="text-lg text-center font-bold mt-6">
             ACCIONES EN MI CUENTA:
           </h2>
 
-          {/* Mismo grupo de botones */}
+          
           <div className="button-group">
             <Link href="/createDiscount">
               <button className="block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white">
@@ -155,11 +171,11 @@ const SidebarDashboard: React.FC<{ setSection: (section: string) => void }> = ({
                 Editar datos de tu cuenta
               </button>
             </Link>
-          </div>
+          </div> */}
         </nav>
       </div>
     </div>
   );
 };
 
-export default SidebarDashboard;
+export default SidebarDashboardAppAdmin;

@@ -112,7 +112,7 @@ const DashboardAdmin: React.FC = () => {
       />
 
       {showDashboardAdminApp ? (
-        <div className="flex flex-col min-h-screen relative">
+        <div className="flex flex-col min-h-screen">  {/* en esta linea tenia relative */}
           <HeaderAdmin setSidebarOpen={setSidebarOpen} />
           <div className="flex flex-1">
             <SidebarAdmin

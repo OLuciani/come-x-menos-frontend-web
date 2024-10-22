@@ -14,7 +14,7 @@ export default function CreateDiscountPage() {
     <div className="w-screen flex flex-col items-center">
       <div className="w-screen mt-10 ml-5 md:ml-10">
         <Link
-          href={"/dashboard"}
+          href={"/dashboardBusinessAdmin"}
           onClick={() => setSelectedOption("Mi cuenta")}
         >
           <FaArrowLeft size={20} color="black" />
