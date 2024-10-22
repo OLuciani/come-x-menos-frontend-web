@@ -170,9 +170,9 @@ const UserNotifications = () => {
     }, [setUserToken, setUserRole, setUserName, setSelectedOption]);
 
     return (
-        <div className="bg-white shadow-lg rounded-lg px-4 pb-4 lg:py-4 h-full">
-            <div className="bg-orange-600 rounded-t-lg">
-                <h2 className="text-xl lg:text-2xl font-semibold text-[#FFCF91] text-center lg:text-l pl-6 py-4 mb-6">Notificaciones</h2>
+        <div className="bg-white shadow-lg rounded-lg p-4 lg:py-4 h-full">
+            <div className="bg-[#FFCF91] rounded-t-lg">
+                <h2 className="text-xl lg:text-2xl font-semibold text-[#2C2C2C] text-center lg:text-l pl-6 py-4 mb-6">Notificaciones</h2>
             </div>
             {/* <h1 className='mt-5 text-center text-2xl text-gray-600'>Notificaciones</h1> */}
             {/* {error && <p className="text-red-500 text-center">{error}</p>} */} {/* Mostrar error si hay */}            

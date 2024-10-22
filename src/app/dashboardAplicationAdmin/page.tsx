@@ -168,6 +168,7 @@ import ActiveBusinessesAdminsUsers from '@/components/dashboardAppAdminComponent
 import RoleManagement from "@/components/dashboardAppAdminComponents/roleManagement/RoleManagement";
 import Notifications from "@/components/dashboardAppAdminComponents/notifications/Notifications";
 import ActivityLogs from "@/components/dashboardAppAdminComponents/activityLogs/ActivityLogs";
+import SidebarDashboardAppAdmin from "@/components/dashboardAppAdminComponents/sidebarDashboardAppAdmin/SidebarDashboardAppAdmin";
 
 interface ErrorResponse {
   error: string;
@@ -175,7 +176,7 @@ interface ErrorResponse {
 
 const DashboardAplicationAdmin: React.FC = () => {
   const { userToken, setUserToken, isLoggedIn, setUserRole, setUserName, setBusinessName, setBusinessType, setSelectedOption } = useContext(Context);
-  const [section, setSection] = useState("overview");
+  const [section, setSection] = useState<string>("pendingUsers");
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [discountsArrayList, setDiscountsArrayList] = useState<DiscountsList[]>([]);
   const [totalDiscounts, setTotalDiscounts] = useState<number>(0);
@@ -210,13 +211,13 @@ const DashboardAplicationAdmin: React.FC = () => {
     switch (section) {
       case "pendingUsers":
         return <PendingUsers />
-      case "usuariosActivos":
+      case "activeUsers":
         return <ActiveBusinessesAdminsUsers />;
-      case "rolesPermisos":
+      case "roleManagement":
         return <RoleManagement />;
-      case "notificaciones":
+      case "notifications":
         return <Notifications />;
-      case "historial":
+      case "activityLogs":
         return <ActivityLogs />;
       default:
         return <PendingUsers />;
@@ -290,10 +291,10 @@ const DashboardAplicationAdmin: React.FC = () => {
 
       <div className="flex flex-col lg:flex-row lg:min-h-screen">
         <div className="lg:flex">
-          <SidebarDashboard setSection={setSection} />
+          <SidebarDashboardAppAdmin setSection={setSection} section={section} />
         </div>
           
-        <main className="flex-grow lg:p-8 bg-gray-100 lg:mt-0">
+        <main className="flex-grow px-4 min-h-screen lg:p-8 bg-gray-100 lg:mt-0">
           {renderSection()}
         </main>
       </div>

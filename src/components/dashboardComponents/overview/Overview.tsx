@@ -141,9 +141,9 @@ const Overview: React.FC = () => {
 
 
   return (
-    <div className="bg-white shadow-lg rounded-lg px-4 pb-4 lg:py-4 h-full">
-      <div className="bg-orange-600 rounded-t-lg">
-        <h2 className="text-xl lg:text-2xl font-semibold text-[#FFCF91] text-center lg:text-l pl-6 py-2 mb-6">Resumen</h2>
+    <div className="bg-white shadow-lg rounded-lg p-4 lg:py-4 h-full">
+      <div className="bg-[#FFCF91] rounded-t-lg">
+        <h2 className="text-xl lg:text-2xl font-semibold text-[#2C2C2C] text-center lg:text-l pl-6 py-2 mb-6">Resumen</h2>
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

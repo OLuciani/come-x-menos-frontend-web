@@ -117,9 +117,9 @@ const PendingUsers = () => {
       )}
 
 
-      <div className="p-4">
-       <div className="bg-orange-600 rounded-t-lg">
-          <h2 className="text-xl lg:text-2xl font-semibold text-[#FFCF91] text-center lg:text-l pl-6 py-2 mb-6">
+      <div className="bg-white shadow-lg rounded-lg p-4 lg:py-4 h-screen">
+       <div className="bg-[#FFCF91] rounded-t-lg">
+          <h2 className="text-xl lg:text-2xl font-semibold text-[#2C2C2C] text-center lg:text-l pl-6 py-2 mb-6">
             Usuarios pendientes ({totalPendingUsers})
           </h2>
         </div>
@@ -131,11 +131,12 @@ const PendingUsers = () => {
               <div className="ml-3">
                 <strong className="text-xl">{pendingUser.name} {pendingUser.lastName}</strong> 
                 <p><span className="font-semibold">Email:</span> {pendingUser.email}</p>
-                {pendingUser._id ? (
+                <p><span className="font-semibold">Nombre del negocio:</span> {pendingUser.businessName}</p>
+                {/* {pendingUser._id ? (
                   <p><span className="font-semibold">ID del usuario:</span> {pendingUser._id}</p> // Verifica que el ID del usuario esté disponible
                 ) : (
                   <p>Error: Usuario sin ID</p> // Mensaje de error si falta el ID
-                )}
+                )} */}
               </div>
             </li>
           ))}

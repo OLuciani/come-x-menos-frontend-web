@@ -19,7 +19,7 @@ interface ErrorResponse {
 
 const Dashboard: React.FC = () => {
   const { userToken, setUserToken, isLoggedIn, setUserRole, setUserName, setBusinessName, setBusinessType, setSelectedOption } = useContext(Context);
-  const [section, setSection] = useState("overview");
+  const [section, setSection] = useState<string>("resumen");
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [discountsArrayList, setDiscountsArrayList] = useState<DiscountsList[]>([]);
   const [totalDiscounts, setTotalDiscounts] = useState<number>(0);
@@ -136,11 +136,12 @@ return (
     <div className="flex flex-col lg:flex-row lg:min-h-screen">
       {/* <div className="absolute right-0 w-[220px] lg:block lg:relative"> */}
       <div className="lg:flex">
-        <SidebarDashboard setSection={setSection} />
+        <SidebarDashboard setSection={setSection} section={section} />
       </div>
         
       
-      <main className="flex-grow lg:p-8 bg-gray-100 lg:mt-0">
+      {/* <main className="flex-grow lg:p-8 bg-gray-100 lg:mt-0"> */}
+      <main className="flex-grow px-4 pb-4 min-h-screen lg:p-8 bg-gray-100 lg:mt-0">
         {renderSection()}
       </main>
     </div>
