@@ -177,6 +177,7 @@ const Navbar = () => {
     console.log("Valor de rolAdminWeb en useEffect navbar: ", roleAdminWeb);
     console.log("Valor de rolAdminApp en useEffect navbar: ", roleAdminApp);
 
+    setUserMenuOpen(false);
   }, []);
 
   useEffect(() => {

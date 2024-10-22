@@ -224,7 +224,7 @@ const DashboardAplicationAdmin: React.FC = () => {
     }
   }
 
-  const fetchDiscounts = async () => {
+  /* const fetchDiscounts = async () => {
     try {
       if (userToken) {
         console.log("Valor de userToken en fetchDiscounts: ", userToken);
@@ -280,7 +280,7 @@ const DashboardAplicationAdmin: React.FC = () => {
     } else {
       setTotalDiscounts(0); // En caso de que no haya descuentos, asegurarse de que totalDiscounts sea 0.
     }
-  }, [discountsArrayList, setTotalDiscounts]);
+  }, [discountsArrayList, setTotalDiscounts]); */
 
   return (
     <>
@@ -294,7 +294,7 @@ const DashboardAplicationAdmin: React.FC = () => {
           <SidebarDashboardAppAdmin setSection={setSection} section={section} />
         </div>
           
-        <main className="flex-grow px-4 min-h-screen lg:p-8 bg-gray-100 lg:mt-0">
+        <main className="flex-grow px-4 min-h-screen lg:p-8 bg-gray-100 lg:mt-0 mt-[65px]">
           {renderSection()}
         </main>
       </div>

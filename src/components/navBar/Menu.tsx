@@ -57,6 +57,7 @@ const Menu: React.FC<MenuProps> = ({ open, closeMenu }) => {
     console.log("Cerrar sesión");
 
     Cookies.remove("userToken");
+    Cookies.remove("token"); //Remueve la cookie con el token
     Cookies.remove("userRole");
     Cookies.remove("userName");
     Cookies.remove("businessName");
@@ -67,13 +68,15 @@ const Menu: React.FC<MenuProps> = ({ open, closeMenu }) => {
     setUserName("");
     setBusinessName("");
     setBusinessType("");
-
+    
     setIsLoggedIn(false);
+
+    //setUserMenuOpen(false); 
 
     setTimeout(() => {
       router.push("/login");
       setSelectedOption("Iniciar sesión");
-    }, 1000); //Si no le doy 1 segundo con el setTimeout no funciona bien.
+    }, 1000); //Si no le doy 1 segundo con el setTimeout no funciona bien .
 
     closeMenu();
   };
@@ -117,7 +120,7 @@ const Menu: React.FC<MenuProps> = ({ open, closeMenu }) => {
         )}
 
         {userToken && userRole === roleAdminApp && (
-          <Link href={"/dashboardAppAdmin"} onClick={handleLinkClick}>
+          <Link href={"/dashboardAplicationAdmin"} onClick={handleLinkClick}>
             <li
               className={`${
                 currentRoute === "/dashboardAppAdmin"
