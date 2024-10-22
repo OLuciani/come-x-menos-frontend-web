@@ -294,7 +294,7 @@ const DashboardAplicationAdmin: React.FC = () => {
           <SidebarDashboardAppAdmin setSection={setSection} section={section} />
         </div>
           
-        <main className="flex-grow px-4 min-h-screen lg:p-8 bg-gray-100 lg:mt-0 mt-[65px]">
+        <main className="flex-grow px-4 min-h-screen lg:p-8 bg-gray-100 lg:mt-0">
           {renderSection()}
         </main>
       </div>

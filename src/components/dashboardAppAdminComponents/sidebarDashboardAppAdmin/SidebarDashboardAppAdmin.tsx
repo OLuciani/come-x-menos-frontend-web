@@ -22,7 +22,7 @@ const SidebarDashboardAppAdmin: React.FC<{ setSection: (section: string) => void
       <div
         className={`w-full flex ${
           !isSidebarOpen ? "justify-between" : "justify-end"
-        } items-center pl-4 bg-white fixed border-b-[3px]`}
+        } items-center pl-4`}
       >
         {!isSidebarOpen && (
           <span className="lg:hidden text-2xl font-semibold">
