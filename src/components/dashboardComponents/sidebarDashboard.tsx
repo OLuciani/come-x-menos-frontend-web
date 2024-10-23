@@ -44,15 +44,16 @@ const SidebarDashboard: React.FC<{ setSection: (section: string) => void, sectio
   return (
     <div className="">
       <div
-        className={`w-full flex ${
-          !isSidebarOpen ? "justify-between" : "justify-end"
-        } items-center pl-4`}
+        className={`w-full flex justify-between items-center pl-4 fixed bg-white top-[57] border-b-2 lg:border-b-0 z-10`}
       >
-        {!isSidebarOpen && (
+        {/* {!isSidebarOpen && (
           <span className="lg:hidden text-2xl font-semibold">
             {businessName}
           </span>
-        )}
+        )} */}
+        <span className="lg:hidden text-2xl font-semibold">
+          {businessName}
+        </span> 
         <button
           className="lg:hidden py-4 pr-4"
           onClick={() => setIsSidebarOpen(!isSidebarOpen)}

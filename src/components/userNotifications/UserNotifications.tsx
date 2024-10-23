@@ -170,7 +170,7 @@ const UserNotifications = () => {
     }, [setUserToken, setUserRole, setUserName, setSelectedOption]);
 
     return (
-        <div className="bg-white shadow-lg rounded-lg p-4 lg:py-4 h-full">
+        <div className="bg-white border-2 shadow-lg rounded-lg p-4 lg:py-4 h-full">
             <div className="bg-[#FFCF91] rounded-t-lg">
                 <h2 className="text-xl lg:text-2xl font-semibold text-[#2C2C2C] text-center lg:text-l pl-6 py-4 mb-6">Notificaciones</h2>
             </div>

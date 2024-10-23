@@ -85,7 +85,7 @@ const Menu: React.FC<MenuProps> = ({ open, closeMenu }) => {
     <div
       className={`${
         open ? activo : inactivo
-      } ${!userToken ? "mt-[9px] custom-w-450:mt-[21px]" : "mt-[14px] custom-w-450:mt-[21px]"}`}
+      } ${!userToken ? "mt-[42px] xxs:mt-[9px] custom-w-450:mt-[21px]" : "mt-[42px] xxs:mt-[14px] custom-w-450:mt-[21px] md:mt-[22px]"}`}
     >
       <div className="w-[100%] h-4 relative mb-2">
         <p className="absolute right-7 text-[15px] text-[#FD7B03] font-bold" onClick={handleLinkClick}>
@@ -161,7 +161,7 @@ const Menu: React.FC<MenuProps> = ({ open, closeMenu }) => {
           </Link>
         )}
 
-        {userToken !== "" && userRole !== "" && (
+       {/*  {userToken !== "" && userRole !== "" && (
           <Link href={"/"}>
             <li
               className={`text-[#FD7B03] font-bold px-8 py-2 cursor-pointer`}
@@ -173,7 +173,7 @@ const Menu: React.FC<MenuProps> = ({ open, closeMenu }) => {
               Cerrar sesión
             </li>
           </Link>
-        )}
+        )} */}
       </ul>
     </div>
   );

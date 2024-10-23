@@ -317,7 +317,7 @@ const Navbar = () => {
             {userToken && (userRole === roleAdminWeb || userRole === roleAdminApp || userRole === roleUser) && (
               <div className="relative">
                 {userMenuOpen && (
-                    <div className="absolute w-48 right-[-52px] custom-w-450:right-[-50px] sm:right-[-66px] md:right-[-71px] lg:right-[-22px] mt-[54px] custom-w-450:mt-[57px] md:mt-[62px] lg:mt-[73px] p-2 bg-[#FFCF91] rounded-lg shadow-xl">
+                    <div className="absolute w-48 right-[-52px] custom-w-450:right-[-50px] sm:right-[-66px] md:right-[-71px] lg:right-[-22px] mt-[54px] custom-w-450:mt-[57px] md:mt-[62px] lg:mt-[73px] p-2 bg-[#FFCF91] rounded-lg shadow-xl z-20">
                       <span
                         className="block text-gray-600 text-right pr-4 font-bold mb-1 cursor-pointer"
                         onClick={() => setUserMenuOpen(!userMenuOpen)}
