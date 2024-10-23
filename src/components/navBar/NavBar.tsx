@@ -206,7 +206,8 @@ const Navbar = () => {
   return (
     <div className="w-screen">
       <nav className="w-full bg-[#FD7B03] flex flex-row justify-between items-center px-4 sm:px-5 py-4">
-        <div className="w-[70%] custom-w-450:w-auto">
+        {/* <div className="w-[70%] custom-w-450:w-auto"> */}
+        <div className="">
           <p
             className={`${krona.className} text-[22px] text-white custom-w-450:text-[30px] lg:text-[35px]`}
           >
@@ -216,7 +217,7 @@ const Navbar = () => {
           </p>
         </div>
         <div className="w-[30%] custom-w-450:w-auto">
-          <ul className="w-full flex flex-row justify-end text-[18px] font-medium gap-3 sm:gap-6">
+          <ul className="w-full flex flex-row justify-end text-[18px] font-medium gap-6">
             <Link href={"/"} onClick={() => handleOptionClick("Inicio")}>
               <li
                 className={`border-[2px] border-[#FFCF91] py-2 px-4 hidden lg:flex text-white hover:bg-[#FFCF91] hover:text-[#FD7B03]`}
@@ -366,6 +367,7 @@ const Navbar = () => {
           </ul>
         </div>
       </nav>
+      
       <div className="lg:hidden">
         <Menu open={open} closeMenu={closeMenu} />
       </div>
