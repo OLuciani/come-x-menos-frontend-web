@@ -121,7 +121,7 @@ const DashboardDiscounts: React.FC = () => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           {discountsArrayList.map((discount, id) => (
-            <div key={discount._id} className="bg-gray-50 border rounded-lg p-4 shadow-md">
+            <div key={discount._id} className="border rounded-lg p-4 shadow-md">
               <div className="flex items-start">
                 <FaTag className="text-orange-600 mr-3 mt-1" />
                 <div className="flex-1">
