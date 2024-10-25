@@ -1,3 +1,5 @@
+//Ruta de backend: https://discount-project-backend-production.up.railway.app
+
 import axios, { AxiosResponse } from "axios";
 import Cookies from "js-cookie";
 import { verifyToken } from "./tokenVerification";
@@ -239,6 +241,15 @@ export interface DashboardData {
     labels: string[];
     data: number[];
   };
+}
+
+export interface QrScannerUser {
+  name?: string;
+  lastName?: string;
+  email: string;
+  password?: string;
+  businessId?: string;
+  token?: string;
 }
 
 export async function login(
@@ -1053,6 +1064,7 @@ export async function fetchActiveBusinessesAdminsUsersFromAPI() {
   }
 }
 
+
 export async function fetchActiveBusinessFromAPI(businessId: string | null) {
   try {
     const response = await axios.get(
@@ -1149,3 +1161,67 @@ export const markUserNotificationsAsRead = async (notificationId?: string) => {
 };
 
 
+export const invitationEmailToQrScannerUser = async (user: QrScannerUser) => {
+  console.log(user.email)
+  try {
+    // Verifico el token antes de hacer la solicitud
+    const isTokenValid = await verifyToken();
+    if (!isTokenValid) {
+      return "Token inválido o expirado";
+    }
+
+    const response = await axios.post(`${BASE_BACKEND_URL}/api/invitation_email_qr_scanner_user`, 
+    {
+      email:user.email,  // Solo enviamos los datos del usuario
+    },
+    { withCredentials: true }
+    );
+    return response.data;
+  } catch (error: any) {
+    throw new Error(
+      error.response?.data?.message || "Error al enviar la invitación"
+    );
+  }
+};
+
+
+export async function createUserQrScanner(data: QrScannerUser, token: string, businessId: string): Promise<QrScannerUser | string> {
+  //console.log("Valor de data en createUserQrScanner: ", data);
+  //console.log("Valor de token en createUserQrScanner: ", token);
+  //console.log("Valor de businessId en createUserQrScanner: ", businessId);
+  try {
+    const response = await axios.post(
+      `${BASE_BACKEND_URL}/api/create_user_qr_scanner`,
+      {
+        name: data.name,
+        lastName: data.lastName,
+        email: data.email,
+        password: data.password, 
+        businessId: businessId
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        }, 
+      }
+    );
+
+    // Verificar si el registro fue exitoso basado en la respuesta del backend
+    if (response.status === 200 && response.data) {
+      console.log(
+        "Usuario con acceso a scanner en aplicación movil registrado en MongoDB Atlas correctamente:",
+        response.data
+      );
+    } else {
+      console.log(
+        "El registro del usuario con acceso a scanner en aplicación movil en MongoDB Atlas no fue exitoso:",
+        response.data
+      );
+    }
+
+    return response.data;
+  } catch (error: any) {
+    console.error("Error al registrar el usuario con acceso a scanner en aplicación movil en MongoDB Atlas:", error);
+    return "Error al registrar el usuario con acceso a scanner en aplicación movil";
+  }
+}

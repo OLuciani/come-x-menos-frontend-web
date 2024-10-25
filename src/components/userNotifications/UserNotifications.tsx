@@ -180,7 +180,7 @@ const UserNotifications = () => {
                 {notifications.map((notification, index) => (
                     <li 
                         key={index} 
-                        className="my-2 p-2 border-b"
+                        className="my-2 p-2 border-b-2"
                     >
                         <p><strong>{notification.message}</strong></p>
                         <p>{new Date(notification.timestamp).toLocaleString()}</p>

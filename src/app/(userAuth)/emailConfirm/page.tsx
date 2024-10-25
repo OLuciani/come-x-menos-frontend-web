@@ -35,7 +35,7 @@ const EmailConfirmPage: React.FC = () => {
       await emailValidationSchema.validate({ email }, { abortEarly: false });
       setErrors({});
 
-      console.log("Enviando solicitud de correo electrónico...");
+      console.log("Enviando solicitud de chequeo de correo electrónico...");
       const responseConfirmEmail = await axios.post(
         //`https://discount-project-backend.onrender.com/api/confirm_email`,
         //`http://localhost:5050/api/confirm_email`,
