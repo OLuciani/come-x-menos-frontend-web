@@ -9,6 +9,7 @@ import { registerUserWithFirebase } from "@/services/authService";
 import { Context } from "@/context/Context";
 import Button from "@/components/button/Button";
 import RegistrationConfirmationModal from "@/components/registrationConfirmationModal/RegistrationConfirmationModal";
+import MessageModal from "@/components/messageModal/MessageModal";
 
 
 const CreateUserQrScanerForm = () => {
@@ -22,6 +23,10 @@ const CreateUserQrScanerForm = () => {
   const [token, setToken] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [businessId, setBusinessId] = useState<string>("");
+  const [isOpenMessageModal, setIsOpenMessageModal] = useState<boolean>(false);
+  const [messageText, setMessageText] = useState<string>("");
+  const [messageTitle, setMessageTitle] = useState<string>("");
+
   const navigation = useRouter();
   const searchParams = useSearchParams();
 
@@ -96,9 +101,16 @@ const CreateUserQrScanerForm = () => {
           console.log("Usuario con acceso a Scanner en aplicación movil registrado exitosamente en Mongo Db");
 
           setError("");
+
+          const title: string = "¡Cuenta creada con éxito!";
+          setMessageTitle(title);
+          const text: string = `Tu cuenta solo permite iniciar sesión desde la aplicación móvil para usar el escáner. ¡Te esperamos allí!` 
+          setMessageText(text);
+          
+          setIsOpenMessageModal(true);
           
           setTimeout(() => {
-            navigation.push("/dashboardBusinessAdmin");
+            navigation.push("/");
           }, 10000);
          
           };
@@ -127,91 +139,95 @@ const CreateUserQrScanerForm = () => {
   });
 
   return (
-    <div>
-      <RegistrationConfirmationModal
-        isOpenRegistrationConfirmation={isRegistrationModalOpen}
-        onCloseRegistrationConfirmation={() =>
-          setIsRegistrationModalOpen(false)
-        }
-      />
+    <>
+        <MessageModal isOpenMessageModal={isOpenMessageModal} onCloseMessageModal={() => setIsOpenMessageModal(false)} messageTitle={messageTitle} messageText={messageText} />
 
-      <form
-        className="flex flex-col items-center mx-auto gap-6"
-        onSubmit={formik.handleSubmit}
-      >
-        <Input
-          label="Nombre"
-          placeholder=""
-          type="text"
-          name="name"
-          value={formik.values.name}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          minLength={3}
+        <div>
+        <RegistrationConfirmationModal
+            isOpenRegistrationConfirmation={isRegistrationModalOpen}
+            onCloseRegistrationConfirmation={() =>
+            setIsRegistrationModalOpen(false)
+            }
         />
-        {formik.touched.name && formik.errors.name ? (
-          <p className="text-red-700">{formik.errors.name}</p>
-        ) : null}
 
-        <Input
-          label="Apellido"
-          placeholder=""
-          type="text"
-          name="lastName"
-          value={formik.values.lastName}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          minLength={3}
-        />
-        {formik.touched.lastName && formik.errors.lastName ? (
-          <p className="text-red-700">{formik.errors.lastName}</p>
-        ) : null}
-        
-        <Input
-            label="Email"
+        <form
+            className="flex flex-col items-center mx-auto gap-6"
+            onSubmit={formik.handleSubmit}
+        >
+            <Input
+            label="Nombre"
             placeholder=""
-            type="email"
-            name="email"
-            value={formik.values.email}
+            type="text"
+            name="name"
+            value={formik.values.name}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             minLength={3}
-        />
-        {formik.touched.email && formik.errors.email ? (
-            <p className="text-red-700">{formik.errors.email}</p>
-        ) : null}
+            />
+            {formik.touched.name && formik.errors.name ? (
+            <p className="text-red-700">{formik.errors.name}</p>
+            ) : null}
 
-        <Input
-          label="Contraseña"
-          placeholder=""
-          type="password"
-          name="password"
-          value={formik.values.password}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-        />
-        {formik.touched.password && formik.errors.password ? (
-          <p className="text-red-700">{formik.errors.password}</p>
-        ) : null}
+            <Input
+            label="Apellido"
+            placeholder=""
+            type="text"
+            name="lastName"
+            value={formik.values.lastName}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            minLength={3}
+            />
+            {formik.touched.lastName && formik.errors.lastName ? (
+            <p className="text-red-700">{formik.errors.lastName}</p>
+            ) : null}
+            
+            <Input
+                label="Email"
+                placeholder=""
+                type="email"
+                name="email"
+                value={formik.values.email}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                minLength={3}
+            />
+            {formik.touched.email && formik.errors.email ? (
+                <p className="text-red-700">{formik.errors.email}</p>
+            ) : null}
 
-        <Input
-          label="Repetir contraseña"
-          placeholder=""
-          type="password"
-          name="repeatPassword"
-          value={formik.values.repeatPassword}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-        />
-        {formik.touched.repeatPassword && formik.errors.repeatPassword ? (
-          <p className="text-red-700">{formik.errors.repeatPassword}</p>
-        ) : null}
+            <Input
+            label="Contraseña"
+            placeholder=""
+            type="password"
+            name="password"
+            value={formik.values.password}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            />
+            {formik.touched.password && formik.errors.password ? (
+            <p className="text-red-700">{formik.errors.password}</p>
+            ) : null}
 
-        <Button buttonText={isLoading ? "Cargando..." : "Crear cuenta"} />
+            <Input
+            label="Repetir contraseña"
+            placeholder=""
+            type="password"
+            name="repeatPassword"
+            value={formik.values.repeatPassword}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            />
+            {formik.touched.repeatPassword && formik.errors.repeatPassword ? (
+            <p className="text-red-700">{formik.errors.repeatPassword}</p>
+            ) : null}
 
-        {error && <p className="text-red-700">{error}</p>}
-      </form>
-    </div>
+            <Button buttonText={isLoading ? "Cargando..." : "Crear cuenta"} />
+
+            {error && <p className="text-red-700">{error}</p>}
+        </form>
+        </div>
+    </>
   );
 };
 
