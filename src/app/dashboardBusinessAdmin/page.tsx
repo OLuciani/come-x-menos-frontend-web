@@ -12,7 +12,7 @@ import Cookies from "js-cookie";
 import TokenExpiredModal from "@/components/tokenExpiredModal/TokenExpiredModal";
 import { isAfter, format } from "date-fns";
 import UserNotifications from "@/components/userNotifications/UserNotifications";
-import CreateQrScannerUser from "@/components/dashboardComponents/invitationQrScannerUser/InvitationQrScannerUser";
+//import CreateQrScannerUser from "@/components/dashboardComponents/invitationQrScannerUser/InvitationQrScannerUser";
 
 interface ErrorResponse {
   error: string;
@@ -63,8 +63,8 @@ const Dashboard: React.FC = () => {
         return <DashboardDiscounts />;
       case "ventas":
         return <EffectiveSales />;
-      case "crearQrScannerUser":
-        return <CreateQrScannerUser />;
+      /* case "crearQrScannerUser":
+        return <CreateQrScannerUser />; */
       default:
         return <Overview />;
     }

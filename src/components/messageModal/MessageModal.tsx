@@ -3,21 +3,22 @@
 import React, { useEffect } from 'react';
 import { useRouter } from "next/navigation";
 
-interface SessionExpiredModalProps {
+interface MessageModalProps {
   isOpenMessageModal: boolean;
   onCloseMessageModal: () => void;
   messageTitle: string;
   messageText: string;
+  messageRouterRedirection: string;
 }
 
-const MessageModal: React.FC<SessionExpiredModalProps> = ({ isOpenMessageModal, onCloseMessageModal, messageText, messageTitle }) => {
+const MessageModal: React.FC<MessageModalProps> = ({ isOpenMessageModal, onCloseMessageModal, messageText, messageTitle, messageRouterRedirection }) => {
   const router = useRouter();
 
   useEffect(() => {
     if (isOpenMessageModal) {
       const timer = setTimeout(() => {
         onCloseMessageModal();
-        router.push('/');
+        router.push(`${messageRouterRedirection}`);
       }, 15000);
       return () => clearTimeout(timer);
     }

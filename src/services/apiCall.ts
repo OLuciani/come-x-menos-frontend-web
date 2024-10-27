@@ -1,5 +1,3 @@
-//Ruta de backend: https://discount-project-backend-production.up.railway.app
-
 import axios, { AxiosResponse } from "axios";
 import Cookies from "js-cookie";
 import { verifyToken } from "./tokenVerification";

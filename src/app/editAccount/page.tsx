@@ -19,7 +19,7 @@ import Link from "next/link";
 import { FaArrowLeft } from 'react-icons/fa';
 
 export default function EditUserAndBusinessPage() {
-  const { userId, businessId, setSelectedOption } = useContext(Context); // Obtén userId y businessId desde el contexto
+  const { userId, businessId, setSelectedOption } = useContext(Context);
 
   return (
     <div className="w-screen flex flex-col items-center">

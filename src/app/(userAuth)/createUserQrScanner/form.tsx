@@ -16,8 +16,6 @@ const CreateUserQrScanerForm = () => {
   const { businessName } = useContext(Context);
   const [error, setError] = useState<string | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(false);
-  const [ownerId, setOwnerId] = useState("");
-  const [ownerName, setOwnerName] = useState("");
   const [isRegistrationModalOpen, setIsRegistrationModalOpen] =
     useState<boolean>(false);
   const [token, setToken] = useState<string>("");
@@ -26,6 +24,7 @@ const CreateUserQrScanerForm = () => {
   const [isOpenMessageModal, setIsOpenMessageModal] = useState<boolean>(false);
   const [messageText, setMessageText] = useState<string>("");
   const [messageTitle, setMessageTitle] = useState<string>("");
+  const [messageRouterRedirection, setMessageRouterRedirection] = useState<string>("");
 
   const navigation = useRouter();
   const searchParams = useSearchParams();
@@ -106,6 +105,8 @@ const CreateUserQrScanerForm = () => {
           setMessageTitle(title);
           const text: string = `Tu cuenta solo permite iniciar sesión desde la aplicación móvil para usar el escáner. ¡Te esperamos allí!` 
           setMessageText(text);
+          const route: string = "/";
+          setMessageRouterRedirection(route);
           
           setIsOpenMessageModal(true);
           
@@ -140,7 +141,7 @@ const CreateUserQrScanerForm = () => {
 
   return (
     <>
-        <MessageModal isOpenMessageModal={isOpenMessageModal} onCloseMessageModal={() => setIsOpenMessageModal(false)} messageTitle={messageTitle} messageText={messageText} />
+        <MessageModal isOpenMessageModal={isOpenMessageModal} onCloseMessageModal={() => setIsOpenMessageModal(false)} messageTitle={messageTitle} messageText={messageText} messageRouterRedirection={messageRouterRedirection} />
 
         <div>
         <RegistrationConfirmationModal

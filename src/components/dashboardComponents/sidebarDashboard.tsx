@@ -163,7 +163,7 @@ const SidebarDashboard: React.FC<{ setSection: (section: string) => void, sectio
               </button>
             </Link>
 
-            <button
+            {/* <button
               onClick={() => {
                 setSection("crearQrScannerUser");
                 setIsSidebarOpen(false);
@@ -171,7 +171,13 @@ const SidebarDashboard: React.FC<{ setSection: (section: string) => void, sectio
               className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white ${section === "ventas" ? "border-[2px] border-[#2C2C2C]" : "text-[#2C2C2C"}`}
             >
               Crear usuario con acceso Scanner
-            </button>
+            </button> */}
+
+            <Link href="/invitationQrScannerUser">
+              <button className="block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white">
+              Crear usuario con acceso Scanner
+              </button>
+            </Link>
           </div>
         </nav>
       </div>
