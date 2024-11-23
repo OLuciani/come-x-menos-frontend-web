@@ -10,7 +10,7 @@ import MessageModal from "@/components/messageModal/MessageModal";
 import { FaArrowLeft } from 'react-icons/fa';
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import SidebarDashboard from "../sidebarDashboard";
+import SidebarDashboard from "../SidebarBusinessDashboard";
 
 interface UserDetailsModalProps {
   user?: ActiveUser | undefined;
@@ -254,7 +254,7 @@ const AsociatedBusinessUserDetail: React.FC<UserDetailsModalProps> = ({
             messageRouterRedirection={messageRouterRedirection}
             selectedNavBarOption={selectedNavBarOption}
           />
-          
+
           <div className="">
             <Link
               href={"/asociatedBusinessUsers"}

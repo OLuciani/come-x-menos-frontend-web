@@ -2,7 +2,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import axios, { AxiosError } from "axios";
 import { discountsList, DiscountsList } from "@/services/apiCall";
-import SidebarDashboard from "@/components/dashboardComponents/sidebarDashboard";
+import SidebarDashboard from "@/components/dashboardComponents/SidebarBusinessDashboard";
 //import HeaderDashboard from "@/components/dashboardComponents/headerDashboard";
 import Overview from "@/components/dashboardComponents/overview/Overview";
 import DashboardDiscounts from "@/components/dashboardComponents/dashboardDiscounts/DashboardDiscounts";
