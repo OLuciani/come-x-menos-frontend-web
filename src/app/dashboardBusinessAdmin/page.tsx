@@ -33,7 +33,7 @@ const Dashboard: React.FC = () => {
       const storedUserToken = Cookies.get("userToken") || "";
       setUserToken(storedUserToken);
     }
-  }, [isLoggedIn]);
+  }, [isLoggedIn, setUserToken]);
 
   useEffect(() => {
     const storedUserToken = Cookies.get("userToken") || "";

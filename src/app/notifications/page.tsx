@@ -102,7 +102,7 @@ import { Context } from "@/context/Context";
 import Cookies from "js-cookie";
 import UserNotifications from '@/components/userNotifications/UserNotifications';
 
-const page = () => {
+const Notifications = () => {
     const { userToken, setUserToken, isLoggedIn, userRole, setUserRole, setUserName, setBusinessName, setBusinessType, setSelectedOption, setUserStatus } = useContext(Context);
 
     useEffect(() => {
@@ -139,4 +139,4 @@ const page = () => {
   )
 }
 
-export default page;
+export default Notifications;

@@ -56,7 +56,7 @@ const SelectedUserModal: React.FC<UserDetailsModalProps> = ({
     setUserStatus(storedUserStatus);
 
     setSelectedOption("Mi cuenta");
-  }, [setUserToken, setUserRole, setUserName, setSelectedOption, setSelectedOption]);
+  }, [setUserToken, setUserRole, setUserName, setSelectedOption, setSelectedOption, setUserStatus]);
 
   useEffect(() => {
     const modalContent = modalContentRef.current;

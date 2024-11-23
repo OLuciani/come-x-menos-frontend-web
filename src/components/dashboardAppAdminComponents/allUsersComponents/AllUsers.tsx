@@ -293,7 +293,7 @@ const AllUsers = () => {
     setUserStatus(storedUserStatus);
 
     setSelectedOption("Mi cuenta");
-  }, [setUserToken, setUserRole, setUserName, setSelectedOption, setSelectedOption]);
+  }, [setUserToken, setUserRole, setUserName, setSelectedOption, setSelectedOption, setUserStatus]);
 
 
   useEffect(() => {
