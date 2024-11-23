@@ -163,7 +163,7 @@ import Cookies from "js-cookie";
 import TokenExpiredModal from "@/components/tokenExpiredModal/TokenExpiredModal";
 import { isAfter, format } from "date-fns";
 import UserNotifications from "@/components/userNotifications/UserNotifications";
-import PendingUsers from "@/components/dashboardAppAdminComponents/pendingUsers/page";
+import PendingUsers from "@/components/dashboardAppAdminComponents/pendingUsers/PendingUsers";
 import AllUsers from '@/components/dashboardAppAdminComponents/allUsersComponents/AllUsers';
 import RoleManagement from "@/components/dashboardAppAdminComponents/roleManagement/RoleManagement";
 import Notifications from "@/components/dashboardAppAdminComponents/notifications/Notifications";
@@ -186,7 +186,7 @@ const DashboardAplicationAdmin: React.FC = () => {
       const storedUserToken = Cookies.get("userToken") || "";
       setUserToken(storedUserToken);
     }
-  }, [isLoggedIn]);
+  }, [isLoggedIn, setUserToken]);
 
   useEffect(() => {
     const storedUserToken = Cookies.get("userToken") || "";
@@ -208,7 +208,7 @@ const DashboardAplicationAdmin: React.FC = () => {
     setUserStatus(cookieUserStatus);
 
     setSelectedOption("Mi cuenta");
-  }, [setSelectedOption, setBusinessName, setBusinessType, setUserName, setUserRole]);
+  }, [setSelectedOption, setBusinessName, setBusinessType, setUserName, setUserRole, setUserToken, setUserStatus]);
 
   const renderSection = () => {
     switch (section) {

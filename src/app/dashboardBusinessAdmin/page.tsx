@@ -55,7 +55,7 @@ const Dashboard: React.FC = () => {
     setUserStatus(cookieUserStatus);
 
     setSelectedOption("Mi cuenta");
-  }, [setSelectedOption, setBusinessName, setBusinessType, setUserName, setUserRole]);
+  }, [setSelectedOption, setBusinessName, setBusinessType, setUserName, setUserRole, setUserToken, setUserStatus]);
 
   
 
