@@ -14,6 +14,7 @@ const Menu: React.FC<MenuProps> = ({ open, closeMenu }) => {
   const {
     userId,
     setUserId,
+    userStatus,
     userRole,
     setUserRole,
     userToken,
@@ -24,21 +25,34 @@ const Menu: React.FC<MenuProps> = ({ open, closeMenu }) => {
     setBusinessType,
     setSelectedOption,
     setIsLoggedIn,
+    setUserStatus
   } = useContext(Context);
   const [showSideBar, setShowSidebar] = useState(true);
-  const [roleAdminWeb, setRoleAdminWeb] = useState<string | undefined>("");
-  const [roleAdminApp, setRoleAdminApp] = useState<string | undefined>("");
+  /* const [roleAdminWeb, setRoleAdminWeb] = useState<string | undefined>("");
+  const [roleAdminApp, setRoleAdminApp] = useState<string | undefined>(""); */
+  const [roleAppAdmin, setRoleAppAdmin] = useState<string | undefined>("");
+  const [roleBusinessDirector, setRoleBusinessDirector] = useState<string | undefined>("");
+  const [roleBusinessManager, setRoleBusinessManager] = useState<string | undefined>("");
+  const [roleBusinessEmployee, setRoleBusinessEmployee] = useState<string | undefined>("");
 
   const router = useRouter();
   const currentRoute = usePathname(); // Obtener la ruta actual usando usePathname
+  
 
   useEffect(() => {
-    const roleAdminWeb: string | undefined = process.env.NEXT_PUBLIC_ROLE_ADMINWEB;
-    setRoleAdminWeb(roleAdminWeb);
+    //Configuro una variable de estado p/cada rol y le adjudico el valor que dicho rol tiene en la variable de entorno.
+    const appAdmin: string | undefined = process.env.NEXT_PUBLIC_ROLE_APP_ADMIN;
+    setRoleAppAdmin(appAdmin);
+  
+    const businessDirector: string | undefined = process.env.NEXT_PUBLIC_ROLE_BUSINESS_DIRECTOR;
+    setRoleBusinessDirector(businessDirector);
 
-    const roleAdminApp: string | undefined = process.env.NEXT_PUBLIC_ROLE_ADMINAPP;
-    setRoleAdminApp(roleAdminApp);
-  }, [setRoleAdminApp, setRoleAdminWeb]);
+    const businessManager: string | undefined = process.env.NEXT_PUBLIC_ROLE_BUSINESS_MANAGER;
+    setRoleBusinessManager(businessManager);
+
+    const businessEmployee: string | undefined = process.env.NEXT_PUBLIC_ROLE_BUSINESS_EMPLOYEE;
+    setRoleBusinessEmployee(businessEmployee);
+  }, [setRoleAppAdmin, setRoleBusinessDirector, setRoleBusinessManager, setRoleBusinessEmployee]);
 
   const activo =
     "absolute top-14 w-[60%] right-0 py-2 bg-[#FFCF91] p-2 transition-opacity duration-200 transition-opacity duration-200 z-50";
@@ -62,12 +76,14 @@ const Menu: React.FC<MenuProps> = ({ open, closeMenu }) => {
     Cookies.remove("userName");
     Cookies.remove("businessName");
     Cookies.remove("businessType");
+    Cookies.remove("userStatus");
 
     setUserRole("");
     setUserToken("");
     setUserName("");
     setBusinessName("");
     setBusinessType("");
+    setUserStatus("");
     
     setIsLoggedIn(false);
 
@@ -105,7 +121,7 @@ const Menu: React.FC<MenuProps> = ({ open, closeMenu }) => {
           </li>
         </Link>
 
-        {userToken && userRole === roleAdminWeb && (
+        {userToken && (userRole === roleBusinessDirector || userRole === roleBusinessManager) && userStatus === "active" && (
           <Link href={"/dashboardBusinessAdmin"} onClick={handleLinkClick}>
             <li
               className={`${
@@ -119,7 +135,21 @@ const Menu: React.FC<MenuProps> = ({ open, closeMenu }) => {
           </Link>
         )}
 
-        {userToken && userRole === roleAdminApp && (
+        {userToken  && userStatus === "pending" && (
+          <Link href={"/notifications"} onClick={handleLinkClick}>
+            <li
+              className={`${
+                currentRoute === "/notifications"
+                ? "text-[#FD7B03] font-bold bg-white"
+                  : "text-[#FD7B03] font-bold hover:bg-[#FFCF91] hover:text-[#FD7B03]"
+              } px-8 py-2`}
+            >
+              Notificaciones
+            </li>
+          </Link>
+        )}
+
+        {userToken && userRole === roleAppAdmin && (
           <Link href={"/dashboardAplicationAdmin"} onClick={handleLinkClick}>
             <li
               className={`${

@@ -39,8 +39,15 @@ const LoginForm = () => {
     setIsLoggedIn,
     setBackgroundButtonNavBar,
     setSelectedOption,
-    userRole
+    userRole,
+    setUserStatus
   } = useContext(Context);
+
+  const roleAppAdmin = process.env.NEXT_PUBLIC_ROLE_APP_ADMIN;
+  const roleBusinessDirector = process.env.NEXT_PUBLIC_ROLE_BUSINESS_DIRECTOR;
+  const roleBusinessManager = process.env.NEXT_PUBLIC_ROLE_BUSINESS_MANAGER;
+  const roleBusinessEmployee = process.env.NEXT_PUBLIC_ROLE_BUSINESS_EMPLOYEE;
+  const roleMobileCustomer = process.env.NEXT_PUBLIC_ROLE_MOBILE_CUSTOMER;
 
 
   const validationSchema = Yup.object({
@@ -175,13 +182,27 @@ const LoginForm = () => {
         sameSite: "strict",
       });
 
-      Cookies.set("businessName", response.businessName, {
-        expires: 1,
-        secure: true,
-        sameSite: "strict",
-      });
 
-      Cookies.set("businessType", response.businessType, {
+
+      /* if(response.userRole === roleBusinessDirector || response.userRole === roleBusinessManager || response.userRole === roleBusinessEmployee) { */
+        Cookies.set("businessName", response.businessName, {
+          expires: 1,
+          secure: true,
+          sameSite: "strict",
+        });
+  
+        Cookies.set("businessType", response.businessType, {
+          expires: 1,
+          secure: true,
+          sameSite: "strict",
+        });
+
+        setBusinessName(response.businessName);
+        setBusinessType(response.businessType);
+     /*  } */
+
+
+      Cookies.set("userStatus", response.userStatus, {
         expires: 1,
         secure: true,
         sameSite: "strict",
@@ -189,8 +210,9 @@ const LoginForm = () => {
 
       setUserRole(response.userRole);
       setUserName(response.userName);
-      setBusinessName(response.businessName);
-      setBusinessType(response.businessType);
+      //setBusinessName(response.businessName);
+      //setBusinessType(response.businessType);
+      setUserStatus(response.userStatus);
 
       setBackgroundButtonNavBar(true);
 
@@ -203,12 +225,14 @@ const LoginForm = () => {
         Cookies.remove("userName");
         Cookies.remove("businessName");
         Cookies.remove("businessType");
+        Cookies.remove("userStatus");
 
         setUserRole("");
         setUserToken("");
         setUserName("");
         setBusinessName("");
         setBusinessType("");
+        setUserStatus("");
 
         setIsLoggedIn(false);
 
@@ -217,49 +241,40 @@ const LoginForm = () => {
         setSelectedOption("Iniciar sesión");
       }, expirationTime);
 
-      const roleAdminWeb = process.env.NEXT_PUBLIC_ROLE_ADMINWEB;
-      const roleAdminApp = process.env.NEXT_PUBLIC_ROLE_ADMINAPP;
-      const roleUser = process.env.NEXT_PUBLIC_ROLE_USER;
+      //const roleAppAdmin = process.env.NEXT_PUBLIC_ROLE_APP_ADMIN;  
+      /* const roleBusinessDirector = process.env.NEXT_PUBLIC_ROLE_BUSINESS_DIRECTOR;
+      const roleBusinessManager = process.env.NEXT_PUBLIC_ROLE_BUSINESS_MANAGER;
+      const roleBusinessEmployee = process.env.NEXT_PUBLIC_ROLE_BUSINESS_EMPLOYEE;
+      const roleMobileCustomer = process.env.NEXT_PUBLIC_ROLE_MOBILE_CUSTOMER; */
 
-      console.log("Valor del rol que llega en response: ", response.userRole)
+      //const roleUser = process.env.NEXT_PUBLIC_ROLE_USER;
 
-      if(response.userRole === roleUser) {
-        router.push("/notifications");
-        setSelectedOption("Notificaciones");
-      } else
-      if(response.userRole === roleAdminApp) {
-        //router.push("/dashboardAppAdmin");
-        router.push("/dashboardAplicationAdmin");
-        //setSelectedOption("Admin App");
-        setSelectedOption("Mi cuenta");
-      } else
-      if(response.userRole === roleAdminWeb) {
-        //router.push("/myAccount");
-        router.push("/dashboardBusinessAdmin");
-        setSelectedOption("Mi cuenta");
+      console.log("Valor del rol que llega en response: ", response.userRole);
+
+      if(response.userStatus === "active") {
+        if(response.userRole === roleAppAdmin) {
+          //router.push("/dashboardAppAdmin");
+          router.push("/dashboardAplicationAdmin");
+          //setSelectedOption("Admin App");
+          setSelectedOption("Mi cuenta");
+        } 
+        if(response.userRole === roleBusinessDirector || response.userRole === roleBusinessManager) {
+          //router.push("/myAccount");
+          router.push("/dashboardBusinessAdmin");
+          setSelectedOption("Mi cuenta");
+        } 
+        if (response.userRole === roleBusinessEmployee) {
+          router.push("/dashboardBusinessAdmin");
+          setSelectedOption("Mi cuenta");
+        }
       } else {
-        //router.push("/");
-        //alert("No tienes autorizacion para iniciar sesión")
-        setIsAccessModalOpen(true);
-        Cookies.remove("userToken");
-        Cookies.remove("token"); //Remueve la cookie con el token
-        Cookies.remove("userRole");
-        Cookies.remove("userName");
-        Cookies.remove("businessName");
-        Cookies.remove("businessType");
-
-        setUserRole("");
-        setUserToken("");
-        setUserName("");
-        setBusinessName("");
-        setBusinessType("");
-
-        setIsLoggedIn(false);
+        router.push("/notifications");
+        setSelectedOption("Notificaciones")
       }
     } catch (err) {
       console.error("Error al obtener el perfil del usuario:", err);
     }
-  }, [router, setUserRole, setUserName, setBusinessName, setBusinessType]);
+  }, [router, setUserRole, setUserName, setBusinessName, setBusinessType, setUserStatus]);
 
   return (
     <div>
@@ -301,7 +316,7 @@ const LoginForm = () => {
           </p>
           <Input
             label="Contraseña"
-            placeholder="****"
+            placeholder="********"
             type="password"
             name="password"
             value={formik.values.password}

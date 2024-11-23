@@ -1,19 +1,24 @@
-"use client"
+"use client";
 import React, { useState, useContext, useEffect } from "react";
 import Input from "@/components/InputAuth/Input";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { createUserQrScanner, QrScannerUser } from "@/services/apiCall";
+import {
+  createBusinessEmployeeUser,
+  BusinessEmployee,
+} from "@/services/apiCall";
 import { registerUserWithFirebase } from "@/services/authService";
 import { Context } from "@/context/Context";
 import Button from "@/components/button/Button";
 import RegistrationConfirmationModal from "@/components/registrationConfirmationModal/RegistrationConfirmationModal";
 import MessageModal from "@/components/messageModal/MessageModal";
 
+const CreateBusinessEmployeeUserForm = () => {
+  const { businessType } = useContext(Context);
+  const navigation = useRouter();
+  const searchParams = useSearchParams();
 
-const CreateUserQrScanerForm = () => {
-  const { businessName } = useContext(Context);
   const [error, setError] = useState<string | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(false);
   const [isRegistrationModalOpen, setIsRegistrationModalOpen] =
@@ -21,31 +26,39 @@ const CreateUserQrScanerForm = () => {
   const [token, setToken] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [businessId, setBusinessId] = useState<string>("");
+  const [businessName, setBusinessName] = useState<string>("");
+
+  /* Variables utilizadas para mostrar un mensaje en un modal */
   const [isOpenMessageModal, setIsOpenMessageModal] = useState<boolean>(false);
   const [messageText, setMessageText] = useState<string>("");
   const [messageTitle, setMessageTitle] = useState<string>("");
-  const [messageRouterRedirection, setMessageRouterRedirection] = useState<string>("");
-
-  const navigation = useRouter();
-  const searchParams = useSearchParams();
+  const [messageRouterRedirection, setMessageRouterRedirection] =
+    useState<string>("");
+  const [selectedNavBarOption, setSelectedNavBarOption] = useState<string>("");
 
   useEffect(() => {
     const tokenFromUrl = searchParams.get("token");
     const emailFromUrl = searchParams.get("email");
     const businessIdFromUrl = searchParams.get("businessId");
+    const businessNameFromUrl = searchParams.get("businessName");
 
     //console.log("Valor de tokenFromUrl: ", tokenFromUrl);
     //console.log("Valor de emailFromUrl: ", emailFromUrl);
     //console.log("Valor de businessIdFromUrl: ", businessIdFromUrl);
 
-    if (!tokenFromUrl || !emailFromUrl || !businessIdFromUrl) {
-      console.error("El token, el email o el id del negocio que invita a este usuario a crear cuenta con acceso al scanner en la app movil no están presentes en la URL");
+    if (!tokenFromUrl || !emailFromUrl || !businessIdFromUrl || !businessNameFromUrl) {
+      console.error(
+        "El token, el email o el id del negocio que invita a este usuario a crear cuenta con acceso al scanner en la app movil no están presentes en la URL"
+      );
       return;
     }
 
     setToken(tokenFromUrl);
     setEmail(emailFromUrl);
     setBusinessId(businessIdFromUrl);
+    if(businessNameFromUrl) {
+      setBusinessName(businessNameFromUrl);
+    }
   }, [searchParams]);
 
   const validationSchema = Yup.object({
@@ -55,9 +68,10 @@ const CreateUserQrScanerForm = () => {
     lastName: Yup.string()
       .min(3, "El apellido debe tener al menos 3 caracteres")
       .required("El apellido es requerido"),
+    phone: Yup.string().required("Teléfono es requerido"),
     email: Yup.string()
-    .email("Correo electrónico no válido")
-    .required("El correo electrónico es obligatorio"),
+      .email("Correo electrónico no válido")
+      .required("El correo electrónico es obligatorio"),
     password: Yup.string()
       .min(6, "La contraseña debe tener al menos 6 caracteres")
       .required("La contraseña es requerida"),
@@ -73,6 +87,7 @@ const CreateUserQrScanerForm = () => {
     initialValues: {
       name: "",
       lastName: "",
+      phone: "",
       email: "",
       password: "",
       repeatPassword: "",
@@ -95,44 +110,51 @@ const CreateUserQrScanerForm = () => {
           return;
         }
 
-        const userResponse = await createUserQrScanner(values, token, businessId);
+        const userResponse = await createBusinessEmployeeUser(
+          values,
+          token,
+          businessId
+        );
         if (typeof userResponse === "object" && userResponse !== null) {
-          console.log("Usuario con acceso a Scanner en aplicación movil registrado exitosamente en Mongo Db");
+          console.log(
+            "Usuario con acceso a Scanner en aplicación movil registrado exitosamente en Mongo Db"
+          );
 
           setError("");
 
           const title: string = "¡Cuenta creada con éxito!";
           setMessageTitle(title);
-          const text: string = `Tu cuenta solo permite iniciar sesión desde la aplicación móvil para usar el escáner. ¡Te esperamos allí!` 
+          const text: string = `Has creado una cuenta asociada a la cuenta del negocio ${businessName} en la aplicación Comé x menos como empleado de dicho negocio.`;
           setMessageText(text);
           const route: string = "/";
           setMessageRouterRedirection(route);
-          
+
           setIsOpenMessageModal(true);
-          
-          setTimeout(() => {
-            navigation.push("/");
-          }, 10000);
-         
-          };
 
-          // Crear el objeto FormData con los datos del usuario y el id del negocio tomado 
-          const formData = new FormData();
-          formData.append("name", values.name); 
-          formData.append("lastName", values.lastName);
-          formData.append("password", values.password);
+          const navBarOption: string = "Inicio";
+          setSelectedNavBarOption(navBarOption);
+        }
 
-          if (email.trim().toLowerCase() === values.email.trim().toLowerCase()) {
-            formData.append("email", values.email);
-          } else {
-            setError("El correo electrónico no coincide con el que fue enviado en la invitación.");
-            console.log("El correo electrónico no coincide con el que fue enviado en la invitación.");
-          }
-          
+        // Crear el objeto FormData con los datos del usuario y el id del negocio tomado
+        const formData = new FormData();
+        formData.append("name", values.name);
+        formData.append("lastName", values.lastName);
+        formData.append("password", values.password);
 
-        
+        if (email.trim().toLowerCase() === values.email.trim().toLowerCase()) {
+          formData.append("email", values.email);
+        } else {
+          setError(
+            "El correo electrónico no coincide con el que fue enviado en la invitación."
+          );
+          console.log(
+            "El correo electrónico no coincide con el que fue enviado en la invitación."
+          );
+        }
       } catch (err: any) {
-        setError(`Error: ${err.message || "Error de red o el servidor es inaccesible"}`);
+        setError(
+          `Error: ${err.message || "Error de red o el servidor es inaccesible"}`
+        );
       } finally {
         setIsLoading(false);
       }
@@ -141,21 +163,28 @@ const CreateUserQrScanerForm = () => {
 
   return (
     <>
-        <MessageModal isOpenMessageModal={isOpenMessageModal} onCloseMessageModal={() => setIsOpenMessageModal(false)} messageTitle={messageTitle} messageText={messageText} messageRouterRedirection={messageRouterRedirection} />
+      <MessageModal
+        isOpenMessageModal={isOpenMessageModal}
+        onCloseMessageModal={() => setIsOpenMessageModal(false)}
+        messageTitle={messageTitle}
+        messageText={messageText}
+        messageRouterRedirection={messageRouterRedirection}
+        selectedNavBarOption={selectedNavBarOption}
+      />
 
-        <div>
+      <div>
         <RegistrationConfirmationModal
-            isOpenRegistrationConfirmation={isRegistrationModalOpen}
-            onCloseRegistrationConfirmation={() =>
+          isOpenRegistrationConfirmation={isRegistrationModalOpen}
+          onCloseRegistrationConfirmation={() =>
             setIsRegistrationModalOpen(false)
-            }
+          }
         />
 
         <form
-            className="flex flex-col items-center mx-auto gap-6"
-            onSubmit={formik.handleSubmit}
+          className="flex flex-col items-center mx-auto gap-6"
+          onSubmit={formik.handleSubmit}
         >
-            <Input
+          <Input
             label="Nombre"
             placeholder=""
             type="text"
@@ -164,12 +193,12 @@ const CreateUserQrScanerForm = () => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             minLength={3}
-            />
-            {formik.touched.name && formik.errors.name ? (
+          />
+          {formik.touched.name && formik.errors.name ? (
             <p className="text-red-700">{formik.errors.name}</p>
-            ) : null}
+          ) : null}
 
-            <Input
+          <Input
             label="Apellido"
             placeholder=""
             type="text"
@@ -178,26 +207,40 @@ const CreateUserQrScanerForm = () => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             minLength={3}
-            />
-            {formik.touched.lastName && formik.errors.lastName ? (
+          />
+          {formik.touched.lastName && formik.errors.lastName ? (
             <p className="text-red-700">{formik.errors.lastName}</p>
-            ) : null}
-            
-            <Input
-                label="Email"
-                placeholder=""
-                type="email"
-                name="email"
-                value={formik.values.email}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                minLength={3}
-            />
-            {formik.touched.email && formik.errors.email ? (
-                <p className="text-red-700">{formik.errors.email}</p>
-            ) : null}
+          ) : null}
 
-            <Input
+          <Input
+            label="Teléfono"
+            placeholder=""
+            type="text"
+            name="phone"
+            value={formik.values.phone}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            minLength={1}
+          />
+          {formik.touched.phone && formik.errors.phone ? (
+            <p className="text-red-700">{formik.errors.phone}</p>
+          ) : null}
+
+          <Input
+            label="Email"
+            placeholder=""
+            type="email"
+            name="email"
+            value={formik.values.email}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            minLength={3}
+          />
+          {formik.touched.email && formik.errors.email ? (
+            <p className="text-red-700">{formik.errors.email}</p>
+          ) : null}
+
+          <Input
             label="Contraseña"
             placeholder=""
             type="password"
@@ -205,12 +248,12 @@ const CreateUserQrScanerForm = () => {
             value={formik.values.password}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            />
-            {formik.touched.password && formik.errors.password ? (
+          />
+          {formik.touched.password && formik.errors.password ? (
             <p className="text-red-700">{formik.errors.password}</p>
-            ) : null}
+          ) : null}
 
-            <Input
+          <Input
             label="Repetir contraseña"
             placeholder=""
             type="password"
@@ -218,18 +261,18 @@ const CreateUserQrScanerForm = () => {
             value={formik.values.repeatPassword}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            />
-            {formik.touched.repeatPassword && formik.errors.repeatPassword ? (
+          />
+          {formik.touched.repeatPassword && formik.errors.repeatPassword ? (
             <p className="text-red-700">{formik.errors.repeatPassword}</p>
-            ) : null}
+          ) : null}
 
-            <Button buttonText={isLoading ? "Cargando..." : "Crear cuenta"} />
+          <Button buttonText={isLoading ? "Cargando..." : "Crear cuenta"} />
 
-            {error && <p className="text-red-700">{error}</p>}
+          {error && <p className="text-red-700">{error}</p>}
         </form>
-        </div>
+      </div>
     </>
   );
 };
 
-export default CreateUserQrScanerForm;
+export default CreateBusinessEmployeeUserForm;

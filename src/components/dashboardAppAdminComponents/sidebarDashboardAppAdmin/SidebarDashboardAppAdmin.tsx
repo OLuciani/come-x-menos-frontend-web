@@ -51,7 +51,7 @@ const SidebarDashboardAppAdmin: React.FC<{ setSection: (section: string) => void
         bg-[#FFCF91] text-[#FD7B03] font-bold w-full lg:w-80 h-auto lg:min-h-screen flex flex-col`}
       > */}
       <div
-      className={`bg-[#FFCF91] text-[#2C2C2C] font-bold w-full lg:w-80 lg:h-screen 
+      className={`bg-[#FFCF91] text-[#2C2C2C] font-bold w-full lg:w-96 lg:h-screen 
       ${isSidebarOpen ? "block" : "hidden lg:block"} h-auto lg:sticky mb-3 lg:mb-0 lg:top-0 
       flex flex-col overflow-y-auto`}
     >
@@ -69,27 +69,29 @@ const SidebarDashboardAppAdmin: React.FC<{ setSection: (section: string) => void
                 setSection("pendingUsers");
                 setIsSidebarOpen(false);
               }}
-              className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white ${section === "pendingUsers" ? "border-[2px] border-[#2C2C2C]" : "text-[#2C2C2C]"}`}
+              className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white ${section === "pendingUsers" ? "border-[2px] border-[#2C2C2C] hover:border-[#FD7B03]" : "text-[#2C2C2C]"}`}
             >
-              Usuarios/negocios pendientes
+              Directores de negocios pendientes
             </button>
             
-            <button
-              onClick={() => {
-                setSection("activeUsers");
-                setIsSidebarOpen(false);
-              }}
-              className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white ${section === "activeUsers" ? "border-[2px] border-[#2C2C2C]" : "text-[#2C2C2C]"}`}
-            >
-              Usuarios/Negocios activos
-            </button>
+            {/* <Link href="/allUsers"> */}
+              <button
+                onClick={() => {
+                  setSection("allUsers");
+                  setIsSidebarOpen(false);
+                }}
+                className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white ${section === "allUsers" ? "border-[2px] border-[#2C2C2C] hover:border-[#FD7B03]" : "text-[#2C2C2C]"}`}
+              >
+                Todos los usuarios (sin admin app)
+              </button>
+            {/* </Link> */}
 
             <button
               onClick={() => {
                 setSection("roleManagement");
                 setIsSidebarOpen(false);
               }}
-              className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white ${section === "roleManagement" ? "border-[2px] border-[#2C2C2C]" : "text-[#2C2C2C]"}`}
+              className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white ${section === "roleManagement" ? "border-[2px] border-[#2C2C2C] hover:border-[#FD7B03]" : "text-[#2C2C2C]"}`}
             >
               Gestión de roles
             </button>
@@ -100,7 +102,7 @@ const SidebarDashboardAppAdmin: React.FC<{ setSection: (section: string) => void
                 //handleNotificationClick();
                 setIsSidebarOpen(false);
               }}
-              className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white relative ${section === "activityLogs" ? "border-[2px] border-[#2C2C2C]" : "text-[#2C2C2C]"}`}
+              className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white relative ${section === "activityLogs" ? "border-[2px] border-[#2C2C2C] hover:border-[#FD7B03]" : "text-[#2C2C2C]"}`}
             >
               Registros de actividad
               {/* {unreadCount > 0 && (
@@ -116,7 +118,7 @@ const SidebarDashboardAppAdmin: React.FC<{ setSection: (section: string) => void
                 //handleNotificationClick();
                 setIsSidebarOpen(false);
               }}
-              className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white relative ${section === "notifications" ? "border-[2px] border-[#2C2C2C]" : "text-[#2C2C2C]"}`}
+              className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white relative ${section === "notifications" ? "border-[2px] border-[#2C2C2C] hover:border-[#FD7B03]" : "text-[#2C2C2C]"}`}
             >
               {/* <AiOutlineBell className="inline mr-2" /> */}
               Notificaciones

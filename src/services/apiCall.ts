@@ -119,6 +119,7 @@ export interface PendingBusiness {
   longitude: number;
   imageURL: string;
   urlLogo: string;
+  pdfBusinessRegistration: string;
 }
 
 export interface ActiveBusiness {
@@ -130,6 +131,7 @@ export interface ActiveBusiness {
   longitude: number;
   imageURL: string;
   urlLogo: string;
+  pdfBusinessRegistration: string;
 }
 
 export interface UserLogin {
@@ -241,13 +243,45 @@ export interface DashboardData {
   };
 }
 
-export interface QrScannerUser {
+export interface BusinessEmployee {
   name?: string;
   lastName?: string;
   email: string;
+  phone?: string;
   password?: string;
   businessId?: string;
   token?: string;
+}
+
+
+export interface ExtraBusinessAdminUser {
+  name?: string;
+  lastName?: string;
+  email: string;
+  phone?: string;
+  password?: string;
+  businessId?: string;
+  token?: string;
+}
+
+
+export interface ActiveUser {
+  _id: string;
+  name: string;
+  lastName: string;
+  businessName?: string;
+  phone: string;
+  email: string;
+  //password: string;
+  //repeatPassword?: string;
+  businessType?: string;
+  //token: string;
+  businessId?: string;
+  originalEmail?: string;
+  pdfBusinessRegistration?: string;
+  role?: string;
+  status?: string;
+  business?: object | null;
 }
 
 export async function login(
@@ -255,8 +289,6 @@ export async function login(
 ): Promise<{ userId: string; userLoged: boolean } | { error: string }> {
   try {
     const response = await axios.post(
-      //"https://discount-project-backend.onrender.com/api/login",
-      //"http://localhost:5050/api/login",
       `${BASE_BACKEND_URL}/api/login`,
       {
         email: data.email,
@@ -296,8 +328,6 @@ export async function userProfile() {
     }
 
     const response = await axios.get(
-      //`https://discount-project-backend.onrender.com/api/user_profile`,
-      //`http://localhost:5050/api/user_profile`,
       `${BASE_BACKEND_URL}/api/user_profile`,
       {
         withCredentials: true, // Esta línea asegura que las cookies (entre ellas va la del token que es indispensable en esta ruta) se envíen con la solicitud
@@ -405,8 +435,6 @@ export async function createUser(
 ): Promise<User | string> {
   try {
     const response = await axios.post(
-      //"https://discount-project-backend.onrender.com/api/user_register",
-      //"http://localhost:5050/api/user_register",
       `${BASE_BACKEND_URL}/api/user_register`,
       {
         name: data.name,
@@ -447,18 +475,12 @@ export async function createUser(
 export const updateUserWithBusinessId = async (
   userId: string,
   businessId: string,
-  businessType: string,
-  pdfBusinessRegistration: File | null
 ) => {
   try {
     const response = await axios.patch(
-      //`https://discount-project-backend.onrender.com/api/businessId_and_businessType_update/${userId}`,
-      //`http://localhost:5050/api/businessId_and_businessType_update/${userId}`,
       `${BASE_BACKEND_URL}/api/businessId_and_businessType_update/${userId}`,
       {
         businessId,
-        businessType,
-        pdfBusinessRegistration,
       }
     );
     return response.data;
@@ -472,8 +494,6 @@ export async function createBusiness(
 ): Promise<Business | string> {
   try {
     const response = await axios.post(
-      //"https://discount-project-backend.onrender.com/api/business_create",
-      //"http://localhost:5050/api/business_create",
       `${BASE_BACKEND_URL}/api/business_create`,
       data,
       {
@@ -517,8 +537,6 @@ export async function createDiscount(
 
   try {
     const response = await axios.post(
-      //"https://discount-project-backend.onrender.com/api/discount_create",
-      //"http://localhost:5050/api/discount_create",
       `${BASE_BACKEND_URL}/api/discount_create`,
       data,
       {
@@ -562,8 +580,6 @@ export async function discountsList(): Promise<DiscountsList[] | string> {
     //console.log("Valor de userId en pedido get: ", businessId);
     //console.log("Valor de userToken en pedido get: ", userToken);
     const response = await axios.get(
-      //`https://discount-project-backend.onrender.com/api/discounts_list_one_business`,
-      //`http://localhost:5050/api/discounts_list_one_business`,
       `${BASE_BACKEND_URL}/api/discounts_list_one_business`,
       {
         withCredentials: true,
@@ -604,8 +620,6 @@ export async function usersDiscountsList(): Promise<
 
   try {
     const response = await axios.get(
-      //`https://discount-project-backend.onrender.com/api/consumed_discounts`,
-      //`http://localhost:5050/api/consumed_discounts`,
       `${BASE_BACKEND_URL}/api/consumed_discounts`,
       {
         withCredentials: true,
@@ -634,6 +648,8 @@ export async function usersDiscountsList(): Promise<
   }
 }
 
+
+
 export async function discountDetail(
   discountId: string
 ): Promise<DiscountDetail | string> {
@@ -648,8 +664,6 @@ export async function discountDetail(
     //console.log("Valor de userToken en pedido get: ", userToken);
 
     const response = await axios.get(
-      //`https://discount-project-backend.onrender.com/api/discount_detail/${discountId}`,
-      //`http://localhost:5050/api/discount_detail/${discountId}`,
       `${BASE_BACKEND_URL}/api/discount_detail/${discountId}`,
       {
         withCredentials: true,
@@ -691,8 +705,6 @@ export async function editDiscount(
 
   try {
     const response = await axios.patch(
-      //`https://discount-project-backend.onrender.com/api/discount_update/${discountId}`,
-      //`http://localhost:5050/api/discount_update/${discountId}`,
       `${BASE_BACKEND_URL}/api/discount_update/${discountId}`,
       data,
       {
@@ -942,6 +954,7 @@ export const getDashboardData = async (
   return (await response.json()) as DashboardData;
 };
 
+
 export async function fetchPendingUsersFromAPI() {
   try {
     // Verifico el token antes de hacer la solicitud
@@ -951,8 +964,6 @@ export async function fetchPendingUsersFromAPI() {
     }
 
     const response = await axios.get(
-      //`https://discount-project-backend.onrender.com/api/user_profile`,
-      //`http://localhost:5050/api/user_profile`,
       `${BASE_BACKEND_URL}/api/pending_users`,
       {
         withCredentials: true, // Esta línea asegura que las cookies (entre ellas va la del token que es indispensable en esta ruta) se envíen con la solicitud
@@ -998,6 +1009,7 @@ export const approveUser = async (userId: string) => {
   }
 };
 
+
 export async function fetchPendingBusinessFromAPI(businessId: string | null) {
   try {
     const response = await axios.get(
@@ -1028,7 +1040,7 @@ export async function fetchPendingBusinessFromAPI(businessId: string | null) {
   }
 }
 
-export async function fetchActiveBusinessesAdminsUsersFromAPI() {
+export async function fetchAllUsersFromAPI() {
   try {
     // Verifico el token antes de hacer la solicitud
     const isTokenValid = await verifyToken();
@@ -1037,7 +1049,7 @@ export async function fetchActiveBusinessesAdminsUsersFromAPI() {
     }
 
     const response = await axios.get(
-      `${BASE_BACKEND_URL}/api/active_businessesAdmins_usersList`,
+      `${BASE_BACKEND_URL}/api/all_users_list`,
       {
         withCredentials: true, // Esta línea asegura que las cookies (entre ellas va la del token que es indispensable en esta ruta) se envíen con la solicitud
       }
@@ -1159,7 +1171,7 @@ export const markUserNotificationsAsRead = async (notificationId?: string) => {
 };
 
 
-export const invitationEmailToQrScannerUser = async (user: QrScannerUser) => {
+export const invitationBusinessEmployeeUser = async (user: BusinessEmployee) => {
   console.log(user.email)
   try {
     // Verifico el token antes de hacer la solicitud
@@ -1168,7 +1180,7 @@ export const invitationEmailToQrScannerUser = async (user: QrScannerUser) => {
       return "Token inválido o expirado";
     }
 
-    const response = await axios.post(`${BASE_BACKEND_URL}/api/invitation_email_qr_scanner_user`, 
+    const response = await axios.post(`${BASE_BACKEND_URL}/api/invitation_business_employee_user`, 
     {
       email:user.email,  // Solo enviamos los datos del usuario
     },
@@ -1177,23 +1189,24 @@ export const invitationEmailToQrScannerUser = async (user: QrScannerUser) => {
     return response.data;
   } catch (error: any) {
     throw new Error(
-      error.response?.data?.message || "Error al enviar la invitación"
+      error.response?.data?.message || "Error al enviar la invitación al usuario con acceso al scanner en la aplicación movil"
     );
   }
 };
 
 
-export async function createUserQrScanner(data: QrScannerUser, token: string, businessId: string): Promise<QrScannerUser | string> {
+export async function createBusinessEmployeeUser(data: BusinessEmployee, token: string, businessId: string): Promise<BusinessEmployee | string> {
   //console.log("Valor de data en createUserQrScanner: ", data);
   //console.log("Valor de token en createUserQrScanner: ", token);
   //console.log("Valor de businessId en createUserQrScanner: ", businessId);
   try {
     const response = await axios.post(
-      `${BASE_BACKEND_URL}/api/create_user_qr_scanner`,
+      `${BASE_BACKEND_URL}/api/create_business_employee_user`,
       {
         name: data.name,
         lastName: data.lastName,
         email: data.email,
+        phone: data.phone,
         password: data.password, 
         businessId: businessId
       },
@@ -1221,5 +1234,236 @@ export async function createUserQrScanner(data: QrScannerUser, token: string, bu
   } catch (error: any) {
     console.error("Error al registrar el usuario con acceso a scanner en aplicación movil en MongoDB Atlas:", error);
     return "Error al registrar el usuario con acceso a scanner en aplicación movil";
+  }
+}
+
+
+export const invitationExtraBusinessAdminUser = async (user: ExtraBusinessAdminUser) => {
+  console.log(user.email)
+  try {
+    // Verifico el token antes de hacer la solicitud
+    const isTokenValid = await verifyToken();
+    if (!isTokenValid) {
+      return "Token inválido o expirado";
+    }
+
+    const response = await axios.post(`${BASE_BACKEND_URL}/api/invitation_extra_business_admin_user`, 
+    {
+      email:user.email,  // Solo enviamos los datos del usuario
+    },
+    { withCredentials: true }
+    );
+    return response.data;
+  } catch (error: any) {
+    throw new Error(
+      error.response?.data?.message || "Error al enviar la invitación al usuario administrador de la cuenta del negocio"
+    );
+  }
+};
+
+
+
+export async function createExtraBusinessAdminUser(data: ExtraBusinessAdminUser, token: string, businessId: string): Promise<ExtraBusinessAdminUser | string> {
+  //console.log("Valor de data en createUserQrScanner: ", data);
+  //console.log("Valor de token en createUserQrScanner: ", token);
+  //console.log("Valor de businessId en createUserQrScanner: ", businessId);
+  try {
+    const response = await axios.post(
+      `${BASE_BACKEND_URL}/api/create_extra_business_admin_user`,
+      {
+        name: data.name,
+        lastName: data.lastName,
+        email: data.email,
+        phone: data.phone,
+        password: data.password, 
+        businessId: businessId
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        }, 
+      }
+    );
+
+    // Verificar si el registro fue exitoso basado en la respuesta del backend
+    if (response.status === 200 && response.data) {
+      console.log(
+        "Usuario Estra Administrador de cuenta de negocio registrado en MongoDB Atlas correctamente:",
+        response.data
+      );
+    } else {
+      console.log(
+        "El registro del Usuario Estra Administrador de cuenta de negocio en MongoDB Atlas no fue exitoso:",
+        response.data
+      );
+    }
+
+    return response.data;
+  } catch (error: any) {
+    console.error("Error al registrar el Usuario Estra Administrador de cuenta de negocio en MongoDB Atlas:", error);
+    return "Error al registrar el Usuario Estra Administrador de cuenta de negocio en aplicación movil";
+  }
+}
+
+
+export async function getBusinessAdminUsersCount () {
+  /* // Verifico el token antes de hacer la solicitud
+  const isTokenValid = await verifyToken();
+  if (!isTokenValid) {
+    console.log("Token inválido o expirado en discountList");
+    return "Token inválido o expirado en discountList";
+  } */
+
+  try {
+    const response = await axios.get(
+      `${BASE_BACKEND_URL}/api/all_business_admin_users`,
+      {
+        withCredentials: true,
+      }
+    );
+
+    if (response.status === 200 && response.data) {
+      console.log(
+        "Listado de Usuarios Administradores de la cuenta en la app de un negocio traidos de MongoDB Atlas:",
+        response.data
+      );
+      return response.data;
+    } else {
+      console.log(
+        "El pedido del listado de Usuarios Administradores de la cuenta en la app de un negocio al backend no fue exitoso:",
+        response.data
+      );
+      return "Error al pedir el listado de Usuarios Administradores de la cuenta en la app de un negocio al backend";
+    }
+  } catch (error: any) {
+    console.error(
+      "Error al pedir un listado de Usuarios Administradores de la cuenta en la app de un negocio al backend:",
+      error.message
+    );
+    return "Error al pedir un listado de Usuarios Administradores de la cuenta en la app de un negocio al backend";
+  }
+}
+
+
+export async function fetchAsociatedBusinessUsers() {
+  try {
+    // Verifico el token antes de hacer la solicitud
+    const isTokenValid = await verifyToken();
+    if (!isTokenValid) {
+      return "Token inválido o expirado";
+    }
+
+    const response = await axios.get(
+      `${BASE_BACKEND_URL}/api/asociated_business_users`,
+      {
+        withCredentials: true, // Esta línea asegura que las cookies (entre ellas va la del token que es indispensable en esta ruta) se envíen con la solicitud
+      }
+    );
+
+    if (response.status === 200 && response.data) {
+      console.log(
+        "Listado de usuarios asociados a una cuenta de negocio traidos de MongoDB Atlas:",
+        response.data
+      );
+      return response.data;
+    } else {
+      console.log(
+        "El pedido de Listado de usuarios asociados a una cuenta de negocio al backend no fue exitoso:",
+        response.data
+      );
+      return "Error al pedir un Listado de usuarios asociados a una cuenta de negocio al backend";
+    }
+  } catch (error: any) {
+    console.error(
+      "Error al pedir un Listado de usuarios asociados a una cuenta de negocio al backend:",
+      error.message
+    );
+    return "Error al pedir Listado de usuarios asociados a una cuenta de negocio al backend";
+  }
+}
+
+//Función para pasar un usuario de status "active" a status "pending". Sería una especie de eliminación lógica.
+export const desactivateUser = async (userId: string) => {
+  console.log("Valor de userId en la funcion desactivateUser: ", userId);
+  try {
+    // Verifico el token antes de hacer la solicitud
+    const isTokenValid = await verifyToken();
+    if (!isTokenValid) {
+      return "Token inválido o expirado";
+    }
+
+    const response = await axios.patch(
+      `${BASE_BACKEND_URL}/api/desactivate_user/${userId}`,
+      {
+        withCredentials: true,
+      } // Asegúrate de que las cookies de autenticación se envíen con la solicitud
+    );
+    return response.data;
+  } catch (error: any) {
+    console.error("Error al aprobar usuario:", error.message);
+    return "Error al aprobar usuario";
+  }
+};
+
+
+//Función para activar a un usuariopasando su estado de status "pending" a status "active".
+export const activateUser = async (userId: string) => {
+  console.log("Valor de userId en la funcion desactivateUser: ", userId);
+  try {
+    // Verifico el token antes de hacer la solicitud
+    const isTokenValid = await verifyToken();
+    if (!isTokenValid) {
+      return "Token inválido o expirado";
+    }
+
+    const response = await axios.patch(
+      `${BASE_BACKEND_URL}/api/activate_user/${userId}`,
+      {
+        withCredentials: true,
+      } // Asegúrate de que las cookies de autenticación se envíen con la solicitud
+    );
+    return response.data;
+  } catch (error: any) {
+    console.error("Error al activar al usuario:", error.message);
+    return "Error al activar al usuario";
+  }
+};
+
+
+export async function deleteUser(
+  userId: string
+)/* : Promise<{ success: boolean; message: string } | string> */ {
+  //console.log("valor de discountId en deleteDiscount", discountId)
+
+  // Verifico el token antes de hacer la solicitud
+  const isTokenValid = await verifyToken();
+  if (!isTokenValid) {
+    return "Token inválido o expirado";
+  }
+
+  try {
+    const response = await axios.delete(
+      `${BASE_BACKEND_URL}/api/delete_user/${userId}`,
+      {
+        withCredentials: true,
+      }
+    );
+
+    if (response.status === 200) {
+      console.log(
+        "Usuario eliminado correctamente de MongoDB Atlas:",
+        response.data
+      );
+      return response.data;
+    } else {
+      console.log(
+        "La eliminación del usuario en MongoDB Atlas no fue exitosa:",
+        response.data
+      );
+      return "Error al eliminar el usuario";
+    }
+  } catch (error: any) {
+    console.error("Error al eliminar el usuario:", error.message);
+    return "Error al eliminar el usuario";
   }
 }

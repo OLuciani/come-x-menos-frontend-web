@@ -1,6 +1,7 @@
 "use client"
 import React, { createContext, useState, ReactNode } from "react";
-import {  DiscountDetail } from "@/services/apiCall";
+import {  DiscountDetail, fetchAllUsersFromAPI, ActiveBusinessAdminUser } from "@/services/apiCall";
+
 
 interface ContextProps {
   userId: string;
@@ -31,6 +32,10 @@ interface ContextProps {
   setValidToken: React.Dispatch<React.SetStateAction<boolean>>;
   selectDiscountTitle: string;
   setSelectDiscountTitle: React.Dispatch<React.SetStateAction<string>>;
+  userStatus: string;
+  setUserStatus: React.Dispatch<React.SetStateAction<string>>;
+  allUsers: ActiveBusinessAdminUser[];
+  setAllUsers: React.Dispatch<React.SetStateAction<ActiveBusinessAdminUser[]>>;
 }
 
 export const Context = createContext<ContextProps>({
@@ -61,7 +66,11 @@ export const Context = createContext<ContextProps>({
   validToken: false,
   setValidToken: () => {},
   selectDiscountTitle: "",
-  setSelectDiscountTitle: () => {}
+  setSelectDiscountTitle: () => {},
+  userStatus: "",
+  setUserStatus: () => {},
+  allUsers: [],
+  setAllUsers: () => {},
 });
 
 export default function ContextProvider({ children }: { children: ReactNode }) {
@@ -80,6 +89,8 @@ const [selectedOption, setSelectedOption] = useState<string>("Inicio");
 const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 const [validToken, setValidToken] = useState<boolean>(false);
 const [selectDiscountTitle, setSelectDiscountTitle] = useState<string>("");
+const [userStatus, setUserStatus] = useState<string>("");
+const [allUsers, setAllUsers] = useState<ActiveBusinessAdminUser[]>([]);
   
   return (
     <Context.Provider
@@ -111,7 +122,11 @@ const [selectDiscountTitle, setSelectDiscountTitle] = useState<string>("");
         validToken, 
         setValidToken,
         selectDiscountTitle, 
-        setSelectDiscountTitle
+        setSelectDiscountTitle,
+        userStatus, 
+        setUserStatus,
+        allUsers, 
+        setAllUsers
       }}
     >
       {children}

@@ -30,12 +30,16 @@ const Navbar = () => {
     setIsLoggedIn,
     setBusinessName,
     setBusinessType,
+    userStatus,
+    setUserStatus,
     //setBusinessId
   } = useContext(Context);
   const [open, setOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState<boolean>(false);
-  const [roleAdminWeb, setRoleAdminWeb] = useState<string | undefined>("");
-  const [roleAdminApp, setRoleAdminApp] = useState<string | undefined>("");
+  const [roleAppAdmin, setRoleAppAdmin] = useState<string | undefined>("");
+  const [roleBusinessDirector, setRoleBusinessDirector] = useState<string | undefined>("");
+  const [roleBusinessManager, setRoleBusinessManager] = useState<string | undefined>("");
+  const [roleBusinessEmployee, setRoleBusinessEmployee] = useState<string | undefined>("");
   const [roleUser, setRoleUser] = useState<string | undefined>("");
   const [showName, setShowName] = useState(false);
 
@@ -47,19 +51,22 @@ const Navbar = () => {
       console.log("Valor de storedToken: ", storedToken);
 
       setUserToken(storedToken);
+
+      //Configuro una variable de estado p/cada rol y le adjudico el valor que dicho rol tiene en la variable de entorno.
+      const appAdmin: string | undefined = process.env.NEXT_PUBLIC_ROLE_APP_ADMIN;
+      setRoleAppAdmin(appAdmin);
     
-      /* const roleAdminWeb: string | undefined = process.env.NEXT_PUBLIC_ROLE_ADMINWEB;
-      setRoleAdminWeb(roleAdminWeb); */
-      const adminWeb: string | undefined = process.env.NEXT_PUBLIC_ROLE_ADMINWEB;
-      setRoleAdminWeb(adminWeb);
+      const businessDirector: string | undefined = process.env.NEXT_PUBLIC_ROLE_BUSINESS_DIRECTOR;
+      setRoleBusinessDirector(businessDirector);
 
-      /* const roleAdminApp: string | undefined = process.env.NEXT_PUBLIC_ROLE_ADMINWEB;
-      setRoleAdminApp(roleAdminApp); */
-      const adminApp: string | undefined = process.env.NEXT_PUBLIC_ROLE_ADMINAPP;
-      setRoleAdminApp(adminApp);
+      const businessManager: string | undefined = process.env.NEXT_PUBLIC_ROLE_BUSINESS_MANAGER;
+      setRoleBusinessManager(businessManager);
 
-      const user: string | undefined = process.env.NEXT_PUBLIC_ROLE_USER;
-      setRoleUser(user);
+      const businessEmployee: string | undefined = process.env.NEXT_PUBLIC_ROLE_BUSINESS_EMPLOYEE;
+      setRoleBusinessEmployee(businessEmployee);
+
+      /* const user: string | undefined = process.env.NEXT_PUBLIC_ROLE_USER;
+      setRoleUser(user); */
     }
   }, [isLoggedIn, setUserToken]); // Solo se ejecuta una vez cuando el componente se monta y está iniciada la sesión de usuario
 
@@ -67,14 +74,18 @@ const Navbar = () => {
     const storedToken = Cookies.get("userToken") || "";
     console.log("Valor de storedToken: ", storedToken);
 
-    const roleAdminWeb: string | undefined = process.env.NEXT_PUBLIC_ROLE_ADMINWEB;
-    setRoleAdminWeb(roleAdminWeb); //Esto es para que cuando se refresque alguna vista y por ende se pierden los valores de las variables de estado del Context vuelva tener valor la variable que utilizo en la condición para que se muestre el botón "Mi cuenta".
+    //Configuro cada rol
+    const appAdmin: string | undefined = process.env.NEXT_PUBLIC_ROLE_APP_ADMIN;
+    setRoleAppAdmin(appAdmin);
+  
+    const businessDirector: string | undefined = process.env.NEXT_PUBLIC_ROLE_BUSINESS_DIRECTOR;
+    setRoleBusinessDirector(businessDirector);
 
-    const roleAdminApp: string | undefined = process.env.NEXT_PUBLIC_ROLE_ADMINAPP;
-    setRoleAdminApp(roleAdminApp);
+    const businessManager: string | undefined = process.env.NEXT_PUBLIC_ROLE_BUSINESS_MANAGER;
+    setRoleBusinessManager(businessManager);
 
-    const user: string | undefined = process.env.NEXT_PUBLIC_ROLE_USER;
-    setRoleUser(user);
+    const businessEmployee: string | undefined = process.env.NEXT_PUBLIC_ROLE_BUSINESS_EMPLOYEE;
+    setRoleBusinessEmployee(businessEmployee);
 
     setUserToken(storedToken);
     
@@ -149,12 +160,14 @@ const Navbar = () => {
     Cookies.remove("userName");
     Cookies.remove("businessName");
     Cookies.remove("businessType");
+    Cookies.remove("userStatus");
 
     setUserRole("");
     setUserToken("");
     setUserName("");
     setBusinessName("");
     setBusinessType("");
+    setUserStatus("");
     
     setIsLoggedIn(false);
 
@@ -174,8 +187,8 @@ const Navbar = () => {
 
   useEffect(() => {
     console.log("Valor de userRole en useEffect navbar: ", userRole);
-    console.log("Valor de rolAdminWeb en useEffect navbar: ", roleAdminWeb);
-    console.log("Valor de rolAdminApp en useEffect navbar: ", roleAdminApp);
+    console.log("Valor de roleBusinessDirector en useEffect navbar: ", roleBusinessDirector);
+    console.log("Valor de roleAppAdmin en useEffect navbar: ", roleAppAdmin);
 
     setUserMenuOpen(false);
   }, []);
@@ -229,8 +242,9 @@ const Navbar = () => {
                 <div className="w-full h-[3px] mt-2 bg-[#FFCF91]"></div>
               )}
             </Link>
+            
 
-            {userToken  && userRole === roleAdminWeb && (
+            {userToken && (userRole === roleBusinessDirector || userRole === roleBusinessManager) && userStatus === "active" && (
               <Link
                 //href={"/myAccount"}
                 href={"/dashboardBusinessAdmin"}
@@ -247,7 +261,7 @@ const Navbar = () => {
               </Link>
             )}
 
-            {userToken  && userRole === roleUser && (
+            {userToken  && userStatus === "pending" && (
               <Link
                 href={"/notifications"}
                 onClick={() => handleOptionClick("Notificaciones")}
@@ -264,11 +278,11 @@ const Navbar = () => {
             )}
 
 
-            {userToken  && userRole === roleAdminApp && (
+            {userToken  && userRole === roleAppAdmin && userStatus === "active" && (
               <Link
                 //href={"/dashboardAppAdmin"}
                 href={"/dashboardAplicationAdmin"}
-                onClick={() => handleOptionClick("Admin App")}
+                onClick={() => handleOptionClick("Mi cuenta")}
               >
                 <li
                   className={`border-[2px] border-[#FFCF91] py-2 px-4 hidden lg:flex text-white hover:bg-[#FFCF91] hover:text-[#FD7B03]`}
@@ -315,7 +329,7 @@ const Navbar = () => {
               </Link>
             )}
 
-            {userToken && (userRole === roleAdminWeb || userRole === roleAdminApp || userRole === roleUser) && (
+            {userToken && (
               <div className="relative">
                 {userMenuOpen && (
                     <div className="absolute w-48 right-[-52px] custom-w-450:right-[-50px] sm:right-[-66px] md:right-[-71px] lg:right-[-22px] mt-[54px] custom-w-450:mt-[57px] md:mt-[62px] lg:mt-[73px] p-2 bg-[#FFCF91] rounded-lg shadow-xl z-20">

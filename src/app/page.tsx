@@ -232,7 +232,9 @@ export default function Home() {
             negocio con ofertas irresistibles.
           </p>
           <Link href={"/register"}>
-            <button className="bg-white text-orange-600 font-semibold py-3 px-6 rounded-full shadow-lg hover:bg-gray-200 hover:text-orange-700">
+            <button className="bg-white text-orange-600 font-semibold py-3 px-6 rounded-full shadow-lg hover:bg-gray-200 hover:text-orange-700"
+            onClick={() => setSelectedOption("Crear cuenta")}
+            >
               Comienza Ahora
             </button>
           </Link>
@@ -296,11 +298,12 @@ export default function Home() {
               <div className="absolute inset-0 bg-white bg-opacity-80 backdrop-blur-sm z-10"></div>
 
               <div className="relative bg-white w-full max-w-screen-sm sm:max-w-lg md:max-w-3xl lg:max-w-4xl px-2 sm:p-5 py-5 rounded-lg z-20">
+                {/* Botón para ocultar el video una vez que se abrió */}
                 <button
                   onClick={() => setShowVideo(false)}
                   className="absolute top-0 right-2 text-gray-800 text-2xl hover:text-3xl transition duration-200 ease-in-out cursor-pointer"
                 >
-                  &times;
+                  &times; 
                 </button>
                 <div className="relative pt-3">
                   <video controls className="w-full h-auto">

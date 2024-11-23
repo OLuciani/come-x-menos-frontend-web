@@ -164,7 +164,7 @@ import TokenExpiredModal from "@/components/tokenExpiredModal/TokenExpiredModal"
 import { isAfter, format } from "date-fns";
 import UserNotifications from "@/components/userNotifications/UserNotifications";
 import PendingUsers from "@/components/dashboardAppAdminComponents/pendingUsers/page";
-import ActiveBusinessesAdminsUsers from '@/components/dashboardAppAdminComponents/activeBusinessesAdmins/page';
+import AllUsers from '@/components/dashboardAppAdminComponents/allUsersComponents/AllUsers';
 import RoleManagement from "@/components/dashboardAppAdminComponents/roleManagement/RoleManagement";
 import Notifications from "@/components/dashboardAppAdminComponents/notifications/Notifications";
 import ActivityLogs from "@/components/dashboardAppAdminComponents/activityLogs/ActivityLogs";
@@ -175,7 +175,7 @@ interface ErrorResponse {
 }
 
 const DashboardAplicationAdmin: React.FC = () => {
-  const { userToken, setUserToken, isLoggedIn, setUserRole, setUserName, setBusinessName, setBusinessType, setSelectedOption } = useContext(Context);
+  const { userToken, setUserToken, isLoggedIn, setUserRole, setUserName, setBusinessName, setBusinessType, setSelectedOption, setUserStatus } = useContext(Context);
   const [section, setSection] = useState<string>("pendingUsers");
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [discountsArrayList, setDiscountsArrayList] = useState<DiscountsList[]>([]);
@@ -204,6 +204,9 @@ const DashboardAplicationAdmin: React.FC = () => {
     const cookieBusinessType = Cookies.get("businessType") || "";
     setBusinessType(cookieBusinessType);
 
+    const cookieUserStatus = Cookies.get("userStatus") || "";
+    setUserStatus(cookieUserStatus);
+
     setSelectedOption("Mi cuenta");
   }, [setSelectedOption, setBusinessName, setBusinessType, setUserName, setUserRole]);
 
@@ -211,8 +214,8 @@ const DashboardAplicationAdmin: React.FC = () => {
     switch (section) {
       case "pendingUsers":
         return <PendingUsers />
-      case "activeUsers":
-        return <ActiveBusinessesAdminsUsers />;
+      case "allUsers":
+        return <AllUsers />;
       case "roleManagement":
         return <RoleManagement />;
       case "notifications":
@@ -223,64 +226,6 @@ const DashboardAplicationAdmin: React.FC = () => {
         return <PendingUsers />;
     }
   }
-
-  /* const fetchDiscounts = async () => {
-    try {
-      if (userToken) {
-        console.log("Valor de userToken en fetchDiscounts: ", userToken);
-        const response = await discountsList();
-
-        if (response === "Token inválido o expirado en discountList") {
-          setIsModalOpen(true); 
-        }
-        if (typeof response !== "string") {
-          const now = new Date();
-          const validDiscounts = response.filter(
-            (discount) =>
-              !discount.validityPeriod ||
-              !isAfter(
-                now,
-                new Date(discount.startDateTime).setDate(
-                  new Date(discount.startDateTime).getDate() +
-                    discount.validityPeriod
-                )
-              )
-          );
-          setDiscountsArrayList(validDiscounts);
-        } else {
-          console.error("Error al obtener descuentos: ", response);
-        }
-      } else {
-        console.error(
-          "No se puede obtener descuentos, falta businessId o userToken"
-        );
-      }
-    } catch (error) {
-      if (axios.isAxiosError(error) && error.response) {
-        const axiosError = error as AxiosError<ErrorResponse>;
-        const errorMessage =
-          axiosError.response?.data.error ||
-          "Error en la solicitud de actualización";
-        console.error("Error al obtener descuentos: ", errorMessage);
-      } else {
-        console.error("Error desconocido al obtener descuentos: ", error);
-      }
-    } 
-  };
-
-  useEffect(() => {
-    if (userToken) {
-      fetchDiscounts();
-    }
-  }, [userToken]);
-
-  useEffect(() => {
-    if (discountsArrayList.length > 0) {
-      setTotalDiscounts(discountsArrayList.length);
-    } else {
-      setTotalDiscounts(0); // En caso de que no haya descuentos, asegurarse de que totalDiscounts sea 0.
-    }
-  }, [discountsArrayList, setTotalDiscounts]); */
 
   return (
     <>

@@ -17,6 +17,7 @@ const TokenExpiredModal: React.FC<SessionExpiredModalProps> = ({ isOpen, onClose
     setIsLoggedIn,
     setBusinessName,
     setBusinessType,
+    setUserStatus,
     setSelectedOption
   } = useContext(Context);
 
@@ -33,12 +34,14 @@ const TokenExpiredModal: React.FC<SessionExpiredModalProps> = ({ isOpen, onClose
         Cookies.remove("userName");
         Cookies.remove("businessName");
         Cookies.remove("businessType");
+        Cookies.remove("usersStatus");
 
         setUserRole("");
         setUserToken("");
         setUserName("");
         setBusinessName("");
         setBusinessType(""); 
+        setUserStatus("");
         setIsLoggedIn(false);
         setSelectedOption("Iniciar sesión");
 

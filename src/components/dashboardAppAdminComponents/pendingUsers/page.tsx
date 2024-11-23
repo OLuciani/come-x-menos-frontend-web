@@ -8,10 +8,12 @@ import Cookies from "js-cookie";
 
 const PendingUsers = () => {
   const {
+    isLoggedIn,
     setUserToken,
     setSelectedOption,
     setUserRole,
     setUserName,
+    setUserStatus
   } = useContext(Context); 
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -23,7 +25,7 @@ const PendingUsers = () => {
 
 
 
-  useEffect(() => {
+  /* useEffect(() => {
     const storedUserToken = Cookies.get("userToken") || "";
     console.log("Token de usuario almacenado:", storedUserToken);
     setUserToken(storedUserToken);
@@ -37,7 +39,33 @@ const PendingUsers = () => {
     setUserName(cookieUserName);
 
     setSelectedOption("AdminApp");
-  }, [setUserToken, setUserRole, setUserName, setSelectedOption]);
+  }, [setUserToken, setUserRole, setUserName, setSelectedOption]); */
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      const storedUserToken = Cookies.get("userToken") || "";
+      setUserToken(storedUserToken);
+      console.log("VALOR DE userToken EN pendingUsers: ", storedUserToken);
+    }
+  }, [isLoggedIn, setUserToken]);
+
+  useEffect(() => {
+    const storedUserToken = Cookies.get("userToken") || "";
+    setUserToken(storedUserToken);
+
+    const cookieUserRole = Cookies.get("userRole") || "";
+    setUserRole(cookieUserRole);
+
+    const cookieUserName = Cookies.get("userName") || "";
+    setUserName(cookieUserName);
+
+    const cookieUserStatus = Cookies.get("userStatus") || "";
+    setUserStatus(cookieUserStatus);
+
+    setSelectedOption("Mi cuenta");
+  }, [setUserToken, setSelectedOption, setUserName, setUserRole, setUserStatus]);
+
+
 
   // Fetch de usuarios pendientes
   const fetchPendingUsers = async () => {
@@ -124,9 +152,9 @@ const PendingUsers = () => {
           </h2>
         </div>
         
-        {totalPendingUsers && totalPendingUsers >= 1 ?
+        {totalPendingUsers && totalPendingUsers > 0 ?
         <ul>
-          {pendingUsers.map((pendingUser) => (
+          {pendingUsers && pendingUsers.map((pendingUser) => (
             <li key={pendingUser._id} className="p-2 border-[3px] border-gray-400 hover:border-[#FFCF91] rounded-lg cursor-pointer mb-5" onClick={() => [setSelectedUser(pendingUser), fetchPendingBusiness(pendingUser.businessId)]}>
               <div className="ml-3">
                 <strong className="text-xl">{pendingUser.name} {pendingUser.lastName}</strong> 
@@ -141,7 +169,7 @@ const PendingUsers = () => {
             </li>
           ))}
         </ul>
-        : <p>No se encontraron usuarios pendientes</p>
+        : <p className="text-center font-semibold mt-16">No se encontraron usuarios pendientes</p>
 }
       </div>
     </div>

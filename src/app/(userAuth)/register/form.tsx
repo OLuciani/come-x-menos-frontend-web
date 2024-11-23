@@ -177,8 +177,6 @@ const FormRegister = () => {
             const updateUserResponse = await updateUserWithBusinessId(
               userResponse._id,
               businessId,
-              businessType,
-              pdfBusinessRegistration,
             );
             if (
               typeof updateUserResponse === "object" &&
@@ -321,7 +319,7 @@ const FormRegister = () => {
 
         <Input
           label="Ciudad"
-          placeholder=""
+          placeholder="Cordoba"
           type="text"
           name="city"
           value={formik.values.city}
@@ -337,7 +335,7 @@ const FormRegister = () => {
 
         <Input
           label="País"
-          placeholder=""
+          placeholder="Argentina"
           type="text"
           name="country"
           value={formik.values.country}

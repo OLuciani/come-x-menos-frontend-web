@@ -12,6 +12,8 @@ import Cookies from "js-cookie";
 import TokenExpiredModal from "@/components/tokenExpiredModal/TokenExpiredModal";
 import { isAfter, format } from "date-fns";
 import UserNotifications from "@/components/userNotifications/UserNotifications";
+import AsociatedBusinessUsers from "@/components/dashboardComponents/allUsersAsociatesToOneBusiness/AsociatedBusinessUsers";
+import AsociatedBusinessUserDetail from "@/components/dashboardComponents/allUsersAsociatesToOneBusiness/AsociatedBusinessUserDetail";
 //import CreateQrScannerUser from "@/components/dashboardComponents/invitationQrScannerUser/InvitationQrScannerUser";
 
 interface ErrorResponse {
@@ -19,11 +21,12 @@ interface ErrorResponse {
 }
 
 const Dashboard: React.FC = () => {
-  const { userToken, setUserToken, isLoggedIn, setUserRole, setUserName, setBusinessName, setBusinessType, setSelectedOption } = useContext(Context);
+  const { userToken, setUserToken, isLoggedIn, setUserRole, setUserName, setBusinessName, setBusinessType, setUserStatus, setSelectedOption } = useContext(Context);
   const [section, setSection] = useState<string>("resumen");
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [discountsArrayList, setDiscountsArrayList] = useState<DiscountsList[]>([]);
   const [totalDiscounts, setTotalDiscounts] = useState<number>(0);
+
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -48,6 +51,9 @@ const Dashboard: React.FC = () => {
     const cookieBusinessType = Cookies.get("businessType") || "";
     setBusinessType(cookieBusinessType);
 
+    const cookieUserStatus = Cookies.get("userStatus") || "";
+    setUserStatus(cookieUserStatus);
+
     setSelectedOption("Mi cuenta");
   }, [setSelectedOption, setBusinessName, setBusinessType, setUserName, setUserRole]);
 
@@ -63,8 +69,8 @@ const Dashboard: React.FC = () => {
         return <DashboardDiscounts />;
       case "ventas":
         return <EffectiveSales />;
-      /* case "crearQrScannerUser":
-        return <CreateQrScannerUser />; */
+      case "businessUsers":
+        return <AsociatedBusinessUsers />;
       default:
         return <Overview />;
     }
@@ -135,6 +141,8 @@ return (
       isOpen={isModalOpen}
       onClose={() => setIsModalOpen(false)}
     />
+
+    <AsociatedBusinessUserDetail setSection={setSection} />
 
     <div className="flex flex-col lg:flex-row lg:min-h-screen">
       {/* <div className="absolute right-0 w-[220px] lg:block lg:relative"> */}

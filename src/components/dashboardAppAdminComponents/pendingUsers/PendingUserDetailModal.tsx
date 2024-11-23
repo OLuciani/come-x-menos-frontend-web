@@ -135,7 +135,7 @@ const PendingUserDetailsModal: React.FC<UserDetailsModalProps> = ({
 
             {/* Enlace para ver el PDF */}
             <a
-              href={user.pdfBusinessRegistration}
+              href={business.pdfBusinessRegistration}
               target="_blank"
               rel="noopener noreferrer"
               className="text-blue-500"

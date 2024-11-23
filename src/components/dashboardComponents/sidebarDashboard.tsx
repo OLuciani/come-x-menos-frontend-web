@@ -13,9 +13,13 @@ import Link from "next/link";
 const SidebarDashboard: React.FC<{ setSection: (section: string) => void, section: string }> = ({
   setSection, section
 }) => {
-  const { businessName, isLoggedIn } = useContext(Context);
+  const { businessName, isLoggedIn, userRole } = useContext(Context);
   const [unreadCount, setUnreadCount] = useState(0);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [businessDirectorRole, setBusinessDirectorRole] = useState<string | undefined>("");
+
+  const roleBusinessDirector  = process.env.NEXT_PUBLIC_ROLE_BUSINESS_DIRECTOR;
+
 
   const fetchUnreadNotifications = async () => {
     try {
@@ -40,6 +44,10 @@ const SidebarDashboard: React.FC<{ setSection: (section: string) => void, sectio
     if (!isLoggedIn) return;
     fetchUnreadNotifications();
   }, [isLoggedIn, setSection]);
+
+  useEffect(() => {
+    setBusinessDirectorRole(roleBusinessDirector);
+  }, []);
 
   return (
     <div className="">
@@ -71,7 +79,7 @@ const SidebarDashboard: React.FC<{ setSection: (section: string) => void, sectio
         bg-[#FFCF91] text-[#FD7B03] font-bold w-full lg:w-80 h-auto lg:min-h-screen flex flex-col`}
       > */}
       <div
-      className={`bg-[#FFCF91] text-[#2C2C2C] font-bold w-full lg:w-80 lg:h-screen 
+      className={`bg-[#FFCF91] text-[#2C2C2C] font-bold w-full lg:w-96 lg:h-screen 
       ${isSidebarOpen ? "block" : "hidden lg:block"} h-auto lg:sticky mb-3 lg:mb-0 lg:top-0 
       flex flex-col overflow-y-auto`}
     >
@@ -90,8 +98,13 @@ const SidebarDashboard: React.FC<{ setSection: (section: string) => void, sectio
               onClick={() => {
                 setSection("resumen");
                 setIsSidebarOpen(false);
+                // Restablece el scroll del contenedor principal al inicio
+                const mainElement = document.querySelector("main");
+                if (mainElement) {
+                  mainElement.scrollTo(0, 0);
+                }
               }}
-              className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white ${section === "resumen" ? "border-[2px] border-[#2C2C2C]" : "text-[#2C2C2C]"}`}
+              className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white ${section === "resumen" ? "border-[2px] border-[#2C2C2C] hover:border-[#FD7B03]" : "text-[#2C2C2C]"}`}
             >
               <FiFileText className="inline mr-2" />
               Resumen
@@ -101,8 +114,13 @@ const SidebarDashboard: React.FC<{ setSection: (section: string) => void, sectio
               onClick={() => {
                 setSection("descuentos");
                 setIsSidebarOpen(false);
+                // Restablece el scroll del contenedor principal al inicio
+                const mainElement = document.querySelector("main");
+                if (mainElement) {
+                  mainElement.scrollTo(0, 0);
+                }
               }}
-              className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white ${section === "descuentos" ? "border-[2px] border-[#2C2C2C]" : "text-[#2C2C2C]"}`}
+              className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white ${section === "descuentos" ? "border-[2px] border-[#2C2C2C] hover:border-[#FD7B03]" : "text-[#2C2C2C]"}`}
             >
               <AiOutlineTag className="inline mr-2" />
               Descuentos activos
@@ -112,8 +130,13 @@ const SidebarDashboard: React.FC<{ setSection: (section: string) => void, sectio
               onClick={() => {
                 setSection("ventas");
                 setIsSidebarOpen(false);
+                // Restablece el scroll del contenedor principal al inicio
+                const mainElement = document.querySelector("main");
+                if (mainElement) {
+                  mainElement.scrollTo(0, 0);
+                }
               }}
-              className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white ${section === "ventas" ? "border-[2px] border-[#2C2C2C]" : "text-[#2C2C2C"}`}
+              className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white ${section === "ventas" ? "border-[2px] border-[#2C2C2C] hover:border-[#FD7B03]" : "text-[#2C2C2C]"}`}
             >
               <FaChartLine className="inline mr-2" />
               Ventas
@@ -124,8 +147,13 @@ const SidebarDashboard: React.FC<{ setSection: (section: string) => void, sectio
                 setSection("notificaciones");
                 handleNotificationClick();
                 setIsSidebarOpen(false);
+                // Restablece el scroll del contenedor principal al inicio
+                const mainElement = document.querySelector("main");
+                if (mainElement) {
+                  mainElement.scrollTo(0, 0);
+                }
               }}
-              className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white relative ${section === "notificaciones" ? "border-[2px] border-[#2C2C2C]" : "text-[#2C2C2C]"}`}
+              className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white relative ${section === "notificaciones" ? "border-[2px] border-[#2C2C2C] hover:border-[#FD7B03]" : "text-[#2C2C2C]"}`}
             >
               <AiOutlineBell className="inline mr-2" />
               Notificaciones
@@ -163,21 +191,56 @@ const SidebarDashboard: React.FC<{ setSection: (section: string) => void, sectio
               </button>
             </Link>
 
-            {/* <button
-              onClick={() => {
-                setSection("crearQrScannerUser");
-                setIsSidebarOpen(false);
-              }}
-              className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white ${section === "ventas" ? "border-[2px] border-[#2C2C2C]" : "text-[#2C2C2C"}`}
-            >
-              Crear usuario con acceso Scanner
-            </button> */}
+            {
+              (businessDirectorRole && userRole === businessDirectorRole) &&
+              <>
+                {/* <Link href="/editAccount">
+                  <button className="block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white">
+                    Editar datos de tu cuenta
+                  </button>
+                </Link> */}
 
-            <Link href="/invitationQrScannerUser">
+
+                <Link href="/invitationExtraBusinessAdminUser">
+                  <button className="block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white">
+                  Crear usuario administrador p/mi cuenta
+                  </button>
+                </Link>
+
+                <Link href="/invitationBusinessEmployeeUser">
+                  <button className="block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white">
+                  Crear usuario empleado p/mi cuenta
+                  </button>
+                </Link>
+
+                <Link href="/asociatedBusinessUsers">
+                  <button className="block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white">
+                  Usuarios asociados a mi cuenta
+                  </button>
+                </Link>
+                {/* <button
+                  onClick={() => {
+                    setSection("businessUsers");
+                    setIsSidebarOpen(false);
+                    // Restablece el scroll del contenedor principal al inicio
+                    const mainElement = document.querySelector("main");
+                    if (mainElement) {
+                      mainElement.scrollTo(0, 0);
+                    }
+                  }}
+                  className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white ${section === "activeBusinessUsers" ? "border-[2px] border-[#2C2C2C] hover:border-[#FD7B03]" : "text-[#2C2C2C]"}`}
+                >
+                  Usuarios asociados a mi cuenta
+                </button> */}
+              </>
+            }
+
+            {/* <Link href="/invitationBusinessEmployeeUser">
               <button className="block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white">
-              Crear usuario con acceso Scanner
+              Crear usuario empleado p/mi cuenta
               </button>
-            </Link>
+            </Link> */}
+
           </div>
         </nav>
       </div>

@@ -48,7 +48,7 @@ const FormEditUserAndBusiness: React.FC<FormEditUserAndBusinessProps> = () => {
   });
   
   //const [userToken, setUserToken] = useState<string>("");
-  const { userId, businessId, setBusinessName, setBusinessType, isLoggedIn, userToken, setUserToken, setUserRole, setUserId, setUserName, setBusinessId, setSelectedOption } =
+  const { userId, businessId, userRole, setBusinessName, setBusinessType, isLoggedIn, userToken, setUserToken, setUserRole, setUserId, setUserName, setBusinessId, setSelectedOption, setUserStatus } =
     useContext(Context);
   const [user, setUser] = useState<any>(null);
   const [business, setBusiness] = useState<any>(null);
@@ -57,6 +57,17 @@ const FormEditUserAndBusiness: React.FC<FormEditUserAndBusinessProps> = () => {
   const [dataLoaded, setDataLoaded] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false); // Estado para manejar el modal TokenExpiredModal.tsx
   const router = useRouter();
+
+  const [businessDirectorRole, setBusinessDirectorRole] = useState<string | undefined>("");
+
+  const roleAppAdmin = process.env.NEXT_PUBLIC_ROLE_APP_ADMIN;
+  const roleBusinessDirector = process.env.NEXT_PUBLIC_ROLE_BUSINESS_DIRECTOR;
+  const roleBusinessManager = process.env.NEXT_PUBLIC_ROLE_BUSINESS_MANAGER;
+  const roleBusinessEmployee = process.env.NEXT_PUBLIC_ROLE_BUSINESS_EMPLOYEE;
+
+  useEffect(() => {
+    setBusinessDirectorRole(roleBusinessDirector);
+  }, []);
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -110,6 +121,12 @@ const FormEditUserAndBusiness: React.FC<FormEditUserAndBusinessProps> = () => {
   }, [userId, businessId, userToken]);
 
 
+
+  useEffect(() => {
+   setSelectedOption("Mi cuenta"); 
+}, [setSelectedOption]); 
+
+
   //A este useEffect lo creé para cuando se refresca la vista de este componente
   useEffect(() => {
     try {
@@ -133,6 +150,9 @@ const FormEditUserAndBusiness: React.FC<FormEditUserAndBusinessProps> = () => {
 
     const cookieBusinessType = Cookies.get("businessType") || "";
     setBusinessType(cookieBusinessType);
+
+    const cookieUserStatus = Cookies.get("userStatus") || "";
+    setUserStatus(cookieUserStatus);
 
    setSelectedOption("Mi cuenta");
 
@@ -176,6 +196,8 @@ const FormEditUserAndBusiness: React.FC<FormEditUserAndBusinessProps> = () => {
     setSelectedOption
     ]); 
 
+
+
   const validationSchema = Yup.object({
     name: Yup.string().min(3, "El nombre debe tener al menos 3 caracteres"),
     lastName: Yup.string().min(
@@ -208,7 +230,7 @@ const FormEditUserAndBusiness: React.FC<FormEditUserAndBusinessProps> = () => {
         const userUpdate = await updateUser({
           name: values.name,
           lastName: values.lastName,
-          email: values.email,
+          //email: values.email,
           phone: values.phone,
           businessName: values.businessName,
           businessType: values.businessType,
@@ -234,22 +256,38 @@ const FormEditUserAndBusiness: React.FC<FormEditUserAndBusinessProps> = () => {
           console.log(pair[0] + ": " + pair[1]);
         }
 
-        const businessUpdate = await updateBusiness(formData);
+        if (userRole === roleBusinessDirector) {
 
-        if (userUpdate !== "Token inválido o expirado" || businessUpdate !== "Token inválido o expirado") {
-          const cookieBusinessName = Cookies.get("businessName") || "";
-          setBusinessName(cookieBusinessName);
-
-          const cookieBusinessType = Cookies.get("businessType") || "";
-          setBusinessType(cookieBusinessType);
-          
+          const businessUpdate = await updateBusiness(formData);
+  
+          if (userUpdate !== "Token inválido o expirado" || businessUpdate !== "Token inválido o expirado") {
+            const cookieBusinessName = Cookies.get("businessName") || "";
+            setBusinessName(cookieBusinessName);
+  
+            const cookieBusinessType = Cookies.get("businessType") || "";
+            setBusinessType(cookieBusinessType);
+            
+            setTimeout(() => {
+              router.push("/myDiscounts");
+            }, 2000);
+  
+          } else {
+            setIsModalOpen(true); // Muestra el modal TokenExpiredModal.tsx si el token es inválido y redirecciona a login
+            setError("Error al actualizar los datos.");
+          }
+        } else if (userRole === roleAppAdmin) {
           setTimeout(() => {
-            router.push("/myDiscounts");
+            router.push("/dashboardAplicationAdmin");
           }, 2000);
-        } else {
-          setIsModalOpen(true); // Muestra el modal TokenExpiredModal.tsx si el token es inválido y redirecciona a login
-          setError("Error al actualizar los datos.");
-        }
+        } else if (userRole === roleBusinessManager) {
+          setTimeout(() => {
+            router.push("/dashboardBusinessAdmin");
+          }, 2000);
+        } /* else if (userRole === roleBusinessEmployee) {
+          setTimeout(() => {
+            router.push("/dashboardBusinessEmployee");
+          }, 2000);
+        } */
       } catch (err) {
         setError("Error de red o el servidor no está disponible.");
       } finally {
@@ -300,101 +338,6 @@ const FormEditUserAndBusiness: React.FC<FormEditUserAndBusinessProps> = () => {
           <p className="text-red-700">{formik.errors.lastName}</p>
         ) : null}
 
-        <Input
-          label="Nombre del negocio"
-          placeholder=""
-          type="text"
-          name="businessName"
-          value={formik.values.businessName}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          minLength={3}
-        />
-        {formik.touched.businessName && formik.errors.businessName ? (
-          <p className="text-red-700">{formik.errors.businessName}</p>
-        ) : null}
-
-
-        <div className="w-full">
-          <label
-            htmlFor="businessType"
-            className="text-sm ml-[15px] font-medium text-black"
-          >
-            Tipo de negocio
-          </label>
-          <select
-            id="businessType"
-            name="businessType"
-            value={formik.values.businessType}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            className="mt-1 block w-full h-[50px] px-3 border border-[gray] bg-white rounded-[10px] shadow-sm focus:outline-none focus:ring-[gray] focus:border-[gray] sm:text-sm"
-          >
-            <option value="" label="Seleccionar tipo de negocio" />
-            <option value="Restaurantes" label="Restaurante" />
-            <option value="Bares" label="Bar" />
-            <option value="Panaderías" label="Panadería" />
-            <option value="Pizzerías" label="Pizzería" />
-          </select>
-          {formik.touched.businessType && formik.errors.businessType ? (
-            <p className="text-red-700">{formik.errors.businessType}</p>
-          ) : null}
-        </div>
-
-        <Input
-          label="Dirección"
-          placeholder=""
-          type="text"
-          name="address"
-          value={formik.values.address}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          minLength={3}
-        />
-        {formik.touched.address && formik.errors.address ? (
-          <p className="text-red-700">{formik.errors.address}</p>
-        ) : null}
-
-        <Input
-          label="Ciudad"
-          placeholder=""
-          type="text"
-          name="city"
-          value={formik.values.city}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          minLength={3}
-        />
-        {formik.touched.city && formik.errors.city ? (
-          <p className="text-red-700">{formik.errors.city}</p>
-        ) : null}
-
-        <Input
-          label="País"
-          placeholder=""
-          type="text"
-          name="country"
-          value={formik.values.country}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          minLength={3}
-        />
-        {formik.touched.country && formik.errors.country ? (
-          <p className="text-red-700">{formik.errors.country}</p>
-        ) : null}
-
-        <Input
-          label="Correo electrónico"
-          placeholder=""
-          type="email"
-          name="email"
-          value={formik.values.email}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-        />
-        {formik.touched.email && formik.errors.email ? (
-          <p className="text-red-700">{formik.errors.email}</p>
-        ) : null}
 
         <Input
           label="Teléfono"
@@ -410,8 +353,151 @@ const FormEditUserAndBusiness: React.FC<FormEditUserAndBusinessProps> = () => {
         ) : null}
 
         
+        {/* Oculto inputs a roles que no sean businessDirector. Aparte de esto, la ruta en el backend también tiene un filtro con authorizateRole que autoriza solo al rol businessDirector a editar datos del negocio. */}
+        <div className={`${businessDirectorRole && userRole !== businessDirectorRole ? "hidden" : "w-full flex flex-col items-center mx-auto gap-6"} `}>   
+          <Input
+            label="Nombre del negocio"
+            placeholder=""
+            type="text"
+            name="businessName"
+            value={formik.values.businessName}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            minLength={3} 
+          />
+          {formik.touched.businessName && formik.errors.businessName ? (
+            <p className="text-red-700">{formik.errors.businessName}</p>
+          ) : null}
 
-        <div className="w-full ">
+
+          <div className="w-full">
+            <label
+              htmlFor="businessType"
+              className="text-sm ml-[15px] font-medium text-black"
+            >
+              Tipo de negocio
+            </label>
+            <select
+              id="businessType"
+              name="businessType"
+              value={formik.values.businessType}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              className="mt-1 block w-full h-[50px] px-3 border border-[gray] bg-white rounded-[10px] shadow-sm focus:outline-none focus:ring-[gray] focus:border-[gray] sm:text-sm"
+            >
+              <option value="" label="Seleccionar tipo de negocio" />
+              <option value="Restaurantes" label="Restaurante" />
+              <option value="Bares" label="Bar" />
+              <option value="Panaderías" label="Panadería" />
+              <option value="Pizzerías" label="Pizzería" />
+            </select>
+            {formik.touched.businessType && formik.errors.businessType ? (
+              <p className="text-red-700">{formik.errors.businessType}</p>
+            ) : null}
+          </div>
+
+          <Input
+            label="Dirección"
+            placeholder=""
+            type="text"
+            name="address"
+            value={formik.values.address}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            minLength={3}
+          />
+          {formik.touched.address && formik.errors.address ? (
+            <p className="text-red-700">{formik.errors.address}</p>
+          ) : null}
+
+          <Input
+            label="Ciudad"
+            placeholder=""
+            type="text"
+            name="city"
+            value={formik.values.city}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            minLength={3}
+          />
+          {formik.touched.city && formik.errors.city ? (
+            <p className="text-red-700">{formik.errors.city}</p>
+          ) : null}
+
+          <Input
+            label="País"
+            placeholder=""
+            type="text"
+            name="country"
+            value={formik.values.country}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            minLength={3}
+          />
+          {formik.touched.country && formik.errors.country ? (
+            <p className="text-red-700">{formik.errors.country}</p>
+          ) : null}
+
+
+          <div className="w-full ">
+            <label
+              htmlFor="imageURL"
+              className="text-sm ml-[15px] font-medium text-black"
+            >
+              Imagen del negocio
+            </label>
+            <div className="mt-1 flex items-center w-full h-[50px] px-3 border border-[gray] bg-white rounded-[10px] shadow-sm focus:outline-none focus:ring-[black] focus:border-[gray] sm:text-sm">
+              <input
+                id="imageURL"
+                name="imageURL"
+                type="file"
+                accept="image/*"
+                onChange={(event) => {
+                  formik.setFieldValue(
+                    "imageURL",
+                    event.currentTarget.files
+                      ? event.currentTarget.files[0]
+                      : null
+                  );
+                }}
+                onBlur={formik.handleBlur}
+              />
+            </div>
+            {formik.touched.imageURL && formik.errors.imageURL ? (
+              <p className="text-red-700">{formik.errors.imageURL}</p>
+            ) : null}
+          </div>
+        </div>
+
+        {/* <Input
+          label="Correo electrónico"
+          placeholder=""
+          type="email"
+          name="email"
+          value={formik.values.email}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+        />
+        {formik.touched.email && formik.errors.email ? (
+          <p className="text-red-700">{formik.errors.email}</p>
+        ) : null} */}
+
+        {/* <Input
+          label="Teléfono"
+          placeholder=""
+          type="tel"
+          name="phone"
+          value={formik.values.phone}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+        />
+        {formik.touched.phone && formik.errors.phone ? (
+          <p className="text-red-700">{formik.errors.phone}</p>
+        ) : null} */}
+
+        
+
+        {/* <div className="w-full ">
           <label
             htmlFor="imageURL"
             className="text-sm ml-[15px] font-medium text-black"
@@ -438,7 +524,7 @@ const FormEditUserAndBusiness: React.FC<FormEditUserAndBusinessProps> = () => {
           {formik.touched.imageURL && formik.errors.imageURL ? (
             <p className="text-red-700">{formik.errors.imageURL}</p>
           ) : null}
-        </div>
+        </div> */}
 
         <Button buttonText={isLoading ? "Guardando..." : "Guardar cambios"} />
 

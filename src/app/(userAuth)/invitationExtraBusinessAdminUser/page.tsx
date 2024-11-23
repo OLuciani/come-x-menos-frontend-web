@@ -1,9 +1,9 @@
 "use client";
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import Input from "@/components/InputAuth/Input";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { invitationEmailToQrScannerUser } from "@/services/apiCall";
+import { invitationExtraBusinessAdminUser, ExtraBusinessAdminUser, getBusinessAdminUsersCount } from "@/services/apiCall";
 import { Context } from "@/context/Context";
 import Button from "@/components/button/Button";
 import { useRouter } from "next/navigation";
@@ -12,17 +12,39 @@ import MessageModal from "@/components/messageModal/MessageModal";
 import Link from "next/link";
 import { FaArrowLeft } from 'react-icons/fa';
 
-const InvitationQrScannerUser = () => {
-  const { setSelectedOption } = useContext(Context);
+const InvitationExtraBusinessAdminUser =  () => {
+  const navigation = useRouter();
+  const { setSelectedOption, businessName } = useContext(Context);
   const [error, setError] = useState<string | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
+  /* Variables utilizadas para mostrar un mensaje en un modal */
   const [isOpenMessageModal, setIsOpenMessageModal] = useState<boolean>(false);
   const [messageText, setMessageText] = useState<string>("");
   const [messageTitle, setMessageTitle] = useState<string>("");
   const [messageRouterRedirection, setMessageRouterRedirection] = useState<string>("");
+  const [selectedNavBarOption, setSelectedNavBarOption] = useState<string>("");
 
-  const navigation = useRouter();
+  //const [businessAdminUserNumber, setBusinessAdminUserNumber] = useState<number>(0);
+  const [totalBusinessAdminUser, setTotalBusinessAdminUser] = useState<number>(0);
+
+  useEffect(() => {
+    const allBusinessAdminUser = async () => {
+      const response = await getBusinessAdminUsersCount ();
+      //setBusinessAdminUserNumber(response.length);
+      setTotalBusinessAdminUser(response)
+      //console.log("Valor de response en allBusinessAdminUser: ", response.length);
+      console.log("Valor de response en allBusinessAdminUser: ", response);
+    }
+    allBusinessAdminUser();
+  }, [])
+  
+  useEffect(() => {
+    setTimeout(() => {   
+      console.log("Cantidad de Administradores de la cuenta de un negocio activos: ", totalBusinessAdminUser);
+    }, 2000);
+  }, [totalBusinessAdminUser])
 
   const validationSchema = Yup.object({
     email: Yup.string()
@@ -40,7 +62,7 @@ const InvitationQrScannerUser = () => {
       setIsLoading(true);
       try {
         // Enviar los datos del formulario al backend
-        const response = await invitationEmailToQrScannerUser(values);
+        const response = await invitationExtraBusinessAdminUser(values);
 
         if(response === "Token inválido o expirado") {
           setIsModalOpen(true); // Muestra el modal TokenExpiredModal.tsx si el token es inválido y redirecciona a login
@@ -50,17 +72,15 @@ const InvitationQrScannerUser = () => {
           //alert("Correo de invitación enviado con éxito.");
           const title: string = "Envío exitoso";
           setMessageTitle(title);
-          const text: string = `El correo de invitación ha sido enviado exitosamente al nuevo usuario ${values.email} con acceso al escáner de la app móvil.` 
+          const text: string = `El correo de invitación para crear cuenta de usuario en la aplicación como  administrador de la cuenta del negocio ${businessName} ha sido enviado existosamente a ${values.email}.` 
           setMessageText(text);
           const route: string = "/dashboardBusinessAdmin";
           setMessageRouterRedirection(route);
 
           setIsOpenMessageModal(true);
 
-          
-          /* setTimeout(() => {
-              navigation.push("/dashboardBusinessAdmin"); //Luego de editar el descuento se redirije a la vista de Mis descuentos.
-            }, 10000); */
+          const navBarOption: string = "Mi cuenta";
+          setSelectedNavBarOption(navBarOption);
         }
       } catch (error: any) {
         setError(error.message);
@@ -74,7 +94,10 @@ const InvitationQrScannerUser = () => {
     <>
       <TokenExpiredModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
 
-      <MessageModal isOpenMessageModal={isOpenMessageModal} onCloseMessageModal={() => setIsOpenMessageModal(false)} messageTitle={messageTitle} messageText={messageText} messageRouterRedirection={messageRouterRedirection} />
+      <MessageModal isOpenMessageModal={isOpenMessageModal} onCloseMessageModal={() => setIsOpenMessageModal(false)} messageTitle={messageTitle} messageText={messageText} messageRouterRedirection={messageRouterRedirection} selectedNavBarOption={selectedNavBarOption} />
+
+      {
+        totalBusinessAdminUser <= 2 ?
 
       <div className="w-full min-h-screen bg-white rounded-lg shadow-lg flex flex-col items-center">
         <div className="w-screen mt-10 ml-10 md:ml-20">
@@ -88,7 +111,7 @@ const InvitationQrScannerUser = () => {
 
         <div className="w-full custom-w-450:w-[400px] md:w-[450px] py-4 px-4 lg:px-0 lg:pt-10">
           <h1 className="pt-4 pb-10 text-xl lg:text-2xl text-center text-[black] font-semibold">
-            Crear usuario c/acceso a Scanner
+            Crear nuevo usuario aministrador de mi cuenta
           </h1>
 
           <form
@@ -118,9 +141,25 @@ const InvitationQrScannerUser = () => {
           </form>
         </div>
       </div>
+      : 
+      <>
+        <div className="w-full h-full bg-white rounded-lg flex flex-col items-center gap-28 px-4 ">
+          <div className="w-screen mt-10 ml-10 md:ml-20">
+            <Link
+              href={"/dashboardBusinessAdmin"}
+              onClick={() => setSelectedOption("Mi cuenta")}
+            >
+              <FaArrowLeft size={20} color="black" />
+            </Link>
+          </div>
+          <div className="w-full custom-w-450:w-[400px] border-2 p-4 flex items-center">
+            <p className="text-2xl text-center">Ya superaste el número de Usuarios Administadores admitido de la cuenta del negocio <strong>{businessName}</strong></p> 
+          </div>
+        </div>
+      </>
+      }
     </>
   );
 };
 
-export default InvitationQrScannerUser;
-
+export default InvitationExtraBusinessAdminUser;

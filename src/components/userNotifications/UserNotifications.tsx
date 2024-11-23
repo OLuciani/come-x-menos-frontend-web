@@ -14,6 +14,7 @@ const UserNotifications = () => {
         isLoggedIn,
         setUserRole,
         setUserName,
+        setUserStatus
     } = useContext(Context);
 
     const [notifications, setNotifications] = useState<any[]>([]); // Para almacenar las notificaciones
@@ -28,6 +29,9 @@ const UserNotifications = () => {
 
         const cookieUserName = Cookies.get("userName") || "";
         setUserName(cookieUserName);
+
+        const cookieUserStatus = Cookies.get("userStatus") || "";
+        setUserStatus(cookieUserStatus);
 
         setSelectedOption("Notificaciones");
 
