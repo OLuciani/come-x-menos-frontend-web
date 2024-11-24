@@ -313,8 +313,8 @@ const SelectedUserModal: React.FC<UserDetailsModalProps> = ({
           </div>
 
 
-          <div className="w-full mt-4 flex justify-center">
-            <div className="w-full lg:w-1/2 px-4 lg:px-6">
+          <div className="w-full px-4 mt-4 flex justify-center">
+            <div className="w-full custom-w-450:w-[400px] lg:w-1/2">
               <Button
                 buttonText="Enviar Notificación"
                 onClickButton={handleSendNotification} // Llama a la función para enviar notificación
@@ -326,9 +326,9 @@ const SelectedUserModal: React.FC<UserDetailsModalProps> = ({
         {
               user.status === "active" && 
 
-            <div className="w-full lg:flex">
+            <div className="w-full lg:flex ">
                 {/* Botón para desactivar */}
-                <div className="w-full lg:w-[50%] flex justify-center">
+                <div className="w-full px-4 lg:w-[50%] flex justify-center">
                     <div className="w-full custom-w-450:w-[400px] lg:w-[95%]">
                         <Button
                         buttonText={isLoading ? "Cargando..." : "Desactivar Usuario"}
@@ -338,7 +338,7 @@ const SelectedUserModal: React.FC<UserDetailsModalProps> = ({
                 </div>
 
                 {/* Botón para eliminar */}
-                <div className="w-full lg:w-[50%] flex justify-center">
+                <div className="w-full px-4 lg:w-[50%] flex justify-center">
                     <div className="w-full custom-w-450:w-[400px] lg:w-[95%]">
                         <Button
                         buttonText={isLoading ? "Cargando..." : "Eliminar Usuario"}
@@ -352,7 +352,7 @@ const SelectedUserModal: React.FC<UserDetailsModalProps> = ({
             {
               user.status === "pending" &&
               <div className="w-full lg:flex">
-                  <div className="w-full lg:w-[50%] flex justify-center">
+                  <div className="w-full px-4 lg:w-[50%] flex justify-center">
                     <div className="w-full custom-w-450:w-[400px] lg:w-[95%]">
                         <Button
                         buttonText={isLoading ? "Cargando..." : "Activar Usuario"}
@@ -362,7 +362,7 @@ const SelectedUserModal: React.FC<UserDetailsModalProps> = ({
                   </div>
 
                   {/* Botón para eliminar */}
-                  <div className="w-full lg:w-[50%] flex justify-center">
+                  <div className="w-full px-4 lg:w-[50%] flex justify-center">
                       <div className="w-full custom-w-450:w-[400px] lg:w-[95%]">
                           <Button
                           buttonText={isLoading ? "Cargando..." : "Eliminar Usuario"}

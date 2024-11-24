@@ -360,7 +360,7 @@ const AllUsers = () => {
         />
       )}
 
-      <div className="bg-white border-2 shadow-lg rounded-lg p-4 lg:py-4 min-h-screen">
+      <div className="bg-white border-2 shadow-lg rounded-lg p-2 custom-w-450:p-4 lg:py-4 min-h-screen">
       {/* {isLoading ? (
           <div className="flex justify-center mt-20">
             <CircularProgress size={30} />
@@ -415,7 +415,7 @@ const AllUsers = () => {
                 X
               </p>
             </div>
-            <div className="w-full flex flex-row flex-wrap justify-center gap-3">
+            <div className="w-full flex flex-row flex-wrap justify-center gap-5">
               {[
                 { label: "Directores de Negocios", role: "businessDirector" },
                 { label: "Administradores de Negocios", role: "businessManager" },
@@ -425,7 +425,7 @@ const AllUsers = () => {
               ].map(({ label, role }) => (
                 <p
                   key={role}
-                  className={`w-[40%] text-center py-2 rounded-lg cursor-pointer ${
+                  className={`w-full mx-2 md:w-[45%] text-center py-2 rounded-lg cursor-pointer ${
                     selectedUserRole === label
                       ? "bg-[#FD7B03] text-white"
                       : "bg-[#FFCF91] hover:bg-[#FD7B03] hover:text-white"
@@ -454,13 +454,17 @@ const AllUsers = () => {
           {roleFilteredUsers.map((user) => (
             <li
               key={user._id}
-              className="w-full md:w-[560px] md:justify-center xl:w-[650px] p-2 border-[3px] border-gray-400 hover:border-[#FFCF91] rounded-lg cursor-pointer mb-5"
+              className="w-full md:w-[560px] md:justify-center xl:w-[650px] p-1 border-[3px] border-gray-400 hover:border-[#FFCF91] rounded-lg cursor-pointer mb-5 break-words"
               onClick={() => setSelectedUser(user)}
             >
               <div className="ml-3">
-                <strong className="text-xl">
+                {/* <strong className="">
                   {user.name} {user.lastName}
-                </strong>
+                </strong> */}
+
+<p>
+                  <span className="font-semibold">Nombre completo:</span> {user.name} {user.lastName}
+                </p>
 
                 <p>
                   <span className="font-semibold">Email:</span> {user.email}
