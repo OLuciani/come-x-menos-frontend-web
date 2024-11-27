@@ -277,7 +277,7 @@ const AsociatedOneBusinessUserDetail: React.FC<UserDetailsModalProps> = ({
 
 
               <h2 className="text-2xl text-center mb-4 font-semibold">
-                Detalles cuenta de {user.name} {user.lastName}
+                Cuenta de {user.name} {user.lastName}
             </h2>
 
               <div className="lg:w-[90%] lg:mt-10 flex flex-col mx-auto gap-6 lg:border-[2px] border-[lightgray] rounded-xl py-10 px-4">

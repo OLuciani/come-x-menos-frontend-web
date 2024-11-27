@@ -343,6 +343,8 @@ const AllUsers = () => {
     setRoleFilteredUsers(filtered);
   }, [allUsers, searchQuery, selectedUserRole]);
 
+  const roleMobileCustomer = process.env.NEXT_PUBLIC_ROLE_MOBILE_CUSTOMER; //rol de usuario de aplicación móvil
+
   return (
     <div>
       <TokenExpiredModal
@@ -430,7 +432,7 @@ const AllUsers = () => {
                       ? "bg-[#FD7B03] text-white"
                       : "bg-[#FFCF91] hover:bg-[#FD7B03] hover:text-white"
                   }`}
-                  onClick={() => [setSelectedUserRole(label), setSearchQuery("")]}
+                  onClick={() => [setSelectedUserRole(label), setSearchQuery(""), setShowRoleFilter(false), setShowLabelRoleFilter(true)]}
                 >
                   {label}
                 </p>
@@ -458,9 +460,16 @@ const AllUsers = () => {
               onClick={() => setSelectedUser(user)}
             >
               <div className="ml-3">
-                <p>
+                {/* <p>
                   <span className="font-semibold">Nombre completo:</span> {user.name} {user.lastName}
-                </p>
+                </p> */}
+                {user.role !== roleMobileCustomer && (
+                  <>
+                    <p>
+                      <span className="font-semibold">Nombre completo:</span> {user.name} {user.lastName}
+                    </p>
+                  </>
+                )}
 
                 <p>
                   <span className="font-semibold">Email:</span> {user.email}

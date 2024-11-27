@@ -241,6 +241,8 @@ const SelectedUserModal: React.FC<UserDetailsModalProps> = ({
     }
   };
 
+  const roleMobileCustomer = process.env.NEXT_PUBLIC_ROLE_MOBILE_CUSTOMER; //rol de usuario de aplicación móvil
+
   return (
     <>
       <ToastContainer />
@@ -277,17 +279,18 @@ const SelectedUserModal: React.FC<UserDetailsModalProps> = ({
           </div>
 
           <h2 className="text-2xl text-center mb-4 font-semibold">
-            Detalles cuenta de {user.name} {user.lastName}
+            Cuenta de {user.name} {user.lastName}
           </h2>
 
           {/* <div className="px-8 pb-1"> */}
           <div className="w-[full] px-4 custom-w-450:px-6 pb-1 flex flex-col gap-3">
-            <p>
-              <strong>Nombre:</strong> {user.name}
-            </p>
-            <p>
-              <strong>Apellido:</strong> {user.lastName}
-            </p>
+            {user.role !== roleMobileCustomer && (
+              <>
+                <p>
+                  <span className="font-semibold">Nombre completo:</span> {user.name} {user.lastName}
+                </p>
+              </>
+            )}
 
             <p>
               <strong>Email:</strong> {user.originalEmail}
