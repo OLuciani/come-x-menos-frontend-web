@@ -10,8 +10,19 @@ import { getUserNotifications } from "@/services/apiCall";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import Link from "next/link";
 
-const SidebarDashboard: React.FC<{ setSection: (section: string) => void, section: string }> = ({
+interface SidebarBusinessAdminDashboardProps {
+  setSection: (section: string) => void;
+  section: string;
+  setReduceHeight: (reduceHeight: boolean) => void; //reduce el el espacio entre el Sidebar y renderSection en el dashboard cuando la pantalla es pequeña.
+}
+
+/* const SidebarDashboard: React.FC<{ setSection: (section: string) => void, section: string }> = ({
   setSection, section
+}) => { */
+const SidebarDashboard: React.FC<SidebarBusinessAdminDashboardProps> = ({
+  setSection,
+  section,
+  setReduceHeight,
 }) => {
   const { businessName, isLoggedIn, userRole } = useContext(Context);
   const [unreadCount, setUnreadCount] = useState(0);
@@ -64,12 +75,23 @@ const SidebarDashboard: React.FC<{ setSection: (section: string) => void, sectio
         </span> 
         <button
           className="lg:hidden py-4 pr-4"
-          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+          onClick={() => {
+            setIsSidebarOpen(!isSidebarOpen);
+            const mainElement = document.querySelector("main");
+            if (mainElement) {
+              mainElement.scrollTo(0, 0);
+            }
+            if(isSidebarOpen) {
+              setReduceHeight(true)
+            } else {
+              setReduceHeight(false)
+            }
+          }}
         >
           {isSidebarOpen ? (
             <AiOutlineClose size={25} />
           ) : (
-            <AiOutlineMenu size={25} />
+            <AiOutlineMenu size={25}  />
           )}
         </button>
       </div>
@@ -99,6 +121,7 @@ const SidebarDashboard: React.FC<{ setSection: (section: string) => void, sectio
                 setSection("resumen");
                 setIsSidebarOpen(false);
                 // Restablece el scroll del contenedor principal al inicio
+                setReduceHeight(true); //reduce el el espacio entre el Sidebar y renderSection en el dashboard cuando la pantalla es pequeña.
                 const mainElement = document.querySelector("main");
                 if (mainElement) {
                   mainElement.scrollTo(0, 0);
@@ -114,7 +137,9 @@ const SidebarDashboard: React.FC<{ setSection: (section: string) => void, sectio
               onClick={() => {
                 setSection("descuentos");
                 setIsSidebarOpen(false);
-                // Restablece el scroll del contenedor principal al inicio
+                setReduceHeight(true); //reduce el el espacio entre el Sidebar y renderSection en el dashboard cuando la pantalla es pequeña.
+                
+                // Aquí debakp establezco el scroll del contenedor principal al inicio
                 const mainElement = document.querySelector("main");
                 if (mainElement) {
                   mainElement.scrollTo(0, 0);
@@ -130,6 +155,8 @@ const SidebarDashboard: React.FC<{ setSection: (section: string) => void, sectio
               onClick={() => {
                 setSection("ventas");
                 setIsSidebarOpen(false);
+                setReduceHeight(true); //reduce el el espacio entre el Sidebar y renderSection en el dashboard cuando la pantalla es pequeña.
+                
                 // Restablece el scroll del contenedor principal al inicio
                 const mainElement = document.querySelector("main");
                 if (mainElement) {
@@ -147,6 +174,8 @@ const SidebarDashboard: React.FC<{ setSection: (section: string) => void, sectio
                 setSection("notificaciones");
                 handleNotificationClick();
                 setIsSidebarOpen(false);
+                setReduceHeight(true); //reduce el el espacio entre el Sidebar y renderSection en el dashboard cuando la pantalla es pequeña.
+                
                 // Restablece el scroll del contenedor principal al inicio
                 const mainElement = document.querySelector("main");
                 if (mainElement) {
@@ -213,15 +242,17 @@ const SidebarDashboard: React.FC<{ setSection: (section: string) => void, sectio
                   </button>
                 </Link>
 
-                <Link href="/asociatedBusinessUsers">
+                {/* <Link href="/asociatedBusinessUsers">
                   <button className="block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white">
                   Usuarios asociados a mi cuenta
                   </button>
-                </Link>
-                {/* <button
+                </Link> */}
+                <button
                   onClick={() => {
-                    setSection("businessUsers");
+                    setSection("asociatedBusinessUsers");
                     setIsSidebarOpen(false);
+                    setReduceHeight(true); //reduce el el espacio entre el Sidebar y renderSection en el dashboard cuando la pantalla es pequeña.
+                    
                     // Restablece el scroll del contenedor principal al inicio
                     const mainElement = document.querySelector("main");
                     if (mainElement) {
@@ -231,7 +262,7 @@ const SidebarDashboard: React.FC<{ setSection: (section: string) => void, sectio
                   className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white ${section === "activeBusinessUsers" ? "border-[2px] border-[#2C2C2C] hover:border-[#FD7B03]" : "text-[#2C2C2C]"}`}
                 >
                   Usuarios asociados a mi cuenta
-                </button> */}
+                </button>
               </>
             }
 

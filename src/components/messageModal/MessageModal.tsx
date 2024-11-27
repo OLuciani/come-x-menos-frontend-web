@@ -9,7 +9,7 @@ interface MessageModalProps {
   onCloseMessageModal: () => void;
   messageTitle: string;
   messageText: string;
-  messageRouterRedirection: string;
+  messageRouterRedirection?: string;
   selectedNavBarOption: string;
 }
 

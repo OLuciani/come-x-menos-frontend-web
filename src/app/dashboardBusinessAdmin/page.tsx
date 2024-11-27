@@ -2,31 +2,31 @@
 import React, { useState, useContext, useEffect } from "react";
 import axios, { AxiosError } from "axios";
 import { discountsList, DiscountsList } from "@/services/apiCall";
-import SidebarDashboard from "@/components/dashboardComponents/SidebarBusinessDashboard";
+import SidebarBusinessAdminDashboard from "@/components/dashboardBusinessAdminComponents/sidebarBusinessAdminDashboard/SidebarBusinessAdminDashboard";
 //import HeaderDashboard from "@/components/dashboardComponents/headerDashboard";
-import Overview from "@/components/dashboardComponents/overview/Overview";
-import DashboardDiscounts from "@/components/dashboardComponents/dashboardDiscounts/DashboardDiscounts";
-import EffectiveSales from "@/components/dashboardComponents/effectiveSales/EffectiveSales";
+import Overview from "@/components/dashboardBusinessAdminComponents/overview/Overview";
+import DashboardDiscounts from "@/components/dashboardBusinessAdminComponents/dashboardDiscounts/DashboardDiscounts";
+import EffectiveSales from "@/components/dashboardBusinessAdminComponents/effectiveSales/EffectiveSales";
 import { Context } from "@/context/Context";
 import Cookies from "js-cookie";
 import TokenExpiredModal from "@/components/tokenExpiredModal/TokenExpiredModal";
 import { isAfter, format } from "date-fns";
 import UserNotifications from "@/components/userNotifications/UserNotifications";
-import AsociatedBusinessUsers from "@/components/dashboardComponents/allUsersAsociatesToOneBusiness/AsociatedBusinessUsers";
-import AsociatedBusinessUserDetail from "@/components/dashboardComponents/allUsersAsociatesToOneBusiness/AsociatedBusinessUserDetail";
+import AsociatedBusinessUsers from "@/components/dashboardBusinessAdminComponents/allUsersAsociatesToOneBusiness/AsociatedBusinessUsers";
+//import AsociatedBusinessUserDetail from "@/components/dashboardBusinessAdminComponents/allUsersAsociatesToOneBusiness/AsociatedBusinessUserDetail";
 //import CreateQrScannerUser from "@/components/dashboardComponents/invitationQrScannerUser/InvitationQrScannerUser";
 
 interface ErrorResponse {
   error: string;
 }
 
-const Dashboard: React.FC = () => {
+const DashboardBusinessAdmin: React.FC = () => {
   const { userToken, setUserToken, isLoggedIn, setUserRole, setUserName, setBusinessName, setBusinessType, setUserStatus, setSelectedOption } = useContext(Context);
   const [section, setSection] = useState<string>("resumen");
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [discountsArrayList, setDiscountsArrayList] = useState<DiscountsList[]>([]);
   const [totalDiscounts, setTotalDiscounts] = useState<number>(0);
-
+  const [reduceheight, setReduceHeight] = useState<boolean>(true); // Esta variable la utilizo para reducir el el espacio entre el Sidebar y renderSection en el dashboard cuando la pantalla es pequeña (menor a lg).
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -69,7 +69,7 @@ const Dashboard: React.FC = () => {
         return <DashboardDiscounts />;
       case "ventas":
         return <EffectiveSales />;
-      case "businessUsers":
+      case "asociatedBusinessUsers":
         return <AsociatedBusinessUsers />;
       default:
         return <Overview />;
@@ -142,15 +142,16 @@ return (
       onClose={() => setIsModalOpen(false)}
     />
 
-    <AsociatedBusinessUserDetail setSection={setSection} />
+    {/* <AsociatedBusinessUserDetail setSection={setSection} /> */}
 
     <div className="flex flex-col lg:flex-row lg:min-h-screen">
       {/* <div className="absolute right-0 w-[220px] lg:block lg:relative"> */}
       <div className="lg:flex">
-        <SidebarDashboard setSection={setSection} section={section} />
+        <SidebarBusinessAdminDashboard setSection={setSection} section={section} setReduceHeight={setReduceHeight} />
       </div>
         
-      <main className="flex-grow min-h-screen p-4 lg:p-8 bg-gray-100 mt-[57px] lg:mt-0">
+      {/* <main className="flex-grow min-h-screen p-2 lg:p-6 bg-gray-100 mt-[57px] lg:mt-0"> */}
+      <main className={`flex-grow min-h-screen p-2 lg:p-6 bg-gray-100 ${reduceheight ? "mt-[57px]" : "mt-0"} lg:mt-0`}>
         {renderSection()}
       </main>
     </div>
@@ -158,4 +159,4 @@ return (
 );
 };
 
-export default Dashboard;
+export default DashboardBusinessAdmin;

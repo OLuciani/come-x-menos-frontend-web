@@ -10,8 +10,16 @@ import { getUserNotifications } from "@/services/apiCall";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import Link from "next/link";
 
-const SidebarDashboardAppAdmin: React.FC<{ setSection: (section: string) => void, section: string }> = ({
-  setSection, section
+interface SidebarDashboardAppAdminProps {
+  setSection: (section: string) => void;
+  section: string;
+  setReduceHeight: (reduceHeight: boolean) => void; //reduce el el espacio entre el Sidebar y renderSection en el dashboard cuando la pantalla es pequeña.
+}
+
+const SidebarDashboardAppAdmin: React.FC<SidebarDashboardAppAdminProps> = ({
+  setSection,
+  section,
+  setReduceHeight,
 }) => {
   const { userName, isLoggedIn } = useContext(Context);
   const [unreadCount, setUnreadCount] = useState(0);
@@ -20,9 +28,6 @@ const SidebarDashboardAppAdmin: React.FC<{ setSection: (section: string) => void
   return (
     <div className="">
       <div
-        /* className={`w-full flex ${
-          !isSidebarOpen ? "justify-between" : "justify-end"
-        } items-center pl-4 fixed bg-[#FFCF91] top-[57] border-b-2`} */
         className={`w-full flex justify-between items-center pl-4 fixed bg-white top-[57] border-b-2 lg:border-b-0 z-10`}
       >
         {/* {!isSidebarOpen && (
@@ -36,7 +41,18 @@ const SidebarDashboardAppAdmin: React.FC<{ setSection: (section: string) => void
         
         <button
           className="lg:hidden py-4 pr-4"
-          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+          onClick={() => {
+            setIsSidebarOpen(!isSidebarOpen);
+            const mainElement = document.querySelector("main");
+            if (mainElement) {
+              mainElement.scrollTo(0, 0);
+            }
+            if(isSidebarOpen) {
+              setReduceHeight(true)
+            } else {
+              setReduceHeight(false)
+            }
+          }}
         >
           {isSidebarOpen ? (
             <AiOutlineClose size={25} />
@@ -51,7 +67,7 @@ const SidebarDashboardAppAdmin: React.FC<{ setSection: (section: string) => void
         bg-[#FFCF91] text-[#FD7B03] font-bold w-full lg:w-80 h-auto lg:min-h-screen flex flex-col`}
       > */}
       <div
-      className={`bg-[#FFCF91] text-[#2C2C2C] font-bold w-full lg:w-96 lg:h-screen 
+      className={`bg-[#FFCF91] text-[#2C2C2C] font-bold w-full min-h-full lg:w-96 lg:h-screen 
       ${isSidebarOpen ? "block" : "hidden lg:block"} h-auto lg:sticky mb-3 lg:mb-0 lg:top-0 
       flex flex-col overflow-y-auto`}
     >
@@ -68,10 +84,17 @@ const SidebarDashboardAppAdmin: React.FC<{ setSection: (section: string) => void
               onClick={() => {
                 setSection("pendingUsers");
                 setIsSidebarOpen(false);
+                setReduceHeight(true); //reduce el el espacio entre el Sidebar y renderSection en el dashboard cuando la pantalla es pequeña.
+
+                // Aquí debakp establezco el scroll del contenedor principal al inicio
+                const mainElement = document.querySelector("main");
+                if (mainElement) {
+                  mainElement.scrollTo(0, 0);
+                }
               }}
               className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white ${section === "pendingUsers" ? "border-[2px] border-[#2C2C2C] hover:border-[#FD7B03]" : "text-[#2C2C2C]"}`}
             >
-              Directores de negocios pendientes
+              Cuentas nuevas de negocios por activar
             </button>
             
             {/* <Link href="/allUsers"> */}
@@ -79,6 +102,11 @@ const SidebarDashboardAppAdmin: React.FC<{ setSection: (section: string) => void
                 onClick={() => {
                   setSection("allUsers");
                   setIsSidebarOpen(false);
+                  setReduceHeight(true); //reduce el el espacio entre el Sidebar y renderSection en el dashboard cuando la pantalla es pequeña.
+                  const mainElement = document.querySelector("main");
+                  if (mainElement) {
+                    mainElement.scrollTo(0, 0);
+                  }
                 }}
                 className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white ${section === "allUsers" ? "border-[2px] border-[#2C2C2C] hover:border-[#FD7B03]" : "text-[#2C2C2C]"}`}
               >
@@ -90,6 +118,11 @@ const SidebarDashboardAppAdmin: React.FC<{ setSection: (section: string) => void
               onClick={() => {
                 setSection("roleManagement");
                 setIsSidebarOpen(false);
+                setReduceHeight(true); //reduce el el espacio entre el Sidebar y renderSection en el dashboard cuando la pantalla es pequeña.
+                const mainElement = document.querySelector("main");
+                if (mainElement) {
+                  mainElement.scrollTo(0, 0);
+                }
               }}
               className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white ${section === "roleManagement" ? "border-[2px] border-[#2C2C2C] hover:border-[#FD7B03]" : "text-[#2C2C2C]"}`}
             >
@@ -101,6 +134,11 @@ const SidebarDashboardAppAdmin: React.FC<{ setSection: (section: string) => void
                 setSection("activityLogs");
                 //handleNotificationClick();
                 setIsSidebarOpen(false);
+                setReduceHeight(true); //reduce el el espacio entre el Sidebar y renderSection en el dashboard cuando la pantalla es pequeña.
+                const mainElement = document.querySelector("main");
+                if (mainElement) {
+                  mainElement.scrollTo(0, 0);
+                }
               }}
               className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white relative ${section === "activityLogs" ? "border-[2px] border-[#2C2C2C] hover:border-[#FD7B03]" : "text-[#2C2C2C]"}`}
             >
@@ -117,6 +155,11 @@ const SidebarDashboardAppAdmin: React.FC<{ setSection: (section: string) => void
                 setSection("notifications");
                 //handleNotificationClick();
                 setIsSidebarOpen(false);
+                setReduceHeight(true); //reduce el el espacio entre el Sidebar y renderSection en el dashboard cuando la pantalla es pequeña.
+                const mainElement = document.querySelector("main");
+                if (mainElement) {
+                  mainElement.scrollTo(0, 0);
+                }
               }}
               className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white relative ${section === "notifications" ? "border-[2px] border-[#2C2C2C] hover:border-[#FD7B03]" : "text-[#2C2C2C]"}`}
             >

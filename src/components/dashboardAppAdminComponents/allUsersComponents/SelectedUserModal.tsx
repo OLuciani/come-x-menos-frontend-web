@@ -1,6 +1,13 @@
 "use client";
 import React, { useState, useEffect, useRef, useContext } from "react";
-import { sendUserNotification, desactivateUser, deleteUser, activateUser, fetchAllUsersFromAPI, ActiveBusinessAdminUser } from "@/services/apiCall";
+import {
+  sendUserNotification,
+  desactivateUser,
+  deleteUser,
+  activateUser,
+  fetchAllUsersFromAPI,
+  ActiveBusinessAdminUser,
+} from "@/services/apiCall";
 import Button from "@/components/button/Button";
 
 import { toast, ToastContainer } from "react-toastify"; // Importo toast y ToastContainer
@@ -9,21 +16,24 @@ import MessageModal from "@/components/messageModal/MessageModal";
 import { Context } from "@/context/Context";
 import Cookies from "js-cookie";
 
-
 interface UserDetailsModalProps {
   //user: UserPending;
   user: ActiveBusinessAdminUser;
   onClose: () => void;
-  
 }
 
 const SelectedUserModal: React.FC<UserDetailsModalProps> = ({
   user,
   onClose,
-  
 }) => {
-  const { setSelectedOption, setUserToken, setUserRole, setUserName, setUserStatus, setAllUsers } =
-    useContext(Context);
+  const {
+    setSelectedOption,
+    setUserToken,
+    setUserRole,
+    setUserName,
+    setUserStatus,
+    setAllUsers,
+  } = useContext(Context);
   const [showScrollIndicator, setShowScrollIndicator] = useState(false);
   const modalContentRef = useRef<HTMLDivElement>(null);
 
@@ -40,7 +50,6 @@ const SelectedUserModal: React.FC<UserDetailsModalProps> = ({
   const [showDeactivateUserModal, setShowDeactivateUserModal] = useState(false);
   const [showActivateUserModal, setShowActivateUserModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  
 
   useEffect(() => {
     const storedUserToken = Cookies.get("userToken") || "";
@@ -51,12 +60,19 @@ const SelectedUserModal: React.FC<UserDetailsModalProps> = ({
 
     const cookieUserName = Cookies.get("userName") || "";
     setUserName(cookieUserName);
-    
+
     const storedUserStatus = Cookies.get("userStatus") || "";
     setUserStatus(storedUserStatus);
 
     setSelectedOption("Mi cuenta");
-  }, [setUserToken, setUserRole, setUserName, setSelectedOption, setSelectedOption, setUserStatus]);
+  }, [
+    setUserToken,
+    setUserRole,
+    setUserName,
+    setSelectedOption,
+    setSelectedOption,
+    setUserStatus,
+  ]);
 
   useEffect(() => {
     const modalContent = modalContentRef.current;
@@ -70,7 +86,6 @@ const SelectedUserModal: React.FC<UserDetailsModalProps> = ({
     }
   }, []);
 
-
   const openDeleteModal = () => setShowDeleteUserModal(true);
   const closeDeleteModal = () => setShowDeleteUserModal(false);
 
@@ -80,14 +95,13 @@ const SelectedUserModal: React.FC<UserDetailsModalProps> = ({
   const openActivateModal = () => setShowActivateUserModal(true);
   const closeActivateModal = () => setShowActivateUserModal(false);
 
-
   // Función para refrescar la lista de usuarios
   const refreshUsers = async () => {
     try {
       const response = await fetchAllUsersFromAPI();
       /* const data: ActiveBusinessAdminUser[] = await response.json();
       setUsers(data); */
-      if(response) {
+      if (response) {
         setAllUsers(response);
       }
     } catch (error) {
@@ -95,98 +109,95 @@ const SelectedUserModal: React.FC<UserDetailsModalProps> = ({
     }
   };
 
-
   const handleDeactivateUser = async () => {
-    if(user) {
+    if (user) {
       const response = await desactivateUser(user._id);
-  
+
       if (response === "Token inválido o expirado") {
         setIsModalOpen(true);
         return;
       }
-  
+
       console.log("Valor de response.message: ", response.message);
       console.log("Valor de response.success: ", response.success);
-  
-      if (response.success === true) {   
+
+      if (response.success === true) {
         const title: string = "Desactivación de usuario exitosa";
         setMessageTitle(title);
         const text: string = `Se cambió el estado de la cuenta al usuario ${user.name} ${user.lastName} con email ${user.originalEmail} de activo a pendiente. Momentaneamente no podrá operar con su cuenta.`;
         setMessageText(text);
         const route: string = "/allUsers";
         setMessageRouterRedirection(route);
-        
+
         setShowDeactivateUserModal(false);
-  
-        setIsOpenMessageModal(true); 
-  
+
+        setIsOpenMessageModal(true);
+
         const navBarOption: string = "Mi cuenta";
         setSelectedNavBarOption(navBarOption);
 
-
         //toast.success("Se ha desactivado al usuario momentaneamente."); // Mensaje de éxito
-  
+
         setTimeout(() => {
           //window.location.reload();
           refreshUsers();
           setSelectedOption("Mi cuenta");
           onClose();
         }, 10000);
-        
       }
     }
   };
 
   const handleActivateUser = async () => {
-    if(user) {
-    const response = await activateUser(user._id);
+    if (user) {
+      const response = await activateUser(user._id);
 
-    if (response === "Token inválido o expirado") {
-      setIsModalOpen(true);
-      return;
+      if (response === "Token inválido o expirado") {
+        setIsModalOpen(true);
+        return;
+      }
+
+      console.log("Valor de response.message: ", response.message);
+      console.log("Valor de response.success: ", response.success);
+
+      if (response.success === true) {
+        const title: string = "Activación de usuario exitosa";
+        setMessageTitle(title);
+        const text: string = `Se cambió el estado de la cuenta al usuario ${user.name} ${user.lastName} con email ${user.originalEmail} de pendiente a activo. Ahora el usuario puede operar con su cuenta en la app.`;
+        setMessageText(text);
+        const route: string = "/allUsers";
+        setMessageRouterRedirection(route);
+
+        setShowActivateUserModal(false);
+
+        setIsOpenMessageModal(true);
+
+        const navBarOption: string = "Mi cuenta";
+        setSelectedNavBarOption(navBarOption);
+
+        setTimeout(() => {
+          //window.location.reload();
+          refreshUsers();
+          setSelectedOption("Mi cuenta");
+          onClose();
+        }, 10000);
+      }
     }
-
-    console.log("Valor de response.message: ", response.message);
-    console.log("Valor de response.success: ", response.success);
-
-    if (response.success === true) {
-      const title: string = "Activación de usuario exitosa";
-      setMessageTitle(title);
-      const text: string = `Se cambió el estado de la cuenta al usuario ${user.name} ${user.lastName} con email ${user.originalEmail} de pendiente a activo. Ahora el usuario puede operar con su cuenta en la app.`;
-      setMessageText(text);
-      const route: string = "/allUsers";
-      setMessageRouterRedirection(route);
-      
-      setShowActivateUserModal(false);
-
-      setIsOpenMessageModal(true);
-
-      const navBarOption: string = "Mi cuenta";
-      setSelectedNavBarOption(navBarOption);
-
-      setTimeout(() => {
-        //window.location.reload();
-        refreshUsers();
-        setSelectedOption("Mi cuenta");
-        onClose();
-      }, 10000);
-    }
-  }
   };
 
   const handleDeleteUser = async () => {
     if (user) {
       const response = await deleteUser(user._id);
-  
+
       if (response === "Token inválido o expirado") {
         setIsModalOpen(true);
         return;
       }
-  
+
       console.log("Valor de response.message: ", response.message);
       console.log("Valor de response.success: ", response.success);
       console.log("valor de response.deletedUser: ", response.deletedUser);
-  
+
       if (response.success === true) {
         const title: string = "Eliminación de usuario exitosa";
         setMessageTitle(title);
@@ -194,14 +205,14 @@ const SelectedUserModal: React.FC<UserDetailsModalProps> = ({
         setMessageText(text);
         const route: string = "/allUsers";
         setMessageRouterRedirection(route);
-  
+
         setShowDeleteUserModal(false);
-  
+
         setIsOpenMessageModal(true);
-  
-        window.location.reload()
-       const navBarOption: string = "Mi cuenta";
-        setSelectedNavBarOption(navBarOption); 
+
+        window.location.reload();
+        const navBarOption: string = "Mi cuenta";
+        setSelectedNavBarOption(navBarOption);
 
         setTimeout(() => {
           //window.location.reload();
@@ -249,7 +260,6 @@ const SelectedUserModal: React.FC<UserDetailsModalProps> = ({
             selectedNavBarOption={selectedNavBarOption}
           />
 
-
           {/* Flecha indicativa para scrollear */}
           {showScrollIndicator && (
             <div className="absolute bottom-0 right-3 w-full flex justify-end">
@@ -257,10 +267,10 @@ const SelectedUserModal: React.FC<UserDetailsModalProps> = ({
             </div>
           )}
 
-          <div className="w-full h-6 relative mb-2">
+          <div className="flex justify-end mr-4 mt-2">
             <p
-              onClick={onClose}
-              className="absolute right-5 text-lg font-bold cursor-pointer"
+              onClick={() => [onClose && onClose()]}
+              className="text-lg cursor-pointer font-bold"
             >
               X
             </p>
@@ -278,7 +288,7 @@ const SelectedUserModal: React.FC<UserDetailsModalProps> = ({
             <p>
               <strong>Apellido:</strong> {user.lastName}
             </p>
-            
+
             <p>
               <strong>Email:</strong> {user.originalEmail}
             </p>
@@ -288,30 +298,25 @@ const SelectedUserModal: React.FC<UserDetailsModalProps> = ({
             </p>
 
             <p>
-                <strong>Estado de la cuenta de usuario:</strong>{" "}
-                {user.status === "active"
-                  ? "Activa"
-                  : user.status === "pending"
-                  ? "Inactiva (cuenta suspendida temporalmente)"
-                  : null}
-              </p>
-            
-
-            
-
+              <strong>Estado de la cuenta de usuario:</strong>{" "}
+              {user.status === "active"
+                ? "Activa"
+                : user.status === "pending"
+                ? "Inactiva (cuenta suspendida temporalmente)"
+                : null}
+            </p>
 
             {/* Textarea para enviar notificación */}
-            <div className="mt-3">
+            <div className="mt-3 flex justify-center">
               <textarea
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 placeholder="Escribe un mensaje para el usuario..."
                 rows={4}
-                className="w-full p-2 border border-gray-300 rounded"
+                className="w-full md:w-[80%] lg:w-[60%] p-2 border border-gray-300 rounded"
               />
             </div>
           </div>
-
 
           <div className="w-full px-4 mt-4 flex justify-center">
             <div className="w-full custom-w-450:w-[400px] lg:w-1/2">
@@ -321,140 +326,139 @@ const SelectedUserModal: React.FC<UserDetailsModalProps> = ({
               />
             </div>
           </div>
-        
 
-        {
-              user.status === "active" && 
-
+          {user.status === "active" && (
             <div className="w-full lg:flex ">
-                {/* Botón para desactivar */}
-                <div className="w-full px-4 lg:w-[50%] flex justify-center">
-                    <div className="w-full custom-w-450:w-[400px] lg:w-[95%]">
-                        <Button
-                        buttonText={isLoading ? "Cargando..." : "Desactivar Usuario"}
-                        onClickButton={openDeactivateModal}
-                        />
-                    </div>
+              {/* Botón para desactivar */}
+              <div className="w-full px-4 lg:w-[50%] flex justify-center">
+                <div className="w-full custom-w-450:w-[400px] lg:w-[95%]">
+                  <Button
+                    buttonText={
+                      isLoading ? "Cargando..." : "Desactivar Usuario"
+                    }
+                    onClickButton={openDeactivateModal}
+                  />
                 </div>
+              </div>
 
-                {/* Botón para eliminar */}
-                <div className="w-full px-4 lg:w-[50%] flex justify-center">
-                    <div className="w-full custom-w-450:w-[400px] lg:w-[95%]">
-                        <Button
-                        buttonText={isLoading ? "Cargando..." : "Eliminar Usuario"}
-                        onClickButton={openDeleteModal}
-                        />
-                    </div>
+              {/* Botón para eliminar */}
+              <div className="w-full px-4 lg:w-[50%] flex justify-center">
+                <div className="w-full custom-w-450:w-[400px] lg:w-[95%]">
+                  <Button
+                    buttonText={isLoading ? "Cargando..." : "Eliminar Usuario"}
+                    onClickButton={openDeleteModal}
+                  />
                 </div>
+              </div>
             </div>
-            }
+          )}
 
-            {
-              user.status === "pending" &&
-              <div className="w-full lg:flex">
-                  <div className="w-full px-4 lg:w-[50%] flex justify-center">
-                    <div className="w-full custom-w-450:w-[400px] lg:w-[95%]">
-                        <Button
-                        buttonText={isLoading ? "Cargando..." : "Activar Usuario"}
-                        onClickButton={openActivateModal}
-                        />
-                    </div>
-                  </div>
-
-                  {/* Botón para eliminar */}
-                  <div className="w-full px-4 lg:w-[50%] flex justify-center">
-                      <div className="w-full custom-w-450:w-[400px] lg:w-[95%]">
-                          <Button
-                          buttonText={isLoading ? "Cargando..." : "Eliminar Usuario"}
-                          onClickButton={openDeleteModal}
-                          />
-                      </div>
-                  </div>
-              </div>
-            }
-
-
-            {/* Modal para confirmar eliminación */}
-            {showDeleteUserModal && (
-              <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
-                <div className="bg-white px-4 rounded-lg w-[85%] h-[300px] sm:w-[50%] sm:h-[50%] mx-auto text-center flex flex-col justify-evenly">
-                  <p className="text-xl font-semibold">
-                    ¿Estás seguro que deseas eliminar definitivamente la cuenta de este usuario?
-                  </p>
-                  <div className="flex justify-center gap-4 px-2">
-                    <button
-                      onClick={handleDeleteUser}
-                      className="w-[120px] bg-[#FFCF91] text-[18px] text-white font-semibold h-[40px] rounded-[20px] border-[5px] border-[#FD7B03] transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-[#FFCF91]"
-                      disabled={isLoading}
-                    >
-                      {isLoading ? "Cargando..." : "Eliminar"}
-                    </button>
-                    <button
-                      onClick={closeDeleteModal}
-                      className="w-[120px] bg-gray-300 text-[18px] text-gray-700 font-semibold h-[40px] rounded-[20px] border-[5px] border-gray-400 transition-colors duration-300 ease-in-out hover:bg-gray-400 hover:text-gray-900"
-                      disabled={isLoading}
-                    >
-                      Cancelar
-                    </button>
-                  </div>
+          {user.status === "pending" && (
+            <div className="w-full lg:flex">
+              <div className="w-full px-4 lg:w-[50%] flex justify-center">
+                <div className="w-full custom-w-450:w-[400px] lg:w-[95%]">
+                  <Button
+                    buttonText={isLoading ? "Cargando..." : "Activar Usuario"}
+                    onClickButton={openActivateModal}
+                  />
                 </div>
               </div>
-            )}
 
-            {/* Modal para confirmar desactivación */}
-            {showDeactivateUserModal && (
-              <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
-                <div className="bg-white px-4 rounded-lg w-[85%] h-[300px] sm:w-[50%] sm:h-[50%] mx-auto text-center flex flex-col justify-evenly">
-                  <p className="text-xl font-semibold">
-                    ¿Estás seguro que deseas desactivar momentaneamente la cuenta de este usuario?
-                  </p>
-                  <div className="flex justify-center gap-4 px-2">
-                    <button
-                      onClick={() =>[handleDeactivateUser()]}
-                      className="w-[120px] bg-[#FFCF91] text-[18px] text-white font-semibold h-[40px] rounded-[20px] border-[5px] border-[#FD7B03] transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-[#FFCF91]"
-                      disabled={isLoading}
-                    >
-                      {isLoading ? "Cargando..." : "Desactivar"}
-                    </button>
-                    <button
-                      onClick={closeDeactivateModal}
-                      className="w-[120px] bg-gray-300 text-[18px] text-gray-700 font-semibold h-[40px] rounded-[20px] border-[5px] border-gray-400 transition-colors duration-300 ease-in-out hover:bg-gray-400 hover:text-gray-900"
-                      disabled={isLoading}
-                    >
-                      Cancelar
-                    </button>
-                  </div>
+              {/* Botón para eliminar */}
+              <div className="w-full px-4 lg:w-[50%] flex justify-center">
+                <div className="w-full custom-w-450:w-[400px] lg:w-[95%]">
+                  <Button
+                    buttonText={isLoading ? "Cargando..." : "Eliminar Usuario"}
+                    onClickButton={openDeleteModal}
+                  />
                 </div>
               </div>
-            )}
-
-            {/* Modal para confirmar la activación de un usuario */}
-            {showActivateUserModal && (
-              <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
-                <div className="bg-white px-4 rounded-lg w-[85%] h-[300px] sm:w-[50%] sm:h-[50%] mx-auto text-center flex flex-col justify-evenly">
-                  <p className="text-xl font-semibold">
-                    ¿Estás seguro que deseas Activar este usuario?
-                  </p>
-                  <div className="flex justify-center gap-4 px-2">
-                    <button
-                      onClick={handleActivateUser}
-                      className="w-[120px] bg-[#FFCF91] text-[18px] text-white font-semibold h-[40px] rounded-[20px] border-[5px] border-[#FD7B03] transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-[#FFCF91]"
-                      disabled={isLoading}
-                    >
-                      {isLoading ? "Cargando..." : "Activar"}
-                    </button>
-                    <button
-                      onClick={closeActivateModal}
-                      className="w-[120px] bg-gray-300 text-[18px] text-gray-700 font-semibold h-[40px] rounded-[20px] border-[5px] border-gray-400 transition-colors duration-300 ease-in-out hover:bg-gray-400 hover:text-gray-900"
-                      disabled={isLoading}
-                    >
-                      Cancelar
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
             </div>
+          )}
+
+          {/* Modal para confirmar eliminación */}
+          {showDeleteUserModal && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
+              <div className="bg-white px-4 rounded-lg w-[85%] h-[300px] sm:w-[50%] sm:h-[50%] mx-auto text-center flex flex-col justify-evenly">
+                <p className="text-xl font-semibold">
+                  ¿Estás seguro que deseas eliminar definitivamente la cuenta de
+                  este usuario?
+                </p>
+                <div className="flex justify-center gap-4 px-2">
+                  <button
+                    onClick={handleDeleteUser}
+                    className="w-[120px] bg-[#FFCF91] text-[18px] text-white font-semibold h-[40px] rounded-[20px] border-[5px] border-[#FD7B03] transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-[#FFCF91]"
+                    disabled={isLoading}
+                  >
+                    {isLoading ? "Cargando..." : "Eliminar"}
+                  </button>
+                  <button
+                    onClick={closeDeleteModal}
+                    className="w-[120px] bg-gray-300 text-[18px] text-gray-700 font-semibold h-[40px] rounded-[20px] border-[5px] border-gray-400 transition-colors duration-300 ease-in-out hover:bg-gray-400 hover:text-gray-900"
+                    disabled={isLoading}
+                  >
+                    Cancelar
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Modal para confirmar desactivación */}
+          {showDeactivateUserModal && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
+              <div className="bg-white px-4 rounded-lg w-[85%] h-[300px] sm:w-[50%] sm:h-[50%] mx-auto text-center flex flex-col justify-evenly">
+                <p className="text-xl font-semibold">
+                  ¿Estás seguro que deseas desactivar momentaneamente la cuenta
+                  de este usuario?
+                </p>
+                <div className="flex justify-center gap-4 px-2">
+                  <button
+                    onClick={() => [handleDeactivateUser()]}
+                    className="w-[120px] bg-[#FFCF91] text-[18px] text-white font-semibold h-[40px] rounded-[20px] border-[5px] border-[#FD7B03] transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-[#FFCF91]"
+                    disabled={isLoading}
+                  >
+                    {isLoading ? "Cargando..." : "Desactivar"}
+                  </button>
+                  <button
+                    onClick={closeDeactivateModal}
+                    className="w-[120px] bg-gray-300 text-[18px] text-gray-700 font-semibold h-[40px] rounded-[20px] border-[5px] border-gray-400 transition-colors duration-300 ease-in-out hover:bg-gray-400 hover:text-gray-900"
+                    disabled={isLoading}
+                  >
+                    Cancelar
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Modal para confirmar la activación de un usuario */}
+          {showActivateUserModal && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
+              <div className="bg-white px-4 rounded-lg w-[85%] h-[300px] sm:w-[50%] sm:h-[50%] mx-auto text-center flex flex-col justify-evenly">
+                <p className="text-xl font-semibold">
+                  ¿Estás seguro que deseas Activar este usuario?
+                </p>
+                <div className="flex justify-center gap-4 px-2">
+                  <button
+                    onClick={handleActivateUser}
+                    className="w-[120px] bg-[#FFCF91] text-[18px] text-white font-semibold h-[40px] rounded-[20px] border-[5px] border-[#FD7B03] transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-[#FFCF91]"
+                    disabled={isLoading}
+                  >
+                    {isLoading ? "Cargando..." : "Activar"}
+                  </button>
+                  <button
+                    onClick={closeActivateModal}
+                    className="w-[120px] bg-gray-300 text-[18px] text-gray-700 font-semibold h-[40px] rounded-[20px] border-[5px] border-gray-400 transition-colors duration-300 ease-in-out hover:bg-gray-400 hover:text-gray-900"
+                    disabled={isLoading}
+                  >
+                    Cancelar
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </>
   );

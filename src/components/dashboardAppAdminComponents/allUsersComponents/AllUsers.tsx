@@ -360,7 +360,7 @@ const AllUsers = () => {
         />
       )}
 
-      <div className="bg-white border-2 shadow-lg rounded-lg p-2 custom-w-450:p-4 lg:py-4 min-h-screen">
+      <div className="bg-white border-2 shadow-lg rounded-lg p-2 custom-w-450:p-4 lg:p-4 min-h-screen">
       {/* {isLoading ? (
           <div className="flex justify-center mt-20">
             <CircularProgress size={30} />
@@ -458,11 +458,7 @@ const AllUsers = () => {
               onClick={() => setSelectedUser(user)}
             >
               <div className="ml-3">
-                {/* <strong className="">
-                  {user.name} {user.lastName}
-                </strong> */}
-
-<p>
+                <p>
                   <span className="font-semibold">Nombre completo:</span> {user.name} {user.lastName}
                 </p>
 

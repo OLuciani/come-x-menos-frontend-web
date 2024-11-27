@@ -244,6 +244,7 @@ export default function FormCreateDiscount() {
     
           // Enviar la solicitud para crear el descuento
           const createResponse = await createDiscount(formData);
+          console.log("Valor de createResponse en createDiscount.tsx: ", createResponse);
           if (createResponse === "Token inválido o expirado") {
             setIsModalOpen(true);
           } else if (typeof createResponse === "object" && createResponse !== null) {

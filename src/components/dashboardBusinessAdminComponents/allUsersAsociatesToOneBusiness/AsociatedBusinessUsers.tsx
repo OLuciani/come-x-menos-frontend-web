@@ -6,14 +6,13 @@ import {
   fetchPendingUsersFromAPI,
   approveUser,
   ActiveUser,
+  ActiveBusinessAdminUser,
   fetchPendingBusinessFromAPI,
   PendingBusiness,
 } from "@/services/apiCall";
-//import PendingUserDetailsModal from "./SelectedAsociatedBusinessUserModal";
 import { Context } from "@/context/Context";
 import Cookies from "js-cookie";
-//import SelectedAsociatedBusinessUserModal from "./SelectedAsociatedBusinessUserModal";
-import AsociatedBusinessUserDetail from "./AsociatedBusinessUserDetail";
+import AsociatedOneBusinessUserDetail from "./AsociatedOneBusinessUserDetail";
 
 const AsociatedBusinessUsers = () => {
   const {
@@ -23,36 +22,18 @@ const AsociatedBusinessUsers = () => {
     setUserRole,
     setUserName,
     setUserStatus,
+    setAllUsers, 
+    allUsers
   } = useContext(Context);
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [selectedUser, setSelectedUser] = useState<ActiveUser | null>(null); // Para mostrar detalles del usuario
-  const [businessUsers, setBusinessUsers] = useState<ActiveUser[]>(
-    []
-  );
+  const [selectedUser, setSelectedUser] = useState<ActiveBusinessAdminUser | null>(null); 
   const [totalUsers, setTotalUsers] = useState<number>(0);
   const [totalActiveBusinessUsers, setTotalActiveBusinessUsers] =
     useState<number>(0);
   const [totalInactiveBusinessUsers, setTotalInactiveBusinessUsers] =
   useState<number>(0);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
-  //const [pendingBusiness, setActiveBusiness] = useState<PendingBusiness | null>(null);
-
-  /* useEffect(() => {
-    const storedUserToken = Cookies.get("userToken") || "";
-    console.log("Token de usuario almacenado:", storedUserToken);
-    setUserToken(storedUserToken);
-
-    const cookieUserRole = Cookies.get('userRole') || '';
-    console.log("Rol de usuario de la cookie:", cookieUserRole);
-    setUserRole(cookieUserRole);
-
-    const cookieUserName = Cookies.get("userName") || "";
-    console.log("Nombre de usuario de la cookie:", cookieUserName);
-    setUserName(cookieUserName);
-
-    setSelectedOption("AdminApp");
-  }, [setUserToken, setUserRole, setUserName, setSelectedOption]); */
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -95,24 +76,25 @@ const AsociatedBusinessUsers = () => {
         return;
       }
   
-      setBusinessUsers(response);
-  
-      setTotalUsers(response.length);
-      console.log("Usuarios pendientes guardados en el estado:", response); // Verifica que los usuarios se hayan guardado correctamente
-      const activeUsers: ActiveUser[] = response.filter((user: ActiveUser) => user.status === "active")
-      setTotalActiveBusinessUsers(activeUsers.length);
-  
-      const inactiveUsers: ActiveUser[] = response.filter((user: ActiveUser) => user.status === "pending")
-      setTotalInactiveBusinessUsers(inactiveUsers.length);
+      //setBusinessUsers(response);
+
+      if(response) {
+
+        setAllUsers(response);
+    
+        setTotalUsers(response.length);
+        console.log("Usuarios pendientes guardados en el estado:", response); // Verifica que los usuarios se hayan guardado correctamente
+        const activeUsers: ActiveUser[] = response.filter((user: ActiveUser) => user.status === "active")
+        setTotalActiveBusinessUsers(activeUsers.length);
+    
+        const inactiveUsers: ActiveUser[] = response.filter((user: ActiveUser) => user.status === "pending")
+        setTotalInactiveBusinessUsers(inactiveUsers.length);
+      }
     };
 
     fetchBusinesUsers();
   }, [])
   
-
-  /* useEffect(() => {
-    fetchBusinesUsers();
-  }, []); */
 
   return (
     <div>
@@ -125,7 +107,7 @@ const AsociatedBusinessUsers = () => {
       {
       //Si se cumple esta condición se va amostrar el usuario seleccionado
       !selectedUser ?
-      <div className="bg-white border-2 shadow-lg rounded-lg p-4 lg:py-4 h-screen">
+      <div /* className="bg-white border-2 shadow-lg rounded-lg p-4 lg:py-4 h-screen flex flex-col items"*/className="bg-white border-2 shadow-lg rounded-lg p-2 custom-w-450:p-4 lg:py-4 min-h-screen">
         <div className="bg-[#FFCF91] rounded-t-lg mb-3 pb-2">
           <h2 className="text-xl lg:text-2xl font-semibold text-[#2C2C2C] text-center py-2 px-2">
             Usuarios asociados a mi cuenta
@@ -138,26 +120,47 @@ const AsociatedBusinessUsers = () => {
         </div>
 
         {totalUsers && totalUsers > 0 ? (
-          <ul>
-            {businessUsers.map((businessUser) => (
+          <ul className="flex flex-col items-center">
+            {allUsers.length > 0 &&allUsers.map((oneUser) => (
               <li
-                key={businessUser._id}
-                className="p-2 border-[3px] border-gray-400 hover:border-[#FFCF91] rounded-lg cursor-pointer mb-5"
-                onClick={() => setSelectedUser(businessUser)}
+                key={oneUser._id}
+                /* className="p-2 border-[3px] border-gray-400 hover:border-[#FFCF91] rounded-lg cursor-pointer mb-5" */
+                className="w-full md:w-[560px] md:justify-center xl:w-[650px] p-1 border-[3px] border-gray-400 hover:border-[#FFCF91] rounded-lg cursor-pointer mb-5 break-words"
+                onClick={() => setSelectedUser(oneUser)}
               >
                 <div className="ml-3">
-                  <strong className="text-xl">
-                    {businessUser.name} {businessUser.lastName}
-                  </strong>
-                  <p>
-                    <span className="font-semibold">Email:</span>{" "}
-                    {businessUser.email}
-                  </p>
-                  <p>
-                    <span className="font-semibold">Estado de la cuenta de usuario:</span>{" "}
-                    {businessUser.status === "active" ? "Activa" : businessUser.status === "pending" ? "Inactiva (cuenta suspendida temporalmente)" : null}
-                  </p>
-                </div>
+                <p>
+                  <span className="font-semibold">Nombre completo:</span> {oneUser.name} {oneUser.lastName}
+                </p>
+
+                <p>
+                  <span className="font-semibold">Email:</span> {oneUser.email}
+                </p>
+
+                <p>
+                  <span className="font-semibold">Rol:</span>{" "}
+                  {oneUser.role === "businessDirector"
+                    ? "Director del negocio"
+                    : oneUser.role === "businessManager"
+                    ? "Administrador del negocio"
+                    : oneUser.role === "businessEmployee"
+                    ? "Empleado del negocio"
+                    : oneUser.role === "mobileCustomer"
+                    ? "Cliente de aplicación móvil"
+                    : null}
+                </p>
+
+                <p>
+                  <span className="font-semibold">
+                    Estado de la cuenta de usuario:
+                  </span>{" "}
+                  {oneUser.status === "active"
+                    ? "Activa"
+                    : oneUser.status === "pending"
+                    ? "Inactiva (cuenta suspendida temporalmente)"
+                    : null}
+                </p>
+              </div>
               </li>
             ))}
           </ul>
@@ -165,7 +168,7 @@ const AsociatedBusinessUsers = () => {
           <p className="text-lg text-center mt-[20%] md:mt-[10%] font-bold ">No se encontraron usuarios</p>
         )}
       </div>
-      : <AsociatedBusinessUserDetail user={selectedUser} onClose={() => 
+      : <AsociatedOneBusinessUserDetail user={selectedUser} onClose={() => 
         setSelectedUser(null)
         }  />
       }

@@ -548,6 +548,8 @@ export async function createDiscount(
       }
     );
 
+    console.log("RESPONSE EN APICALL PARA VERIFICAR RESPUESTA DEL BACKEND  CRATE_DISCOUNT: ", response.data);
+
     if (response.status === 200 && response.data) {
       console.log(
         "Descuento creado correctamente en MongoDB Atlas:",
