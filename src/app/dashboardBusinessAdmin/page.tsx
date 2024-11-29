@@ -5,7 +5,7 @@ import { discountsList, DiscountsList } from "@/services/apiCall";
 import SidebarBusinessAdminDashboard from "@/components/dashboardBusinessAdminComponents/sidebarBusinessAdminDashboard/SidebarBusinessAdminDashboard";
 //import HeaderDashboard from "@/components/dashboardComponents/headerDashboard";
 import Overview from "@/components/dashboardBusinessAdminComponents/overview/Overview";
-import DashboardDiscounts from "@/components/dashboardBusinessAdminComponents/dashboardDiscounts/DashboardDiscounts";
+import DashboardDiscounts from "@/components/dashboardBusinessAdminComponents/activeDiscountsOverview/ActiveDiscountsOverview";
 import EffectiveSales from "@/components/dashboardBusinessAdminComponents/effectiveSales/EffectiveSales";
 import { Context } from "@/context/Context";
 import Cookies from "js-cookie";
@@ -13,6 +13,8 @@ import TokenExpiredModal from "@/components/tokenExpiredModal/TokenExpiredModal"
 import { isAfter, format } from "date-fns";
 import UserNotifications from "@/components/userNotifications/UserNotifications";
 import AsociatedBusinessUsers from "@/components/dashboardBusinessAdminComponents/allUsersAsociatesToOneBusiness/AsociatedBusinessUsers";
+import ActiveDiscountsGallery from "@/components/dashboardBusinessAdminComponents/myActiveDiscounts/activeDiscountsGallery/ActiveDiscountsGallery";
+import DiscountCreate from "@/components/dashboardBusinessAdminComponents/discountCreate/DiscountCreate";
 //import AsociatedBusinessUserDetail from "@/components/dashboardBusinessAdminComponents/allUsersAsociatesToOneBusiness/AsociatedBusinessUserDetail";
 //import CreateQrScannerUser from "@/components/dashboardComponents/invitationQrScannerUser/InvitationQrScannerUser";
 
@@ -71,6 +73,10 @@ const DashboardBusinessAdmin: React.FC = () => {
         return <EffectiveSales />;
       case "asociatedBusinessUsers":
         return <AsociatedBusinessUsers />;
+      case "discountCreate":
+      return <DiscountCreate setSection={setSection} section={section}/>
+      case "activeDiscountsGallery":
+        return <ActiveDiscountsGallery />
       default:
         return <Overview />;
     }

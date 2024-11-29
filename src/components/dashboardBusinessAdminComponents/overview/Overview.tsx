@@ -160,7 +160,7 @@ const Overview: React.FC = () => {
         <div className="flex items-center bg-green-100 p-4 rounded-lg shadow-md">
           <FaTags className="text-green-500 text-3xl mr-4" />
           <div>
-            <h3 className="text-lg font-semibold">Total de escuentos consumidos por usuarios.</h3>
+            <h3 className="text-lg font-semibold">Total de descuentos consumidos por usuarios.</h3>
             <p className="text-gray-700">{totalConsumedDiscounts}</p>
           </div>
         </div>

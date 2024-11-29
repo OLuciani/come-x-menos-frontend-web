@@ -65,11 +65,6 @@ const SidebarDashboard: React.FC<SidebarBusinessAdminDashboardProps> = ({
       <div
         className={`w-full flex justify-between items-center pl-4 fixed bg-white top-[57] border-b-2 lg:border-b-0 z-10`}
       >
-        {/* {!isSidebarOpen && (
-          <span className="lg:hidden text-2xl font-semibold">
-            {businessName}
-          </span>
-        )} */}
         <span className="lg:hidden text-2xl font-semibold">
           {businessName}
         </span> 
@@ -113,7 +108,7 @@ const SidebarDashboard: React.FC<SidebarBusinessAdminDashboardProps> = ({
           {/* Título para acciones en la cuenta */}
           <h2 className="text-lg text-center font-bold mt-6">ESTADISTICAS:</h2>
           
-          <div className="button-group flex flex-col gap-2">
+          <div className="button-group flex flex-col gap-1">
             {" "}
             {/* Usar una clase común para ambas secciones */}
             <button
@@ -200,8 +195,40 @@ const SidebarDashboard: React.FC<SidebarBusinessAdminDashboardProps> = ({
           </h2>
 
           {/* Mismo grupo de botones */}
-          <div className="button-group flex flex-col gap-2">
-            <Link href="/createDiscount">
+          <div className="button-group flex flex-col gap-1  scrollbar-hidden">
+            <button
+              onClick={() => {
+                setSection("discountCreate");
+                setIsSidebarOpen(false);
+                // Restablece el scroll del contenedor principal al inicio
+                setReduceHeight(true); //reduce el el espacio entre el Sidebar y renderSection en el dashboard cuando la pantalla es pequeña.
+                const mainElement = document.querySelector("main");
+                if (mainElement) {
+                  mainElement.scrollTo(0, 0);
+                }
+              }}
+              className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white ${section === "discountCreate" ? "border-[2px] border-[#2C2C2C] hover:border-[#FD7B03]" : "text-[#2C2C2C]"}`}
+            >
+              Crear un descuento
+            </button>
+
+            <button
+              onClick={() => {
+                setSection("activeDiscountsGallery");
+                setIsSidebarOpen(false);
+                // Restablece el scroll del contenedor principal al inicio
+                setReduceHeight(true); //reduce el el espacio entre el Sidebar y renderSection en el dashboard cuando la pantalla es pequeña.
+                const mainElement = document.querySelector("main");
+                if (mainElement) {
+                  mainElement.scrollTo(0, 0);
+                }
+              }}
+              className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white ${section === "activeDiscountsGallery" ? "border-[2px] border-[#2C2C2C] hover:border-[#FD7B03]" : "text-[#2C2C2C]"}`}
+            >
+              Ver y gestionar mis descuentos activos
+            </button>
+
+            {/* <Link href="/createDiscount">
               <button className="block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white"
               >
                 Crear y publicar un descuento
@@ -212,7 +239,7 @@ const SidebarDashboard: React.FC<SidebarBusinessAdminDashboardProps> = ({
               <button className="block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white">
                 Ver y gestionar tus descuentos
               </button>
-            </Link>
+            </Link> */}
 
             <Link href="/editAccount">
               <button className="block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white">
@@ -272,7 +299,7 @@ const SidebarDashboard: React.FC<SidebarBusinessAdminDashboardProps> = ({
               </button>
             </Link> */}
 
-          </div>
+        </div>
         </nav>
       </div>
     </div>

@@ -1,7 +1,7 @@
 "use client"
 import React, { useState, useEffect, useContext } from "react";
 import Input from "@/components/InputAuth/Input";
-import { editDiscount, Discount } from "@/services/apiCall";
+import { editDiscount, Discount, discountsList, DiscountsList } from "@/services/apiCall";
 import { useRouter } from "next/navigation";
 import { useFormik, FormikProps } from "formik";
 import * as Yup from "yup";
@@ -11,15 +11,34 @@ import { Context } from "@/context/Context";
 import Cookies from "js-cookie";
 import Button from "@/components/button/Button";
 import TokenExpiredModal from "@/components/tokenExpiredModal/TokenExpiredModal";
+import { isAfter } from "date-fns";
+import MessageModal from "@/components/messageModal/MessageModal";
 
-const FormEditDiscount: React.FC = () => {
-  const { discountId, discountRecovered, isLoggedIn, setDiscountId, setUserRole, setUserId, setUserName, setBusinessName, setBusinessId, setBusinessType, setSelectedOption } = useContext(Context);
+
+interface DiscountEditFormProps {
+    //setShowDiscountEdit: (showDiscountEdit: boolean) => void;
+    setShowDiscountActionPage: (showDiscountActionPage: boolean) => void;
+}
+
+interface ErrorResponse {
+    error: string;
+  }
+
+    
+const FormEditDiscount: React.FC<DiscountEditFormProps> = ({ setShowDiscountActionPage }) => {
+  const { discountId, discountRecovered, isLoggedIn, setDiscountId, setUserRole, setUserId, setUserName, setBusinessName, setBusinessId, setBusinessType, setSelectedOption, setDiscountsArrayList } = useContext(Context);
   const [error, setError] = useState<string | undefined>(undefined);
   const [discount, setDiscount] = useState<Discount | null>(null);
   const [userToken, setUserToken] = useState<string>("");
   const navigation = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
+  const [isOpenMessageModal, setIsOpenMessageModal] = useState<boolean>(false);
+  const [messageText, setMessageText] = useState<string>("");
+  const [messageTitle, setMessageTitle] = useState<string>("");
+  const [messageRouterRedirection, setMessageRouterRedirection] = useState<string>("");
+  const [selectedNavBarOption, setSelectedNavBarOption] = useState<string>("");
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -159,9 +178,74 @@ const FormEditDiscount: React.FC = () => {
 
         if (typeof response === "object" && response !== null) {
           setError("");
-          setTimeout(() => {
-            navigation.push("/myDiscounts"); //Luego de editar el descuento se redirije a la vista de Mis descuentos.
-          }, 2000);
+          const fetchDiscounts = async () => {
+            try {
+              if (userToken) {
+                //console.log("Valor de userToken en fetchDiscounts: ", userToken);
+                const response = await discountsList();
+      
+                if (response === "Token inválido o expirado en discountList") {
+                  setIsModalOpen(true); // Muestra el modal TokenExpiredModal.tsx si el token es inválido y redirecciona a login
+                }
+                if (typeof response !== "string") {
+                  // Filtramos los descuentos expirados antes de establecer el estado
+                  const now = new Date();
+                  const validDiscounts = response.filter(
+                    (discount) =>
+                      !discount.validityPeriod ||
+                      !isAfter(
+                        now,
+                        new Date(discount.startDateTime).setDate(
+                          new Date(discount.startDateTime).getDate() +
+                            discount.validityPeriod
+                        )
+                      )
+                  );
+                  setDiscountsArrayList(validDiscounts);
+                } else {
+                  console.error("Error al obtener descuentos: ", response);
+                }
+              } else {
+                console.error(
+                  "No se puede obtener descuentos, falta businessId o userToken"
+                );
+              }
+            } catch (error) {
+              if (axios.isAxiosError(error) && error.response) {
+                const axiosError = error as AxiosError<ErrorResponse>;
+                const errorMessage =
+                  axiosError.response?.data.error ||
+                  "Error en la solicitud de actualización";
+                console.error("Error al obtener descuentos: ", errorMessage);
+              } else {
+                console.error("Error desconocido al obtener descuentos: ", error);
+              }
+            } 
+          };
+
+          fetchDiscounts();
+
+          const title: string = "El descuento se ha editado exitosamente";
+          setMessageTitle(title);
+
+          const text: string = `Serás redirigido al listado de descuentos para verificar la modificación.`;
+          setMessageText(text);
+
+          const route: string = "/dashboardBusinessAdmin";
+          setMessageRouterRedirection(route);
+
+          setIsOpenMessageModal(true);
+
+          const navBarOption: string = "Mi cuenta";
+          setSelectedNavBarOption(navBarOption);
+
+          setTimeout(() => {   
+            setShowDiscountActionPage(false);
+            const mainElement = document.querySelector("main");
+            if (mainElement) {
+              mainElement.scrollTo(0, 0);
+            }
+          }, 10000);
         } else {
           setError(response);
         }
@@ -221,6 +305,16 @@ const FormEditDiscount: React.FC = () => {
     <>
       <TokenExpiredModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
       <div className="w-sreen flex justify-center">
+        {/* Modal para mostrar mensajes al usuario */}
+        <MessageModal
+            isOpenMessageModal={isOpenMessageModal}
+            onCloseMessageModal={() => setIsOpenMessageModal(false)}
+            messageTitle={messageTitle}
+            messageText={messageText}
+            messageRouterRedirection={messageRouterRedirection}
+            selectedNavBarOption={selectedNavBarOption}
+        /> 
+
         <div className="w-full px-6 sm:w-[500px] sm:px-0">
           <form
             className="flex flex-col items-center mx-auto gap-6"

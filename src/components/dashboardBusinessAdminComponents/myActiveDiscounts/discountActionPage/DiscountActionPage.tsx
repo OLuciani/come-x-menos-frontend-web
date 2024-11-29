@@ -3,26 +3,34 @@ import React, { useContext, useEffect, useState } from "react";
 import { Context } from "@/context/Context";
 import { discountDetail, DiscountDetail } from "@/services/apiCall";
 import Image from "next/image";
-import EditDiscountModalForm from "../editDiscount/page";
+//import EditDiscountModalForm from "../editDiscount/page";
 import Link from "next/link";
 //import DeleteDiscountModal from '@/components/DeleteDiscountModal';
 import Cookies from "js-cookie";
 import CountdownTimer from "@/components/countdownTimer/CountdownTimer";
 import TokenExpiredModal from "@/components/tokenExpiredModal/TokenExpiredModal";
 import Button from "@/components/button/Button";
-import { FaArrowLeft } from 'react-icons/fa';
-import DeleteDiscountPage from "../deleteDiscount/page";
+import { FaArrowLeft } from "react-icons/fa";
+import DiscountEdit from "../discountEdit/DiscountEdit";
+import DiscountDelete from "@/components/dashboardBusinessAdminComponents/myActiveDiscounts/discountDelete/DiscountDelete";
+//import DeleteDiscountPage from "../deleteDiscount/page";
 
-interface DiscountDetailPageProps {}
+interface DiscountDetailPageProps {
+  setShowDiscountActionPage: (showDiscountActionPage: boolean) => void;
+}
 
-const DiscountDetailPage: React.FC<DiscountDetailPageProps> = ({}) => {
+const DiscountActionPage: React.FC<DiscountDetailPageProps> = ({
+  setShowDiscountActionPage,
+}) => {
   //Creo constante con la variable de entorno de la url del backend
   const BASE_BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
   const [discount, setDiscount] = useState<DiscountDetail | null>(null);
   const [userToken, setUserToken] = useState<string>("");
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false); // Estado para manejar el modal TokenExpiredModal.tsx
-  
+  const [showDiscountEdit, setShowDiscountEdit] = useState<boolean>(false);
+  const [showDiscountDelete, setShowDiscountDelete] = useState<boolean>(false);
+
   const {
     discountId,
     setDiscountId,
@@ -36,7 +44,7 @@ const DiscountDetailPage: React.FC<DiscountDetailPageProps> = ({}) => {
     setBusinessId,
     setBusinessType,
     setSelectedOption,
-    setSelectDiscountTitle
+    setSelectDiscountTitle,
   } = useContext(Context);
 
   useEffect(() => {
@@ -118,8 +126,6 @@ const DiscountDetailPage: React.FC<DiscountDetailPageProps> = ({}) => {
     fetchDiscounts();
   }, [discountId, userToken, setDiscountRecovered]);
 
-
- 
   return (
     <>
       <TokenExpiredModal
@@ -129,30 +135,32 @@ const DiscountDetailPage: React.FC<DiscountDetailPageProps> = ({}) => {
 
       {!discount ? (
         <p className="text-center text-base mt-[20%]">Cargando datos...</p>
-      ) : (
-        <div className="w-screen flex justify-center ">
+      ) : 
+      (!showDiscountEdit && !showDiscountDelete) ?
+      (
+        <div className="bg-white border-2 shadow-lg rounded-lg  custom-w-450:p-4 lg:py-4 h-full relative">
           <div className="w-full flex flex-col justify-center items-center">
-            <div className="w-screen mt-10 ml-10 md:ml-20">
-              <Link
-                href={"/myDiscounts"}
-                onClick={() => setSelectedOption("Mi cuenta")}
-              >
-                <FaArrowLeft size={20} color="black" />
-              </Link>
-            </div>
+            {/* <div className="w-full mt-3 ml-10 md:ml-20"> */}
+              <FaArrowLeft
+                onClick={() => setShowDiscountActionPage(false)}
+                size={20}
+                color="black"
+                className="absolute top-3 left-3 custom-w-450:top-6 custom-w-450:left-6 cursor-pointer"
+              />
+            {/* </div> */}
 
-            <h1 className="text-[gray] text-center text-2xl custom-w-450:text-3xl mt-5 mb-6">
+            <h1 className="text-[gray] text-center text-2xl custom-w-450:text-3xl mt-8 lg:mt-2 mb-6">
               Detalles del descuento
             </h1>
 
-            <div className="w-[90%] mx-3 xs:w-[380px] xs:mx-0 border-[1px] border-black rounded-lg py-5 ">
-              <p className="text-[14px] font-bold text-center mb-[10px]">
+            <div className="w-[95%] xs:w-[380px] xs:mx-0 border-[1px] border-black rounded-lg py-5 ">
+              <p className="text-[18px] font-bold text-center mb-[10px]">
                 {discount.title}
               </p>
 
               <div className="w-full h-auto flex flex-row flex-wrap justify-evenly">
                 <div className="w-[45%] flex items-center ">
-                  <p className="w-full h-auto text-[12px] text-left line-clamp-6 break-words">
+                  <p className="w-full h-auto text-[14px] text-left line-clamp-6 break-words">
                     {discount.description}
                   </p>
                 </div>
@@ -174,28 +182,28 @@ const DiscountDetailPage: React.FC<DiscountDetailPageProps> = ({}) => {
                     height={112}
                     //className="w-[169px] h-[112px]"
                   />
-                  <p className="text-[10px] text-black bg-yellow-300 font-bold p-[4px] rounded-[30px] absolute bottom-[8px] left-[4%]">
+                  <p className="text-[12px] text-black bg-yellow-300 font-bold p-[4px] rounded-[30px] absolute bottom-[8px] left-[4%]">
                     {" "}
                     {/* antes tenía left-[18px] */}- {discount.discountAmount} %
                   </p>
                 </div>
               </div>
 
-              <div className="flex felx-row gap-[20px] mt-[10px] justify-center">
-                <div className="flex felx-row items-center">
-                  <p className="text-[12px] flex flex-row">Antes: </p>
+              <div className="flex felx-row gap-[10px] mt-[10px] justify-center">
+                <div className="flex felx-row items-center font-bold">
+                  <p className="text-[14px] flex flex-row">Antes: </p>
                   <div className="relative flex flex-row justify-center ">
-                    <p className="text-[12px]">$ {discount.normalPrice}</p>
+                    <p className="text-[14px]">$ {discount.normalPrice}</p>
                     <div className="absolute top-[50%] h-[1px] bg-black w-[110%]"></div>
                   </div>
                 </div>
 
-                <p className="flex flex-row text-[12px]">
+                <p className="flex flex-row text-[14px] font-bold">
                   Con Descuento: $ {discount.priceWithDiscount}
                 </p>
               </div>
 
-              <div className="w-full flex justify-evenly items-center mt-5 text-[12px]">
+              <div className="w-full flex justify-evenly items-center mt-5 text-[14px]">
                 <div className="flex justify-center items-center gap-1 px-[6px] py-[3px] border-[1px] border-black rounded-lg">
                   {discount.validityPeriod ? (
                     <>
@@ -214,46 +222,28 @@ const DiscountDetailPage: React.FC<DiscountDetailPageProps> = ({}) => {
               </div>
             </div>
 
-            {/* <div className="w-[90%] mx-3 xs:w-[380px] xs:mx-0 flex flex-col justify-between gap-5 my-6 ">
-              <Link href={"/editDiscount"}>
-                <button className="w-[100%] text-[16px] font-bold border-[5px] border-blue-600 text-gray-600 hover:text-white hover:bg-blue-600 p-1 rounded-lg">
-                  Editar descuento
-                </button>
-              </Link>
+            <div className="w-[95%] mx-3 xs:w-[380px] xs:mx-0 flex flex-col justify-between gap-5 my-6">
+                <Button 
+                buttonText="Editar descuento" 
+                onClickButton={() => {
+                    setShowDiscountEdit(true);
+                    const mainElement = document.querySelector("main");
+                    if (mainElement) {
+                    mainElement.scrollTo(0, 0);
+                    }
+                }}
+                />
 
-              <Link href={"/deleteDiscount"}>
-                <button className="w-[100%] text-[16px] font-bold border-[5px] border-red-500 text-gray-600 hover:text-white hover:bg-red-500 p-1 rounded-lg">
-                  Eliminar descuento
-                </button>
-              </Link>
-            </div> */}
-
-            {/* <div className="w-[90%] mx-3 xs:w-[380px] xs:mx-0 flex flex-col justify-between gap-5 my-6">
-              <Link href={"/editDiscount"}>
-                <button className="w-full text-[16px] font-bold border-2 border-blue-600 text-blue-600 hover:text-white hover:bg-blue-600 py-2 rounded-lg shadow-md transition-all duration-300 ease-in-out transform hover:scale-105">
-                  Editar descuento
-                </button>
-              </Link>
-
-              <Link href={"/deleteDiscount"}>
-                <button className="w-full text-[16px] font-bold border-2 border-red-600 text-red-600 hover:text-white hover:bg-red-600 py-2 rounded-lg shadow-md transition-all duration-300 ease-in-out transform hover:scale-105">
-                  Eliminar descuento
-                </button>
-              </Link>
-            </div> */}
-
-            <div className="w-[90%] mx-3 xs:w-[380px] xs:mx-0 flex flex-col justify-between gap-5 my-6">
-              <Link href={"/editDiscount"}>
-                {/* <button className="w-full text-[16px] font-bold border-2 border-[#FD7B03] text-[#FD7B03] hover:text-white hover:bg-[#FD7B03] py-2 rounded-lg shadow-md transition-all duration-300 ease-in-out transform hover:scale-105">
-      Editar descuento
-    </button> */}
-                <Button buttonText="Editar descuento" />
-              </Link>
-
-              <Link href={"/deleteDiscount"}>
                 <button
                   type="submit"
-                  onClick={() => {[setSelectDiscountTitle(discount.title)]}}
+                  onClick={() => {
+                    setSelectDiscountTitle(discount.title);
+                    setShowDiscountDelete(true);
+                    const mainElement = document.querySelector("main");
+                    if (mainElement) {
+                    mainElement.scrollTo(0, 0);
+                    }
+                  }}
                   className="w-full bg-[#FF5C5C] text-[18px] font-semibold text-white mt-3 h-[50px] rounded-[10px] border-[5px] border-red-700 transition-colors duration-300 ease-in-out hover:bg-red-700 hover:text-[#FF5C5C] hover:border-[#FF5C5C] cursor-pointer"
                 >
                   <div className="flex justify-center">
@@ -262,13 +252,14 @@ const DiscountDetailPage: React.FC<DiscountDetailPageProps> = ({}) => {
                     </div>
                   </div>
                 </button>
-              </Link>
             </div>
           </div>
         </div>
-      )}
+      ) : showDiscountEdit ? <DiscountEdit setShowDiscountEdit={setShowDiscountEdit} setShowDiscountActionPage={setShowDiscountActionPage} />
+        : showDiscountDelete && <DiscountDelete setShowDiscountDelete={setShowDiscountDelete} setShowDiscountActionPage={setShowDiscountActionPage}/>
+      }
     </>
   );
 };
 
-export default DiscountDetailPage;
+export default DiscountActionPage;

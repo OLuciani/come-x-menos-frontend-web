@@ -17,12 +17,13 @@ import CountdownTimer from "@/components/countdownTimer/CountdownTimer";
 import { isAfter } from "date-fns";
 import TokenExpiredModal from "@/components/tokenExpiredModal/TokenExpiredModal";
 import { FaArrowLeft } from 'react-icons/fa';
+import DiscountActionPage from "../discountActionPage/DiscountActionPage";
 
 interface ErrorResponse {
   error: string;
 }
 
-const MyDiscountsPage = () => {
+const ActiveDiscountsGallery  = () => {
   const {
     //businessId,
     businessName,
@@ -36,10 +37,12 @@ const MyDiscountsPage = () => {
     setBusinessName,
     businessType,
     setBusinessType,
+    setDiscountsArrayList, 
+    discountsArrayList
   } = useContext(Context);
-  const [discountsArrayList, setDiscountsArrayList] = useState<DiscountsList[]>(
+  /* const [discountsArrayList, setDiscountsArrayList] = useState<DiscountsList[]>(
     []
-  );
+  ); */
   const [loading, setLoading] = useState<boolean>(true);
   const [urlImageBusinessDetail, setUrlImageBusinessDetail] =
     useState<string>("");
@@ -47,6 +50,7 @@ const MyDiscountsPage = () => {
   const router = useRouter();
   const [userToken, setUserToken] = useState<string>("");
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false); // Estado para manejar el modal TokenExpiredModal.tsx
+  const [showDiscountActionPage, setShowDiscountActionPage] = useState<boolean>(false);
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -193,131 +197,133 @@ const MyDiscountsPage = () => {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
       />
-      <div className="screen pb-3 box-border">
-        <div className="w-screen mt-10 ml-5 md:ml-10">
-          <Link
-            href={"/dashboardBusinessAdmin"}
-            onClick={() => setSelectedOption("Mi cuenta")}
-          >
-            <FaArrowLeft size={20} color="black" />
-          </Link>
-        </div>
+      
+      {
+        !showDiscountActionPage ? 
+        <div className="bg-white border-2 shadow-lg rounded-lg p-2 custom-w-450:p-4 lg:py-4 h-full">
+          <h5 className="text-center text-xl text-[gray] font-semibold md:text-2xl pb-2">
+            {businessName}
+          </h5>
 
-        <h5 className="text-center text-xl text-[gray] font-semibold md:text-2xl pb-2">
-          {businessName}
-        </h5>
+          {
+            urlImageBusinessDetail &&
+            <div className="flex justify-center">
+                <Image
+                  src={urlImageBusinessDetail}
+                  alt="Imagen descuento"
+                  width={169}
+                  height={112}
+                  className="w-[169px] h-[112px] rounded-md mb-4"
+                  priority
+                />
+            </div>
+          }
 
-        {
-          urlImageBusinessDetail &&
-          <div className="flex justify-center">
-              <Image
-                src={urlImageBusinessDetail}
-                alt="Imagen descuento"
-                width={169}
-                height={112}
-                className="w-[169px] h-[112px] rounded-md mb-4"
-                priority
-              />
-          </div>
-        }
+          <h2 className="text-center text-xl text-[gray] font-semibold md:text-2xl pb-4">
+            Descuentos activos (selecciona uno)
+          </h2>
 
-        <h2 className="text-center text-xl text-[gray] font-semibold md:text-2xl pb-4">
-          Descuentos activos (selecciona uno)
-        </h2>
-
-        {loading ? (
-          <div className="w-full flex justify-center items-center mt-[8%]">
-            <CircularProgress color="secondary" size={24} className="mr-2" />
-            <span className="text-gray-600">Cargando datos...</span>
-          </div>
-        ) : (
-          <div className="w-full flex flex-col justify-center md:flex-row md:flex-wrap gap-10 md:justify-evenly items-center">
-            {discountsArrayList.map(
-              (discount) =>
-                !discount.isDeleted && (
-                  <div
-                    key={discount._id}
-                    className="w-full custom-w-450:w-[380px] px-2 custom-w-450:px-0 bg-white"
-                  >
-                    <div className="w-full custom-w-450:w-[380px] py-5 border-[2px] border-gray-300 hover:outline hover:outline-[3px] hover:outline-[#FFCF91] hover:shadow-[0_0_0_6px_rgba(253,123,3,0.5)] rounded-2xl cursor-pointer">
-                      <Link
-                        href={"/discountDetail"}
-                        onClick={() => [
-                          setDiscountId(discount._id),
-                          Cookies.set("discountId", discount._id, {
-                            expires: 1,
-                            secure: true,
-                            sameSite: "strict",
-                          }),
-                        ]}
+          {loading ? (
+            <div className="w-full flex justify-center items-center mt-[8%]">
+              <CircularProgress color="secondary" size={24} className="mr-2" />
+              <span className="text-gray-600">Cargando datos...</span>
+            </div>
+          ) : (
+            <div className="w-full flex flex-col justify-center md:flex-row md:flex-wrap gap-10 md:justify-evenly items-center">
+              {discountsArrayList.map(
+                (discount) =>
+                  !discount.isDeleted && (
+                    <div
+                      key={discount._id}
+                      className="w-full custom-w-450:w-[380px] custom-w-450:px-0 bg-white"
+                    >
+                      <div 
+                      onClick={() => {
+                        setDiscountId(discount._id);
+                        Cookies.set("discountId", discount._id, {
+                          expires: 1,
+                          secure: true,
+                          sameSite: "strict",
+                        });
+                        setShowDiscountActionPage(true);
+                        const mainElement = document.querySelector("main");
+                        if (mainElement) {
+                          mainElement.scrollTo(0, 0);
+                        }
+                      }}
+                      className="w-full custom-w-450:w-[380px] py-5 border-[2px] border-gray-300 hover:outline hover:outline-[3px] hover:outline-[#FFCF91] hover:shadow-[0_0_0_6px_rgba(253,123,3,0.5)] rounded-2xl cursor-pointer"
                       >
-                        <p className="text-[14px] font-bold text-center mb-[10px]">
-                          {discount.title}
-                        </p>
+                        
+                          <p className="text-[18px] font-bold text-center mb-[10px]">
+                            {discount.title}
+                          </p>
 
-                        <div className="w-full h-auto flex flex-row flex-wrap justify-evenly">
-                          <div className="w-[45%] flex items-center ">
-                            <p className="w-full h-auto text-[12px] text-left line-clamp-6 break-words">
-                              {discount.description}
-                            </p>
-                          </div>
-                          <div className="w-[45%] flex justify-center items-start relative">
-                            <Image
-                              src={discount.imageURL}
-                              alt="Imagen descuento"
-                              width={169}
-                              height={112}
-                              className="w-[169px] h-[112px] rounded-md"
-                              priority
-                            />
-                            <p className="text-[10px] text-black bg-yellow-300 font-bold p-[4px] rounded-[30px] absolute bottom-[8px] left-[4%]">
-                              - {discount.discountAmount} %
-                            </p>
-                          </div>
-                        </div>
-
-                        <div className="flex flex-row gap-[20px] mt-[10px] justify-center">
-                          <div className="flex flex-row items-center">
-                            <p className="text-[12px] flex flex-row">Antes: </p>
-                            <div className="relative flex flex-row justify-center">
-                              <p className="text-[12px]">
-                                $ {discount.normalPrice}
+                          <div className="w-full h-auto flex flex-row flex-wrap justify-evenly">
+                            <div className="w-[45%] flex items-center ">
+                              <p className="w-full h-auto text-[14px] text-left line-clamp-6 break-words">
+                                {discount.description}
                               </p>
-                              <div className="absolute top-[50%] h-[1px] bg-black w-[110%]"></div>
+                            </div>
+                            
+                            <div className="w-[47%] flex justify-center items-start relative">
+                              <Image
+                                src={discount.imageURL}
+                                alt="Imagen descuento"
+                                width={169}
+                                height={112}
+                                className="w-[169px] h-[112px] rounded-md"
+                                priority
+                              />
+                              <p className="text-[12px] text-black bg-yellow-300 font-bold p-[4px] rounded-[30px] absolute top-20 left-[4%]">
+                                - {discount.discountAmount} %
+                              </p>
                             </div>
                           </div>
-                          <p className="flex flex-row text-[12px]">
-                            Con Descuento: $ {discount.priceWithDiscount}
-                          </p>
-                        </div>
 
-                        <div className="w-full flex justify-evenly items-center mt-5 text-[12px]">
-                          <div className="flex justify-center items-center gap-1 px-[6px] py-[3px] border-[1px] border-black rounded-lg">
-                            {discount.validityPeriod ? (
-                              <>
-                                <p>Oferta termina en: </p>
-                                <div className="font-bold">
-                                  <CountdownTimer
-                                    startDateTime={discount.startDateTime}
-                                    durationDays={discount.validityPeriod}
-                                  />
-                                </div>
-                              </>
-                            ) : (
-                              <p>Oferta sin límite de tiempo</p>
-                            )}
+                          <div className="flex flex-row gap-[10px] mt-[10px] justify-center">
+                            <div className="flex flex-row items-center font-bold">
+                              <p className="text-[14px] flex flex-row">Antes: </p>
+                              <div className="relative flex flex-row justify-center">
+                                <p className="text-[14px]">
+                                  $ {discount.normalPrice}
+                                </p>
+                                <div className="absolute top-[50%] h-[1px] bg-black w-[110%]"></div>
+                              </div>
+                            </div>
+                            <p className="flex flex-row text-[14px] font-bold">
+                              Con Descuento: $ {discount.priceWithDiscount}
+                            </p>
                           </div>
-                        </div>
-                      </Link>
+
+                          <div className="w-full flex justify-evenly items-center mt-5 text-[14px]">
+                            <div className="flex justify-center items-center gap-1 px-[6px] py-[3px] border-[1px] border-black rounded-lg">
+                              {discount.validityPeriod ? (
+                                <>
+                                  <p>Oferta termina en: </p>
+                                  <div className="font-bold">
+                                    <CountdownTimer
+                                      startDateTime={discount.startDateTime}
+                                      durationDays={discount.validityPeriod}
+                                    />
+                                  </div>
+                                </>
+                              ) : (
+                                <p>Oferta sin límite de tiempo</p>
+                              )}
+                            </div>
+                          </div>
+                        
+                      </div>
                     </div>
-                  </div>
-                )
-            )}
-          </div>
-        )}
-      </div>
+                  )
+              )}
+            </div>
+          )}
+        </div>
+        : <DiscountActionPage setShowDiscountActionPage={setShowDiscountActionPage} />
+      }
     </>
   );
 };
 
-export default MyDiscountsPage;
+export default ActiveDiscountsGallery ;
