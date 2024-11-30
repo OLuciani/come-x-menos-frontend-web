@@ -15,6 +15,9 @@ import UserNotifications from "@/components/userNotifications/UserNotifications"
 import AsociatedBusinessUsers from "@/components/dashboardBusinessAdminComponents/allUsersAsociatesToOneBusiness/AsociatedBusinessUsers";
 import ActiveDiscountsGallery from "@/components/dashboardBusinessAdminComponents/myActiveDiscounts/activeDiscountsGallery/ActiveDiscountsGallery";
 import DiscountCreate from "@/components/dashboardBusinessAdminComponents/discountCreate/DiscountCreate";
+import EditAccount from "@/components/dashboardBusinessAdminComponents/editAccount/EditAccount";
+import InvitationBusinessEmployeeUser from "@/components/dashboardBusinessAdminComponents/invitationBusinessEmployeeUser/InvitationBusinessEmployeeUser";
+import InvitationExtraBusinessAdminUser from "@/components/dashboardBusinessAdminComponents/invitationExtraBusinessAdminUser/InvitationExtraBusinessAdminUser";
 //import AsociatedBusinessUserDetail from "@/components/dashboardBusinessAdminComponents/allUsersAsociatesToOneBusiness/AsociatedBusinessUserDetail";
 //import CreateQrScannerUser from "@/components/dashboardComponents/invitationQrScannerUser/InvitationQrScannerUser";
 
@@ -74,9 +77,15 @@ const DashboardBusinessAdmin: React.FC = () => {
       case "asociatedBusinessUsers":
         return <AsociatedBusinessUsers />;
       case "discountCreate":
-      return <DiscountCreate setSection={setSection} section={section}/>
+      return <DiscountCreate setSection={setSection} section={section} />
       case "activeDiscountsGallery":
         return <ActiveDiscountsGallery />
+      case "editAccount":
+        return <EditAccount setSection={setSection} section={section} />;
+      case "invitationBusinessEmployee":
+      return <InvitationBusinessEmployeeUser setSection={setSection} setReduceHeight={setReduceHeight} />;
+      case "invitationExtraBusinessAdmin":
+        return <InvitationExtraBusinessAdminUser setSection={setSection} />;
       default:
         return <Overview />;
     }

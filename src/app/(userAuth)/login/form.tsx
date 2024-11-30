@@ -252,7 +252,7 @@ const LoginForm = () => {
       console.log("Valor del rol que llega en response: ", response.userRole);
 
       if(response.userStatus === "active") {
-        if(response.userRole === roleAppAdmin) {
+        /* if(response.userRole === roleAppAdmin) {
           //router.push("/dashboardAppAdmin");
           router.push("/dashboardAplicationAdmin");
           //setSelectedOption("Admin App");
@@ -266,7 +266,8 @@ const LoginForm = () => {
         if (response.userRole === roleBusinessEmployee) {
           router.push("/dashboardBusinessAdmin");
           setSelectedOption("Mi cuenta");
-        }
+        } */
+        router.push("/");
       } else {
         router.push("/notifications");
         setSelectedOption("Notificaciones")

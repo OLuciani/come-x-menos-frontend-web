@@ -27,10 +27,11 @@ const SidebarDashboard: React.FC<SidebarBusinessAdminDashboardProps> = ({
   const { businessName, isLoggedIn, userRole } = useContext(Context);
   const [unreadCount, setUnreadCount] = useState(0);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [businessDirectorRole, setBusinessDirectorRole] = useState<string | undefined>("");
+  const [businessDirectorRole, setBusinessDirectorRole] = useState<
+    string | undefined
+  >("");
 
-  const roleBusinessDirector  = process.env.NEXT_PUBLIC_ROLE_BUSINESS_DIRECTOR;
-
+  const roleBusinessDirector = process.env.NEXT_PUBLIC_ROLE_BUSINESS_DIRECTOR;
 
   const fetchUnreadNotifications = async () => {
     try {
@@ -65,9 +66,7 @@ const SidebarDashboard: React.FC<SidebarBusinessAdminDashboardProps> = ({
       <div
         className={`w-full flex justify-between items-center pl-4 fixed bg-white top-[57] border-b-2 lg:border-b-0 z-10`}
       >
-        <span className="lg:hidden text-2xl font-semibold">
-          {businessName}
-        </span> 
+        <span className="lg:hidden text-2xl font-semibold">{businessName}</span>
         <button
           className="lg:hidden py-4 pr-4"
           onClick={() => {
@@ -76,17 +75,17 @@ const SidebarDashboard: React.FC<SidebarBusinessAdminDashboardProps> = ({
             if (mainElement) {
               mainElement.scrollTo(0, 0);
             }
-            if(isSidebarOpen) {
-              setReduceHeight(true)
+            if (isSidebarOpen) {
+              setReduceHeight(true);
             } else {
-              setReduceHeight(false)
+              setReduceHeight(false);
             }
           }}
         >
           {isSidebarOpen ? (
             <AiOutlineClose size={25} />
           ) : (
-            <AiOutlineMenu size={25}  />
+            <AiOutlineMenu size={25} />
           )}
         </button>
       </div>
@@ -96,10 +95,12 @@ const SidebarDashboard: React.FC<SidebarBusinessAdminDashboardProps> = ({
         bg-[#FFCF91] text-[#FD7B03] font-bold w-full lg:w-80 h-auto lg:min-h-screen flex flex-col`}
       > */}
       <div
-      className={`bg-[#FFCF91] text-[#2C2C2C] font-bold w-full lg:w-96 lg:h-screen 
-      ${isSidebarOpen ? "block" : "hidden lg:block"} h-auto lg:sticky mb-3 lg:mb-0 lg:top-0 
+        className={`bg-[#FFCF91] text-[#2C2C2C] font-bold w-full lg:w-96 lg:h-screen 
+      ${
+        isSidebarOpen ? "block" : "hidden lg:block"
+      } h-auto lg:sticky mb-3 lg:mb-0 lg:top-0 
       flex flex-col overflow-y-auto`}
-    >
+      >
         <h1 className="text-2xl font-bold text-[#2C2C2C] text-center px-2 pt-4">
           {businessName}
         </h1>
@@ -107,7 +108,7 @@ const SidebarDashboard: React.FC<SidebarBusinessAdminDashboardProps> = ({
         <nav className="flex-grow p-4">
           {/* Título para acciones en la cuenta */}
           <h2 className="text-lg text-center font-bold mt-6">ESTADISTICAS:</h2>
-          
+
           <div className="button-group flex flex-col gap-1">
             {" "}
             {/* Usar una clase común para ambas secciones */}
@@ -115,54 +116,70 @@ const SidebarDashboard: React.FC<SidebarBusinessAdminDashboardProps> = ({
               onClick={() => {
                 setSection("resumen");
                 setIsSidebarOpen(false);
-                // Restablece el scroll del contenedor principal al inicio
                 setReduceHeight(true); //reduce el el espacio entre el Sidebar y renderSection en el dashboard cuando la pantalla es pequeña.
+
+                // Restablece el scroll del contenedor principal al inicio
                 const mainElement = document.querySelector("main");
                 if (mainElement) {
                   mainElement.scrollTo(0, 0);
                 }
               }}
-              className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white ${section === "resumen" ? "border-[2px] border-[#2C2C2C] hover:border-[#FD7B03]" : "text-[#2C2C2C]"}`}
+              className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white ${
+                section === "resumen"
+                  ? "border-[2px] border-[#2C2C2C] hover:border-[#FD7B03]"
+                  : "text-[#2C2C2C]"
+              }`}
             >
               <FiFileText className="inline mr-2" />
               Resumen
             </button>
+
 
             <button
               onClick={() => {
                 setSection("descuentos");
                 setIsSidebarOpen(false);
                 setReduceHeight(true); //reduce el el espacio entre el Sidebar y renderSection en el dashboard cuando la pantalla es pequeña.
-                
+
                 // Aquí debakp establezco el scroll del contenedor principal al inicio
                 const mainElement = document.querySelector("main");
                 if (mainElement) {
                   mainElement.scrollTo(0, 0);
                 }
               }}
-              className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white ${section === "descuentos" ? "border-[2px] border-[#2C2C2C] hover:border-[#FD7B03]" : "text-[#2C2C2C]"}`}
+              className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white ${
+                section === "descuentos"
+                  ? "border-[2px] border-[#2C2C2C] hover:border-[#FD7B03]"
+                  : "text-[#2C2C2C]"
+              }`}
             >
               <AiOutlineTag className="inline mr-2" />
               Descuentos activos
             </button>
+
 
             <button
               onClick={() => {
                 setSection("ventas");
                 setIsSidebarOpen(false);
                 setReduceHeight(true); //reduce el el espacio entre el Sidebar y renderSection en el dashboard cuando la pantalla es pequeña.
-                
+
                 // Restablece el scroll del contenedor principal al inicio
                 const mainElement = document.querySelector("main");
                 if (mainElement) {
                   mainElement.scrollTo(0, 0);
                 }
               }}
-              className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white ${section === "ventas" ? "border-[2px] border-[#2C2C2C] hover:border-[#FD7B03]" : "text-[#2C2C2C]"}`}
+              className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white ${
+                section === "ventas"
+                  ? "border-[2px] border-[#2C2C2C] hover:border-[#FD7B03]"
+                  : "text-[#2C2C2C]"
+              }`}
             >
               <FaChartLine className="inline mr-2" />
               Ventas
             </button>
+
 
             <button
               onClick={() => {
@@ -170,14 +187,18 @@ const SidebarDashboard: React.FC<SidebarBusinessAdminDashboardProps> = ({
                 handleNotificationClick();
                 setIsSidebarOpen(false);
                 setReduceHeight(true); //reduce el el espacio entre el Sidebar y renderSection en el dashboard cuando la pantalla es pequeña.
-                
+
                 // Restablece el scroll del contenedor principal al inicio
                 const mainElement = document.querySelector("main");
                 if (mainElement) {
                   mainElement.scrollTo(0, 0);
                 }
               }}
-              className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white relative ${section === "notificaciones" ? "border-[2px] border-[#2C2C2C] hover:border-[#FD7B03]" : "text-[#2C2C2C]"}`}
+              className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white relative ${
+                section === "notificaciones"
+                  ? "border-[2px] border-[#2C2C2C] hover:border-[#FD7B03]"
+                  : "text-[#2C2C2C]"
+              }`}
             >
               <AiOutlineBell className="inline mr-2" />
               Notificaciones
@@ -200,14 +221,19 @@ const SidebarDashboard: React.FC<SidebarBusinessAdminDashboardProps> = ({
               onClick={() => {
                 setSection("discountCreate");
                 setIsSidebarOpen(false);
-                // Restablece el scroll del contenedor principal al inicio
                 setReduceHeight(true); //reduce el el espacio entre el Sidebar y renderSection en el dashboard cuando la pantalla es pequeña.
+
+                // Restablece el scroll del contenedor principal al inicio
                 const mainElement = document.querySelector("main");
                 if (mainElement) {
                   mainElement.scrollTo(0, 0);
                 }
               }}
-              className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white ${section === "discountCreate" ? "border-[2px] border-[#2C2C2C] hover:border-[#FD7B03]" : "text-[#2C2C2C]"}`}
+              className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white ${
+                section === "discountCreate"
+                  ? "border-[2px] border-[#2C2C2C] hover:border-[#FD7B03]"
+                  : "text-[#2C2C2C]"
+              }`}
             >
               Crear un descuento
             </button>
@@ -216,16 +242,42 @@ const SidebarDashboard: React.FC<SidebarBusinessAdminDashboardProps> = ({
               onClick={() => {
                 setSection("activeDiscountsGallery");
                 setIsSidebarOpen(false);
-                // Restablece el scroll del contenedor principal al inicio
                 setReduceHeight(true); //reduce el el espacio entre el Sidebar y renderSection en el dashboard cuando la pantalla es pequeña.
+
+                // Restablece el scroll del contenedor principal al inicio
                 const mainElement = document.querySelector("main");
                 if (mainElement) {
                   mainElement.scrollTo(0, 0);
                 }
               }}
-              className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white ${section === "activeDiscountsGallery" ? "border-[2px] border-[#2C2C2C] hover:border-[#FD7B03]" : "text-[#2C2C2C]"}`}
+              className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white ${
+                section === "activeDiscountsGallery"
+                  ? "border-[2px] border-[#2C2C2C] hover:border-[#FD7B03]"
+                  : "text-[#2C2C2C]"
+              }`}
             >
               Ver y gestionar mis descuentos activos
+            </button>
+
+            <button
+              onClick={() => {
+                setSection("editAccount");
+                setIsSidebarOpen(false);
+                setReduceHeight(true); //reduce el el espacio entre el Sidebar y renderSection en el dashboard cuando la pantalla es pequeña.
+
+                // Restablece el scroll del contenedor principal al inicio
+                const mainElement = document.querySelector("main");
+                if (mainElement) {
+                  mainElement.scrollTo(0, 0);
+                }
+              }}
+              className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white ${
+                section === "editAccount"
+                  ? "border-[2px] border-[#2C2C2C] hover:border-[#FD7B03]"
+                  : "text-[#2C2C2C]"
+              }`}
+            >
+              Editar datos de tu cuenta
             </button>
 
             {/* <Link href="/createDiscount">
@@ -241,14 +293,13 @@ const SidebarDashboard: React.FC<SidebarBusinessAdminDashboardProps> = ({
               </button>
             </Link> */}
 
-            <Link href="/editAccount">
+            {/* <Link href="/editAccount">
               <button className="block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white">
                 Editar datos de tu cuenta
               </button>
-            </Link>
+            </Link> */}
 
-            {
-              (businessDirectorRole && userRole === businessDirectorRole) &&
+            {businessDirectorRole && userRole === businessDirectorRole && (
               <>
                 {/* <Link href="/editAccount">
                   <button className="block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white">
@@ -256,18 +307,58 @@ const SidebarDashboard: React.FC<SidebarBusinessAdminDashboardProps> = ({
                   </button>
                 </Link> */}
 
-
-                <Link href="/invitationExtraBusinessAdminUser">
+                {/* <Link href="/invitationExtraBusinessAdminUser">
                   <button className="block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white">
+                    Crear usuario administrador p/mi cuenta
+                  </button>
+                </Link> */}
+                <button
+                  onClick={() => {
+                    setSection("invitationExtraBusinessAdmin");
+                    setIsSidebarOpen(false);
+                    setReduceHeight(true); //reduce el el espacio entre el Sidebar y renderSection en el dashboard cuando la pantalla es pequeña.
+                    
+                    // Restablece el scroll del contenedor principal al inicio
+                    const mainElement = document.querySelector("main");
+                    if (mainElement) {
+                      mainElement.scrollTo(0, 0);
+                    }
+                  }}
+                  className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white ${
+                    section === "invitationExtraBusinessAdmin"
+                      ? "border-[2px] border-[#2C2C2C] hover:border-[#FD7B03]"
+                      : "text-[#2C2C2C]"
+                  }`}
+                >
                   Crear usuario administrador p/mi cuenta
-                  </button>
-                </Link>
+                </button>
 
-                <Link href="/invitationBusinessEmployeeUser">
+                {/* <Link href="/invitationBusinessEmployeeUser">
                   <button className="block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white">
-                  Crear usuario empleado p/mi cuenta
+                    Crear usuario empleado p/mi cuenta
                   </button>
-                </Link>
+                </Link> */}
+
+                  <button
+                  onClick={() => {
+                    setSection("invitationBusinessEmployee");
+                    setIsSidebarOpen(false);
+                    setReduceHeight(true); //reduce el el espacio entre el Sidebar y renderSection en el dashboard cuando la pantalla es pequeña.
+                    
+                    // Restablece el scroll del contenedor principal al inicio
+                    const mainElement = document.querySelector("main");
+                    if (mainElement) {
+                      mainElement.scrollTo(0, 0);
+                    }
+                  }}
+                  className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white ${
+                    section === "invitationBusinessEmployee"
+                      ? "border-[2px] border-[#2C2C2C] hover:border-[#FD7B03]"
+                      : "text-[#2C2C2C]"
+                  }`}
+                >
+                  Crear usuario empleado p/mi cuenta
+                </button>
 
                 {/* <Link href="/asociatedBusinessUsers">
                   <button className="block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white">
@@ -279,27 +370,30 @@ const SidebarDashboard: React.FC<SidebarBusinessAdminDashboardProps> = ({
                     setSection("asociatedBusinessUsers");
                     setIsSidebarOpen(false);
                     setReduceHeight(true); //reduce el el espacio entre el Sidebar y renderSection en el dashboard cuando la pantalla es pequeña.
-                    
+
                     // Restablece el scroll del contenedor principal al inicio
                     const mainElement = document.querySelector("main");
                     if (mainElement) {
                       mainElement.scrollTo(0, 0);
                     }
                   }}
-                  className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white ${section === "activeBusinessUsers" ? "border-[2px] border-[#2C2C2C] hover:border-[#FD7B03]" : "text-[#2C2C2C]"}`}
+                  className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white ${
+                    section === "activeBusinessUsers"
+                      ? "border-[2px] border-[#2C2C2C] hover:border-[#FD7B03]"
+                      : "text-[#2C2C2C]"
+                  }`}
                 >
                   Usuarios asociados a mi cuenta
                 </button>
               </>
-            }
+            )}
 
             {/* <Link href="/invitationBusinessEmployeeUser">
               <button className="block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white">
               Crear usuario empleado p/mi cuenta
               </button>
             </Link> */}
-
-        </div>
+          </div>
         </nav>
       </div>
     </div>
