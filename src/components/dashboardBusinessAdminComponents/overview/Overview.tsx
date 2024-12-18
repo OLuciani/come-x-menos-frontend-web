@@ -16,8 +16,9 @@ const Overview: React.FC = () => {
   const { userToken, setUserToken, isLoggedIn, setUserRole, setUserName, setBusinessName, setBusinessType, setSelectedOption } = useContext(Context);
   const [discountsArrayList, setDiscountsArrayList] = useState<DiscountsList[]>([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false); 
-  const [totalDiscounts, setTotalDiscounts] = useState<number>(0);
+  const [totalPublishedDiscounts, setTotalPublishedDiscounts] = useState<number>(0);
   const [totalConsumedDiscounts, setTotalConsumedDiscounts] = useState<number>(0);
+  const [totalGeneratedDiscounts, setTotalGeneratedDiscounts] = useState<number>(0);
   const [usersDiscountList, setUsersDiscountList] = useState<UsersDiscountsList[]>([]);
 
   useEffect(() => {
@@ -70,6 +71,7 @@ const Overview: React.FC = () => {
               )
           );
           setDiscountsArrayList(validDiscounts);
+          setTotalPublishedDiscounts(validDiscounts.length);
         } else {
           console.error("Error al obtener descuentos: ", response);
         }
@@ -91,7 +93,7 @@ const Overview: React.FC = () => {
     } 
   };
 
-  const fetchUsersDiscounts = async () => {
+  /* const fetchUsersDiscounts = async () => {
     try {
       if (userToken) {
         console.log("Valor de userToken en fetchDiscounts: ", userToken);
@@ -102,11 +104,11 @@ const Overview: React.FC = () => {
         }
         if (typeof response !== "string") {
           setUsersDiscountList(response);
-          //console.log("Valor de allUserDiscounts: ", usersDiscountList);
+          console.log("Valor de response de la lista de descuentos: ", response);
 
           const allConsumedDiscounts = response.filter(
             (discount) =>
-              discount.isUsed == true
+              discount.isUsed === true
           );
 
           console.log("Valor de allConsumedDiscounts.length: ", allConsumedDiscounts.length);
@@ -118,12 +120,12 @@ const Overview: React.FC = () => {
       catch {
 
       }
-  }
+  } */
 
   useEffect(() => {
     if (userToken) {
       fetchDiscounts();
-      fetchUsersDiscounts();
+      //fetchUsersDiscounts();
       console.log("Valor de allUserDiscounts: ", usersDiscountList);
 
     }
@@ -131,11 +133,22 @@ const Overview: React.FC = () => {
 
   useEffect(() => {
     if (discountsArrayList.length > 0) {
-      setTotalDiscounts(discountsArrayList.length);
-    } else {
+      //setTotalDiscounts(discountsArrayList.length);
+      const allGeneratedDiscounts: number = discountsArrayList.reduce(
+        (acc, discount) => acc + discount.generatedDiscounts,
+        0 // Valor inicial del acumulador
+      );
+      setTotalGeneratedDiscounts(allGeneratedDiscounts);
+
+      const allConsumeddDiscounts: number = discountsArrayList.reduce(
+        (acc, discount) => acc + discount.usedDiscounts,
+        0 // Valor inicial del acumulador
+      );
+      setTotalConsumedDiscounts(allConsumeddDiscounts);
+    } /* else {
       setTotalDiscounts(0); // En caso de que no haya descuentos, asegurarse de que totalDiscounts sea 0.
-    }
-  }, [discountsArrayList, setTotalDiscounts]);
+    } */
+  }, [discountsArrayList, setTotalGeneratedDiscounts, setTotalConsumedDiscounts]);
 
 
 
@@ -147,12 +160,21 @@ const Overview: React.FC = () => {
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Descuentos Activos */}
+        <div className="flex items-center bg-yellow-100 p-4 rounded-lg shadow-md">
+          <FaTags className="text-yellow-500 text-3xl mr-4" />
+          <div>
+            <h3 className="text-lg font-semibold">Total de descuentos activos publicados por mi empresa.</h3>
+            <p className="text-gray-700">{totalPublishedDiscounts}</p>
+          </div>
+        </div>
+        
         {/* Ventas Totales */}
         <div className="flex items-center bg-blue-100 p-4 rounded-lg shadow-md">
           <FaTags className="text-blue-500 text-3xl mr-4" />
           <div>
             <h3 className="text-lg font-semibold">Total de descuentos generados por usuarios.</h3>
-            <p className="text-gray-700">{usersDiscountList.length}</p>
+            <p className="text-gray-700">{totalGeneratedDiscounts}</p>
           </div>
         </div>
         
@@ -166,20 +188,20 @@ const Overview: React.FC = () => {
         </div>
         
         {/* Descuentos Activos */}
-        <div className="flex items-center bg-yellow-100 p-4 rounded-lg shadow-md">
+        {/* <div className="flex items-center bg-yellow-100 p-4 rounded-lg shadow-md">
           <FaTags className="text-yellow-500 text-3xl mr-4" />
           <div>
-            <h3 className="text-lg font-semibold">Total de descuentos publicados por mi empresa activos.</h3>
-            <p className="text-gray-700">{totalDiscounts}</p>
+            <h3 className="text-lg font-semibold">Total de descuentos activos publicados por mi empresa.</h3>
+            <p className="text-gray-700">{totalPublishedDiscounts}</p>
           </div>
-        </div>
+        </div> */}
       </div>
 
       {/* Sección adicional */}
       <div className="mt-8">
         <h3 className="text-lg font-semibold mb-4">Resumen de Actividad</h3>
         <p className="text-gray-700">
-          Este es el resumen de la actividad reciente en tu cuenta. Aquí puedes ver las métricas clave y las estadísticas de rendimiento.
+          Este es el resumen de la actividad reciente en tu cuenta. Aquí puedes ver las métricas claves y las estadísticas de rendimiento.
         </p>
         {/* Aquí podrías agregar gráficos o tablas adicionales según sea necesario */}
       </div>

@@ -113,6 +113,8 @@ export interface BusinessDetail {
 export interface PendingBusiness {
   address: string;
   addressNumber: string;
+  businessName: string;
+  businessType: string;
   city: string;
   country: string;
   latitude: number;
@@ -189,7 +191,7 @@ export interface DiscountsList {
   discountAmount: string;
   imageURL: string;
   normalPrice: string;
-  priceWithDiscount: string;
+  priceWithDiscount: number;
   _id: string;
   isDeleted: string;
   validityPeriod: number;
@@ -198,6 +200,7 @@ export interface DiscountsList {
   generatedDiscounts: number;
   usedDiscounts: number;
   discountViews: number;
+  salesValue?: number;
 }
 
 export interface UsersDiscountsList {
@@ -434,6 +437,7 @@ export async function createUser(
   email: string
 ): Promise<User | string> {
   try {
+    console.log("Valor de businessName en createUser de apiCall.ts: ", data.businessName);
     const response = await axios.post(
       `${BASE_BACKEND_URL}/api/user_register`,
       {

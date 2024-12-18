@@ -5,7 +5,7 @@ import { discountsList, DiscountsList } from "@/services/apiCall";
 import SidebarBusinessAdminDashboard from "@/components/dashboardBusinessAdminComponents/sidebarBusinessAdminDashboard/SidebarBusinessAdminDashboard";
 //import HeaderDashboard from "@/components/dashboardComponents/headerDashboard";
 import Overview from "@/components/dashboardBusinessAdminComponents/overview/Overview";
-import DashboardDiscounts from "@/components/dashboardBusinessAdminComponents/activeDiscountsOverview/ActiveDiscountsOverview";
+import ActiveDiscountsOverview from "@/components/dashboardBusinessAdminComponents/activeDiscountsOverview/ActiveDiscountsOverview";
 import EffectiveSales from "@/components/dashboardBusinessAdminComponents/effectiveSales/EffectiveSales";
 import { Context } from "@/context/Context";
 import Cookies from "js-cookie";
@@ -68,11 +68,11 @@ const DashboardBusinessAdmin: React.FC = () => {
     switch (section) {
       case "notificaciones":
         return <UserNotifications />
-      case "resumen":
+      case "overview":
         return <Overview />;
-      case "descuentos":
-        return <DashboardDiscounts />;
-      case "ventas":
+      case "activeDiscountsOverview":
+        return <ActiveDiscountsOverview />;
+      case "sales":
         return <EffectiveSales />;
       case "asociatedBusinessUsers":
         return <AsociatedBusinessUsers />;

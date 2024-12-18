@@ -249,11 +249,12 @@ const AsociatedOneBusinessUserDetail: React.FC<UserDetailsModalProps> = ({
 
       {user && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+          /* className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50" */
+          className="bg-white border-2 shadow-lg rounded-lg p-2 custom-w-450:p-4 min-h-screen"
           onClick={onClose}
         >
           <div
-            className="bg-white rounded-lg w-[95%] md:w-[50%] overflow-y-auto"
+            className=""
             onClick={(e) => e.stopPropagation()}
           >
             <MessageModal
@@ -266,7 +267,7 @@ const AsociatedOneBusinessUserDetail: React.FC<UserDetailsModalProps> = ({
             />
 
             <div className="p-4">
-              <div className="flex justify-end mr-4 mt-2">
+              <div className="flex justify-end mb-2">
                 <p 
                 onClick={() => [onClose && onClose()]}
                 className="text-lg cursor-pointer font-bold"
@@ -276,11 +277,11 @@ const AsociatedOneBusinessUserDetail: React.FC<UserDetailsModalProps> = ({
               </div>
 
 
-              <h2 className="text-2xl text-center mb-4 font-semibold">
+              <h2 className="text-2xl text-center font-semibold">
                 Cuenta de {user.name} {user.lastName}
             </h2>
 
-              <div className="lg:w-[90%] lg:mt-10 flex flex-col mx-auto gap-6 lg:border-[2px] border-[lightgray] rounded-xl py-10 px-4">
+              <div className="lg:w-[90%] lg:mt-5 flex flex-col mx-auto gap-6 lg:border-[2px] border-[lightgray] rounded-xl py-10 px-4">
                 <div className="w-full lg:w-[90%] lg:px-4 custom-w-450:px-6 flex flex-col justify-center gap-5">
                   {/* <p>
                     <strong>Nombre:</strong> {user.name}

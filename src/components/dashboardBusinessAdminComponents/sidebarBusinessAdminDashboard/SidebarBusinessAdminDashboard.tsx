@@ -114,7 +114,7 @@ const SidebarDashboard: React.FC<SidebarBusinessAdminDashboardProps> = ({
             {/* Usar una clase común para ambas secciones */}
             <button
               onClick={() => {
-                setSection("resumen");
+                setSection("overview");
                 setIsSidebarOpen(false);
                 setReduceHeight(true); //reduce el el espacio entre el Sidebar y renderSection en el dashboard cuando la pantalla es pequeña.
 
@@ -125,7 +125,7 @@ const SidebarDashboard: React.FC<SidebarBusinessAdminDashboardProps> = ({
                 }
               }}
               className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white ${
-                section === "resumen"
+                section === "overview"
                   ? "border-[2px] border-[#2C2C2C] hover:border-[#FD7B03]"
                   : "text-[#2C2C2C]"
               }`}
@@ -137,7 +137,7 @@ const SidebarDashboard: React.FC<SidebarBusinessAdminDashboardProps> = ({
 
             <button
               onClick={() => {
-                setSection("descuentos");
+                setSection("activeDiscountsOverview");
                 setIsSidebarOpen(false);
                 setReduceHeight(true); //reduce el el espacio entre el Sidebar y renderSection en el dashboard cuando la pantalla es pequeña.
 
@@ -148,19 +148,19 @@ const SidebarDashboard: React.FC<SidebarBusinessAdminDashboardProps> = ({
                 }
               }}
               className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white ${
-                section === "descuentos"
+                section === "activeDiscountsOverview"
                   ? "border-[2px] border-[#2C2C2C] hover:border-[#FD7B03]"
                   : "text-[#2C2C2C]"
               }`}
             >
               <AiOutlineTag className="inline mr-2" />
-              Descuentos activos
+              {`Descuentos activos (ver actividad)`} 
             </button>
 
 
             <button
               onClick={() => {
-                setSection("ventas");
+                setSection("sales");
                 setIsSidebarOpen(false);
                 setReduceHeight(true); //reduce el el espacio entre el Sidebar y renderSection en el dashboard cuando la pantalla es pequeña.
 
@@ -171,13 +171,13 @@ const SidebarDashboard: React.FC<SidebarBusinessAdminDashboardProps> = ({
                 }
               }}
               className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white ${
-                section === "ventas"
+                section === "sales"
                   ? "border-[2px] border-[#2C2C2C] hover:border-[#FD7B03]"
                   : "text-[#2C2C2C]"
               }`}
             >
               <FaChartLine className="inline mr-2" />
-              Ventas
+              {`Total de Ventas (descuentos utilizados)`}
             </button>
 
 

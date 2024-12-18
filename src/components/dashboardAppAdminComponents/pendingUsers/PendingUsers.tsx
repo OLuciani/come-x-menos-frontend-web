@@ -106,6 +106,7 @@ const PendingUsers = () => {
 
   useEffect(() => {
     fetchPendingUsers();
+    //fetchPendingBusiness(businessId);
   }, []);
 
   return (

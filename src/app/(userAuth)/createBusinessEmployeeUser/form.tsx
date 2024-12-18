@@ -100,7 +100,7 @@ const CreateBusinessEmployeeUserForm = () => {
       setIsLoading(true);
 
       try {
-        const { user, error: firebaseError } = await registerUserWithFirebase(
+        /* const { user, error: firebaseError } = await registerUserWithFirebase(
           email,
           values.password
         );
@@ -108,7 +108,7 @@ const CreateBusinessEmployeeUserForm = () => {
           setError(`Firebase error: ${firebaseError}`);
           setIsLoading(false);
           return;
-        }
+        } */
 
         const userResponse = await createBusinessEmployeeUser(
           values,

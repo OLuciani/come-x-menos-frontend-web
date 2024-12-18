@@ -90,7 +90,7 @@ const CreateExtraBusinessAdminUserForm = () => {
       setIsLoading(true);
 
       try {
-        const { user, error: firebaseError } = await registerUserWithFirebase(
+        /* const { user, error: firebaseError } = await registerUserWithFirebase(
           email,
           values.password
         );
@@ -98,7 +98,7 @@ const CreateExtraBusinessAdminUserForm = () => {
           setError(`Firebase error: ${firebaseError}`);
           setIsLoading(false);
           return;
-        }
+        } */
 
         const userResponse = await createExtraBusinessAdminUser(values, token, businessId);
         if (typeof userResponse === "object" && userResponse !== null) {

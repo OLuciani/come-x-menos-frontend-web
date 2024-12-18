@@ -116,7 +116,7 @@ const FormRegister = () => {
       setIsLoading(true);
 
       try {
-        const { user, error: firebaseError } = await registerUserWithFirebase(
+        /* const { user, error: firebaseError } = await registerUserWithFirebase(
           email,
           values.password
         );
@@ -124,7 +124,7 @@ const FormRegister = () => {
           setError(`Firebase error: ${firebaseError}`);
           setIsLoading(false);
           return;
-        }
+        } */
 
         const userResponse = await createUser(values, token, email);
         if (typeof userResponse === "object" && userResponse !== null) {

@@ -476,6 +476,10 @@ const AllUsers = () => {
                 </p>
 
                 <p>
+                  <span className="font-semibold">Nombre del negocio:</span> {user.businessName}
+                </p>
+
+                <p>
                   <span className="font-semibold">Rol:</span>{" "}
                   {user.role === "businessDirector"
                     ? "Director del negocio"

@@ -23,7 +23,7 @@ interface LoginResponse {
 
 const LoginForm = () => {
   const [error, setError] = useState<string | undefined>();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isPasswordResetModalVisible, setPasswordResetModalVisible] =
     useState(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -66,7 +66,7 @@ const LoginForm = () => {
       setError(undefined);
       setIsLoading(true);
 
-      try {
+      /* try {
         const firebaseResponse = await loginUserWithFirebase(
           values.email,
           values.password
@@ -81,11 +81,20 @@ const LoginForm = () => {
         setError("Error de red o el servidor no está disponible");
       } finally {
         setIsLoading(false);
+      } */
+      try {
+        // Si decides usar solo el backend
+        await handleLogin(values); 
+      } catch (err) {
+        setError("Error de red o el servidor no está disponible");
+      } finally {
+        // Detén siempre el estado de carga, independientemente del resultado
+        setIsLoading(false);
       }
     },
   });
 
-  // Manejo de errores de Firebase
+  /* // Manejo de errores de Firebase
   const handleFirebaseError = (firebaseError: any) => {
     let customErrorMessage = "Error desconocido";
 
@@ -108,17 +117,20 @@ const LoginForm = () => {
     }
 
     setError(customErrorMessage);
-  };
+  }; */
 
-  // Manejo de respuesta de inicio de sesión
+  // Manejo de respuesta de inicio de sesión 
   const handleLogin = async (values: { email: string; password: string }) => {
     const loginResponse: LoginResponse = await login(values);
+
+    console.log("Valor de loginResponse en login: ", loginResponse);
 
     if (loginResponse.error) {
       handleBackendError(loginResponse.error);
     } else if (loginResponse.success) {
       await handleSuccessfulLogin();
     }
+    
   };
 
   // Manejo de errores del backend
@@ -332,7 +344,10 @@ const LoginForm = () => {
           {error && <p className="text-red-700 py-3">{error}</p>}
         </div>
 
-        <Button buttonText={isLoading ? "Cargando..." : "Iniciar sesión"} />
+        <Button 
+          buttonText={isLoading ? "Cargando..." : "Iniciar sesión"} 
+          disabled={isLoading} // Opcional para deshabilitar mientras carga
+        />
       </form>
 
       <PasswordResetModal

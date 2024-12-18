@@ -121,7 +121,7 @@ const PendingUserDetailsModal: React.FC<UserDetailsModalProps> = ({
             </a>
 
             <p>
-              <strong>Tipo de negocio:</strong> {user.businessType}
+              <strong>Tipo de negocio:</strong> {business.businessType}
             </p>
             <p>
               <strong>Rol de usuario:</strong> {user.role}
