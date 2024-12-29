@@ -64,3 +64,25 @@ Este proyecto permite a los usuarios finales encontrar descuentos en tiempo real
 1. Clona este repositorio:
    ```bash
    git clone https://github.com/OLuciani/discount-project-web.git
+
+2. Navega al directorio del proyecto:
+   ```bash
+   cd discount-project-web
+
+3. Instala las dependencias
+   npm install
+
+4. Ejecuta el proyecto
+   npm run dev
+
+## Características
+- Autenticación segura con Firebase.
+- Gestión de roles: usuarios y negocios.
+- Interfaz moderna: Diseñada con Tailwind CSS para una experiencia de usuario atractiva y responsiva.
+- Sistema de descuentos con temporizador dinámico.
+- Dashboard para negocios con métricas en tiempo real.
+- Gestión intuitiva de descuentos: Opciones para crear, editar, activar y desactivar descuentos fácilmente.
+
+## Demo en vivo
+Puedes probar la aplicación en el siguiente enlace: Comé x Menos
+
