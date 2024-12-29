@@ -43,17 +43,13 @@ Aplicación para encontrar descuentos negocios de comidas (en restaurantes, cafe
 Este proyecto permite a los usuarios finales encontrar descuentos en tiempo real, mientras que los dueños de negocios pueden gestionar sus ofertas de manera sencilla. La aplicación cuenta con autenticación de usuarios, temporizador para descuentos activos, y una interfaz moderna creada con Next.js.
 
 ## Capturas de pantalla
-<div style="margin-bottom: 20px;">
-  <img src="images/vista-principal.png" alt="Vista principal">
-</div>
 
-<div style="margin-bottom: 20px;">
-  <img src="images/gestion-descuentos.png" alt="Gestión de descuentos">
-</div>
+![Vista principal](images/vista-principal.png)
 
-<div style="margin-bottom: 20px;">
-  <img src="images/editar-eliminar-descuento.png" alt="Editar eliminar descuento">
-</div>
+![Gestión de descuentos 1](images/gestion-descuentos.png)
+
+![Gestión de descuentos 2](images/editar-eliminar-descuento.png)
+
 
 ## Tecnologías utilizadas
 - Next.js

@@ -277,7 +277,7 @@ const SidebarDashboard: React.FC<SidebarBusinessAdminDashboardProps> = ({
                   : "text-[#2C2C2C]"
               }`}
             >
-              Editar datos de tu cuenta
+              Editar datos de mi cuenta
             </button>
 
             {/* <Link href="/createDiscount">
