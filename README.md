@@ -1,4 +1,4 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<!-- This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
 
@@ -33,4 +33,29 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details. -->
+
+
+
+# Comé x Menos
+Aplicación para encontrar descuentos negocios de comidas (en restaurantes, cafeterías, panaderías y más). Diseñada para conectar negocios con clientes de manera eficiente y dinámica.
+
+Este proyecto permite a los usuarios finales encontrar descuentos en tiempo real, mientras que los dueños de negocios pueden gestionar sus ofertas de manera sencilla. La aplicación cuenta con autenticación de usuarios, temporizador para descuentos activos, y una interfaz moderna creada con Next.js.
+
+## Capturas de pantalla
+![Vista principal](images/vista-principal.png)
+![Gestión de descuentos](images/gestion-descuentos.png)
+
+## Tecnologías utilizadas
+- Next.js
+- React
+- Node.js + Express
+- MongoDB Atlas
+- Firebase Authentication
+- Tailwind CSS
+- Vercel (Hosting)
+
+## Instalación
+1. Clona este repositorio:
+   ```bash
+   git clone https://github.com/OLuciani/discount-project-web.git
