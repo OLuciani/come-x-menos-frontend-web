@@ -70,9 +70,11 @@ Este proyecto permite a los usuarios finales encontrar descuentos en tiempo real
    cd discount-project-web
 
 3. Instala las dependencias
+   ```bash
    npm install
 
 4. Ejecuta el proyecto
+   ```bash
    npm run dev
 
 ## Características
