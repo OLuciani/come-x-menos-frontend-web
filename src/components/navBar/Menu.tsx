@@ -121,7 +121,7 @@ const Menu: React.FC<MenuProps> = ({ open, closeMenu }) => {
           </li>
         </Link>
 
-        {userToken && (userRole === roleBusinessDirector || userRole === roleBusinessManager) && userStatus === "active" && (
+        {userToken && (userRole === roleBusinessDirector || userRole === roleBusinessManager || userRole === roleBusinessEmployee) && userStatus === "active" && (
           <Link href={"/dashboardBusinessAdmin"} onClick={handleLinkClick}>
             <li
               className={`${
