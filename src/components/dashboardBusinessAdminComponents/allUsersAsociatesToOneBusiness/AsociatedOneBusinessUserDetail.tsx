@@ -1,14 +1,9 @@
 "use client";
 import React, { useState, useEffect, useContext } from "react";
 import TokenExpiredModal from "@/components/tokenExpiredModal/TokenExpiredModal";
-import {
-  ActiveUser,
-  desactivateUser,
-  deleteUser,
-  activateUser,
-  fetchAsociatedBusinessUsers,
-  ActiveBusinessAdminUser,
-} from "@/services/apiCall";
+import { desactivateUser, deleteUser, activateUser, fetchAsociatedBusinessUsers } from "@/api/userService";
+import { ActiveBusinessAdminUser } from "@/types/userTypes";
+//import { ActiveUser, desactivateUser, deleteUser, activateUser, fetchAsociatedBusinessUsers, ActiveBusinessAdminUser } from "@/services/apiCall";
 import { Context } from "@/context/Context";
 import Cookies from "js-cookie";
 import Button from "@/components/button/Button";

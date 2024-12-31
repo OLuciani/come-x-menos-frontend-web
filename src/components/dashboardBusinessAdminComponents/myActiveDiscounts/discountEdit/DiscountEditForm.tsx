@@ -1,7 +1,9 @@
 "use client"
 import React, { useState, useEffect, useContext } from "react";
 import Input from "@/components/InputAuth/Input";
-import { editDiscount, Discount, discountsList, DiscountsList } from "@/services/apiCall";
+import { editDiscount, discountsList } from "@/api/discountService";
+import { Discount } from "@/types/discountTypes";
+//import { editDiscount, Discount, discountsList, DiscountsList } from "@/services/apiCall";
 import { useRouter } from "next/navigation";
 import { useFormik, FormikProps } from "formik";
 import * as Yup from "yup";

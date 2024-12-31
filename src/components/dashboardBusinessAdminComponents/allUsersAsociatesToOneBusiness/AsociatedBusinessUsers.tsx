@@ -1,15 +1,10 @@
 "use client";
 import React, { useState, useEffect, useContext } from "react";
 import TokenExpiredModal from "@/components/tokenExpiredModal/TokenExpiredModal";
-import {
-  fetchAsociatedBusinessUsers,
-  fetchPendingUsersFromAPI,
-  approveUser,
-  ActiveUser,
-  ActiveBusinessAdminUser,
-  fetchPendingBusinessFromAPI,
-  PendingBusiness,
-} from "@/services/apiCall";
+import { fetchAsociatedBusinessUsers } from "@/api/userService";
+import { ActiveUser, ActiveBusinessAdminUser } from "@/types/userTypes";
+//import { fetchAsociatedBusinessUsers, fetchPendingUsersFromAPI, approveUser, ActiveUser, ActiveBusinessAdminUser,
+//fetchPendingBusinessFromAPI, PendingBusiness } from "@/services/apiCall";
 import { Context } from "@/context/Context";
 import Cookies from "js-cookie";
 import AsociatedOneBusinessUserDetail from "./AsociatedOneBusinessUserDetail";

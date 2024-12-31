@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import Cookies from "js-cookie";
-import { verifyToken } from "./tokenVerification";
+import { verifyToken } from "./tokenVerificationService";
 
 // Configuro Axios para enviar cookies automáticamente
 axios.defaults.withCredentials = true;
@@ -287,6 +287,8 @@ export interface ActiveUser {
   business?: object | null;
 }
 
+
+//Solicitud post al backend para loguear a un usuario (para iniciar sesión)
 export async function login(
   data: UserLogin
 ): Promise<{ userId: string; userLoged: boolean } | { error: string }> {
@@ -320,7 +322,8 @@ export async function login(
       return { error: error.message };
     }
   }
-}
+} 
+
 
 export async function userProfile() {
   try {
@@ -493,6 +496,8 @@ export const updateUserWithBusinessId = async (
   }
 };
 
+
+//Solicitud post al backend para la creación de un negocio
 export async function createBusiness(
   data: FormData
 ): Promise<Business | string> {
@@ -530,6 +535,7 @@ export async function createBusiness(
   }
 }
 
+//Solicitud al backend para crear un descuento
 export async function createDiscount(
   data: FormData
 ): Promise<Discount | string> {
@@ -614,6 +620,8 @@ export async function discountsList(): Promise<DiscountsList[] | string> {
   }
 }
 
+
+//Solicitud para obtener los descuentos generados por clientes de la aplicación movil consumidos (utilizados).
 export async function usersDiscountsList(): Promise<
   UsersDiscountsList[] | string
 > {
@@ -634,7 +642,7 @@ export async function usersDiscountsList(): Promise<
 
     if (response.status === 200 && response.data) {
       console.log(
-        "Listado de descuentos creados por usuarios del negocio traidos de MongoDB Atlas:",
+        "Listado de descuentos consumidos por usuarios del negocio traidos de MongoDB Atlas:",
         response.data
       );
       return response.data;
@@ -655,7 +663,7 @@ export async function usersDiscountsList(): Promise<
 }
 
 
-
+//Solicitud para obtener el detalle de un descuento en particular ofrecido por un negocio
 export async function discountDetail(
   discountId: string
 ): Promise<DiscountDetail | string> {
@@ -698,6 +706,8 @@ export async function discountDetail(
   }
 }
 
+
+//Solicitud para modificar un descuento en particular ofrecido por un negocio (por eso lleva el id del descuento)
 export async function editDiscount(
   data: FormData,
   discountId: string
@@ -740,6 +750,8 @@ export async function editDiscount(
   }
 }
 
+
+//Solicitud para la eliminación lógica de un descuento en particular ofrecido por un negocio
 export async function deleteDiscount(
   discountId: string
 ): Promise<{ success: boolean; message: string } | string> {
@@ -780,7 +792,8 @@ export async function deleteDiscount(
   }
 }
 
-//export async function businessDetail(businessId: string, userToken: string): Promise<Business | string> {
+
+//Solicitud para obtener el detalle de los datos de un negocio en particular
 export async function businessDetail(): Promise<Business | string> {
   // Verifico el token antes de hacer la solicitud
   const isTokenValid = await verifyToken();
@@ -820,9 +833,9 @@ export async function businessDetail(): Promise<Business | string> {
   }
 }
 
+
+//Solicitud para obtener el detalle de los datos de un usuario en particular
 export const getUserById = async () => {
-  //const response = await axios.get(`https://discount-project-backend.onrender.com/api/user_detail`,
-  //const response = await axios.get(`http://localhost:5050/api/user_detail`,
   const response = await axios.get(`${BASE_BACKEND_URL}/api/user_detail`, {
     withCredentials: true,
   });
@@ -830,6 +843,8 @@ export const getUserById = async () => {
   console.log("Valor del detalle de usuario: ", response.data);
 };
 
+
+//Solicitud para modificar los datos de un usuario en particular en el momento que se crea una cuenta nueva de un negocio (que obviamente se crea un usuario y un negocio asociado a ese usuario);
 export const updateUser = async (data: Partial<User>) => {
   // Verifico el token antes de hacer la solicitud
   const isTokenValid = await verifyToken();
@@ -874,26 +889,27 @@ export const updateUser = async (data: Partial<User>) => {
       return response.data;
     } else {
       console.log(
-        "La modificación del descuento en MongoDB Atlas no fue exitosa:",
+        "La modificación del usuario en MongoDB Atlas no fue exitosa:",
         response.data
       );
-      return "Error al modificar el descuento";
+      return "Error al modificar el usuario";
     }
   } catch (error: any) {
-    console.error("Error al modificar el descuento:", error.message);
-    return "Error al modificar el descuento";
+    console.error("Error al modificar el usuario:", error.message);
+    return "Error al modificar el usuario";
   }
 };
 
+//Solicitud que trae el detalle de los datos de un negocio en particular
 export const getBusinessById = async () => {
-  //const response = await axios.get(`https://discount-project-backend.onrender.com/api/business_detail`,
-  //const response = await axios.get(`http://localhost:5050/api/business_detail`,
   const response = await axios.get(`${BASE_BACKEND_URL}/api/business_detail`, {
     withCredentials: true,
   });
   return response.data;
 };
 
+
+//Solicitud para modificar un negocio
 export const updateBusiness = async (formData: FormData) => {
   // Verifico el token antes de hacer la solicitud
   const isTokenValid = await verifyToken();
@@ -944,23 +960,8 @@ export const updateBusiness = async (formData: FormData) => {
   }
 };
 
-export const getDashboardData = async (
-  userToken: string
-): Promise<DashboardData> => {
-  const response = await fetch(`${BASE_BACKEND_URL}/api/dashboard`, {
-    headers: {
-      //Authorization: `Bearer ${yourToken}`,  // Usa tu token de autenticación
-    },
-  });
 
-  if (!response.ok) {
-    throw new Error("Error fetching dashboard data");
-  }
-
-  return (await response.json()) as DashboardData;
-};
-
-
+//Solicitud para traer los usuarios que crearon una cuenta de negocio y todavia estan pendientes de aprobación por parte de la administración de la app.
 export async function fetchPendingUsersFromAPI() {
   try {
     // Verifico el token antes de hacer la solicitud
@@ -998,7 +999,7 @@ export async function fetchPendingUsersFromAPI() {
   }
 }
 
-
+//Solicitud para modificar el status de la cuenta de un usuario de pending a active.
 export const approveUser = async (userId: string) => {
   console.log("Valor de userId en la funcion approveUser: ", userId);
   try {
@@ -1046,6 +1047,8 @@ export async function fetchPendingBusinessFromAPI(businessId: string | null) {
   }
 }
 
+
+//Solicitud para traer un listado con todos los usuarios
 export async function fetchAllUsersFromAPI() {
   try {
     // Verifico el token antes de hacer la solicitud
@@ -1080,7 +1083,7 @@ export async function fetchAllUsersFromAPI() {
   }
 }
 
-
+//Solicitud para traer un negocio en particular del backend. NO DEBERIA INCLUIR LA PALABRA ACTIVE EN LA FUNCION NI EN LA RUTA YA QUE NO FILTRA NEGOCIO ACTIVO SINO QUE SOLO BUSCA AL NEGOCIO POR SU ID. CORREGIR ESO.
 export async function fetchActiveBusinessFromAPI(businessId: string | null) {
   try {
     const response = await axios.get(
@@ -1109,7 +1112,8 @@ export async function fetchActiveBusinessFromAPI(businessId: string | null) {
       throw new Error("Ocurrió un error inesperado.");
     }
   }
-}
+} 
+
 
 // Función para obtener las notificaciones del usuario
 export const getUserNotifications = async () => {
@@ -1133,7 +1137,7 @@ export const getUserNotifications = async () => {
 };
 
 
-
+//Solicitud para enviar notificación a un usuario
 export const sendUserNotification = async (userId: string, message: string) => {
   try {
     const response = await axios.post(
@@ -1150,6 +1154,7 @@ export const sendUserNotification = async (userId: string, message: string) => {
 };
 
 
+//Solicitud para marcar una notificacion de un usuario como leída
 export const markUserNotificationsAsRead = async (notificationId?: string) => {
   console.log("Valor de notifictionId en la solicitud post:", notificationId);
   try {
@@ -1177,6 +1182,7 @@ export const markUserNotificationsAsRead = async (notificationId?: string) => {
 };
 
 
+//Solicitud para enviar un mail para invitar a un usuario a crear una cuenta asociada a la cuenta de un negocio en particular.
 export const invitationBusinessEmployeeUser = async (user: BusinessEmployee) => {
   console.log(user.email)
   try {
@@ -1201,6 +1207,7 @@ export const invitationBusinessEmployeeUser = async (user: BusinessEmployee) => 
 };
 
 
+//Solicitud para crear una cuenta de usuario con rol de empleado asociada a un negocio.
 export async function createBusinessEmployeeUser(data: BusinessEmployee, token: string, businessId: string): Promise<BusinessEmployee | string> {
   //console.log("Valor de data en createUserQrScanner: ", data);
   //console.log("Valor de token en createUserQrScanner: ", token);
@@ -1243,7 +1250,7 @@ export async function createBusinessEmployeeUser(data: BusinessEmployee, token: 
   }
 }
 
-
+//Solicitud para invitar a crear cuenta asociada a un negocio en particular a un usuario con rol de administrador
 export const invitationExtraBusinessAdminUser = async (user: ExtraBusinessAdminUser) => {
   console.log(user.email)
   try {
@@ -1268,7 +1275,7 @@ export const invitationExtraBusinessAdminUser = async (user: ExtraBusinessAdminU
 };
 
 
-
+//Solicitud para crear un usuario con rol de administrador asociado a la cuenta de un negocio en particular
 export async function createExtraBusinessAdminUser(data: ExtraBusinessAdminUser, token: string, businessId: string): Promise<ExtraBusinessAdminUser | string> {
   //console.log("Valor de data en createUserQrScanner: ", data);
   //console.log("Valor de token en createUserQrScanner: ", token);
@@ -1311,7 +1318,7 @@ export async function createExtraBusinessAdminUser(data: ExtraBusinessAdminUser,
   }
 }
 
-
+//Solicitud al backend que trae un listado de todos los usuarios con roles roleBusinessDirector y roleBusinessManager con status active.
 export async function getBusinessAdminUsersCount () {
   /* // Verifico el token antes de hacer la solicitud
   const isTokenValid = await verifyToken();
@@ -1350,7 +1357,7 @@ export async function getBusinessAdminUsersCount () {
   }
 }
 
-
+//Solicitud que trae un listado de todos los usuarios asociados a un negocio en particular
 export async function fetchAsociatedBusinessUsers() {
   try {
     // Verifico el token antes de hacer la solicitud
@@ -1412,7 +1419,7 @@ export const desactivateUser = async (userId: string) => {
 };
 
 
-//Función para activar a un usuariopasando su estado de status "pending" a status "active".
+//Función para activar a un usuario pasando su estado de status "pending" a status "active".
 export const activateUser = async (userId: string) => {
   console.log("Valor de userId en la funcion desactivateUser: ", userId);
   try {

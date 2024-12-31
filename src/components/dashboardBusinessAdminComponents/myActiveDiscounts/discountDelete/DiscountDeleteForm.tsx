@@ -2,7 +2,8 @@
 import React, { useState, useContext, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Context } from "@/context/Context";
-import { deleteDiscount, discountsList } from "@/services/apiCall";
+import { deleteDiscount, discountsList } from "@/api/discountService";
+//import { deleteDiscount, discountsList } from "@/services/apiCall";
 import Cookies from "js-cookie";
 import Button from "@/components/button/Button";
 import TokenExpiredModal from "@/components/tokenExpiredModal/TokenExpiredModal";

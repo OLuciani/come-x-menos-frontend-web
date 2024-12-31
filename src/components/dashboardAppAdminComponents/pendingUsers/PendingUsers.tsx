@@ -1,7 +1,11 @@
 "use client"
 import React, { useState, useEffect, useContext } from "react";
 import TokenExpiredModal from "@/components/tokenExpiredModal/TokenExpiredModal";
-import { fetchPendingUsersFromAPI, approveUser, UserPending, fetchPendingBusinessFromAPI, PendingBusiness } from "@/services/apiCall";
+import { fetchPendingUsersFromAPI, approveUser } from "@/api/userService";
+import { fetchPendingBusinessFromAPI } from "@/api/businessService";
+import { UserPending } from "@/types/userTypes";
+import { PendingBusiness } from "@/types/businessTypes";
+//import { fetchPendingUsersFromAPI, approveUser, UserPending, fetchPendingBusinessFromAPI, PendingBusiness } from "@/services/apiCall";
 import PendingUserDetailsModal from "./PendingUserDetailModal";
 import { Context } from "@/context/Context";
 import Cookies from "js-cookie";

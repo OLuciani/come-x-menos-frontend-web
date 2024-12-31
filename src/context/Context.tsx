@@ -1,6 +1,8 @@
 "use client"
 import React, { createContext, useState, ReactNode } from "react";
-import {  DiscountDetail, fetchAllUsersFromAPI, ActiveBusinessAdminUser, DiscountsList } from "@/services/apiCall";
+import { DiscountDetail, DiscountsList } from "@/types/discountTypes";
+import { ActiveBusinessAdminUser } from "@/types/userTypes";
+//import {  DiscountDetail, fetchAllUsersFromAPI, ActiveBusinessAdminUser, DiscountsList } from "@/services/apiCall";
 
 
 interface ContextProps {

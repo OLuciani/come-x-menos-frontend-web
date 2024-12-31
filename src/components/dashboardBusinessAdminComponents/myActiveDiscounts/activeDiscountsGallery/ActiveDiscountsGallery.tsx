@@ -1,12 +1,10 @@
 "use client";
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "@/context/Context";
-import {
-  businessDetail,
-  discountsList,
-  DiscountsList,
-  Business,
-} from "@/services/apiCall";
+import { businessDetail } from "@/api/businessService";
+import { discountsList } from "@/api/discountService";
+import { Business } from "@/types/businessTypes";
+//import { businessDetail, discountsList, DiscountsList, Business } from "@/services/apiCall";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";

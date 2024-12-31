@@ -2,7 +2,7 @@
 import React, {useContext} from "react";
 import { Krona_One } from "next/font/google";
 import FormEditDiscount from "@/components/dashboardBusinessAdminComponents/myActiveDiscounts/discountEdit/DiscountEditForm";
-import Link from "next/link";
+//import Link from "next/link";
 import { FaArrowLeft } from 'react-icons/fa';
 import { Context } from "@/context/Context";
 

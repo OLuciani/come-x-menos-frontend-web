@@ -1,6 +1,9 @@
 "use client"
 import React, { useState, useContext, useEffect } from "react";
-import { discountsList, DiscountsList, usersDiscountsList, UsersDiscountsList } from "@/services/apiCall";
+import { discountsList } from "@/api/discountService";
+import { UsersDiscountsList } from "@/types/apiCallTypes";
+import { DiscountsList } from "@/types/discountTypes";
+//import { discountsList, DiscountsList, usersDiscountsList, UsersDiscountsList } from "@/services/apiCall";
 import { Context } from "@/context/Context";
 import Cookies from "js-cookie";
 import axios, { all, AxiosError } from "axios";

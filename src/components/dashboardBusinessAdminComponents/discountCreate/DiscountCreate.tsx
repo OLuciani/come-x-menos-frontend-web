@@ -2,8 +2,7 @@
 import React, {useContext} from "react";
 import { Krona_One } from "next/font/google";
 import DiscountCreateForm from "@/components/dashboardBusinessAdminComponents/discountCreate/DiscountCreateForm";
-import { FaArrowLeft } from 'react-icons/fa';
-import Link from "next/link";
+//import { FaArrowLeft } from 'react-icons/fa';
 import { Context } from "@/context/Context";
 
 const krona = Krona_One({ weight: "400", subsets: ["latin"] });

@@ -2,8 +2,8 @@
 import { Context } from "@/context/Context"; // Importa tu contexto aquí
 import React, { useContext } from "react";
 import EditAccountForm from "@/components/dashboardBusinessAdminComponents/editAccount/EditAccountForm"; // Ajusta la ruta según tu estructura
-import Link from "next/link";
-import { FaArrowLeft } from 'react-icons/fa';
+//import Link from "next/link";
+//import { FaArrowLeft } from 'react-icons/fa';
 
 interface EditAccountProps {
     setSection: (section: string) => void;

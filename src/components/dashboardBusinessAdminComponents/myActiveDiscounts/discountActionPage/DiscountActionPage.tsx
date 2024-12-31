@@ -1,7 +1,9 @@
 "use client";
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "@/context/Context";
-import { discountDetail, DiscountDetail } from "@/services/apiCall";
+import { discountDetail } from "@/api/discountService";
+import { DiscountDetail } from "@/types/discountTypes";
+//import { discountDetail, DiscountDetail } from "@/services/apiCall";
 import Image from "next/image";
 //import EditDiscountModalForm from "../editDiscount/page";
 import Link from "next/link";

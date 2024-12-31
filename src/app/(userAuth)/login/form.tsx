@@ -5,8 +5,10 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Context } from "@/context/Context";
 import Input from "@/components/InputAuth/Input";
-import { login, userProfile } from "@/services/apiCall";
-import { loginUserWithFirebase } from "@/services/authService";
+//import { login, userProfile } from "@/services/apiCall";
+//import { UserProfile } from '../../../services/apiCall';
+import { login, userProfile } from "@/api/authService"
+import { loginUserWithFirebase } from "@/services/firebaseAuthService";
 import PasswordResetModal from "@/components/passwordResetModal/PasswordResetModal";
 import Cookies from "js-cookie";
 import Button from "@/components/button/Button";

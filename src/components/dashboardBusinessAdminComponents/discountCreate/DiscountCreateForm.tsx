@@ -4,12 +4,9 @@ import Input from "@/components/InputAuth/Input";
 import { useRouter } from "next/navigation";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import {
-  createDiscount,
-  BusinessDetail,
-  businessDetail,
-  discountsList,
-} from "@/services/apiCall";
+import { createDiscount, discountsList } from "@/api/discountService";
+import { businessDetail } from "@/api/businessService";
+//import { createDiscount, BusinessDetail, businessDetail, discountsList } from "@/services/apiCall";
 import { Context } from "@/context/Context";
 import TextareaAutosize from "react-textarea-autosize";
 import Cookies from "js-cookie";

@@ -4,13 +4,10 @@ import Input from "@/components/InputAuth/Input";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import {
-  createUser,
-  createBusiness,
-  Business,
-  updateUserWithBusinessId,
-} from "@/services/apiCall";
-import { registerUserWithFirebase } from "@/services/authService";
+import { createUser, updateUserWithBusinessId } from "@/api/userService";
+import { createBusiness } from "@/api/businessService";
+//import { createUser, createBusiness, Business, updateUserWithBusinessId } from "@/services/apiCall";
+import { registerUserWithFirebase } from "@/services/firebaseAuthService";
 import { Context } from "@/context/Context";
 import Button from "@/components/button/Button";
 import RegistrationConfirmationModal from "@/components/registrationConfirmationModal/RegistrationConfirmationModal";

@@ -6,9 +6,10 @@ import { AiOutlineTag } from "react-icons/ai";
 import { FiFileText } from "react-icons/fi";
 import { FaChartLine } from "react-icons/fa";
 import { AiOutlinePlus } from "react-icons/ai";
-import { getUserNotifications } from "@/services/apiCall";
+import { getUserNotifications } from "@/api/userService";
+//import { getUserNotifications } from "@/services/apiCall";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
-import Link from "next/link";
+//import Link from "next/link";
 
 interface SidebarBusinessAdminDashboardProps {
   setSection: (section: string) => void;

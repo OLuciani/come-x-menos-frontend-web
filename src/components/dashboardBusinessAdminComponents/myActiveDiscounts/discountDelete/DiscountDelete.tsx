@@ -3,7 +3,7 @@ import React, { useContext } from "react";
 import { Context } from "@/context/Context";
 import { Krona_One } from "next/font/google";
 import DiscountDeleteForm from "@/components/dashboardBusinessAdminComponents/myActiveDiscounts/discountDelete/DiscountDeleteForm";
-import Link from "next/link";
+//import Link from "next/link";
 import { FaArrowLeft } from 'react-icons/fa';
 
 const krona = Krona_One({ weight: "400", subsets: ["latin"] });

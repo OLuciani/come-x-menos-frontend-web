@@ -2,7 +2,8 @@
 import React, { useEffect, useContext, useState } from 'react';
 import Cookies from "js-cookie";
 import { Context } from "@/context/Context";
-import { getUserNotifications, markUserNotificationsAsRead } from "@/services/apiCall"; // Asegúrate de importar las funciones correctas
+import { getUserNotifications, markUserNotificationsAsRead } from '@/api/userService';
+//import { getUserNotifications, markUserNotificationsAsRead } from "@/services/apiCall"; // Asegúrate de importar las funciones correctas
 import axios from 'axios'; 
 
 const UserNotifications = () => {

@@ -1,7 +1,9 @@
 "use client"
 import React, { useState, useContext, useEffect } from "react";
 import axios, { AxiosError } from "axios";
-import { discountsList, DiscountsList } from "@/services/apiCall";
+import { discountsList } from "@/api/discountService";
+import { DiscountsList } from "@/types/discountTypes";
+//import { discountsList, DiscountsList } from "@/services/apiCall";
 import SidebarBusinessAdminDashboard from "@/components/dashboardBusinessAdminComponents/sidebarBusinessAdminDashboard/SidebarBusinessAdminDashboard";
 //import HeaderDashboard from "@/components/dashboardComponents/headerDashboard";
 import Overview from "@/components/dashboardBusinessAdminComponents/overview/Overview";

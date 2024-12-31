@@ -1,13 +1,9 @@
 "use client";
 import React, { useState, useEffect, useRef, useContext } from "react";
-import {
-  sendUserNotification,
-  desactivateUser,
-  deleteUser,
-  activateUser,
-  fetchAllUsersFromAPI,
-  ActiveBusinessAdminUser,
-} from "@/services/apiCall";
+import { sendUserNotification, desactivateUser, deleteUser, activateUser, fetchAllUsersFromAPI } from "@/api/userService";
+import { ActiveBusinessAdminUser } from "@/types/userTypes";
+//import { sendUserNotification, desactivateUser, deleteUser, activateUser, fetchAllUsersFromAPI,
+//ActiveBusinessAdminUser } from "@/services/apiCall";
 import Button from "@/components/button/Button";
 
 import { toast, ToastContainer } from "react-toastify"; // Importo toast y ToastContainer

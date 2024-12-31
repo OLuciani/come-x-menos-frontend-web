@@ -4,12 +4,9 @@ import React, { useState, useEffect, useContext } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useRouter } from "next/navigation";
-import {
-  getUserById,
-  updateUser,
-  getBusinessById,
-  updateBusiness,
-} from "@/services/apiCall";
+import { getUserById, updateUser } from "@/api/userService";
+import { getBusinessById, updateBusiness } from "@/api/businessService";
+//import { getUserById, updateUser, getBusinessById, updateBusiness} from "@/services/apiCall";
 import Input from "@/components/InputAuth/Input";
 import { Context } from "@/context/Context";
 import Cookies from "js-cookie";

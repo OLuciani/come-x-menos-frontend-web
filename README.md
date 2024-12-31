@@ -38,9 +38,9 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 
 # Comé x Menos
-Aplicación para encontrar descuentos negocios de comidas (en restaurantes, cafeterías, panaderías y más). Diseñada para conectar negocios con clientes de manera eficiente y dinámica.
+Aplicación web diseñada para que los negocios gestionen los descuentos que ofrecen a través de la aplicación móvil "Comé x Menos", donde los usuarios finales pueden descubrir y aprovechar ofertas en restaurantes, cafeterías, panaderías y más.
 
-Este proyecto permite a los usuarios finales encontrar descuentos en tiempo real, mientras que los dueños de negocios pueden gestionar sus ofertas de manera sencilla. La aplicación cuenta con autenticación de usuarios, temporizador para descuentos activos, y una interfaz moderna creada con Next.js.
+Los negocios pueden crear, editar y eliminar descuentos, y obtener métricas detalladas sobre el rendimiento de sus ofertas, las cuales son vistas por los usuarios en la app móvil. Esta plataforma facilita la gestión eficiente de las promociones, mientras que la app móvil permite a los clientes interactuar fácilmente con las ofertas disponibles.
 
 ## Capturas de pantalla
 
@@ -87,4 +87,3 @@ Este proyecto permite a los usuarios finales encontrar descuentos en tiempo real
 
 ## Demo en vivo
 Puedes probar la aplicación en el siguiente enlace: Comé x Menos
-

@@ -246,12 +246,9 @@ export default AllUsers; */
 "use client";
 import React, { useState, useEffect, useContext } from "react";
 import TokenExpiredModal from "@/components/tokenExpiredModal/TokenExpiredModal";
-import {
-  fetchAllUsersFromAPI,
-  ActiveBusinessAdminUser,
-  fetchActiveBusinessFromAPI,
-  ActiveBusiness,
-} from "@/services/apiCall";
+import { fetchAllUsersFromAPI } from "@/api/userService";
+import { ActiveBusinessAdminUser } from "@/types/userTypes";
+//import { fetchAllUsersFromAPI, ActiveBusinessAdminUser, fetchActiveBusinessFromAPI, ActiveBusiness } from "@/services/apiCall";
 import { Context } from "@/context/Context";
 import Cookies from "js-cookie";
 //import ActiveBusinessAdminUserDetailsModal from "./SelectedUserModal";

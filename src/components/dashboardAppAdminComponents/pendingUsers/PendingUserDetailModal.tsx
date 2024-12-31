@@ -1,6 +1,9 @@
 "use client"
 import React, { useState, useEffect, useRef } from "react";
-import { UserPending, PendingBusiness, sendUserNotification/* sendNotificationPendingUser */ } from "@/services/apiCall"; // Importar la función de envío
+import { sendUserNotification } from "@/api/userService";
+import { UserPending } from "@/types/userTypes";
+import { PendingBusiness } from "@/types/businessTypes";
+//import { UserPending, PendingBusiness, sendUserNotification } from "@/services/apiCall"; // Importar la función de envío
 import Button from "@/components/button/Button";
 
 import { toast, ToastContainer } from 'react-toastify'; // Importo toast y ToastContainer

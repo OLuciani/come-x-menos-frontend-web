@@ -1,7 +1,8 @@
 "use client"
 import React, { useState, useContext, useEffect } from "react";
 import axios, { AxiosError } from "axios";
-import { discountsList, DiscountsList } from "@/services/apiCall";
+import { DiscountsList } from "@/types/discountTypes";
+//import { discountsList, DiscountsList } from "@/services/apiCall";
 //import SidebarDashboard from "@/components/dashboardAppAdminComponents/sidebarDashboardAppAdmin/SidebarDashboardAppAdmin";
 import { Context } from "@/context/Context";
 import Cookies from "js-cookie";
