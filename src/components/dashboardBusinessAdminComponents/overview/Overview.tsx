@@ -164,14 +164,14 @@ const Overview: React.FC = () => {
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {/* Descuentos Activos */}
-        <div className="flex-col items-center bg-yellow-100 p-4 rounded-lg shadow-md">
+        <div className="flex-col items-center bg-yellow-100 p-4 rounded-lg shadow-md relative">
           <div className="flex justify-center mb-3">
             <FaTags className="text-yellow-500 text-3xl" />
           </div>
           <div>
             <h3 className="text-lg font-bold mb-4">Total de descuentos activos publicados por mi empresa.</h3>
             <div className="w-full h-10 flex justify-center">
-              <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center">
+              <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center absolute bottom-4">
                 <p className="text-lg font-bold">{totalPublishedDiscounts}</p>
               </div>
             </div>
@@ -179,14 +179,14 @@ const Overview: React.FC = () => {
         </div>
         
         {/* Ventas Totales */}
-        <div className="flex-col items-center bg-blue-100 p-4 rounded-lg shadow-md">
+        <div className="flex-col items-center bg-blue-100 p-4 rounded-lg shadow-md relative">
           <div className="flex justify-center mb-3">
             <FaTags className="text-blue-500 text-3xl" />
           </div>
           <div>
             <h3 className="text-lg font-bold mb-4">Total de descuentos generados por usuarios y usuarios.</h3>
             <div className="w-full h-10 flex justify-center">
-              <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center">
+              <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center absolute bottom-4">
                 <p className="text-lg font-bold">{totalGeneratedDiscounts}</p>
               </div>
             </div>
@@ -194,14 +194,14 @@ const Overview: React.FC = () => {
         </div>
         
         {/* Usuarios Activos */}
-        <div className="flex-col items-center bg-green-100 p-4 rounded-lg shadow-md">
+        <div className="flex-col items-center bg-green-100 p-4 rounded-lg shadow-md relative">
           <div className="flex justify-center mb-3">
             <FaTags className="text-green-500 text-3xl" />
           </div>
           <div>
             <h3 className="text-lg font-bold mb-4">Total de descuentos consumidos por usuarios.</h3>
             <div className="w-full h-10 flex justify-center">
-              <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center">
+              <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center absolute bottom-4">
                 <p className="text-lg font-bold">{totalConsumedDiscounts}</p>
               </div>
             </div>
