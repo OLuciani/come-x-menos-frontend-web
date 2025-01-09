@@ -255,7 +255,7 @@ const DiscountCreateForm: React.FC<DiscountCreateFormProps> = ({
 
             fetchDiscounts();
 
-            const title: string = "El descuento se ha crado exitosamente";
+            const title: string = "El descuento se ha creado exitosamente";
             setMessageTitle(title);
 
             const text: string = `Serás redirigido al listado de descuentos para ver el descuento creado.`;

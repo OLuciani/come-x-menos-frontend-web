@@ -284,7 +284,7 @@ export const approveUser = async (userId: string) => {
   }
 };
 
-//Solicitud para traer un listado con todos los usuarios
+//Solicitud para traer un listado con todos los usuarios con paginación desde el frontend
 export async function fetchAllUsersFromAPI() {
   try {
     // Verifico el token antes de hacer la solicitud
@@ -314,7 +314,7 @@ export async function fetchAllUsersFromAPI() {
     console.error("Error al pedir Usuarios Activos al backend:", error.message);
     return "Error al pedir Usuarios Activos al backend";
   }
-}
+} 
 
 // Función para obtener las notificaciones del usuario
 export const getUserNotifications = async () => {

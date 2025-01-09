@@ -251,6 +251,29 @@ const EditAccountForm: React.FC<EditAccountFormProps> = ({setSection, section}) 
           businessType: values.businessType,
         });
 
+        console.log("VALOR DE userUpdate: ", userUpdate.message);
+        /* if (userUpdate.message !== "Usuario actualizado correctamente") {
+          //Variables para el mensaje de edición exitosa de la cuenta al usuario
+          const title: string = "No puedes editar la cuenta, no tienes credenciales para hacerlo";
+          setMessageTitle(title);
+
+          const text: string = `Serás redirigido a la sección Resumen del dashboard.`;
+          setMessageText(text);
+
+          setIsOpenMessageModal(true);
+
+          const navBarOption: string = "Mi cuenta";
+          setSelectedNavBarOption(navBarOption);
+
+          setTimeout(() => {   
+              setSection("resumen");
+              const mainElement = document.querySelector("main");
+              if (mainElement) {
+                mainElement.scrollTo(0, 0);
+              }
+          }, 10000);
+        } */
+
         const formData = new FormData();
         formData.append("businessName", values.businessName);
         formData.append("address", values.address);
@@ -291,9 +314,6 @@ const EditAccountForm: React.FC<EditAccountFormProps> = ({setSection, section}) 
             const text: string = `Serás redirigido a la sección Resumen del dashboard.`;
             setMessageText(text);
 
-            /* const route: string = "/dashboardBusinessAdmin";
-            setMessageRouterRedirection(route); */
-
             setIsOpenMessageModal(true);
 
             const navBarOption: string = "Mi cuenta";
@@ -306,14 +326,29 @@ const EditAccountForm: React.FC<EditAccountFormProps> = ({setSection, section}) 
                   mainElement.scrollTo(0, 0);
                 }
             }, 10000);
-
-            /* setTimeout(() => {
-              //router.push("/myDiscounts");
-            }, 10000); */
           } else {
             setIsModalOpen(true); // Muestra el modal TokenExpiredModal.tsx si el token es inválido y redirecciona a login
             setError("Error al actualizar los datos.");
           }
+          /* //Variables para el mensaje de edición exitosa de la cuenta al usuario
+            const title: string = "Tu cuenta se ha editado exitosamente";
+            setMessageTitle(title);
+
+            const text: string = `Serás redirigido a la sección Resumen del dashboard.`;
+            setMessageText(text);
+
+            setIsOpenMessageModal(true);
+
+            const navBarOption: string = "Mi cuenta";
+            setSelectedNavBarOption(navBarOption);
+
+            setTimeout(() => {   
+                setSection("resumen");
+                const mainElement = document.querySelector("main");
+                if (mainElement) {
+                  mainElement.scrollTo(0, 0);
+                }
+            }, 10000); */
         } else if (userRole === roleAppAdmin) {
           setTimeout(() => {
             router.push("/dashboardAplicationAdmin");
@@ -323,10 +358,68 @@ const EditAccountForm: React.FC<EditAccountFormProps> = ({setSection, section}) 
             router.push("/dashboardBusinessAdmin");
           }, 2000);
         } /* else if (userRole === roleBusinessEmployee) {
+          //Variables para el mensaje de edición exitosa de la cuenta al usuario
+          const title: string = "Tu cuenta se ha editado exitosamente";
+          setMessageTitle(title);
+
+          const text: string = `Serás redirigido a la sección Resumen del dashboard.`;
+          setMessageText(text);
+
+          setIsOpenMessageModal(true);
+
+          const navBarOption: string = "Mi cuenta";
+          setSelectedNavBarOption(navBarOption);
           setTimeout(() => {
-            router.push("/dashboardBusinessEmployee");
-          }, 2000);
+            router.push("/dashboardBusinessAdmin");
+
+            setSection("resumen");
+
+            const mainElement = document.querySelector("main");
+            if (mainElement) {
+              mainElement.scrollTo(0, 0);
+            }
+          }, 10000);
         } */
+        /* //Variables para el mensaje de edición exitosa de la cuenta al usuario
+        const title: string = "Tu cuenta se ha editado exitosamente";
+        setMessageTitle(title);
+
+        const text: string = `Serás redirigido a la sección Resumen del dashboard.`;
+        setMessageText(text);
+
+        setIsOpenMessageModal(true);
+
+        const navBarOption: string = "Mi cuenta";
+        setSelectedNavBarOption(navBarOption);
+
+        setTimeout(() => {   
+            setSection("resumen");
+            const mainElement = document.querySelector("main");
+            if (mainElement) {
+              mainElement.scrollTo(0, 0);
+            }
+        }, 10000); */
+        if (userUpdate.message !== "Usuario actualizado correctamente") {
+          //Variables para el mensaje de edición exitosa de la cuenta al usuario
+          const title: string = "No puedes editar la cuenta, no tienes credenciales para hacerlo";
+          setMessageTitle(title);
+
+          const text: string = `Serás redirigido a la sección Resumen del dashboard.`;
+          setMessageText(text);
+
+          setIsOpenMessageModal(true);
+
+          const navBarOption: string = "Mi cuenta";
+          setSelectedNavBarOption(navBarOption);
+
+          setTimeout(() => {   
+              setSection("resumen");
+              const mainElement = document.querySelector("main");
+              if (mainElement) {
+                mainElement.scrollTo(0, 0);
+              }
+          }, 10000);
+        }
       } catch (err) {
         setError("Error de red o el servidor no está disponible.");
       } finally {

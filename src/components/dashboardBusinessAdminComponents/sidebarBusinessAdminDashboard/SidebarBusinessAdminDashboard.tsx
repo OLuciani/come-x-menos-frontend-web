@@ -25,7 +25,7 @@ const SidebarDashboard: React.FC<SidebarBusinessAdminDashboardProps> = ({
   section,
   setReduceHeight,
 }) => {
-  const { businessName, isLoggedIn, userRole } = useContext(Context);
+  const { businessName, isLoggedIn, userRole, userSubRole } = useContext(Context);
   const [unreadCount, setUnreadCount] = useState(0);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [businessDirectorRole, setBusinessDirectorRole] = useState<
@@ -59,6 +59,7 @@ const SidebarDashboard: React.FC<SidebarBusinessAdminDashboardProps> = ({
   }, [isLoggedIn, setSection]);
 
   useEffect(() => {
+    console.log("valor de userSubRole: ", userSubRole);
     setBusinessDirectorRole(roleBusinessDirector);
   }, []);
 
@@ -260,26 +261,29 @@ const SidebarDashboard: React.FC<SidebarBusinessAdminDashboardProps> = ({
               Ver y gestionar mis descuentos activos
             </button>
 
-            <button
-              onClick={() => {
-                setSection("editAccount");
-                setIsSidebarOpen(false);
-                setReduceHeight(true); //reduce el el espacio entre el Sidebar y renderSection en el dashboard cuando la pantalla es pequeña.
+            {
+              userSubRole !== "visit_user" &&
+                <button
+                  onClick={() => {
+                    setSection("editAccount");
+                    setIsSidebarOpen(false);
+                    setReduceHeight(true); //reduce el el espacio entre el Sidebar y renderSection en el dashboard cuando la pantalla es pequeña.
 
-                // Restablece el scroll del contenedor principal al inicio
-                const mainElement = document.querySelector("main");
-                if (mainElement) {
-                  mainElement.scrollTo(0, 0);
-                }
-              }}
-              className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white ${
-                section === "editAccount"
-                  ? "border-[2px] border-[#2C2C2C] hover:border-[#FD7B03]"
-                  : "text-[#2C2C2C]"
-              }`}
-            >
-              Editar datos de mi cuenta
-            </button>
+                    // Restablece el scroll del contenedor principal al inicio
+                    const mainElement = document.querySelector("main");
+                    if (mainElement) {
+                      mainElement.scrollTo(0, 0);
+                    }
+                  }}
+                  className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white ${
+                    section === "editAccount"
+                      ? "border-[2px] border-[#2C2C2C] hover:border-[#FD7B03]"
+                      : "text-[#2C2C2C]"
+                  }`}
+                >
+                  Editar datos de mi cuenta
+                </button>
+            }
 
             {/* <Link href="/createDiscount">
               <button className="block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white"

@@ -104,13 +104,13 @@ const AsociatedBusinessUsers = () => {
       !selectedUser ?
       <div className="bg-white border-2 shadow-lg rounded-lg p-2 custom-w-450:p-4 lg:py-4 min-h-screen">
         <div className="bg-[#FFCF91] rounded-t-lg mb-3 pb-2">
-          <h2 className="text-xl lg:text-2xl font-semibold text-[#2C2C2C] text-center py-2 px-2">
+          <h2 className="text-xl lg:text-2xl font-bold text-[#2C2C2C] text-center py-2 px-2">
             Usuarios asociados a mi cuenta
           </h2>
           <div className="px-4 custom-w-450:px-8 md:px-48 lg:px-44 xl:px-56 flex justify-between">
-            <p className="text-base lg:text-lg font-semibold text-[#2C2C2C]">Activos: {totalActiveBusinessUsers}</p>
+            <p className="text-base lg:text-lg font-bold text-[#2C2C2C]">Activos: {totalActiveBusinessUsers}</p>
 
-            <p className="text-base lg:text-lg font-semibold text-[#2C2C2C]">Inactivos:  {totalInactiveBusinessUsers}</p>
+            <p className="text-base lg:text-lg font-bold text-[#2C2C2C]">Inactivos:  {totalInactiveBusinessUsers}</p>
           </div>
         </div>
 

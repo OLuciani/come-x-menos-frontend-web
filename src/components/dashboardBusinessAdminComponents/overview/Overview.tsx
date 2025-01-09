@@ -159,34 +159,52 @@ const Overview: React.FC = () => {
   return (
     <div className="bg-white border-2 shadow-lg rounded-lg p-2 custom-w-450:p-4 lg:py-4 h-full">
       <div className="bg-[#FFCF91] rounded-t-lg">
-        <h2 className="text-xl lg:text-2xl font-semibold text-[#2C2C2C] text-center px-2 py-2 mb-6">Resumen</h2>
+        <h2 className="text-xl lg:text-2xl font-bold text-[#2C2C2C] text-center px-2 py-2 mb-6">Resumen</h2>
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {/* Descuentos Activos */}
-        <div className="flex items-center bg-yellow-100 p-4 rounded-lg shadow-md">
-          <FaTags className="text-yellow-500 text-3xl mr-4" />
+        <div className="flex-col items-center bg-yellow-100 p-4 rounded-lg shadow-md">
+          <div className="flex justify-center mb-3">
+            <FaTags className="text-yellow-500 text-3xl" />
+          </div>
           <div>
-            <h3 className="text-lg font-semibold">Total de descuentos activos publicados por mi empresa.</h3>
-            <p className="text-gray-700">{totalPublishedDiscounts}</p>
+            <h3 className="text-lg font-bold mb-4">Total de descuentos activos publicados por mi empresa.</h3>
+            <div className="w-full h-10 flex justify-center">
+              <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center">
+                <p className="text-lg font-bold">{totalPublishedDiscounts}</p>
+              </div>
+            </div>
           </div>
         </div>
         
         {/* Ventas Totales */}
-        <div className="flex items-center bg-blue-100 p-4 rounded-lg shadow-md">
-          <FaTags className="text-blue-500 text-3xl mr-4" />
+        <div className="flex-col items-center bg-blue-100 p-4 rounded-lg shadow-md">
+          <div className="flex justify-center mb-3">
+            <FaTags className="text-blue-500 text-3xl" />
+          </div>
           <div>
-            <h3 className="text-lg font-semibold">Total de descuentos generados por usuarios.</h3>
-            <p className="text-gray-700">{totalGeneratedDiscounts}</p>
+            <h3 className="text-lg font-bold mb-4">Total de descuentos generados por usuarios y usuarios.</h3>
+            <div className="w-full h-10 flex justify-center">
+              <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center">
+                <p className="text-lg font-bold">{totalGeneratedDiscounts}</p>
+              </div>
+            </div>
           </div>
         </div>
         
         {/* Usuarios Activos */}
-        <div className="flex items-center bg-green-100 p-4 rounded-lg shadow-md">
-          <FaTags className="text-green-500 text-3xl mr-4" />
+        <div className="flex-col items-center bg-green-100 p-4 rounded-lg shadow-md">
+          <div className="flex justify-center mb-3">
+            <FaTags className="text-green-500 text-3xl" />
+          </div>
           <div>
-            <h3 className="text-lg font-semibold">Total de descuentos consumidos por usuarios.</h3>
-            <p className="text-gray-700">{totalConsumedDiscounts}</p>
+            <h3 className="text-lg font-bold mb-4">Total de descuentos consumidos por usuarios.</h3>
+            <div className="w-full h-10 flex justify-center">
+              <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center">
+                <p className="text-lg font-bold">{totalConsumedDiscounts}</p>
+              </div>
+            </div>
           </div>
         </div>
         
@@ -202,7 +220,7 @@ const Overview: React.FC = () => {
 
       {/* Sección adicional */}
       <div className="mt-8">
-        <h3 className="text-lg font-semibold mb-4">Resumen de Actividad</h3>
+        <h3 className="text-lg font-bold mb-2">Resumen de Actividad:</h3>
         <p className="text-gray-700">
           Este es el resumen de la actividad reciente en tu cuenta. Aquí puedes ver las métricas claves y las estadísticas de rendimiento.
         </p>

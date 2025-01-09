@@ -29,7 +29,7 @@ const DiscountCreate: React.FC<DiscountCreateProps> = ({ setSection, section }) 
             /> */}
 
             <div className="w-full sm:w-[450px] pb-2 rounded-t-[40px] max-md:top-0 max-md:rounded-none max-md:h-auto">
-                <h1 className={`${krona.className} my-5 text-[22px] text-[gray] text-center`}>Crear un descuento</h1>
+                <h1 className={`${krona.className} my-5 text-[22px] text-[black] font-semibold text-center`}>Crear un descuento</h1>
                 <div className="items-center justify-center pb-[3%]">
                 <DiscountCreateForm setSection={setSection} section={section}/>
                 </div>

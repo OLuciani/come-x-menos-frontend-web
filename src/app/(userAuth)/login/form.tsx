@@ -42,7 +42,8 @@ const LoginForm = () => {
     setBackgroundButtonNavBar,
     setSelectedOption,
     userRole,
-    setUserStatus
+    setUserStatus,
+    setUserSubRole
   } = useContext(Context);
 
   const roleAppAdmin = process.env.NEXT_PUBLIC_ROLE_APP_ADMIN;
@@ -211,6 +212,12 @@ const LoginForm = () => {
           sameSite: "strict",
         });
 
+        Cookies.set("userSubRole", response.userSubRole, {
+          expires: 1,
+          secure: true,
+          sameSite: "strict",
+        });
+
         setBusinessName(response.businessName);
         setBusinessType(response.businessType);
      /*  } */
@@ -223,6 +230,7 @@ const LoginForm = () => {
       });
 
       setUserRole(response.userRole);
+      setUserSubRole(response.userSubRole);
       setUserName(response.userName);
       //setBusinessName(response.businessName);
       //setBusinessType(response.businessType);

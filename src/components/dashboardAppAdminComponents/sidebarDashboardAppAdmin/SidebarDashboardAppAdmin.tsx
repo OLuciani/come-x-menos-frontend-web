@@ -94,25 +94,23 @@ const SidebarDashboardAppAdmin: React.FC<SidebarDashboardAppAdminProps> = ({
               }}
               className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white ${section === "pendingUsers" ? "border-[2px] border-[#2C2C2C] hover:border-[#FD7B03]" : "text-[#2C2C2C]"}`}
             >
-              Cuentas nuevas de negocios por activar
+              Cuentas pendientes de aprobación
             </button>
             
-            {/* <Link href="/allUsers"> */}
-              <button
-                onClick={() => {
-                  setSection("allUsers");
-                  setIsSidebarOpen(false);
-                  setReduceHeight(true); //reduce el el espacio entre el Sidebar y renderSection en el dashboard cuando la pantalla es pequeña.
-                  const mainElement = document.querySelector("main");
-                  if (mainElement) {
-                    mainElement.scrollTo(0, 0);
-                  }
-                }}
-                className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white ${section === "allUsers" ? "border-[2px] border-[#2C2C2C] hover:border-[#FD7B03]" : "text-[#2C2C2C]"}`}
-              >
-                Todos los usuarios (sin admin app)
-              </button>
-            {/* </Link> */}
+            <button
+              onClick={() => {
+                setSection("allUsers");
+                setIsSidebarOpen(false);
+                setReduceHeight(true); //reduce el el espacio entre el Sidebar y renderSection en el dashboard cuando la pantalla es pequeña.
+                const mainElement = document.querySelector("main");
+                if (mainElement) {
+                  mainElement.scrollTo(0, 0);
+                }
+              }}
+              className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white ${section === "allUsers" ? "border-[2px] border-[#2C2C2C] hover:border-[#FD7B03]" : "text-[#2C2C2C]"}`}
+            >
+              Usuarios (exluyendo admin app)
+            </button>
 
             <button
               onClick={() => {

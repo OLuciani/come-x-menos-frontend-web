@@ -37,6 +37,7 @@ const FormRegister = () => {
 
     setToken(tokenFromUrl);
     setEmail(emailFromUrl);
+    //setEmail("directorbusinessuser@demo.com"); //Línea agregada para crear usuarios ficticios en base de datos.
   }, [searchParams]);
 
   const validationSchema = Yup.object({

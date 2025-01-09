@@ -40,6 +40,8 @@ interface ContextProps {
   setAllUsers: React.Dispatch<React.SetStateAction<ActiveBusinessAdminUser[]>>;
   discountsArrayList: DiscountsList[];
   setDiscountsArrayList: React.Dispatch<React.SetStateAction<DiscountsList[]>>;
+  userSubRole: string;
+  setUserSubRole: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export const Context = createContext<ContextProps>({
@@ -77,6 +79,8 @@ export const Context = createContext<ContextProps>({
   setAllUsers: () => {},
   discountsArrayList: [],
   setDiscountsArrayList: () => {},
+  userSubRole: "",
+  setUserSubRole: () => {},
 });
 
 export default function ContextProvider({ children }: { children: ReactNode }) {
@@ -97,9 +101,8 @@ const [validToken, setValidToken] = useState<boolean>(false);
 const [selectDiscountTitle, setSelectDiscountTitle] = useState<string>("");
 const [userStatus, setUserStatus] = useState<string>("");
 const [allUsers, setAllUsers] = useState<ActiveBusinessAdminUser[]>([]);
-const [discountsArrayList, setDiscountsArrayList] = useState<DiscountsList[]>(
-  []
-);
+const [discountsArrayList, setDiscountsArrayList] = useState<DiscountsList[]>([]);
+const [userSubRole, setUserSubRole] = useState<string>("");
   
   return (
     <Context.Provider
@@ -137,7 +140,9 @@ const [discountsArrayList, setDiscountsArrayList] = useState<DiscountsList[]>(
         allUsers, 
         setAllUsers,
         discountsArrayList, 
-        setDiscountsArrayList
+        setDiscountsArrayList,
+        userSubRole, 
+        setUserSubRole
       }}
     >
       {children}
