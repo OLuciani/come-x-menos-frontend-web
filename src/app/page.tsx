@@ -224,26 +224,26 @@ export default function Home() {
       name: "Carlos García",
       comment:
         "Gracias a esta plataforma, mi restaurante ha tenido un aumento increíble en clientes. ¡100% recomendado!",
-      image: "/images/user-1.png",
+      image: "/images/user-1.webp",
     },
     {
       name: "Ana Fernández",
       comment: "La mejor manera de promocionar descuentos, simple y efectivo.",
-      image: "/images/user-2.png",
+      image: "/images/user-2.webp",
     },
     {
       name: "Enzo Romagnoli",
       comment:
         "Desde que comencé a usar esta app, las ventas han mejorado muchísimo.",
-      image: "/images/user-3.png",
+      image: "/images/user-3.webp",
     },
   ];
 
   // Nombres de las imágenes en la carpeta public/images
   const galleryImages = [
-    "image-for-galery-1.png",
-    "image-for-galery-2.png",
-    "image-for-galery-3.png",
+    "image-for-galery-1.webp",
+    "image-for-galery-2.webp",
+    "image-for-galery-3.webp",
   ];
 
   return (
