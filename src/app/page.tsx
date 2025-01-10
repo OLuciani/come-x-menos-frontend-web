@@ -274,7 +274,7 @@ export default function Home() {
         {/* Cómo funciona */}
         <section className="how-it-works my-10">
           <h2 className="text-2xl font-bold text-center mb-6">Cómo Funciona</h2>
-          <div className="steps flex flex-col md:flex-row justify-center gap-10">
+          <div className="steps flex flex-col md:flex-row justify-center gap-10 md:gap-20 xl:gap-36">
             <div className="step flex flex-col items-center">
               <FaUserPlus size={50} className="mb-2 text-[#FD7B03]" />
               <p className="text-lg">Regístrate</p>
@@ -298,10 +298,10 @@ export default function Home() {
             {galleryImages.map((image, index) => (
               <div
                 key={index}
-                className="overflow-hidden  bg-white"
+                className="overflow-hidden rounded-lg bg-white transition-shadow duration-300"
               >
                 <img
-                  src={`/images/${image}`} // Ruta de imagen corregida
+                  src={`/images/${image}`} 
                   alt={`Galería ${index + 1}`}
                   className="w-full h-full xs:w-[330px] xs:h-[233px]" // Ajuste de la altura
                 />
@@ -319,12 +319,13 @@ export default function Home() {
             {testimonials.map((testimonial, index) => (
               <div
                 key={index}
-                className="bg-white rounded-lg shadow-lg p-6 flex flex-col items-center text-center hover:shadow-xl transition-shadow duration-300"
+                className="bg-white rounded-lg shadow-[0_4px_10px_rgba(0,0,0,0.15)]
+                p-6 flex flex-col items-center text-center "
               >
                 <img
                   src={testimonial.image}
                   alt={testimonial.name}
-                  className="w-20 h-20 rounded-full object-cover mb-4 border-2 border-orange-600"
+                  className="w-20 h-20 rounded-full object-cover mb-4"
                 />
                 <p className="text-lg font-semibold mb-2">{testimonial.name}</p>
                 <p className="text-gray-600 italic">{testimonial.comment}</p>

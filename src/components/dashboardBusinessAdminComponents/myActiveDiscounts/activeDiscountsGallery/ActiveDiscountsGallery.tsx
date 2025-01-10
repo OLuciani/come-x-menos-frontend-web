@@ -255,7 +255,8 @@ const ActiveDiscountsGallery = () => {
                                 mainElement.scrollTo(0, 0);
                               }
                             }}
-                            className="w-full custom-w-450:w-[380px] py-5 border-[2px] border-gray-300 hover:outline hover:outline-[3px] hover:outline-[#FFCF91] hover:shadow-[0_0_0_6px_rgba(253,123,3,0.5)] rounded-2xl cursor-pointer"
+                            className="w-full custom-w-450:w-[380px] py-5 hover:outline hover:outline-[3px] hover:outline-[#FFCF91] rounded-2xl cursor-pointer shadow-[0_6px_12px_rgba(0,0,0,0.2)]"
+
                           >
                             <p className="text-[18px] font-bold text-center mb-[10px]">
                               {discount.title}
