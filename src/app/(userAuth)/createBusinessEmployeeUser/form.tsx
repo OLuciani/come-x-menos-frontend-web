@@ -52,8 +52,8 @@ const CreateBusinessEmployeeUserForm = () => {
     }
 
     setToken(tokenFromUrl);
-    //setEmail(emailFromUrl);
-    setEmail("visituser@demo.com");
+    setEmail(emailFromUrl);
+    //setEmail("visituser@demo.com");
     setBusinessId(businessIdFromUrl);
     if(businessNameFromUrl) {
       setBusinessName(businessNameFromUrl);

@@ -260,7 +260,7 @@ export default function Home() {
           </p>
           <Link href={"/register"}>
             <button
-              className="bg-white text-orange-600 font-semibold py-3 px-6 rounded-full shadow-lg hover:bg-gray-200 hover:text-orange-700"
+              className="bg-white text-black font-semibold py-3 px-6 rounded-full shadow-lg hover:bg-gray-200"
               onClick={() => setSelectedOption("Crear cuenta")}
             >
               Comienza Ahora
