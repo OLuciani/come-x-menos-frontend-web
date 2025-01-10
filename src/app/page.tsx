@@ -368,8 +368,8 @@ export default function Home() {
           )}
         </section> */}
 
-        {/* Demo Video */}
-<section className="demo my-10 text-center">
+        
+{/* <section className="demo my-10 text-center">
   <h2 className="text-2xl font-bold text-center mb-6">
     Véalo en Acción
   </h2>
@@ -401,7 +401,43 @@ export default function Home() {
       </div>
     </div>
   )}
+</section> */}
+
+{/* Demo Video */}
+<section className="demo my-10 text-center">
+  <h2 className="text-2xl font-bold text-center mb-6">
+    Véalo en Acción
+  </h2>
+  <button
+    onClick={() => setShowVideo(!showVideo)}
+    className="bg-orange-600 text-white font-semibold py-3 px-6 rounded-full shadow-lg hover:bg-orange-700"
+  >
+    {showVideo ? "Cerrar Demostración" : "Ver Demostración"}
+  </button>
+
+  {showVideo && (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 px-4 py-8">
+      <div className="relative bg-white w-full max-w-3xl p-5 rounded-lg z-20">
+        <button
+          onClick={() => setShowVideo(false)}
+          className="absolute top-0 right-2 text-gray-800 text-2xl hover:text-3xl transition duration-200 ease-in-out"
+        >
+          &times;
+        </button>
+        <div className="relative">
+          <video controls className="w-full h-auto max-w-full">
+            <source
+              src="https://discount-project-web.vercel.app/videos/demo-video-app-funcionando.mp4"
+              type="video/mp4"
+            />
+            Tu navegador no soporta la etiqueta de video.
+          </video>
+        </div>
+      </div>
+    </div>
+  )}
 </section>
+
 
       </main>
     </div>
