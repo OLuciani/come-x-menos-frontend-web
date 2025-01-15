@@ -41,7 +41,7 @@ export async function createUser(
       data.businessName
     );
     const response = await axios.post(
-      `${BASE_BACKEND_URL}/api/user_register`,
+      `/api/user_register`,
       {
         name: data.name,
         lastName: data.lastName,
@@ -84,7 +84,7 @@ export const updateUserWithBusinessId = async (
 ) => {
   try {
     const response = await axios.patch(
-      `${BASE_BACKEND_URL}/api/businessId_and_businessType_update/${userId}`,
+      `/api/businessId_and_businessType_update/${userId}`,
       {
         businessId,
       }
@@ -95,6 +95,7 @@ export const updateUserWithBusinessId = async (
   }
 };
 
+
 //Función para saber si el usuario cuenta con los permisos para acceder a la vista myAccount
 export async function checkMyAccountPermissions() {
   try {
@@ -104,10 +105,7 @@ export async function checkMyAccountPermissions() {
       return "Token inválido o expirado";
     }
 
-    const response = await axios.get(
-      //`https://discount-project-backend.onrender.com/api/checkMyAccountPermissions`,
-      //`http://localhost:5050/api/checkMyAccountPermissions`,
-      `${BASE_BACKEND_URL}/api/checkMyAccountPermissions`,
+    const response = await axios.get(`/api/checkMyAccountPermissions`,
       {
         withCredentials: true, // Esta línea asegura que las cookies (entre ellas va la del token que es indispensable en esta ruta) se envíen con la solicitud
       }
@@ -142,7 +140,7 @@ export async function checkAdminAppPermissions() {
     }
 
     const response = await axios.get(
-      `${BASE_BACKEND_URL}/api/checkAdminAppPermissions`,
+      `/api/checkAdminAppPermissions`,
       {
         withCredentials: true, // Esta línea asegura que las cookies (entre ellas va la del token que es indispensable en esta ruta) se envíen con la solicitud
       }
@@ -169,7 +167,7 @@ export async function checkAdminAppPermissions() {
 
 //Solicitud para obtener el detalle de los datos de un usuario en particular
 export const getUserById = async () => {
-  const response = await axios.get(`${BASE_BACKEND_URL}/api/user_detail`, {
+  const response = await axios.get(`/api/user_detail`, {
     withCredentials: true,
   });
   return response.data;
@@ -185,10 +183,7 @@ export const updateUser = async (data: Partial<User>) => {
   }
 
   try {
-    const response = await axios.patch(
-      //`https://discount-project-backend.onrender.com/api/user_update`,
-      //`http://localhost:5050/api/user_update`,
-      `${BASE_BACKEND_URL}/api/user_update`,
+    const response = await axios.patch(`/api/user_update`,
       {
         name: data.name,
         lastName: data.lastName,
@@ -241,7 +236,7 @@ export async function fetchPendingUsersFromAPI() {
       return "Token inválido o expirado";
     }
 
-    const response = await axios.get(`${BASE_BACKEND_URL}/api/pending_users`, {
+    const response = await axios.get(`/api/pending_users`, {
       withCredentials: true, // Esta línea asegura que las cookies (entre ellas va la del token que es indispensable en esta ruta) se envíen con la solicitud
     });
 
@@ -272,7 +267,7 @@ export const approveUser = async (userId: string) => {
   console.log("Valor de userId en la funcion approveUser: ", userId);
   try {
     const response = await axios.patch(
-      `${BASE_BACKEND_URL}/api/approve_user/${userId}`,
+      `/api/approve_user/${userId}`,
       {
         withCredentials: true,
       } // Asegúrate de que las cookies de autenticación se envíen con la solicitud
@@ -293,7 +288,7 @@ export async function fetchAllUsersFromAPI() {
       return "Token inválido o expirado";
     }
 
-    const response = await axios.get(`${BASE_BACKEND_URL}/api/all_users_list`, {
+    const response = await axios.get(`/api/all_users_list`, {
       withCredentials: true, // Esta línea asegura que las cookies (entre ellas va la del token que es indispensable en esta ruta) se envíen con la solicitud
     });
 
@@ -320,7 +315,7 @@ export async function fetchAllUsersFromAPI() {
 export const getUserNotifications = async () => {
   try {
     const response = await axios.get(
-      `${BASE_BACKEND_URL}/api/user_pending_notifications`,
+      `/api/user_pending_notifications`,
       {
         withCredentials: true, // Asegura que las cookies se envíen con la solicitud.
       }
@@ -343,9 +338,7 @@ export const getUserNotifications = async () => {
 //Solicitud para enviar notificación a un usuario
 export const sendUserNotification = async (userId: string, message: string) => {
   try {
-    const response = await axios.post(
-      //`${BASE_BACKEND_URL}/api/send_notification_pending_user`,
-      `${BASE_BACKEND_URL}/api/send_user_notification`,
+    const response = await axios.post(`/api/send_user_notification`,
       { userId, message },
       { withCredentials: true } // Asegúrate de incluir esto si estás usando cookies
     );
@@ -361,7 +354,7 @@ export const markUserNotificationsAsRead = async (notificationId?: string) => {
   console.log("Valor de notifictionId en la solicitud post:", notificationId);
   try {
     const response = await axios.post(
-      `${BASE_BACKEND_URL}/api/mark_user_notification_as_read`,
+      `/api/mark_user_notification_as_read`,
       {},
       {
         withCredentials: true, // Asegura que las cookies se envíen con la solicitud.
@@ -397,7 +390,7 @@ export const invitationBusinessEmployeeUser = async (
     }
 
     const response = await axios.post(
-      `${BASE_BACKEND_URL}/api/invitation_business_employee_user`,
+      `/api/invitation_business_employee_user`,
       {
         email: user.email, // Solo enviamos los datos del usuario
       },
@@ -423,7 +416,7 @@ export async function createBusinessEmployeeUser(
   //console.log("Valor de businessId en createUserQrScanner: ", businessId);
   try {
     const response = await axios.post(
-      `${BASE_BACKEND_URL}/api/create_business_employee_user`,
+      `/api/create_business_employee_user`,
       {
         name: data.name,
         lastName: data.lastName,
@@ -475,7 +468,7 @@ export const invitationExtraBusinessAdminUser = async (
     }
 
     const response = await axios.post(
-      `${BASE_BACKEND_URL}/api/invitation_extra_business_admin_user`,
+      `/api/invitation_extra_business_admin_user`,
       {
         email: user.email, // Solo enviamos los datos del usuario
       },
@@ -501,7 +494,7 @@ export async function createExtraBusinessAdminUser(
   //console.log("Valor de businessId en createUserQrScanner: ", businessId);
   try {
     const response = await axios.post(
-      `${BASE_BACKEND_URL}/api/create_extra_business_admin_user`,
+      `/api/create_extra_business_admin_user`,
       {
         name: data.name,
         lastName: data.lastName,
@@ -551,7 +544,7 @@ export async function getBusinessAdminUsersCount() {
 
   try {
     const response = await axios.get(
-      `${BASE_BACKEND_URL}/api/all_business_admin_users`,
+      `/api/all_business_admin_users`,
       {
         withCredentials: true,
       }
@@ -589,7 +582,7 @@ export async function fetchAsociatedBusinessUsers() {
     }
 
     const response = await axios.get(
-      `${BASE_BACKEND_URL}/api/asociated_business_users`,
+      `/api/asociated_business_users`,
       {
         withCredentials: true, // Esta línea asegura que las cookies (entre ellas va la del token que es indispensable en esta ruta) se envíen con la solicitud
       }
@@ -629,7 +622,7 @@ export const desactivateUser = async (userId: string) => {
       }
   
       const response = await axios.patch(
-        `${BASE_BACKEND_URL}/api/desactivate_user/${userId}`,
+        `/api/desactivate_user/${userId}`,
         {
           withCredentials: true,
         } // Asegúrate de que las cookies de autenticación se envíen con la solicitud
@@ -652,8 +645,7 @@ export const activateUser = async (userId: string) => {
         return "Token inválido o expirado";
       }
   
-      const response = await axios.patch(
-        `${BASE_BACKEND_URL}/api/activate_user/${userId}`,
+      const response = await axios.patch(`/api/activate_user/${userId}`,
         {
           withCredentials: true,
         } // Asegúrate de que las cookies de autenticación se envíen con la solicitud
@@ -666,9 +658,7 @@ export const activateUser = async (userId: string) => {
   };
 
 
-  export async function deleteUser(
-    userId: string
-  )/* : Promise<{ success: boolean; message: string } | string> */ {
+  export async function deleteUser(userId: string) {
     //console.log("valor de discountId en deleteDiscount", discountId)
   
     // Verifico el token antes de hacer la solicitud
@@ -679,7 +669,7 @@ export const activateUser = async (userId: string) => {
   
     try {
       const response = await axios.delete(
-        `${BASE_BACKEND_URL}/api/delete_user/${userId}`,
+        `/api/delete_user/${userId}`,
         {
           withCredentials: true,
         }

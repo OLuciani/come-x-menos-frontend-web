@@ -34,7 +34,7 @@ export async function login(
   ): Promise<{ userId: string; userLoged: boolean } | { error: string }> {
     try {
       const response = await axios.post(
-        `${BASE_BACKEND_URL}/api/login`,
+        `/api/login`,
         {
           email: data.email,
           password: data.password,
@@ -74,7 +74,7 @@ export async function login(
       }
   
       const response = await axios.get(
-        `${BASE_BACKEND_URL}/api/user_profile`,
+        `/api/user_profile`,
         {
           withCredentials: true, // Esta línea asegura que las cookies (entre ellas va la del token que es indispensable en esta ruta) se envíen con la solicitud
         }

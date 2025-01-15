@@ -412,15 +412,16 @@ export default function Home() {
     onClick={() => setShowVideo(!showVideo)}
     className="bg-orange-600 text-white font-semibold py-3 px-6 rounded-full shadow-lg hover:bg-orange-700"
   >
-    {showVideo ? "Cerrar Demostración" : "Ver Demostración"}
+    {/* {showVideo ? "Cerrar Demostración" : "Ver Demostración"} */} 
+    Ver Demostración
   </button>
 
   {showVideo && (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 px-4 py-8">
-      <div className="relative bg-white w-full max-w-3xl p-5 rounded-lg z-20">
+      <div className="relative bg-white w-full max-w-3xl p-6 rounded-lg z-20">
         <button
           onClick={() => setShowVideo(false)}
-          className="absolute top-0 right-2 text-gray-800 text-2xl hover:text-3xl transition duration-200 ease-in-out"
+          className="absolute top-0 right-1 text-gray-800 text-2xl hover:text-3xl transition duration-200 ease-in-out"
         >
           &times;
         </button>

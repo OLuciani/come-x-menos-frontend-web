@@ -15,7 +15,7 @@ axios.defaults.withCredentials = true;
 
 const PasswordResetForm: React.FC = () => {
   //Creo constante con la variable de entorno de la url del backend
-  const BASE_BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL; 
+  //const BASE_BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL; 
 
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -74,10 +74,7 @@ const PasswordResetForm: React.FC = () => {
       console.log("Reseteando contraseña...");
 
       // Primero, actualiza la contraseña en MongoDB
-      const response = await axios.patch(
-        //`https://discount-project-backend.onrender.com/api/resetPassword`,
-       //`http://localhost:5050/api/resetPassword`,
-       `${BASE_BACKEND_URL}/api/resetPassword`,
+      const response = await axios.patch(`/api/resetPassword`,
         {
           email: email,
           newPassword: newPassword,

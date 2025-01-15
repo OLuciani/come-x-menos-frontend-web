@@ -63,7 +63,7 @@ const PasswordResetModal: React.FC<PasswordResetModalProps> = ({
       const responseCheckEmail = await axios.get(
         //`https://discount-project-backend.onrender.com/api/checkEmail/${email}`
         //`http://localhost:5050/api/checkEmail/${email}`
-        `${BASE_BACKEND_URL}/api/checkEmail/${email}`
+        `/api/checkEmail/${email}`
       );
       const dataCheckEmail = responseCheckEmail.data;
 

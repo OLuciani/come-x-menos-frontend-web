@@ -40,7 +40,7 @@ export async function usersDiscountsList(): Promise<
 
   try {
     const response = await axios.get(
-      `${BASE_BACKEND_URL}/api/consumed_discounts`,
+      `/api/consumed_discounts`,
       {
         withCredentials: true,
       }

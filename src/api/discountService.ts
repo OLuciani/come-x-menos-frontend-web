@@ -39,7 +39,7 @@ export async function createDiscount(
   
     try {
       const response = await axios.post(
-        `${BASE_BACKEND_URL}/api/discount_create`,
+        `/api/discount_create`,
         data,
         {
           headers: {
@@ -84,7 +84,7 @@ export async function createDiscount(
       //console.log("Valor de userId en pedido get: ", businessId);
       //console.log("Valor de userToken en pedido get: ", userToken);
       const response = await axios.get(
-        `${BASE_BACKEND_URL}/api/discounts_list_one_business`,
+        `/api/discounts_list_one_business`,
         {
           withCredentials: true,
         }
@@ -128,7 +128,7 @@ export async function discountDetail(
       //console.log("Valor de userToken en pedido get: ", userToken);
   
       const response = await axios.get(
-        `${BASE_BACKEND_URL}/api/discount_detail/${discountId}`,
+        `/api/discount_detail/${discountId}`,
         {
           withCredentials: true,
         }
@@ -171,7 +171,7 @@ export async function editDiscount(
   
     try {
       const response = await axios.patch(
-        `${BASE_BACKEND_URL}/api/discount_update/${discountId}`,
+        `/api/discount_update/${discountId}`,
         data,
         {
           headers: {
@@ -214,10 +214,7 @@ export async function deleteDiscount(
     }
   
     try {
-      const response = await axios.delete(
-        //`https://discount-project-backend.onrender.com/api/discount_delete/${discountId}`,
-        //`http://localhost:5050/api/discount_delete/${discountId}`,
-        `${BASE_BACKEND_URL}/api/discount_delete/${discountId}`,
+      const response = await axios.delete(`/api/discount_delete/${discountId}`,
         {
           withCredentials: true,
         }

@@ -33,7 +33,7 @@ export async function createBusiness(
   ): Promise<Business | string> {
     try {
       const response = await axios.post(
-        `${BASE_BACKEND_URL}/api/business_create`,
+        `/api/business_create`,
         data,
         {
           headers: {
@@ -75,10 +75,7 @@ export async function businessDetail(): Promise<Business | string> {
       return "Token inválido o expirado en businessDetail";
     }
     try {
-      const response = await axios.get(
-        //`https://discount-project-backend.onrender.com/api/business_detail`,
-        //`http://localhost:5050/api/business_detail`,
-        `${BASE_BACKEND_URL}/api/business_detail`,
+      const response = await axios.get(`/api/business_detail`,
         {
           withCredentials: true,
         }
@@ -109,7 +106,7 @@ export async function businessDetail(): Promise<Business | string> {
 
   //Solicitud que trae el detalle de los datos de un negocio en particular
 export const getBusinessById = async () => {
-    const response = await axios.get(`${BASE_BACKEND_URL}/api/business_detail`, {
+    const response = await axios.get(`/api/business_detail`, {
       withCredentials: true,
     });
     return response.data;
@@ -129,10 +126,8 @@ export const updateBusiness = async (formData: FormData) => {
         console.log(pair[0] + ": " + pair[1]);
       }
   
-      //const response = await axios.patch(`https://discount-project-backend.onrender.com/api/update_business`, formData, {
-      //const response = await axios.patch(`http://localhost:5050/api/update_business`, formData, {
       const response = await axios.patch(
-        `${BASE_BACKEND_URL}/api/update_business`,
+        `/api/update_business`,
         formData,
         {
           headers: {
@@ -171,7 +166,7 @@ export const updateBusiness = async (formData: FormData) => {
   export async function fetchPendingBusinessFromAPI(businessId: string | null) {
     try {
       const response = await axios.get(
-        `${BASE_BACKEND_URL}/api/pending_business/${businessId}`,
+        `/api/pending_business/${businessId}`,
         {
           withCredentials: true, // Asegura que las cookies se envíen con la solicitud.
         }
@@ -203,7 +198,7 @@ export const updateBusiness = async (formData: FormData) => {
 export async function fetchActiveBusinessFromAPI(businessId: string | null) {
     try {
       const response = await axios.get(
-        `${BASE_BACKEND_URL}/api/active_business/${businessId}`,
+        `/api/active_business/${businessId}`,
         {
           withCredentials: true, // Asegura que las cookies se envíen con la solicitud.
         }

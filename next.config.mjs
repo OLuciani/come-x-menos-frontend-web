@@ -46,6 +46,15 @@ const nextConfig = {
   },
   // Deshabilita los source maps en producción
   productionBrowserSourceMaps: false,
+  // Configuración del proxy para redirigir las peticiones
+  async rewrites() {
+    return [
+      {
+        source: '/:path*', // Ruta interna en el frontend
+        destination: 'https://wrong-lisa-oluciani-3ba92637.koyeb.app/:path*', // Backend en Koyeb
+      },
+    ];
+  },
 };
 
 export default nextConfig;
