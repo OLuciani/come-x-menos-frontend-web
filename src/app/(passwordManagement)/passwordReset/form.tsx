@@ -39,6 +39,7 @@ const PasswordResetForm: React.FC = () => {
 
     setToken(tokenFromUrl);
     setEmail(emailFromUrl);
+    //setEmail("mariacharriol@gmail.com");
   }, [searchParams]);
 
   console.log("Valor del token: ", token);

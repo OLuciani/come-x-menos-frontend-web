@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "@/context/Context";
 import Cookies from "js-cookie";
@@ -7,6 +7,7 @@ import { isAfter, format } from "date-fns";
 import { discountsList } from "@/api/discountService";
 //import { discountsList, DiscountsList } from "@/services/apiCall";
 import { FaClock, FaTag } from "react-icons/fa";
+import { CircularProgress } from "@mui/material";
 
 interface ErrorResponse {
   error: string;
@@ -29,7 +30,7 @@ const EffectiveSales: React.FC = () => {
   //const [descuentosConVentas, setDescuentosConVentas] = useState<DiscountsList[]>([]);
   const [totalDiscountsSales, setTotalDiscountsSales] = useState<number>(0);
   //const [discountsWithSalesValues, setDiscountsWithSalesValues] = useState<DiscountsList[]>([]);
-
+  const [loading, setLoading] = useState<boolean>(true);
 
   // Set cookies and other initial context data
   useEffect(() => {
@@ -94,7 +95,6 @@ const EffectiveSales: React.FC = () => {
           //setDescuentosConVentas(updatedDiscounts);
           //setDiscountsWithSalesValues(updatedDiscounts);
 
-          
           setTotalDiscountsSales(totalSales);
         }
       } catch (error) {
@@ -107,6 +107,8 @@ const EffectiveSales: React.FC = () => {
         } else {
           console.error("Error desconocido al obtener descuentos:", error);
         }
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -121,56 +123,21 @@ const EffectiveSales: React.FC = () => {
         </h2>
       </div>
 
-      {/* {descuentosConVentas.map((discount, id) => (
-        <div
-          key={discount._id}
-          className="border rounded-lg p-4 shadow-md mb-4"
-        >
-          <div className="flex items-start">
-            <FaTag className="text-orange-600 mr-3 mt-1" />
-            <div className="flex-1">
-              <h3 className="text-lg font-semibold text-gray-800">
-                {id + 1}. {discount.title}
-              </h3>
-              {discount.expirationDate ? (
-                <p className="text-sm text-gray-600 mt-2 flex items-center">
-                  <FaClock className="text-gray-500 mr-2" />
-                  Válido hasta:{" "}
-                  {format(new Date(discount.expirationDate), "d-M-yyyy")}{" "}
-                  a las {format(new Date(discount.expirationDate), "HH:mm")} hs.
-                </p>
-              ) : (
-                <p className="text-sm text-gray-600 mt-2">
-                  Sin límite de tiempo.
-                </p>
-              )}
-              <p className="text-sm mt-2">
-                <strong>Descuentos generados:</strong>{" "}
-                {discount.generatedDiscounts}
-              </p>
-              <p className="text-sm mt-2">
-                <strong>Descuentos consumidos:</strong>{" "}
-                {discount.usedDiscounts}
-              </p>
-              <p className="text-sm mt-2">
-                <strong>Vistas del descuento:</strong>{" "}
-                {discount.discountViews}
-              </p>
-              <p className="text-sm mt-2">
-                <strong>Total de venta en pesos:</strong>{" "}
-                $ {discount.valorDeVentas || 0}
-              </p>
-            </div>
-          </div>
+      {loading ? (
+        <div className="w-full flex justify-center items-center mt-[8%]">
+          <CircularProgress color="secondary" size={24} className="mr-2" />
+          <span className="text-gray-600">Cargando datos...</span>
         </div>
-      ))} */}
-
-      {totalDiscountsSales > 0 && (
+      ) : totalDiscountsSales ? (
         <div className="mt-6">
           <p className="text-lg font-semibold">
             Total acumulado de descuentos vendidos: $ {totalDiscountsSales}
           </p>
         </div>
+      ) : (
+        <p className="mt-[10%] text-center font-semibold">
+          No tienes descuentos vendidos hasta el momento.
+        </p>
       )}
     </div>
   );

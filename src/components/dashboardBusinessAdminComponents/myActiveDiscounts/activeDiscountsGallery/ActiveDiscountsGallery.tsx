@@ -321,7 +321,7 @@ const ActiveDiscountsGallery = () => {
                           </div>
                         </div>
                       )
-                  )}
+                  ) }
                 </div>
               )}
             </>

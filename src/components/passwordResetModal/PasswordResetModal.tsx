@@ -6,6 +6,7 @@ import { confirmPasswordReset } from "firebase/auth";
 import { auth } from "../../utils/firebase-config";
 import { useRouter } from "next/navigation";
 import Button from "../button/Button";
+import MessageModal from "../messageModal/MessageModal";
 
 interface PasswordResetModalProps {
   visible: boolean;
@@ -31,6 +32,12 @@ const PasswordResetModal: React.FC<PasswordResetModalProps> = ({
   const [errors, setErrors] = useState<ValidationErrors>({});
   //const [step, setStep] = useState<number>(1);
   const [showMessage, setShowMessage] = useState<boolean>(false);
+
+  const [isOpenMessageModal, setIsOpenMessageModal] = useState<boolean>(false);
+  const [messageText, setMessageText] = useState<string>("");
+  const [messageTitle, setMessageTitle] = useState<string>("");
+  const [messageRouterRedirection, setMessageRouterRedirection] = useState<string>("");
+  const [selectedNavBarOption, setSelectedNavBarOption] = useState<string>("");
 
   if (!visible) return null;
 
@@ -61,11 +68,11 @@ const PasswordResetModal: React.FC<PasswordResetModalProps> = ({
 
       console.log("Enviando solicitud de correo electrónico...");
       const responseCheckEmail = await axios.get(
-        //`https://discount-project-backend.onrender.com/api/checkEmail/${email}`
-        //`http://localhost:5050/api/checkEmail/${email}`
         `/api/checkEmail/${email}`
       );
+      console.log('VALOR DE responseCheckEmail: ', responseCheckEmail);
       const dataCheckEmail = responseCheckEmail.data;
+      console.log("Valor de dataCheckEmail: ", dataCheckEmail);
 
       if (dataCheckEmail.success) {
         console.log(
@@ -80,6 +87,18 @@ const PasswordResetModal: React.FC<PasswordResetModalProps> = ({
           "Error al enviar correo electrónico:",
           dataCheckEmail.message
         );
+
+        const title: string = "Envío Fallido";
+          setMessageTitle(title);
+          const text: string = `El correo con el enlace para restablecer tu contraseña en la app no pudo ser enviado. No tienes una cuenta con ese email en la app o exiten problemas con el servidor. Serás redirigido a Inicio.` 
+          setMessageText(text);
+          const route: string = "/";
+          setMessageRouterRedirection(route);
+
+          setIsOpenMessageModal(true);
+
+          const navBarOption: string = "Inicio";
+          setSelectedNavBarOption(navBarOption);
       }
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
@@ -96,8 +115,10 @@ const PasswordResetModal: React.FC<PasswordResetModalProps> = ({
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+      <MessageModal isOpenMessageModal={isOpenMessageModal} onCloseMessageModal={() => setIsOpenMessageModal(false)} messageTitle={messageTitle} messageText={messageText} messageRouterRedirection={messageRouterRedirection} selectedNavBarOption={selectedNavBarOption} />
       <div className="bg-white p-6 rounded shadow-md w-[90%] sm:w-[50%] sm:h-[60%] xl:w-[30%] flex items-center justify-center relative">
-        {!showMessage ? (
+        {
+        !showMessage ? (
           <div>
             <button
               onClick={onClose}
