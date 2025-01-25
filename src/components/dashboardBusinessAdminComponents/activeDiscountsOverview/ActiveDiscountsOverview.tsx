@@ -170,7 +170,7 @@ const ActiveDiscountsOverview: React.FC = () => {
                       {id + 1}. {discount.title}
                     </h3>
                     {discount.expirationDate ? (
-                      <p className="text-sm text-gray-600 mt-2 flex items-center">
+                      <p className="text-sm font-semibold mt-2 flex items-center">
                         <FaClock className="text-gray-500 mr-2" />
                         Válido hasta:{" "}
                         {format(

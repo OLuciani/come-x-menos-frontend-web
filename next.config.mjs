@@ -1,26 +1,3 @@
-///** @type {import('next').NextConfig} */
-//const nextConfig = {
-  //images: {
-   //remotePatterns: [
-      //{
-       // protocol: 'http',
-        //hostname: 'localhost',
-        //port: '5050', // Asegúrate de que este sea el puerto correcto
-        //pathname: '/img/**',
-      //},
-      //{
-        //protocol: 'https',
-        //hostname: 'discount-project-backend.onrender.com',
-       // pathname: '/img/**',
-      //},
-   // ],
- // },
-//};
-//
-//export default nextConfig;
-
-
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
