@@ -101,10 +101,12 @@ Los negocios pueden crear, editar y eliminar descuentos, y obtener métricas det
 ## Video de presentación
 Aquí puedes ver un video de presentación de la app:
 
-<video width="560" controls>
+<!-- <video width="560" controls>
   <source src="https://discount-project-web.vercel.app/videos/demo-video-app-funcionando.mp4" type="video/mp4">
   Tu navegador no soporta el elemento de video.
-</video>
+</video> -->
+
+![Video de Presentación](videos/demo-video-app-funcionando.mp4)
 
 
 ## Prueba la app iniciando sesión como visitante
