@@ -106,7 +106,7 @@ Aquí puedes ver un video de presentación de la app:
   Tu navegador no soporta el elemento de video.
 </video> -->
 
-![Video de Presentación](videos/demo-video-app-funcionando.mp4)
+![Video de Presentación](https://discount-project-web.vercel.app/videos/demo-video-app-funcionando.mp4)
 
 
 ## Prueba la app iniciando sesión como visitante
