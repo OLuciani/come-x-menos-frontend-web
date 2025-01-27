@@ -176,11 +176,11 @@ export const getUserById = async () => {
 
 //Solicitud para modificar los datos de un usuario en particular en el momento que se crea una cuenta nueva de un negocio (que obviamente se crea un usuario y un negocio asociado a ese usuario);
 export const updateUser = async (data: Partial<User>) => {
-  // Verifico el token antes de hacer la solicitud
+  /* // Verifico el token antes de hacer la solicitud
   const isTokenValid = await verifyToken();
   if (!isTokenValid) {
     return "Token inválido o expirado";
-  }
+  } */
 
   try {
     const response = await axios.patch(`/api/user_update`,
@@ -230,11 +230,11 @@ export const updateUser = async (data: Partial<User>) => {
 //Solicitud para traer los usuarios que crearon una cuenta de negocio y todavia estan pendientes de aprobación por parte de la administración de la app.
 export async function fetchPendingUsersFromAPI() {
   try {
-    // Verifico el token antes de hacer la solicitud
+    /* // Verifico el token antes de hacer la solicitud
     const isTokenValid = await verifyToken();
     if (!isTokenValid) {
       return "Token inválido o expirado";
-    }
+    } */
 
     const response = await axios.get(`/api/pending_users`, {
       withCredentials: true, // Esta línea asegura que las cookies (entre ellas va la del token que es indispensable en esta ruta) se envíen con la solicitud
@@ -383,11 +383,11 @@ export const invitationBusinessEmployeeUser = async (
 ) => {
   console.log(user.email);
   try {
-    // Verifico el token antes de hacer la solicitud
+    /* // Verifico el token antes de hacer la solicitud
     const isTokenValid = await verifyToken();
     if (!isTokenValid) {
       return "Token inválido o expirado";
-    }
+    } */
 
     const response = await axios.post(
       `/api/invitation_business_employee_user`,
@@ -461,11 +461,11 @@ export const invitationExtraBusinessAdminUser = async (
 ) => {
   console.log(user.email);
   try {
-    // Verifico el token antes de hacer la solicitud
+    /* // Verifico el token antes de hacer la solicitud
     const isTokenValid = await verifyToken();
     if (!isTokenValid) {
       return "Token inválido o expirado";
-    }
+    } */
 
     const response = await axios.post(
       `/api/invitation_extra_business_admin_user`,
@@ -575,11 +575,11 @@ export async function getBusinessAdminUsersCount() {
 //Solicitud que trae un listado de todos los usuarios asociados a un negocio en particular
 export async function fetchAsociatedBusinessUsers() {
   try {
-    // Verifico el token antes de hacer la solicitud
+    /* // Verifico el token antes de hacer la solicitud
     const isTokenValid = await verifyToken();
     if (!isTokenValid) {
       return "Token inválido o expirado";
-    }
+    } */
 
     const response = await axios.get(
       `/api/asociated_business_users`,
@@ -615,11 +615,11 @@ export async function fetchAsociatedBusinessUsers() {
 export const desactivateUser = async (userId: string) => {
     console.log("Valor de userId en la funcion desactivateUser: ", userId);
     try {
-      // Verifico el token antes de hacer la solicitud
+      /* // Verifico el token antes de hacer la solicitud
       const isTokenValid = await verifyToken();
       if (!isTokenValid) {
         return "Token inválido o expirado";
-      }
+      } */
   
       const response = await axios.patch(
         `/api/desactivate_user/${userId}`,
@@ -639,11 +639,11 @@ export const desactivateUser = async (userId: string) => {
 export const activateUser = async (userId: string) => {
     console.log("Valor de userId en la funcion desactivateUser: ", userId);
     try {
-      // Verifico el token antes de hacer la solicitud
+      /* // Verifico el token antes de hacer la solicitud
       const isTokenValid = await verifyToken();
       if (!isTokenValid) {
         return "Token inválido o expirado";
-      }
+      } */
   
       const response = await axios.patch(`/api/activate_user/${userId}`,
         {
@@ -661,11 +661,11 @@ export const activateUser = async (userId: string) => {
   export async function deleteUser(userId: string) {
     //console.log("valor de discountId en deleteDiscount", discountId)
   
-    // Verifico el token antes de hacer la solicitud
+    /* // Verifico el token antes de hacer la solicitud
     const isTokenValid = await verifyToken();
     if (!isTokenValid) {
       return "Token inválido o expirado";
-    }
+    } */
   
     try {
       const response = await axios.delete(

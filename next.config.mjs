@@ -25,11 +25,18 @@ const nextConfig = {
   productionBrowserSourceMaps: false,
   // Configuración del proxy para redirigir las peticiones
   async rewrites() {
+    // Accedo a la variable de entorno para configurar el backend dinámicamente
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+
+    if (!backendUrl) {
+      throw new Error(
+        "La variable de entorno NEXT_PUBLIC_BACKEND_URL no está definida. Asegúrate de configurarla en tu archivo .env.local."
+      );
+    }
     return [
       {
         source: '/:path*', // Ruta interna en el frontend
-        destination: 'https://wrong-lisa-oluciani-3ba92637.koyeb.app/:path*', // Backend en Koyeb
-        //destination: 'http://localhost:5050/:path*',
+        destination: `${backendUrl}/:path*`, // Redirige dinámicamente al backend,
       },
     ];
   },

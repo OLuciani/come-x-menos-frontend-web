@@ -209,11 +209,11 @@ const DiscountCreateForm: React.FC<DiscountCreateFormProps> = ({
                   //console.log("Valor de userToken en fetchDiscounts: ", userToken);
                   const response = await discountsList();
 
-                  if (
+                  /* if (
                     response === "Token inválido o expirado en discountList"
                   ) {
                     setIsModalOpen(true); // Muestra el modal TokenExpiredModal.tsx si el token es inválido y redirecciona a login
-                  }
+                  } */
                   if (typeof response !== "string") {
                     // Filtramos los descuentos expirados antes de establecer el estado
                     const now = new Date();
@@ -290,10 +290,10 @@ const DiscountCreateForm: React.FC<DiscountCreateFormProps> = ({
 
   return (
     <>
-      <TokenExpiredModal
+      {/* <TokenExpiredModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-      />
+      /> */}
 
       <div className="w-sreen flex justify-center">
         {/* Modal para mostrar mensajes al usuario */}

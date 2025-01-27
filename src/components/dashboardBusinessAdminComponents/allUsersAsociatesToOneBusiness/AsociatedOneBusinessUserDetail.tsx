@@ -193,10 +193,10 @@ const AsociatedOneBusinessUserDetail: React.FC<UserDetailsModalProps> = ({
     if (user) {
       const response = await deleteUser(user._id);
 
-      if (response === "Token inválido o expirado") {
+      /* if (response === "Token inválido o expirado") {
         setIsModalOpen(true);
         return;
-      }
+      } */
 
       console.log("Valor de response.message: ", response.message);
       console.log("Valor de response.success: ", response.success);
@@ -237,10 +237,10 @@ const AsociatedOneBusinessUserDetail: React.FC<UserDetailsModalProps> = ({
 
   return (
     <>
-      <TokenExpiredModal
+      {/* <TokenExpiredModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-      />
+      /> */}
 
       {user && (
         <div

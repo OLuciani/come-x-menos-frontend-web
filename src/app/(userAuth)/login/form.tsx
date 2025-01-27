@@ -69,22 +69,6 @@ const LoginForm = () => {
       setError(undefined);
       setIsLoading(true);
 
-      /* try {
-        const firebaseResponse = await loginUserWithFirebase(
-          values.email,
-          values.password
-        );
-
-        if (firebaseResponse.error) {
-          handleFirebaseError(firebaseResponse.error);
-        } else {
-          await handleLogin(values);
-        }
-      } catch (err) {
-        setError("Error de red o el servidor no está disponible");
-      } finally {
-        setIsLoading(false);
-      } */
       try {
         // Si decides usar solo el backend
         await handleLogin(values); 
@@ -97,30 +81,6 @@ const LoginForm = () => {
     },
   });
 
-  /* // Manejo de errores de Firebase
-  const handleFirebaseError = (firebaseError: any) => {
-    let customErrorMessage = "Error desconocido";
-
-    switch (firebaseError.code) {
-      case "auth/user-not-found":
-        customErrorMessage = "Usuario no encontrado";
-        break;
-      case "auth/wrong-password":
-        customErrorMessage = "Contraseña incorrecta";
-        break;
-      case "auth/invalid-email":
-        customErrorMessage = "Correo electrónico inválido";
-        break;
-      case "auth/user-disabled":
-        customErrorMessage = "Usuario deshabilitado";
-        break;
-      default:
-        customErrorMessage =
-          "Error al iniciar sesión. Por favor, inténtalo de nuevo.";
-    }
-
-    setError(customErrorMessage);
-  }; */
 
   // Manejo de respuesta de inicio de sesión 
   const handleLogin = async (values: { email: string; password: string }) => {
@@ -170,6 +130,9 @@ const LoginForm = () => {
       sameSite: "strict",
     });
 
+    //Esto lo agrego para que ni bien se loguea el usuario lo redirige a Inicio, pero sigue trabajando fetchUserProfile()
+    router.push("/");  
+
     // No es necesario verificar si la cookie está establecida, asumiendo que set fue exitoso
     await fetchUserProfile();
   };
@@ -180,10 +143,10 @@ const LoginForm = () => {
       const response = await userProfile();
       console.log("Valor de response en userProfile()", response);
 
-      if (response === "Token inválido o expirado") {
+      /* if (response === "Token inválido o expirado") {
         setIsModalOpen(true);
         return;
-      }
+      } */
 
       Cookies.set("userRole", response.userRole, {
         expires: 1,
@@ -198,29 +161,26 @@ const LoginForm = () => {
       });
 
 
+      Cookies.set("businessName", response.businessName, {
+        expires: 1,
+        secure: true,
+        sameSite: "strict",
+      });
 
-      /* if(response.userRole === roleBusinessDirector || response.userRole === roleBusinessManager || response.userRole === roleBusinessEmployee) { */
-        Cookies.set("businessName", response.businessName, {
-          expires: 1,
-          secure: true,
-          sameSite: "strict",
-        });
-  
-        Cookies.set("businessType", response.businessType, {
-          expires: 1,
-          secure: true,
-          sameSite: "strict",
-        });
+      Cookies.set("businessType", response.businessType, {
+        expires: 1,
+        secure: true,
+        sameSite: "strict",
+      });
 
-        Cookies.set("userSubRole", response.userSubRole, {
-          expires: 1,
-          secure: true,
-          sameSite: "strict",
-        });
+      Cookies.set("userSubRole", response.userSubRole, {
+        expires: 1,
+        secure: true,
+        sameSite: "strict",
+      });
 
-        setBusinessName(response.businessName);
-        setBusinessType(response.businessType);
-     /*  } */
+      setBusinessName(response.businessName);
+      setBusinessType(response.businessType);
 
 
       Cookies.set("userStatus", response.userStatus, {
@@ -263,34 +223,15 @@ const LoginForm = () => {
         setSelectedOption("Iniciar sesión");
       }, expirationTime);
 
-      //const roleAppAdmin = process.env.NEXT_PUBLIC_ROLE_APP_ADMIN;  
-      /* const roleBusinessDirector = process.env.NEXT_PUBLIC_ROLE_BUSINESS_DIRECTOR;
-      const roleBusinessManager = process.env.NEXT_PUBLIC_ROLE_BUSINESS_MANAGER;
-      const roleBusinessEmployee = process.env.NEXT_PUBLIC_ROLE_BUSINESS_EMPLOYEE;
-      const roleMobileCustomer = process.env.NEXT_PUBLIC_ROLE_MOBILE_CUSTOMER; */
-
-      //const roleUser = process.env.NEXT_PUBLIC_ROLE_USER;
-
       console.log("Valor del rol que llega en response: ", response.userRole);
 
-      if(response.userStatus === "active") {
-        /* if(response.userRole === roleAppAdmin) {
-          //router.push("/dashboardAppAdmin");
-          router.push("/dashboardAplicationAdmin");
-          //setSelectedOption("Admin App");
-          setSelectedOption("Mi cuenta");
-        } 
-        if(response.userRole === roleBusinessDirector || response.userRole === roleBusinessManager) {
-          //router.push("/myAccount");
-          router.push("/dashboardBusinessAdmin");
-          setSelectedOption("Mi cuenta");
-        } 
-        if (response.userRole === roleBusinessEmployee) {
-          router.push("/dashboardBusinessAdmin");
-          setSelectedOption("Mi cuenta");
-        } */
+      /* if(response.userStatus === "active") {
         router.push("/");
       } else {
+        router.push("/notifications");
+        setSelectedOption("Notificaciones")
+      } */
+      if(response.userStatus !== "active") {
         router.push("/notifications");
         setSelectedOption("Notificaciones")
       }
@@ -301,10 +242,10 @@ const LoginForm = () => {
 
   return (
     <div>
-      <TokenExpiredModal
+      {/* <TokenExpiredModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-      />
+      /> */}
       <UnauthorizedAccesssModal
         isOpenUnauthorizedAccess ={isAccessModalOpen} 
         onCloseUnauthorizedAccess = {() => setIsAccessModalOpen(false)}

@@ -66,10 +66,10 @@ const AsociatedBusinessUsers = () => {
       const response = await fetchAsociatedBusinessUsers();
       console.log("Respuesta del backend:", response); // Verifica la estructura del array de usuarios
   
-      if (response === "Token inválido o expirado") {
+      /* if (response === "Token inválido o expirado") {
         setIsModalOpen(true);
         return;
-      }
+      } */
   
       //setBusinessUsers(response);
 
@@ -93,10 +93,10 @@ const AsociatedBusinessUsers = () => {
 
   return (
     <div>
-      <TokenExpiredModal
+      {/* <TokenExpiredModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-      />
+      /> */}
 
 
       {

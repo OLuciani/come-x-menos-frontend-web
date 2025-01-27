@@ -80,9 +80,9 @@ const Overview: React.FC = () => {
         console.log("Valor de userToken en fetchDiscounts: ", userToken);
         const response = await discountsList();
 
-        if (response === "Token inválido o expirado en discountList") {
+        /* if (response === "Token inválido o expirado en discountList") {
           setIsModalOpen(true);
-        }
+        } */
         if (typeof response !== "string") {
           const now = new Date();
           const validDiscounts = response.filter(

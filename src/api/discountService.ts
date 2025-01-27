@@ -31,11 +31,11 @@ const handleError = (error: any): string => {
 export async function createDiscount(
     data: FormData
   ): Promise<Discount | string> {
-    // Verifico el token antes de hacer la solicitud
+    /* // Verifico el token antes de hacer la solicitud
     const isTokenValid = await verifyToken();
     if (!isTokenValid) {
       return "Token inválido o expirado";
-    }
+    } */
   
     try {
       const response = await axios.post(
@@ -73,12 +73,12 @@ export async function createDiscount(
   
   //export async function discountsList(businessId: string, userToken: string): Promise<DiscountsList[] | string> {
   export async function discountsList(): Promise<DiscountsList[] | string> {
-    // Verifico el token antes de hacer la solicitud
+    /* // Verifico el token antes de hacer la solicitud
     const isTokenValid = await verifyToken();
     if (!isTokenValid) {
       console.log("Token inválido o expirado en discountList");
       return "Token inválido o expirado en discountList";
-    }
+    } */
   
     try {
       //console.log("Valor de userId en pedido get: ", businessId);

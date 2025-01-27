@@ -1,3 +1,4 @@
+"use client"
 import React, { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import { Context } from "@/context/Context";
@@ -20,6 +21,7 @@ export default function Home() {
     setBusinessType,
     setBackgroundButtonNavBar,
     setSelectedOption,
+    setUserStatus
   } = useContext(Context);
 
   const [showVideo, setShowVideo] = useState(false);
@@ -39,6 +41,9 @@ export default function Home() {
 
     const cookieBusinessType = Cookies.get("businessType") || "";
     setBusinessType(cookieBusinessType);
+
+    const cookieUserStatus = Cookies.get("userStatus") || "";
+    setUserStatus(cookieUserStatus);
 
     setSelectedOption("Inicio");
 

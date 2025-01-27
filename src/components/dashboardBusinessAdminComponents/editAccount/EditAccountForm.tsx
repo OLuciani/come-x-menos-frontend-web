@@ -298,8 +298,9 @@ const EditAccountForm: React.FC<EditAccountFormProps> = ({setSection, section}) 
           const businessUpdate = await updateBusiness(formData);
 
           if (
-            userUpdate !== "Token inválido o expirado" ||
-            businessUpdate !== "Token inválido o expirado"
+            /* userUpdate !== "Token inválido o expirado" ||
+            businessUpdate !== "Token inválido o expirado" */
+            userUpdate && businessUpdate
           ) {
             const cookieBusinessName = Cookies.get("businessName") || "";
             setBusinessName(cookieBusinessName);
@@ -327,7 +328,7 @@ const EditAccountForm: React.FC<EditAccountFormProps> = ({setSection, section}) 
                 }
             }, 10000);
           } else {
-            setIsModalOpen(true); // Muestra el modal TokenExpiredModal.tsx si el token es inválido y redirecciona a login
+            /* setIsModalOpen(true); // Muestra el modal TokenExpiredModal.tsx si el token es inválido y redirecciona a login */
             setError("Error al actualizar los datos.");
           }
           /* //Variables para el mensaje de edición exitosa de la cuenta al usuario
@@ -440,10 +441,10 @@ const EditAccountForm: React.FC<EditAccountFormProps> = ({setSection, section}) 
 
   return (
     <div>
-        <TokenExpiredModal
+        {/* <TokenExpiredModal
             isOpen={isModalOpen}
             onClose={() => setIsModalOpen(false)}
-        />
+        /> */}
 
         {/* Modal para mostrar mensajes al usuario */}
         <MessageModal

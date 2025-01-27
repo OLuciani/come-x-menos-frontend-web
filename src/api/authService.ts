@@ -67,11 +67,11 @@ export async function login(
 
   export async function userProfile() {
     try {
-      // Verifico el token antes de hacer la solicitud
+      /* // Verifico el token antes de hacer la solicitud
       const isTokenValid = await verifyToken();
       if (!isTokenValid) {
         return "Token inválido o expirado";
-      }
+      } */
   
       const response = await axios.get(
         `/api/user_profile`,

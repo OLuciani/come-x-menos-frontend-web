@@ -69,11 +69,11 @@ export async function createBusiness(
   //Solicitud para obtener el detalle de los datos de un negocio en particular
 export async function businessDetail(): Promise<Business | string> {
     // Verifico el token antes de hacer la solicitud
-    const isTokenValid = await verifyToken();
+    /* const isTokenValid = await verifyToken();
     if (!isTokenValid) {
       console.log("Token inválido o expirado en businessDetail");
       return "Token inválido o expirado en businessDetail";
-    }
+    } */
     try {
       const response = await axios.get(`/api/business_detail`,
         {
@@ -115,11 +115,11 @@ export const getBusinessById = async () => {
 
   //Solicitud para modificar un negocio
 export const updateBusiness = async (formData: FormData) => {
-    // Verifico el token antes de hacer la solicitud
+    /* // Verifico el token antes de hacer la solicitud
     const isTokenValid = await verifyToken();
     if (!isTokenValid) {
       return "Token inválido o expirado";
-    }
+    } */
   
     try {
       for (let pair of formData.entries()) {

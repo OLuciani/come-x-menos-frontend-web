@@ -5,7 +5,7 @@ axios.defaults.withCredentials = true;
 
 export const verifyToken = async (): Promise<boolean> => {
   //Creo constante con la variable de entorno de la url del backend
-  const BASE_BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+  //const BASE_BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
     //Cookies.remove('userToken');
     //Cookies.remove("userRole");
