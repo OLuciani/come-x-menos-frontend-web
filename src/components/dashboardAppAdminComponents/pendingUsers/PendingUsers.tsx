@@ -58,10 +58,10 @@ const PendingUsers = () => {
     const response = await fetchPendingUsersFromAPI();
     console.log("Respuesta del backend:", response); // Verifica la estructura del array de usuarios
 
-    if (response === "Token inválido o expirado") {
+    /* if (response === "Token inválido o expirado") {
       setIsModalOpen(true);
       return;
-    }
+    } */
 
     setPendingUsers(response);
     console.log("Usuarios pendientes guardados en el estado:", response); // Verifica que los usuarios se hayan guardado correctamente
@@ -115,7 +115,7 @@ const PendingUsers = () => {
 
   return (
     <div>
-      <TokenExpiredModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      {/* <TokenExpiredModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} /> */}
       
       {/* Modal para ver detalles del usuario */}
       {(selectedUser && pendingBusiness) && (

@@ -289,7 +289,7 @@ const Navbar = () => {
                 >
                   Mi cuenta
                 </li>
-                {selectedOption === "Admin App" && (
+                {selectedOption === "Mi cuenta" && (
                   <div className="w-full h-[3px] mt-2 bg-[#FFCF91]"></div>
                 )}
               </Link>

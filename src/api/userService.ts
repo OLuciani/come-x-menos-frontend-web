@@ -282,11 +282,11 @@ export const approveUser = async (userId: string) => {
 //Solicitud para traer un listado con todos los usuarios con paginación desde el frontend
 export async function fetchAllUsersFromAPI() {
   try {
-    // Verifico el token antes de hacer la solicitud
+   /*  // Verifico el token antes de hacer la solicitud
     const isTokenValid = await verifyToken();
     if (!isTokenValid) {
       return "Token inválido o expirado";
-    }
+    } */
 
     const response = await axios.get(`/api/all_users_list`, {
       withCredentials: true, // Esta línea asegura que las cookies (entre ellas va la del token que es indispensable en esta ruta) se envíen con la solicitud

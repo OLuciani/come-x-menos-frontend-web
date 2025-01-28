@@ -319,9 +319,9 @@ const AllUsers = () => {
       try {
         const response = await fetchAllUsersFromAPI();
 
-        if (response === "Token inválido o expirado") {
+        /* if (response === "Token inválido o expirado") {
           setIsModalOpen(true);
-        } else if (response) {
+        } else  */if (response) {
           setAllUsers(response);
           setQuantityAllUsers(response.length);
           setUsers(response);
@@ -380,7 +380,7 @@ const AllUsers = () => {
 
   return (
     <div>
-      <TokenExpiredModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      {/* <TokenExpiredModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} /> */}
 
       {selectedUser && (
         <SelectedUserModal

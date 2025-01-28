@@ -131,7 +131,7 @@ const LoginForm = () => {
     });
 
     //Esto lo agrego para que ni bien se loguea el usuario lo redirige a Inicio, pero sigue trabajando fetchUserProfile()
-    router.push("/");  
+    //router.push("/");  
 
     // No es necesario verificar si la cookie está establecida, asumiendo que set fue exitoso
     await fetchUserProfile();
@@ -190,6 +190,7 @@ const LoginForm = () => {
       });
 
       setUserRole(response.userRole);
+      const localUserRole: string = response.userRole;
       setUserSubRole(response.userSubRole);
       setUserName(response.userName);
       //setBusinessName(response.businessName);
@@ -231,9 +232,44 @@ const LoginForm = () => {
         router.push("/notifications");
         setSelectedOption("Notificaciones")
       } */
+      console.log("valor de response.userSTatus: ", response.userStatus);
       if(response.userStatus !== "active") {
         router.push("/notifications");
         setSelectedOption("Notificaciones")
+      }  else {
+        if(localUserRole === roleAppAdmin) {
+          router.push("/dashboardAplicationAdmin");
+          setSelectedOption("Mi cuenta");
+        } else if (localUserRole === roleBusinessDirector || localUserRole === roleBusinessManager || localUserRole === roleBusinessEmployee) {
+          router.push("dashboardBusinessAdmin");
+          setSelectedOption("Mi cuenta");
+        } else {
+          setTimeout(() => {
+            setIsAccessModalOpen(true);//Modal para informar al usuario que no tiene credenciales para iniciar sesión
+
+            //Limpio los valores en caso que un usuario de la app móvil intente iniciar sesión en esta app web
+            Cookies.remove("userToken");
+            Cookies.remove("token"); //Remueve la cookie con el token
+            Cookies.remove("userRole");
+            Cookies.remove("userName");
+            Cookies.remove("businessName");
+            Cookies.remove("businessType");
+            Cookies.remove("userStatus");
+
+            setUserRole("");
+            setUserToken("");
+            setUserName("");
+            setBusinessName("");
+            setBusinessType("");
+            setUserStatus("");
+
+            setIsLoggedIn(false);
+
+            /* router.push("/login");
+          
+            setSelectedOption("Iniciar sesión"); */
+          }, 2000);
+        }
       }
     } catch (err) {
       console.error("Error al obtener el perfil del usuario:", err);

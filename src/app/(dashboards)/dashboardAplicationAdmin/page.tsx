@@ -76,10 +76,10 @@ const DashboardAplicationAdmin: React.FC = () => {
 
   return (
     <>
-      <TokenExpiredModal
+      {/* <TokenExpiredModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-      />
+      /> */}
 
       <div className="flex flex-col lg:flex-row lg:min-h-screen">
         <div className="lg:flex">
