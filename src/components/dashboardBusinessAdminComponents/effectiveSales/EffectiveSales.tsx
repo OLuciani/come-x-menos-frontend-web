@@ -8,6 +8,7 @@ import { discountsList } from "@/api/discountService";
 //import { discountsList, DiscountsList } from "@/services/apiCall";
 import { FaClock, FaTag } from "react-icons/fa";
 import { CircularProgress } from "@mui/material";
+import TokenExpiredModal from "@/components/tokenExpiredModal/TokenExpiredModal";
 
 interface ErrorResponse {
   error: string;
@@ -59,6 +60,12 @@ const EffectiveSales: React.FC = () => {
 
         const response = await discountsList();
 
+        //Si el token expiró va a mostrar un modal informando al usuario
+        if (response === "TOKEN_EXPIRED") {
+          setIsModalOpen(true); // Muestra el modal TokenExpiredModal.tsx si el token es inválido y redirecciona a login
+          return; // Detiene la ejecución para evitar errores con response
+        }
+
         if (response === "Token inválido o expirado en discountList") {
           setIsModalOpen(true);
           return;
@@ -92,9 +99,6 @@ const EffectiveSales: React.FC = () => {
             0
           );
 
-          //setDescuentosConVentas(updatedDiscounts);
-          //setDiscountsWithSalesValues(updatedDiscounts);
-
           setTotalDiscountsSales(totalSales);
         }
       } catch (error) {
@@ -117,6 +121,11 @@ const EffectiveSales: React.FC = () => {
 
   return (
     <div className="bg-white border-2 shadow-lg rounded-lg p-2 custom-w-450:p-4 lg:py-4 h-screen">
+      <TokenExpiredModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
+      
       <div className="bg-[#FFCF91] rounded-t-lg">
         <h2 className="text-xl lg:text-2xl font-bold text-[#2C2C2C] text-center px-2 py-4 mb-6">
           Total de Ventas

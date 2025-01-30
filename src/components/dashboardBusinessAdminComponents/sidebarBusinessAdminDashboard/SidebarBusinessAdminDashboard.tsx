@@ -7,9 +7,8 @@ import { FiFileText } from "react-icons/fi";
 import { FaChartLine } from "react-icons/fa";
 import { AiOutlinePlus } from "react-icons/ai";
 import { getUserNotifications } from "@/api/userService";
-//import { getUserNotifications } from "@/services/apiCall";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
-//import Link from "next/link";
+import TokenExpiredModal from "@/components/tokenExpiredModal/TokenExpiredModal";
 
 interface SidebarBusinessAdminDashboardProps {
   setSection: (section: string) => void;
@@ -17,26 +16,32 @@ interface SidebarBusinessAdminDashboardProps {
   setReduceHeight: (reduceHeight: boolean) => void; //reduce el el espacio entre el Sidebar y renderSection en el dashboard cuando la pantalla es pequeña.
 }
 
-/* const SidebarDashboard: React.FC<{ setSection: (section: string) => void, section: string }> = ({
-  setSection, section
-}) => { */
 const SidebarDashboard: React.FC<SidebarBusinessAdminDashboardProps> = ({
   setSection,
   section,
   setReduceHeight,
 }) => {
-  const { businessName, isLoggedIn, userRole, userSubRole } = useContext(Context);
+  const { businessName, isLoggedIn, userRole, userSubRole } =
+    useContext(Context);
   const [unreadCount, setUnreadCount] = useState(0);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [businessDirectorRole, setBusinessDirectorRole] = useState<
     string | undefined
   >("");
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false); // Estado para manejar el modal TokenExpiredModal.tsx
 
   const roleBusinessDirector = process.env.NEXT_PUBLIC_ROLE_BUSINESS_DIRECTOR;
 
   const fetchUnreadNotifications = async () => {
     try {
       const notificationsData = await getUserNotifications();
+
+      //Si el token expiró va a mostrar un modal informando al usuario
+      if (notificationsData === "TOKEN_EXPIRED") {
+        setIsModalOpen(true); // Muestra el modal TokenExpiredModal.tsx si el token es inválido y redirecciona a login
+        return; // Detiene la ejecución para evitar errores con response
+      }
+
       const unreadNotifications = notificationsData.filter(
         (notification: any) => !notification.read
       );
@@ -65,6 +70,11 @@ const SidebarDashboard: React.FC<SidebarBusinessAdminDashboardProps> = ({
 
   return (
     <div className="">
+      <TokenExpiredModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
+
       <div
         className={`w-full flex justify-between items-center pl-4 fixed bg-white top-[57] border-b-2 lg:border-b-0 z-10`}
       >
@@ -135,8 +145,6 @@ const SidebarDashboard: React.FC<SidebarBusinessAdminDashboardProps> = ({
               <FiFileText className="inline mr-2" />
               Resumen
             </button>
-
-
             <button
               onClick={() => {
                 setSection("activeDiscountsOverview");
@@ -156,10 +164,8 @@ const SidebarDashboard: React.FC<SidebarBusinessAdminDashboardProps> = ({
               }`}
             >
               <AiOutlineTag className="inline mr-2" />
-              {`Descuentos activos (ver actividad)`} 
+              {`Descuentos activos (ver actividad)`}
             </button>
-
-
             <button
               onClick={() => {
                 setSection("sales");
@@ -181,8 +187,6 @@ const SidebarDashboard: React.FC<SidebarBusinessAdminDashboardProps> = ({
               <FaChartLine className="inline mr-2" />
               {`Total de Ventas (descuentos utilizados)`}
             </button>
-
-
             <button
               onClick={() => {
                 setSection("notificaciones");
@@ -261,68 +265,37 @@ const SidebarDashboard: React.FC<SidebarBusinessAdminDashboardProps> = ({
               Ver y gestionar mis descuentos activos
             </button>
 
-            {
-              userSubRole !== "visit_user" &&
-                <button
-                  onClick={() => {
-                    setSection("editAccount");
-                    setIsSidebarOpen(false);
-                    setReduceHeight(true); //reduce el el espacio entre el Sidebar y renderSection en el dashboard cuando la pantalla es pequeña.
+            {userSubRole !== "visit_user" && (
+              <button
+                onClick={() => {
+                  setSection("editAccount");
+                  setIsSidebarOpen(false);
+                  setReduceHeight(true); //reduce el el espacio entre el Sidebar y renderSection en el dashboard cuando la pantalla es pequeña.
 
-                    // Restablece el scroll del contenedor principal al inicio
-                    const mainElement = document.querySelector("main");
-                    if (mainElement) {
-                      mainElement.scrollTo(0, 0);
-                    }
-                  }}
-                  className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white ${
-                    section === "editAccount"
-                      ? "border-[2px] border-[#2C2C2C] hover:border-[#FD7B03]"
-                      : "text-[#2C2C2C]"
-                  }`}
-                >
-                  Editar datos de mi cuenta
-                </button>
-            }
-
-            {/* <Link href="/createDiscount">
-              <button className="block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white"
+                  // Restablece el scroll del contenedor principal al inicio
+                  const mainElement = document.querySelector("main");
+                  if (mainElement) {
+                    mainElement.scrollTo(0, 0);
+                  }
+                }}
+                className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white ${
+                  section === "editAccount"
+                    ? "border-[2px] border-[#2C2C2C] hover:border-[#FD7B03]"
+                    : "text-[#2C2C2C]"
+                }`}
               >
-                Crear y publicar un descuento
+                Editar datos de mi cuenta
               </button>
-            </Link>
-
-            <Link href="/myDiscounts">
-              <button className="block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white">
-                Ver y gestionar tus descuentos
-              </button>
-            </Link> */}
-
-            {/* <Link href="/editAccount">
-              <button className="block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white">
-                Editar datos de tu cuenta
-              </button>
-            </Link> */}
+            )}
 
             {businessDirectorRole && userRole === businessDirectorRole && (
               <>
-                {/* <Link href="/editAccount">
-                  <button className="block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white">
-                    Editar datos de tu cuenta
-                  </button>
-                </Link> */}
-
-                {/* <Link href="/invitationExtraBusinessAdminUser">
-                  <button className="block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white">
-                    Crear usuario administrador p/mi cuenta
-                  </button>
-                </Link> */}
                 <button
                   onClick={() => {
                     setSection("invitationExtraBusinessAdmin");
                     setIsSidebarOpen(false);
                     setReduceHeight(true); //reduce el el espacio entre el Sidebar y renderSection en el dashboard cuando la pantalla es pequeña.
-                    
+
                     // Restablece el scroll del contenedor principal al inicio
                     const mainElement = document.querySelector("main");
                     if (mainElement) {
@@ -338,18 +311,12 @@ const SidebarDashboard: React.FC<SidebarBusinessAdminDashboardProps> = ({
                   Crear usuario administrador p/mi cuenta
                 </button>
 
-                {/* <Link href="/invitationBusinessEmployeeUser">
-                  <button className="block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white">
-                    Crear usuario empleado p/mi cuenta
-                  </button>
-                </Link> */}
-
-                  <button
+                <button
                   onClick={() => {
                     setSection("invitationBusinessEmployee");
                     setIsSidebarOpen(false);
                     setReduceHeight(true); //reduce el el espacio entre el Sidebar y renderSection en el dashboard cuando la pantalla es pequeña.
-                    
+
                     // Restablece el scroll del contenedor principal al inicio
                     const mainElement = document.querySelector("main");
                     if (mainElement) {
@@ -365,11 +332,6 @@ const SidebarDashboard: React.FC<SidebarBusinessAdminDashboardProps> = ({
                   Crear usuario empleado p/mi cuenta
                 </button>
 
-                {/* <Link href="/asociatedBusinessUsers">
-                  <button className="block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white">
-                  Usuarios asociados a mi cuenta
-                  </button>
-                </Link> */}
                 <button
                   onClick={() => {
                     setSection("asociatedBusinessUsers");
@@ -392,12 +354,6 @@ const SidebarDashboard: React.FC<SidebarBusinessAdminDashboardProps> = ({
                 </button>
               </>
             )}
-
-            {/* <Link href="/invitationBusinessEmployeeUser">
-              <button className="block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white">
-              Crear usuario empleado p/mi cuenta
-              </button>
-            </Link> */}
           </div>
         </nav>
       </div>

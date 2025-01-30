@@ -73,9 +73,12 @@ const ActiveDiscountsOverview: React.FC = () => {
         console.log("Valor de userToken en fetchDiscounts: ", userToken);
         const response = await discountsList();
 
-        /* if (response === "Token inválido o expirado en discountList") {
-          setIsModalOpen(true);
-        } */
+        //Si el token expiró va a mostrar un modal informando al usuario
+        if (response === "TOKEN_EXPIRED") {
+          setIsModalOpen(true); // Muestra el modal TokenExpiredModal.tsx si el token es inválido y redirecciona a login
+          return; // Detiene la ejecución para evitar errores con response
+        }
+        
         if (typeof response !== "string") {
           const now = new Date();
           const validDiscounts = response.filter(
@@ -139,10 +142,10 @@ const ActiveDiscountsOverview: React.FC = () => {
 
   return (
     <>
-      {/* <TokenExpiredModal
+      <TokenExpiredModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-      /> */}
+      />
 
       <div className="bg-white border-2 shadow-lg rounded-lg p-2 custom-w-450:p-4 lg:py-4 h-full">
         <div className="bg-[#FFCF91] rounded-t-lg">

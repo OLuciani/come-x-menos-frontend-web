@@ -9,3 +9,9 @@ export interface UsersDiscountsList {
     isUsed: boolean;
     expirationDate: Date;
   }
+
+  export interface ErrorResponse {
+    error: boolean;
+    code: string;
+    message: string;
+  };

@@ -91,8 +91,12 @@ const AsociatedOneBusinessUserDetail: React.FC<UserDetailsModalProps> = ({
   const refreshUsers = async () => {
     try {
       const response = await fetchAsociatedBusinessUsers();
-      /* const data: ActiveBusinessAdminUser[] = await response.json();
-      setUsers(data); */
+      //Si el token expiró va a mostrar un modal informando al usuario
+      if (response === "TOKEN_EXPIRED") {
+        setIsModalOpen(true); // Muestra el modal TokenExpiredModal.tsx si el token es inválido y redirecciona a login
+        return; // Detiene la ejecución para evitar errores con response
+      }
+
       if (response) {
         setAllUsers(response);
       }
@@ -105,9 +109,10 @@ const AsociatedOneBusinessUserDetail: React.FC<UserDetailsModalProps> = ({
     if (user) {
       const response = await desactivateUser(user._id);
 
-      if (response === "Token inválido o expirado") {
-        setIsModalOpen(true);
-        return;
+      //Si el token expiró va a mostrar un modal informando al usuario
+      if (response === "TOKEN_EXPIRED") {
+        setIsModalOpen(true); // Muestra el modal TokenExpiredModal.tsx si el token es inválido y redirecciona a login
+        return; // Detiene la ejecución para evitar errores con response
       }
 
       console.log("Valor de response.message: ", response.message);
@@ -148,9 +153,10 @@ const AsociatedOneBusinessUserDetail: React.FC<UserDetailsModalProps> = ({
     if (user) {
       const response = await activateUser(user._id);
 
-      if (response === "Token inválido o expirado") {
-        setIsModalOpen(true);
-        return;
+      //Si el token expiró va a mostrar un modal informando al usuario
+      if (response === "TOKEN_EXPIRED") {
+        setIsModalOpen(true); // Muestra el modal TokenExpiredModal.tsx si el token es inválido y redirecciona a login
+        return; // Detiene la ejecución para evitar errores con response
       }
 
       console.log("Valor de response.message: ", response.message);
@@ -193,10 +199,11 @@ const AsociatedOneBusinessUserDetail: React.FC<UserDetailsModalProps> = ({
     if (user) {
       const response = await deleteUser(user._id);
 
-      /* if (response === "Token inválido o expirado") {
-        setIsModalOpen(true);
-        return;
-      } */
+      //Si el token expiró va a mostrar un modal informando al usuario
+      if (response === "TOKEN_EXPIRED") {
+        setIsModalOpen(true); // Muestra el modal TokenExpiredModal.tsx si el token es inválido y redirecciona a login
+        return; // Detiene la ejecución para evitar errores con response
+      }
 
       console.log("Valor de response.message: ", response.message);
       console.log("Valor de response.success: ", response.success);
@@ -237,10 +244,10 @@ const AsociatedOneBusinessUserDetail: React.FC<UserDetailsModalProps> = ({
 
   return (
     <>
-      {/* <TokenExpiredModal
+      <TokenExpiredModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-      /> */}
+      />
 
       {user && (
         <div

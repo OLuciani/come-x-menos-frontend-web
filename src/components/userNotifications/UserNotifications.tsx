@@ -8,6 +8,8 @@ import {
 } from "@/api/userService";
 import axios from "axios";
 import { CircularProgress } from "@mui/material";
+import TokenExpiredModal from "@/components/tokenExpiredModal/TokenExpiredModal";
+
 
 const UserNotifications = () => {
   const {
@@ -24,6 +26,8 @@ const UserNotifications = () => {
   const [notifications, setNotifications] = useState<any[]>([]); // Para almacenar las notificaciones
   const [error, setError] = useState<string | null>(null); // Para almacenar errores
   const [loading, setLoading] = useState<boolean>(true);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
 
   useEffect(() => {
     const storedUserToken = Cookies.get("userToken") || "";
@@ -43,6 +47,12 @@ const UserNotifications = () => {
     const fetchNotifications = async () => {
       try {
         const notificationsData = await getUserNotifications();
+        //Si el token expiró va a mostrar un modal informando al usuario
+        if (notificationsData === "TOKEN_EXPIRED") {
+          setIsModalOpen(true);
+          return; // Detiene la ejecución para evitar errores con response
+        }
+
         setNotifications(notificationsData);
       } catch (error) {
         if (axios.isAxiosError(error)) {
@@ -65,6 +75,12 @@ const UserNotifications = () => {
     const markAllAsRead = async () => {
       try {
         const data = await markUserNotificationsAsRead(); // API que marca todas como leídas
+        //Si el token expiró va a mostrar un modal informando al usuario
+        if (data === "TOKEN_EXPIRED") {
+          setIsModalOpen(true);
+          return; // Detiene la ejecución para evitar errores con response
+        }
+        
         if (data.success) {
           // Actualiza el estado de las notificaciones para reflejar que están leídas
           setNotifications((prev) =>
@@ -86,6 +102,11 @@ const UserNotifications = () => {
 
   return (
     <>
+      <TokenExpiredModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
+
       <div className="bg-[#FFCF91] rounded-t-lg">
         <h2 className="text-xl lg:text-2xl font-bold text-[#2C2C2C] text-center px-2 py-4 mb-6">
             Notificaciones
@@ -98,11 +119,6 @@ const UserNotifications = () => {
         </div>
       ) : (
         <div className="bg-white border-2 shadow-lg rounded-lg p-2 custom-w-450:p-4 lg:py-4 h-full">
-          {/* <div className="bg-[#FFCF91] rounded-t-lg">
-            <h2 className="text-xl lg:text-2xl font-bold text-[#2C2C2C] text-center px-2 py-4 mb-6">
-              Notificaciones
-            </h2>
-          </div> */}
           <ul>
             {notifications.map((notification, index) => (
               <li key={index} className="my-2 p-2 border-b-2">

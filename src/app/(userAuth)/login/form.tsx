@@ -143,10 +143,11 @@ const LoginForm = () => {
       const response = await userProfile();
       console.log("Valor de response en userProfile()", response);
 
-      /* if (response === "Token inválido o expirado") {
+      //Si el token expiró va a mostrar un modal informando al usuario
+      if (response === "TOKEN_EXPIRED") {
         setIsModalOpen(true);
-        return;
-      } */
+        return; // Detiene la ejecución para evitar errores con response
+      }
 
       Cookies.set("userRole", response.userRole, {
         expires: 1,
@@ -199,7 +200,7 @@ const LoginForm = () => {
 
       setBackgroundButtonNavBar(true);
 
-      const expirationTime = 15 * 60 * 1000;
+      /* const expirationTime = 15 * 60 * 1000;
 
       setTimeout(() => {
         Cookies.remove("userToken");
@@ -222,7 +223,7 @@ const LoginForm = () => {
         router.push("/login");
       
         setSelectedOption("Iniciar sesión");
-      }, expirationTime);
+      }, expirationTime); */
 
       console.log("Valor del rol que llega en response: ", response.userRole);
 
@@ -278,10 +279,10 @@ const LoginForm = () => {
 
   return (
     <div>
-      {/* <TokenExpiredModal
+      <TokenExpiredModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-      /> */}
+      />
       <UnauthorizedAccesssModal
         isOpenUnauthorizedAccess ={isAccessModalOpen} 
         onCloseUnauthorizedAccess = {() => setIsAccessModalOpen(false)}

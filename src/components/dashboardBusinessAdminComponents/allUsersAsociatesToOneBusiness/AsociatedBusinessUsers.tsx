@@ -66,14 +66,15 @@ const AsociatedBusinessUsers = () => {
       const response = await fetchAsociatedBusinessUsers();
       console.log("Respuesta del backend:", response); // Verifica la estructura del array de usuarios
   
-      /* if (response === "Token inválido o expirado") {
-        setIsModalOpen(true);
-        return;
-      } */
+      //Si el token expiró va a mostrar un modal informando al usuario
+      if (response === "TOKEN_EXPIRED") {
+        setIsModalOpen(true); // Muestra el modal TokenExpiredModal.tsx si el token es inválido y redirecciona a login
+        return; // Detiene la ejecución para evitar errores con response
+      }
   
       //setBusinessUsers(response);
 
-      if(response) {
+      if (Array.isArray(response)) {
 
         setAllUsers(response);
     
@@ -93,11 +94,10 @@ const AsociatedBusinessUsers = () => {
 
   return (
     <div>
-      {/* <TokenExpiredModal
+      <TokenExpiredModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-      /> */}
-
+      />
 
       {
       //Si se cumple esta condición se va amostrar el usuario seleccionado
@@ -116,7 +116,7 @@ const AsociatedBusinessUsers = () => {
 
         {totalUsers && totalUsers > 0 ? (
           <ul className="flex flex-col items-center">
-            {allUsers.length > 0 &&allUsers.map((oneUser) => (
+            {allUsers && allUsers.length > 0 && allUsers.map((oneUser) => (
               <li
                 key={oneUser._id}
                 /* className="p-2 border-[3px] border-gray-400 hover:border-[#FFCF91] rounded-lg cursor-pointer mb-5" */

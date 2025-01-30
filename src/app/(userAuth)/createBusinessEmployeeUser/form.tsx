@@ -11,6 +11,8 @@ import { Context } from "@/context/Context";
 import Button from "@/components/button/Button";
 import RegistrationConfirmationModal from "@/components/registrationConfirmationModal/RegistrationConfirmationModal";
 import MessageModal from "@/components/messageModal/MessageModal";
+import TokenExpiredModal from "@/components/tokenExpiredModal/TokenExpiredModal";
+
 
 const CreateBusinessEmployeeUserForm = () => {
   const { businessType } = useContext(Context);
@@ -25,6 +27,8 @@ const CreateBusinessEmployeeUserForm = () => {
   const [email, setEmail] = useState<string>("");
   const [businessId, setBusinessId] = useState<string>("");
   const [businessName, setBusinessName] = useState<string>("");
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false); // Estado para manejar el modal TokenExpiredModal.tsx
+
 
   /* Variables utilizadas para mostrar un mensaje en un modal */
   const [isOpenMessageModal, setIsOpenMessageModal] = useState<boolean>(false);
@@ -99,21 +103,16 @@ const CreateBusinessEmployeeUserForm = () => {
       setIsLoading(true);
 
       try {
-        /* const { user, error: firebaseError } = await registerUserWithFirebase(
-          email,
-          values.password
-        );
-        if (firebaseError) {
-          setError(`Firebase error: ${firebaseError}`);
-          setIsLoading(false);
-          return;
-        } */
-
         const userResponse = await createBusinessEmployeeUser(
           values,
           token,
           businessId
         );
+        //Si el token expiró va a mostrar un modal informando al usuario
+        if (userResponse === "TOKEN_EXPIRED") {
+          setIsModalOpen(true); // Muestra el modal TokenExpiredModal.tsx si el token es inválido y redirecciona a login
+          return; // Detiene la ejecución para evitar errores con response
+        }
         if (typeof userResponse === "object" && userResponse !== null) {
           console.log(
             "Usuario con acceso a Scanner en aplicación movil registrado exitosamente en Mongo Db"
@@ -162,6 +161,11 @@ const CreateBusinessEmployeeUserForm = () => {
 
   return (
     <>
+      <TokenExpiredModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
+      
       <MessageModal
         isOpenMessageModal={isOpenMessageModal}
         onCloseMessageModal={() => setIsOpenMessageModal(false)}

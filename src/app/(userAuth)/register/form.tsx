@@ -11,6 +11,8 @@ import { registerUserWithFirebase } from "@/services/firebaseAuthService";
 import { Context } from "@/context/Context";
 import Button from "@/components/button/Button";
 import RegistrationConfirmationModal from "@/components/registrationConfirmationModal/RegistrationConfirmationModal";
+import TokenExpiredModal from "@/components/tokenExpiredModal/TokenExpiredModal";
+
 
 
 const FormRegister = () => {
@@ -23,6 +25,7 @@ const FormRegister = () => {
     useState<boolean>(false);
   const [token, setToken] = useState<string>("");
   const [email, setEmail] = useState<string>("");
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false); // Estado para manejar el modal TokenExpiredModal.tsx
   const navigation = useRouter();
   const searchParams = useSearchParams();
 
@@ -125,6 +128,12 @@ const FormRegister = () => {
         } */
 
         const userResponse = await createUser(values, token, email);
+        //Si el token expiró va a mostrar un modal informando al usuario
+        if (userResponse === "TOKEN_EXPIRED") {
+          setIsModalOpen(true); // Muestra el modal TokenExpiredModal.tsx si el token es inválido y redirecciona a login
+          return; // Detiene la ejecución para evitar errores con response
+        }
+
         if (typeof userResponse === "object" && userResponse !== null) {
           setOwnerName(userResponse.name);
           setOwnerId(userResponse._id);
@@ -208,6 +217,11 @@ const FormRegister = () => {
 
   return (
     <div>
+      <TokenExpiredModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
+      
       <RegistrationConfirmationModal
         isOpenRegistrationConfirmation={isRegistrationModalOpen}
         onCloseRegistrationConfirmation={() =>

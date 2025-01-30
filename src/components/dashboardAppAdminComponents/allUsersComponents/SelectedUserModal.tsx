@@ -5,7 +5,7 @@ import { ActiveBusinessAdminUser } from "@/types/userTypes";
 //import { sendUserNotification, desactivateUser, deleteUser, activateUser, fetchAllUsersFromAPI,
 //ActiveBusinessAdminUser } from "@/services/apiCall";
 import Button from "@/components/button/Button";
-
+import TokenExpiredModal from "@/components/tokenExpiredModal/TokenExpiredModal";
 import { toast, ToastContainer } from "react-toastify"; // Importo toast y ToastContainer
 import "react-toastify/dist/ReactToastify.css"; // Importo los estilos
 import MessageModal from "@/components/messageModal/MessageModal";
@@ -95,8 +95,12 @@ const SelectedUserModal: React.FC<UserDetailsModalProps> = ({
   const refreshUsers = async () => {
     try {
       const response = await fetchAllUsersFromAPI();
-      /* const data: ActiveBusinessAdminUser[] = await response.json();
-      setUsers(data); */
+      //Si el token expiró va a mostrar un modal informando al usuario
+      if (response === "TOKEN_EXPIRED") {
+        setIsModalOpen(true); // Muestra el modal TokenExpiredModal.tsx si el token es inválido y redirecciona a login
+        return; // Detiene la ejecución para evitar errores con response
+      }
+
       if (response) {
         setAllUsers(response);
       }
@@ -109,10 +113,11 @@ const SelectedUserModal: React.FC<UserDetailsModalProps> = ({
     if (user) {
       const response = await desactivateUser(user._id);
 
-      /* if (response === "Token inválido o expirado") {
-        setIsModalOpen(true);
-        return;
-      } */
+      //Si el token expiró va a mostrar un modal informando al usuario
+      if (response === "TOKEN_EXPIRED") {
+        setIsModalOpen(true); // Muestra el modal TokenExpiredModal.tsx si el token es inválido y redirecciona a login
+        return; // Detiene la ejecución para evitar errores con response
+      }
 
       console.log("Valor de response.message: ", response.message);
       console.log("Valor de response.success: ", response.success);
@@ -148,10 +153,11 @@ const SelectedUserModal: React.FC<UserDetailsModalProps> = ({
     if (user) {
       const response = await activateUser(user._id);
 
-     /*  if (response === "Token inválido o expirado") {
-        setIsModalOpen(true);
-        return;
-      } */
+      //Si el token expiró va a mostrar un modal informando al usuario
+      if (response === "TOKEN_EXPIRED") {
+      setIsModalOpen(true); // Muestra el modal TokenExpiredModal.tsx si el token es inválido y redirecciona a login
+      return; // Detiene la ejecución para evitar errores con response
+      }
 
       console.log("Valor de response.message: ", response.message);
       console.log("Valor de response.success: ", response.success);
@@ -185,10 +191,11 @@ const SelectedUserModal: React.FC<UserDetailsModalProps> = ({
     if (user) {
       const response = await deleteUser(user._id);
 
-      /* if (response === "Token inválido o expirado") {
-        setIsModalOpen(true);
-        return;
-      } */
+      //Si el token expiró va a mostrar un modal informando al usuario
+      if (response === "TOKEN_EXPIRED") {
+        setIsModalOpen(true); // Muestra el modal TokenExpiredModal.tsx si el token es inválido y redirecciona a login
+        return; // Detiene la ejecución para evitar errores con response
+      }
 
       console.log("Valor de response.message: ", response.message);
       console.log("Valor de response.success: ", response.success);
@@ -229,6 +236,12 @@ const SelectedUserModal: React.FC<UserDetailsModalProps> = ({
     //const response = await sendNotificationPendingUser(user._id, message);
     const response = await sendUserNotification(user._id, message);
 
+    //Si el token expiró va a mostrar un modal informando al usuario
+    if (response === "TOKEN_EXPIRED") {
+      setIsModalOpen(true); // Muestra el modal TokenExpiredModal.tsx si el token es inválido y redirecciona a login
+      return; // Detiene la ejecución para evitar errores con response
+    }
+
     if (response.success) {
       toast.success("Notificación enviada exitosamente."); // Mensaje de éxito
       setMessage(""); // Limpiar el textarea
@@ -248,6 +261,11 @@ const SelectedUserModal: React.FC<UserDetailsModalProps> = ({
           className="bg-white py-3 rounded-lg w-[90%] max-h-[92vh] overflow-y-auto relative"
           ref={modalContentRef}
         >
+          <TokenExpiredModal
+            isOpen={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+          />
+          
           {/* Modal para mostrar mensajes al usuario */}
           <MessageModal
             isOpenMessageModal={isOpenMessageModal}
@@ -375,8 +393,8 @@ const SelectedUserModal: React.FC<UserDetailsModalProps> = ({
             </div>
           )}
 
-          {/* Modal para confirmar eliminación */}
-          {showDeleteUserModal && (
+          {/* Modal para confirmar la eliminación. La condición !isModalOpen es para que cuando expire la sesión no se se oculte este modal y deje ver el modal que avisa al usuario que expiró su sesión. */}
+          {showDeleteUserModal && !isModalOpen && (
             <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
               <div className="bg-white px-4 rounded-lg w-[85%] h-[300px] sm:w-[50%] sm:h-[50%] mx-auto text-center flex flex-col justify-evenly">
                 <p className="text-xl font-semibold">
@@ -403,8 +421,8 @@ const SelectedUserModal: React.FC<UserDetailsModalProps> = ({
             </div>
           )}
 
-          {/* Modal para confirmar desactivación */}
-          {showDeactivateUserModal && (
+          {/* Modal para confirmar desactivación. La condición !isModalOpen es para que cuando expire la sesión no se se oculte este modal y deje ver el modal que avisa al usuario que expiró su sesión.*/}
+          {showDeactivateUserModal && !isModalOpen && (
             <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
               <div className="bg-white px-4 rounded-lg w-[85%] h-[300px] sm:w-[50%] sm:h-[50%] mx-auto text-center flex flex-col justify-evenly">
                 <p className="text-xl font-semibold">
@@ -431,8 +449,8 @@ const SelectedUserModal: React.FC<UserDetailsModalProps> = ({
             </div>
           )}
 
-          {/* Modal para confirmar la activación de un usuario */}
-          {showActivateUserModal && (
+          {/* Modal para confirmar la activación de un usuario. La condición !isModalOpen es para que cuando expire la sesión no se se oculte este modal y deje ver el modal que avisa al usuario que expiró su sesión. */}
+          {showActivateUserModal && !isModalOpen && (
             <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
               <div className="bg-white px-4 rounded-lg w-[85%] h-[300px] sm:w-[50%] sm:h-[50%] mx-auto text-center flex flex-col justify-evenly">
                 <p className="text-xl font-semibold">

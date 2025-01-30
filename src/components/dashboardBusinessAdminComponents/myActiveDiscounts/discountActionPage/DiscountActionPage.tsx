@@ -1,3 +1,4 @@
+//Componente que muestra el detalle de un descuento con los botones Editar descuento y Eliminar Descuento.
 "use client";
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "@/context/Context";
@@ -102,8 +103,11 @@ const DiscountActionPage: React.FC<DiscountDetailPageProps> = ({
     const fetchDiscounts = async () => {
       try {
         const response = await discountDetail(discountId);
-        if (response === "Token inválido o expirado") {
+
+        //Si el token expiró va a mostrar un modal informando al usuario
+        if (response === "TOKEN_EXPIRED") {
           setIsModalOpen(true); // Muestra el modal TokenExpiredModal.tsx si el token es inválido y redirecciona a login
+          return; // Detiene la ejecución para evitar errores con response
         }
 
         if (typeof response !== "string") {

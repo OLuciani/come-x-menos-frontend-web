@@ -2,6 +2,7 @@ import axios, { AxiosResponse } from "axios";
 import Cookies from "js-cookie";
 import { verifyToken } from "@/services/tokenVerificationService";
 import { Business } from "@/types/businessTypes";
+import apiClient from "@/utils/axiosConfig"
 
 // Configuro Axios para enviar cookies automáticamente
 axios.defaults.withCredentials = true;
@@ -68,14 +69,8 @@ export async function createBusiness(
 
   //Solicitud para obtener el detalle de los datos de un negocio en particular
 export async function businessDetail(): Promise<Business | string> {
-    // Verifico el token antes de hacer la solicitud
-    /* const isTokenValid = await verifyToken();
-    if (!isTokenValid) {
-      console.log("Token inválido o expirado en businessDetail");
-      return "Token inválido o expirado en businessDetail";
-    } */
     try {
-      const response = await axios.get(`/api/business_detail`,
+      const response = await apiClient.get(`/api/business_detail`,
         {
           withCredentials: true,
         }
@@ -95,6 +90,12 @@ export async function businessDetail(): Promise<Business | string> {
         return "Error al pedir detalles del negocio al backend";
       }
     } catch (error: any) {
+      // Si el error tiene el flag `isAuthError`, puedo manejarlo aquí o en el componente que llama la función
+      if (error.isAuthError) {
+        console.error("Error de autenticación:", error.message);
+        return "TOKEN_EXPIRED";
+      }
+      
       console.error(
         "Error al pedir detalles del negocio al backend:",
         error.message
@@ -106,27 +107,48 @@ export async function businessDetail(): Promise<Business | string> {
 
   //Solicitud que trae el detalle de los datos de un negocio en particular
 export const getBusinessById = async () => {
-    const response = await axios.get(`/api/business_detail`, {
+  try {
+    const response = await apiClient.get(`/api/business_detail`, {
       withCredentials: true,
     });
-    return response.data;
+    /* return response.data; */
+    if (response.status === 200 && response.data) {
+      console.log(
+        "Datos del negocio traido de MongoDB Atlas:",
+        response.data
+      );
+      return response.data;
+    } else {
+      console.log(
+        "El pedido de datos del negocio al backend no fue exitoso:",
+        response.data
+      );
+      return "Error al pedir datos del negocio al backend";
+    }
+  } catch (error: any) {
+    // Si el error tiene el flag `isAuthError`, puedo manejarlo aquí o en el componente que llama la función
+    if (error.isAuthError) {
+      console.error("Error de autenticación:", error.message);
+      return "TOKEN_EXPIRED";
+    }
+    
+    console.error(
+      "Error al pedir datos del negocio al backend:",
+      error.message
+    );
+    return "Error al pedir datos del negocio al backend";
+  }
   };
 
 
   //Solicitud para modificar un negocio
 export const updateBusiness = async (formData: FormData) => {
-    /* // Verifico el token antes de hacer la solicitud
-    const isTokenValid = await verifyToken();
-    if (!isTokenValid) {
-      return "Token inválido o expirado";
-    } */
-  
     try {
       for (let pair of formData.entries()) {
         console.log(pair[0] + ": " + pair[1]);
       }
   
-      const response = await axios.patch(
+      const response = await apiClient.patch(
         `/api/update_business`,
         formData,
         {
@@ -156,7 +178,13 @@ export const updateBusiness = async (formData: FormData) => {
       }
   
       return response.data;
-    } catch (error) {
+    } catch (error:any) {
+      // Si el error tiene el flag `isAuthError`, puedo manejarlo aquí o en el componente que llama la función
+      if (error.isAuthError) {
+        console.error("Error de autenticación:", error.message);
+        return "TOKEN_EXPIRED";
+      }
+
       console.error("Error al actualizar negocio:", error);
       throw error;
     }
@@ -165,7 +193,7 @@ export const updateBusiness = async (formData: FormData) => {
 //Solicitud de negocios pendientes de aprobacion de cuenta
   export async function fetchPendingBusinessFromAPI(businessId: string | null) {
     try {
-      const response = await axios.get(
+      const response = await apiClient.get(
         `/api/pending_business/${businessId}`,
         {
           withCredentials: true, // Asegura que las cookies se envíen con la solicitud.
@@ -179,7 +207,13 @@ export const updateBusiness = async (formData: FormData) => {
       } else {
         throw new Error(`Error inesperado: ${response.status}`);
       }
-    } catch (error) {
+    } catch (error:any) {
+      // Si el error tiene el flag `isAuthError`, puedo manejarlo aquí o en el componente que llama la función
+      if (error.isAuthError) {
+        console.error("Error de autenticación:", error.message);
+        return "TOKEN_EXPIRED";
+      }
+
       // Aquí manejo los posibles errores de la solicitud
       if (axios.isAxiosError(error)) {
         console.error("Error en la solicitud Axios:", error.response?.data);

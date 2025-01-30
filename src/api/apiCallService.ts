@@ -2,6 +2,7 @@ import axios, { AxiosResponse } from "axios";
 import Cookies from "js-cookie";
 import { verifyToken } from "@/services/tokenVerificationService";
 import { UsersDiscountsList } from "@/types/apiCallTypes";
+import apiClient from "@/utils/axiosConfig"
 
 // Configuro Axios para enviar cookies automáticamente
 axios.defaults.withCredentials = true;

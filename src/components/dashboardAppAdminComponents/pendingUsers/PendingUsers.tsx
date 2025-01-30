@@ -58,10 +58,11 @@ const PendingUsers = () => {
     const response = await fetchPendingUsersFromAPI();
     console.log("Respuesta del backend:", response); // Verifica la estructura del array de usuarios
 
-    /* if (response === "Token inválido o expirado") {
-      setIsModalOpen(true);
-      return;
-    } */
+    //Si el token expiró va a mostrar un modal informando al usuario
+    if (response === "TOKEN_EXPIRED") {
+      setIsModalOpen(true); // Muestra el modal TokenExpiredModal.tsx si el token es inválido y redirecciona a login
+      return; // Detiene la ejecución para evitar errores con response
+    }
 
     setPendingUsers(response);
     console.log("Usuarios pendientes guardados en el estado:", response); // Verifica que los usuarios se hayan guardado correctamente
@@ -74,7 +75,13 @@ const PendingUsers = () => {
   const fetchPendingBusiness = async (businessId: string | null) => {
     //const businessId = selectedUser ? selectedUser.businessId : null;
     const response = await fetchPendingBusinessFromAPI(businessId);
-    console.log("Respuesta del negocio pendiente del backend en el componente PendingUsers.tsx:", response); // Verifica los datos de un negocio asociado al usuario pendiente.
+    //console.log("Respuesta del negocio pendiente del backend en el componente PendingUsers.tsx:", response); // Verifica los datos de un negocio asociado al usuario pendiente.
+    
+    //Si el token expiró va a mostrar un modal informando al usuario
+    if (response === "TOKEN_EXPIRED") {
+      setIsModalOpen(true); // Muestra el modal TokenExpiredModal.tsx si el token es inválido y redirecciona a login
+      return; // Detiene la ejecución para evitar errores con response
+    }
 
     setPendingBusiness(response);
     console.log("Negocio pendiente guardado en el estado:", response); // Verifica que el negocio se haya guardado correctamente
@@ -85,7 +92,11 @@ const PendingUsers = () => {
     console.log("Aprobando usuario con ID:", userId); // Verifica el ID que estás aprobando
     const response = await approveUser(userId);
 
-    console.log("valor de response al aprobar un usuario: ", response)
+    //Si el token expiró va a mostrar un modal informando al usuario
+    if (response === "TOKEN_EXPIRED") {
+      setIsModalOpen(true); // Muestra el modal TokenExpiredModal.tsx si el token es inválido y redirecciona a login
+      return; // Detiene la ejecución para evitar errores con response
+    }
 
     if (response.message === "Usuario aprobado exitosamente") {
       setPendingUsers((prevUsers) => {

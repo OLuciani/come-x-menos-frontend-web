@@ -99,9 +99,6 @@ const DiscountCreateForm: React.FC<DiscountCreateFormProps> = ({
     const cookieBusinessType = Cookies.get("businessType") || "";
     setBusinessType(cookieBusinessType);
 
-    /* const cookieDiscountId = Cookies.get("discountId") || "";
-    setDiscountId(cookieDiscountId); */
-
     setSelectedOption("Mi cuenta");
   }, [
     setUserToken,
@@ -160,9 +157,10 @@ const DiscountCreateForm: React.FC<DiscountCreateFormProps> = ({
       try {
         const response = await businessDetail();
 
-        if (response === "Token inválido o expirado") {
-          setIsModalOpen(true);
-          return; // Detener el proceso si el token es inválido
+        //Si el token expiró va a mostrar un modal informando al usuario
+        if (response === "TOKEN_EXPIRED") {
+          setIsModalOpen(true); // Muestra el modal TokenExpiredModal.tsx si el token es inválido y redirecciona a login
+          return; // Detiene la ejecución para evitar errores con response
         }
 
         if (typeof response === "object" && response !== null) {
@@ -194,8 +192,10 @@ const DiscountCreateForm: React.FC<DiscountCreateFormProps> = ({
             "Valor de createResponse en createDiscount.tsx: ",
             createResponse
           );
-          if (createResponse === "Token inválido o expirado") {
+          //Si el token expiró va a mostrar un modal informando al usuario
+          if (createResponse === "TOKEN_EXPIRED") {
             setIsModalOpen(true);
+            return; // Detiene la ejecución para evitar errores con response
           } else if (
             typeof createResponse === "object" &&
             createResponse !== null
@@ -209,11 +209,12 @@ const DiscountCreateForm: React.FC<DiscountCreateFormProps> = ({
                   //console.log("Valor de userToken en fetchDiscounts: ", userToken);
                   const response = await discountsList();
 
-                  /* if (
-                    response === "Token inválido o expirado en discountList"
-                  ) {
+                  //Si el token expiró va a mostrar un modal informando al usuario
+                  if (response === "TOKEN_EXPIRED") {
                     setIsModalOpen(true); // Muestra el modal TokenExpiredModal.tsx si el token es inválido y redirecciona a login
-                  } */
+                    return; // Detiene la ejecución para evitar errores con response
+                  }
+                  
                   if (typeof response !== "string") {
                     // Filtramos los descuentos expirados antes de establecer el estado
                     const now = new Date();
@@ -261,9 +262,6 @@ const DiscountCreateForm: React.FC<DiscountCreateFormProps> = ({
             const text: string = `Serás redirigido al listado de descuentos para ver el descuento creado.`;
             setMessageText(text);
 
-            /* const route: string = "/dashboardBusinessAdmin";
-            setMessageRouterRedirection(route); */
-
             setIsOpenMessageModal(true);
 
             const navBarOption: string = "Mi cuenta";
@@ -290,10 +288,10 @@ const DiscountCreateForm: React.FC<DiscountCreateFormProps> = ({
 
   return (
     <>
-      {/* <TokenExpiredModal
+      <TokenExpiredModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-      /> */}
+      />
 
       <div className="w-sreen flex justify-center">
         {/* Modal para mostrar mensajes al usuario */}

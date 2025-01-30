@@ -3,7 +3,6 @@ import React, { useState, useContext, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Context } from "@/context/Context";
 import { deleteDiscount, discountsList } from "@/api/discountService";
-//import { deleteDiscount, discountsList } from "@/services/apiCall";
 import Cookies from "js-cookie";
 import Button from "@/components/button/Button";
 import TokenExpiredModal from "@/components/tokenExpiredModal/TokenExpiredModal";
@@ -119,8 +118,11 @@ const DiscountDeleteForm: React.FC<DiscountDeleteFormProps> = ({
     setIsLoading(true);
     try {
       const response = await deleteDiscount(discountId);
-      if (response === "Token inválido o expirado") {
+
+      //Si el token expiró va a mostrar un modal informando al usuario
+      if (response === "TOKEN_EXPIRED") {
         setIsModalOpen(true); // Muestra el modal TokenExpiredModal.tsx si el token es inválido y redirecciona a login
+        return; // Detiene la ejecución para evitar errores con response
       }
 
       if (typeof response === "string") {
@@ -143,9 +145,12 @@ const DiscountDeleteForm: React.FC<DiscountDeleteFormProps> = ({
               //console.log("Valor de userToken en fetchDiscounts: ", userToken);
               const response = await discountsList();
 
-              if (response === "Token inválido o expirado en discountList") {
+              //Si el token expiró va a mostrar un modal informando al usuario
+              if (response === "TOKEN_EXPIRED") {
                 setIsModalOpen(true); // Muestra el modal TokenExpiredModal.tsx si el token es inválido y redirecciona a login
+                return; // Detiene la ejecución para evitar errores con response
               }
+              
               if (typeof response !== "string") {
                 // Filtramos los descuentos expirados antes de establecer el estado
                 const now = new Date();

@@ -50,9 +50,11 @@ const InvitationBusinessEmployeeUser: React.FC<InvitationBusinessEmployeeProps> 
         // Enviar los datos del formulario al backend
         const response = await invitationBusinessEmployeeUser(values);
 
-        /* if(response === "Token inválido o expirado") {
+        //Si el token expiró va a mostrar un modal informando al usuario
+        if (response === "TOKEN_EXPIRED") {
           setIsModalOpen(true); // Muestra el modal TokenExpiredModal.tsx si el token es inválido y redirecciona a login
-        }  */ 
+          return; // Detiene la ejecución para evitar errores con response
+        } 
         
         if(response.success === true) {
           //alert("Correo de invitación enviado con éxito.");
@@ -87,7 +89,10 @@ const InvitationBusinessEmployeeUser: React.FC<InvitationBusinessEmployeeProps> 
 
   return (
     <>
-      {/* <TokenExpiredModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} /> */}
+      <TokenExpiredModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
 
       <MessageModal isOpenMessageModal={isOpenMessageModal} onCloseMessageModal={() => setIsOpenMessageModal(false)} messageTitle={messageTitle} messageText={messageText} messageRouterRedirection={messageRouterRedirection} selectedNavBarOption={selectedNavBarOption} />
 

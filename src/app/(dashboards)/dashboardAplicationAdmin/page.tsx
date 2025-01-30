@@ -103,13 +103,12 @@ import { isAfter, format } from "date-fns";
 import SidebarDashboardAppAdmin from "@/components/dashboardAppAdminComponents/sidebarDashboardAppAdmin/SidebarDashboardAppAdmin";
 
 // Lazy load components
-//const TokenExpiredModal = React.lazy(() => import('@/components/tokenExpiredModal/TokenExpiredModal'));
 const PendingUsers = React.lazy(() => import('@/components/dashboardAppAdminComponents/pendingUsers/PendingUsers'));
 const AllUsers = React.lazy(() => import('@/components/dashboardAppAdminComponents/allUsersComponents/AllUsers'));
 const RoleManagement = React.lazy(() => import('@/components/dashboardAppAdminComponents/roleManagement/RoleManagement'));
 const Notifications = React.lazy(() => import('@/components/dashboardAppAdminComponents/notifications/Notifications'));
 const ActivityLogs = React.lazy(() => import('@/components/dashboardAppAdminComponents/activityLogs/ActivityLogs'));
-//const SidebarDashboardAppAdmin = React.lazy(() => import('@/components/dashboardAppAdminComponents/sidebarDashboardAppAdmin/SidebarDashboardAppAdmin'));
+
 
 interface ErrorResponse {
   error: string;
@@ -171,10 +170,6 @@ const DashboardAplicationAdmin: React.FC = () => {
 
   return (
     <>
-      {/* <TokenExpiredModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-      /> */}
       <div className="flex flex-col lg:flex-row lg:min-h-screen">
         <div className="lg:flex">
           <Suspense fallback={<div>Loading Sidebar...</div>}>

@@ -174,8 +174,11 @@ const FormEditDiscount: React.FC<DiscountEditFormProps> = ({ setShowDiscountActi
 
       try {
         const response = await editDiscount(formData, discountId);
-        if(response === "Token inválido o expirado") {
+
+        //Si el token expiró va a mostrar un modal informando al usuario
+        if (response === "TOKEN_EXPIRED") {
           setIsModalOpen(true); // Muestra el modal TokenExpiredModal.tsx si el token es inválido y redirecciona a login
+          return; // Detiene la ejecución para evitar errores con response
         }
 
         if (typeof response === "object" && response !== null) {
@@ -186,9 +189,12 @@ const FormEditDiscount: React.FC<DiscountEditFormProps> = ({ setShowDiscountActi
                 //console.log("Valor de userToken en fetchDiscounts: ", userToken);
                 const response = await discountsList();
       
-                if (response === "Token inválido o expirado en discountList") {
+                //Si el token expiró va a mostrar un modal informando al usuario
+                if (response === "TOKEN_EXPIRED") {
                   setIsModalOpen(true); // Muestra el modal TokenExpiredModal.tsx si el token es inválido y redirecciona a login
+                  return; // Detiene la ejecución para evitar errores con response
                 }
+                
                 if (typeof response !== "string") {
                   // Filtramos los descuentos expirados antes de establecer el estado
                   const now = new Date();
@@ -305,7 +311,11 @@ const FormEditDiscount: React.FC<DiscountEditFormProps> = ({ setShowDiscountActi
 
   return (
     <>
-      <TokenExpiredModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      <TokenExpiredModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
+      
       <div className="w-sreen flex justify-center">
         {/* Modal para mostrar mensajes al usuario */}
         <MessageModal

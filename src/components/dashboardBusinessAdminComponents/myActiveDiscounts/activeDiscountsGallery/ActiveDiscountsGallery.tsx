@@ -89,11 +89,13 @@ const ActiveDiscountsGallery = () => {
         try {
           //const businessResponse = await businessDetail(businessId, userToken);
           const businessResponse = await businessDetail();
-          /* if (
-            businessResponse === "Token inválido o expirado en businessDetail"
-          ) {
+
+          //Si el token expiró va a mostrar un modal informando al usuario
+          if (businessResponse === "TOKEN_EXPIRED") {
             setIsModalOpen(true); // Muestra el modal TokenExpiredModal.tsx si el token es inválido y redirecciona a login
-          } */
+            return; // Detiene la ejecución para evitar errores con response
+          }
+
           if (typeof businessResponse !== "string") {
             setBusinessDetails(businessResponse);
             const imageURL =
@@ -119,9 +121,12 @@ const ActiveDiscountsGallery = () => {
           //console.log("Valor de userToken en fetchDiscounts: ", userToken);
           const response = await discountsList();
 
-          /* if (response === "Token inválido o expirado en discountList") {
+          //Si el token expiró va a mostrar un modal informando al usuario
+          if (response === "TOKEN_EXPIRED") {
             setIsModalOpen(true); // Muestra el modal TokenExpiredModal.tsx si el token es inválido y redirecciona a login
-          } */
+            return; // Detiene la ejecución para evitar errores con response
+          }
+
           if (typeof response !== "string") {
             // Filtramos los descuentos expirados antes de establecer el estado
             const now = new Date();
@@ -192,10 +197,10 @@ const ActiveDiscountsGallery = () => {
 
   return (
     <>
-      {/* <TokenExpiredModal
+      <TokenExpiredModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-      /> */}
+      />
 
       {!showDiscountActionPage ? (
         <div className="bg-white border-2 shadow-lg rounded-lg p-2 custom-w-450:p-4 lg:py-4 h-full">
