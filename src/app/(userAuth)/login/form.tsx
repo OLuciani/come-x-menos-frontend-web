@@ -144,10 +144,10 @@ const LoginForm = () => {
       console.log("Valor de response en userProfile()", response);
 
       //Si el token expiró va a mostrar un modal informando al usuario
-      if (response === "TOKEN_EXPIRED") {
+      /* if (response === "TOKEN_EXPIRED") {
         setIsModalOpen(true);
         return; // Detiene la ejecución para evitar errores con response
-      }
+      } */
 
       Cookies.set("userRole", response.userRole, {
         expires: 1,
@@ -279,10 +279,10 @@ const LoginForm = () => {
 
   return (
     <div>
-      <TokenExpiredModal
+      {/* <TokenExpiredModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-      />
+      /> */}
       <UnauthorizedAccesssModal
         isOpenUnauthorizedAccess ={isAccessModalOpen} 
         onCloseUnauthorizedAccess = {() => setIsAccessModalOpen(false)}
