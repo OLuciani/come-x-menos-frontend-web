@@ -6,7 +6,8 @@ import {
   BusinessEmployee,
   ExtraBusinessAdminUser,
 } from "@/types/userTypes";
-import apiClient from "@/utils/axiosConfig"
+//import apiClient from "@/utils/axiosConfig";
+import apiClient from "./axiosConfig";
 
 // Configuro Axios para enviar cookies automáticamente
 axios.defaults.withCredentials = true;
@@ -313,7 +314,7 @@ export const approveUser = async (userId: string) => {
       console.error("Error de autenticación:", error.message);
       return "TOKEN_EXPIRED";
     }
-    
+
     console.error("Error al aprobar usuario:", error.message);
     return "Error al aprobar usuario";
   }
