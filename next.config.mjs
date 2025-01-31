@@ -5,7 +5,7 @@ const nextConfig = {
       {
         protocol: 'http',
         hostname: 'localhost',
-        port: '5050', // Asegúrate de que este sea el puerto correcto
+        port: '5050',
         pathname: '/img/**',
       },
       {
@@ -13,6 +13,11 @@ const nextConfig = {
         hostname: 'discount-project-backend.onrender.com',
         pathname: '/img/**',
         //pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'wrong-lisa-oluciani-3ba92637.koyeb.app', // Agrega el dominio de Koyeb
+        pathname: '/img/**',
       },
       {
         protocol: 'https',

@@ -74,6 +74,8 @@ export async function login(
           withCredentials: true, // Esta línea asegura que las cookies (entre ellas va la del token que es indispensable en esta ruta) se envíen con la solicitud
         }
       );
+
+      console.log("Valor de response.data.message: ", response.data.message);
   
       if (response.status === 200 && response.data) {
         console.log(
@@ -91,7 +93,7 @@ export async function login(
     } catch (error: any) {
       // Si el error tiene el flag `isAuthError`, puedo manejarlo aquí o en el componente que llama la función
       if (error.isAuthError) {
-        console.error("Error de autenticación:", error.message);
+        console.error("Error de autenticación: ", error.message);
         return "TOKEN_EXPIRED";
       }
 
