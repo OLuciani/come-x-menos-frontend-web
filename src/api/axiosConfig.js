@@ -5,6 +5,7 @@ const BASE_BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;  // Asegúrate de 
 // Crear una instancia de Axios con la URL base de tu backend
 const apiClient = axios.create({
   baseURL: `${BASE_BACKEND_URL}`,
+  withCredentials: true, // Configurado globalmente
 });
 
 // Agregar un interceptor para manejar respuestas de error
