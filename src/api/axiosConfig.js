@@ -4,7 +4,7 @@ const BASE_BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;  // Asegúrate de 
 
 // Crear una instancia de Axios con la URL base de tu backend
 const apiClient = axios.create({
-  baseURL: `${BASE_BACKEND_URL}`,
+  baseURL: `https://wrong-lisa-oluciani-3ba92637.koyeb.app`,
   withCredentials: true, // Configurado globalmente
 });
 
