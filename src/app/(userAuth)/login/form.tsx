@@ -228,6 +228,7 @@ const LoginForm = () => {
       console.log("Valor del rol que llega en response: ", response.userRole);
 
       console.log("valor de response.userSTatus: ", response.userStatus);
+      
       if(response.userStatus !== "active") {
         router.push("/notifications");
         setSelectedOption("Notificaciones")

@@ -2,7 +2,6 @@ import axios, { AxiosResponse } from "axios";
 import Cookies from "js-cookie";
 import { verifyToken } from "@/services/tokenVerificationService";
 import { UserLogin } from "@/types/authTypes";
-//import apiClient from "@/utils/axiosConfig";
 import apiClient from "./axiosConfig";
 
 // Configuro Axios para enviar cookies automáticamente
@@ -35,7 +34,7 @@ export async function login(
     data: UserLogin
   ): Promise<{ userId: string; userLoged: boolean } | { error: string }> {
     try {
-      const response = await axios.post(
+      const response = await apiClient.post(
         `/api/login`,
         {
           email: data.email,
