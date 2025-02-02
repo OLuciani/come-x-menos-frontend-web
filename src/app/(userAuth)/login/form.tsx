@@ -232,11 +232,11 @@ const LoginForm = () => {
       if(response.userStatus !== "active") {
         router.push("/notifications");
         setSelectedOption("Notificaciones")
-      }  else {
-        if(localUserRole === roleAppAdmin) {
+      }  /* else { */
+        if(response.userStatus === "active" && localUserRole === roleAppAdmin) {
           router.push("/dashboardAplicationAdmin");
           setSelectedOption("Mi cuenta");
-        } else if (localUserRole === roleBusinessDirector || localUserRole === roleBusinessManager || localUserRole === roleBusinessEmployee) {
+        } else if (response.userStatus === "active" &&  (localUserRole === roleBusinessDirector || localUserRole === roleBusinessManager || localUserRole === roleBusinessEmployee)) {
           router.push("dashboardBusinessAdmin");
           setSelectedOption("Mi cuenta");
         } /* else {
@@ -266,7 +266,7 @@ const LoginForm = () => {
             //setSelectedOption("Iniciar sesión");
           }, 2000);
         } */
-      }
+      /* } */
     } catch (err) {
       console.error("Error al obtener el perfil del usuario:", err);
     }
