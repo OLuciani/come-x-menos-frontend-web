@@ -85,7 +85,7 @@ export async function login(
         return response.data;
       } else {
         console.log(
-          "El pedido del perfil del usuario al backend no fue exitoso:",
+          "El pedido del perfil del usuario al backend no resultó exitoso:",
           response.data
         );
         return "Error al pedir el perfil del usuario al backend";
