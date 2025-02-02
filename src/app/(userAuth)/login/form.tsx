@@ -233,10 +233,10 @@ const LoginForm = () => {
         router.push("/notifications");
         setSelectedOption("Notificaciones")
       }  /* else { */
-        if(response.userStatus === "active" && localUserRole === roleAppAdmin) {
+        if(response.userStatus === "active" && response.userRole === roleAppAdmin) {
           router.push("/dashboardAplicationAdmin");
           setSelectedOption("Mi cuenta");
-        } else if (response.userStatus === "active" &&  (localUserRole === roleBusinessDirector || localUserRole === roleBusinessManager || localUserRole === roleBusinessEmployee)) {
+        } else if (response.userStatus === "active" &&  (response.userRole === roleBusinessDirector || response.userRole === roleBusinessManager || response.userRole === roleBusinessEmployee)) {
           router.push("dashboardBusinessAdmin");
           setSelectedOption("Mi cuenta");
         } /* else {

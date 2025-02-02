@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import Cookies from "js-cookie";
-import { verifyToken } from "@/services/tokenVerificationService";
+//import { verifyToken } from "@/services/tokenVerificationService";
 import { UserLogin } from "@/types/authTypes";
 //import apiClient from "./axiosConfig";
 
