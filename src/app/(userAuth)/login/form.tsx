@@ -135,6 +135,8 @@ const LoginForm = () => {
 
     // No es necesario verificar si la cookie está establecida, asumiendo que set fue exitoso
     await fetchUserProfile();
+
+    handleSuccessfulLogin();
   };
 
   // Función para obtener el perfil del usuario
