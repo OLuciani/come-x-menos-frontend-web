@@ -7,7 +7,7 @@ import {
   ExtraBusinessAdminUser,
 } from "@/types/userTypes";
 //import apiClient from "@/utils/axiosConfig";
-import apiClient from "./axiosConfig";
+//import apiClient from "./axiosConfig";
 
 // Configuro Axios para enviar cookies automáticamente
 axios.defaults.withCredentials = true;
@@ -176,7 +176,7 @@ export async function checkAdminAppPermissions() {
 //Solicitud para obtener el detalle de los datos de un usuario en particular
 export const getUserById = async () => {
   try {
-  const response = await apiClient.get(`/api/user_detail`, {
+  const response = await axios.get(`/api/user_detail`, {
     withCredentials: true,
   });
   /* return response.data;
@@ -196,10 +196,10 @@ export const getUserById = async () => {
   }
 } catch (error: any) {
   // Si el error tiene el flag `isAuthError`, puedo manejarlo aquí o en el componente que llama la función
-  if (error.isAuthError) {
+  /* if (error.isAuthError) {
     console.error("Error de autenticación:", error.message);
     return "TOKEN_EXPIRED";
-  }
+  } */
 
   console.error(
     "Error al pedir datos del usuario al backend:",
@@ -212,7 +212,7 @@ export const getUserById = async () => {
 //Solicitud para modificar los datos de un usuario en particular en el momento que se crea una cuenta nueva de un negocio (que obviamente se crea un usuario y un negocio asociado a ese usuario);
 export const updateUser = async (data: Partial<User>) => {
   try {
-    const response = await apiClient.patch(`/api/user_update`,
+    const response = await axios.patch(`/api/user_update`,
       {
         name: data.name,
         lastName: data.lastName,
@@ -252,10 +252,10 @@ export const updateUser = async (data: Partial<User>) => {
     }
   } catch (error: any) {
     // Si el error tiene el flag `isAuthError`, puedo manejarlo aquí o en el componente que llama la función
-    if (error.isAuthError) {
+    /* if (error.isAuthError) {
       console.error("Error de autenticación:", error.message);
       return "TOKEN_EXPIRED";
-    }
+    } */
 
     console.error("Error al modificar el usuario:", error.message);
     return "Error al modificar el usuario";
@@ -265,7 +265,7 @@ export const updateUser = async (data: Partial<User>) => {
 //Solicitud para traer los usuarios que crearon una cuenta de negocio y todavia estan pendientes de aprobación por parte de la administración de la app.
 export async function fetchPendingUsersFromAPI() {
   try {
-   const response = await apiClient.get(`/api/pending_users`, {
+   const response = await axios.get(`/api/pending_users`, {
       withCredentials: true, // Esta línea asegura que las cookies (entre ellas va la del token que es indispensable en esta ruta) se envíen con la solicitud
     });
 
@@ -284,10 +284,10 @@ export async function fetchPendingUsersFromAPI() {
     }
   } catch (error: any) {
     // Si el error tiene el flag `isAuthError`, puedo manejarlo aquí o en el componente que llama la función
-    if (error.isAuthError) {
+    /* if (error.isAuthError) {
       console.error("Error de autenticación:", error.message);
       return "TOKEN_EXPIRED";
-    }
+    } */
 
     console.error(
       "Error al pedir Usuarios Pendientes al backend:",
@@ -301,7 +301,7 @@ export async function fetchPendingUsersFromAPI() {
 export const approveUser = async (userId: string) => {
   console.log("Valor de userId en la funcion approveUser: ", userId);
   try {
-    const response = await apiClient.patch(
+    const response = await axios.patch(
       `/api/approve_user/${userId}`,
       {
         withCredentials: true,
@@ -310,10 +310,10 @@ export const approveUser = async (userId: string) => {
     return response.data;
   } catch (error: any) {
     // Si el error tiene el flag `isAuthError`, puedo manejarlo aquí o en el componente que llama la función
-    if (error.isAuthError) {
+    /* if (error.isAuthError) {
       console.error("Error de autenticación:", error.message);
       return "TOKEN_EXPIRED";
-    }
+    } */
 
     console.error("Error al aprobar usuario:", error.message);
     return "Error al aprobar usuario";
@@ -323,7 +323,7 @@ export const approveUser = async (userId: string) => {
 //Solicitud para traer un listado con todos los usuarios con paginación desde el frontend
 export async function fetchAllUsersFromAPI() {
   try {
-    const response = await apiClient.get(`/api/all_users_list`, {
+    const response = await axios.get(`/api/all_users_list`, {
       withCredentials: true, // Esta línea asegura que las cookies (entre ellas va la del token que es indispensable en esta ruta) se envíen con la solicitud
     });
 
@@ -342,10 +342,10 @@ export async function fetchAllUsersFromAPI() {
     }
   } catch (error: any) {
     // Si el error tiene el flag `isAuthError`, puedo manejarlo aquí o en el componente que llama la función
-    if (error.isAuthError) {
+    /* if (error.isAuthError) {
       console.error("Error de autenticación:", error.message);
       return "TOKEN_EXPIRED";
-    }
+    } */
     
     console.error("Error al pedir Usuarios Activos al backend:", error.message);
     return "Error al pedir Usuarios Activos al backend";
@@ -355,7 +355,7 @@ export async function fetchAllUsersFromAPI() {
 // Función para obtener las notificaciones del usuario
 export const getUserNotifications = async () => {
   try {
-    const response = await apiClient.get(
+    const response = await axios.get(
       `/api/user_pending_notifications`,
       {
         withCredentials: true, // Asegura que las cookies se envíen con la solicitud.
@@ -368,10 +368,10 @@ export const getUserNotifications = async () => {
     );
   } catch (error:any) {
     // Si el error tiene el flag `isAuthError`, puedo manejarlo aquí o en el componente que llama la función
-    if (error.isAuthError) {
+    /* if (error.isAuthError) {
       console.error("Error de autenticación:", error.message);
       return "TOKEN_EXPIRED";
-    }
+    } */
 
     if (axios.isAxiosError(error)) {
       throw new Error(
@@ -385,17 +385,17 @@ export const getUserNotifications = async () => {
 //Solicitud para enviar notificación a un usuario
 export const sendUserNotification = async (userId: string, message: string) => {
   try {
-    const response = await apiClient.post(`/api/send_user_notification`,
+    const response = await axios.post(`/api/send_user_notification`,
       { userId, message },
       { withCredentials: true } // Asegúrate de incluir esto si estás usando cookies
     );
     return response.data;
   } catch (error: any) {
     // Si el error tiene el flag `isAuthError`, puedo manejarlo aquí o en el componente que llama la función
-    if (error.isAuthError) {
+    /* if (error.isAuthError) {
       console.error("Error de autenticación:", error.message);
       return "TOKEN_EXPIRED";
-    }
+    } */
 
     console.error("Error al enviar notificación:", error.message);
     return { success: false, message: "Error al enviar notificación" };
@@ -406,7 +406,7 @@ export const sendUserNotification = async (userId: string, message: string) => {
 export const markUserNotificationsAsRead = async (notificationId?: string) => {
   console.log("Valor de notifictionId en la solicitud post:", notificationId);
   try {
-    const response = await apiClient.post(
+    const response = await axios.post(
       `/api/mark_user_notification_as_read`,
       {},
       {
@@ -418,10 +418,11 @@ export const markUserNotificationsAsRead = async (notificationId?: string) => {
   //} catch (error: unknown) { // Antes de usar error.isAuthError estaba asi
   } catch (error: any) {
     // Si el error tiene el flag `isAuthError`, puedo manejarlo aquí o en el componente que llama la función
-    if (error.isAuthError) {
+    /* if (error.isAuthError) {
       console.error("Error de autenticación:", error.message);
       return "TOKEN_EXPIRED";
-    }
+    } */
+
     console.error("Error al marcar la notificación como leída:", error);
 
     let errorMessage: string;
@@ -442,7 +443,7 @@ export const invitationBusinessEmployeeUser = async (
 ) => {
   console.log(user.email);
   try {
-    const response = await apiClient.post(
+    const response = await axios.post(
       `/api/invitation_business_employee_user`,
       {
         email: user.email, // Solo enviamos los datos del usuario
@@ -452,10 +453,10 @@ export const invitationBusinessEmployeeUser = async (
     return response.data;
   } catch (error: any) {
     // Si el error tiene el flag `isAuthError`, puedo manejarlo aquí o en el componente que llama la función
-    if (error.isAuthError) {
+    /* if (error.isAuthError) {
       console.error("Error de autenticación:", error.message);
       return "TOKEN_EXPIRED";
-    }
+    } */
 
     throw new Error(
       error.response?.data?.message ||
@@ -474,7 +475,7 @@ export async function createBusinessEmployeeUser(
   //console.log("Valor de token en createUserQrScanner: ", token);
   //console.log("Valor de businessId en createUserQrScanner: ", businessId);
   try {
-    const response = await apiClient.post(
+    const response = await axios.post(
       `/api/create_business_employee_user`,
       {
         name: data.name,
@@ -507,10 +508,10 @@ export async function createBusinessEmployeeUser(
     return response.data;
   } catch (error: any) {
     // Si el error tiene el flag `isAuthError`, puedo manejarlo aquí o en el componente que llama la función
-    if (error.isAuthError) {
+    /* if (error.isAuthError) {
       console.error("Error de autenticación:", error.message);
       return "TOKEN_EXPIRED";
-    }
+    } */
 
     console.error(
       "Error al registrar el usuario con acceso a scanner en aplicación movil en MongoDB Atlas:",
@@ -526,7 +527,7 @@ export const invitationExtraBusinessAdminUser = async (
 ) => {
   console.log(user.email);
   try {
-    const response = await apiClient.post(
+    const response = await axios.post(
       `/api/invitation_extra_business_admin_user`,
       {
         email: user.email, // Solo enviamos los datos del usuario
@@ -536,10 +537,10 @@ export const invitationExtraBusinessAdminUser = async (
     return response.data;
   } catch (error: any) {
     // Si el error tiene el flag `isAuthError`, puedo manejarlo aquí o en el componente que llama la función
-    if (error.isAuthError) {
+    /* if (error.isAuthError) {
       console.error("Error de autenticación:", error.message);
       return "TOKEN_EXPIRED";
-    }
+    } */
 
     throw new Error(
       error.response?.data?.message ||
@@ -558,7 +559,7 @@ export async function createExtraBusinessAdminUser(
   //console.log("Valor de token en createUserQrScanner: ", token);
   //console.log("Valor de businessId en createUserQrScanner: ", businessId);
   try {
-    const response = await apiClient.post(
+    const response = await axios.post(
       `/api/create_extra_business_admin_user`,
       {
         name: data.name,
@@ -591,10 +592,10 @@ export async function createExtraBusinessAdminUser(
     return response.data;
   } catch (error: any) {
     // Si el error tiene el flag `isAuthError`, puedo manejarlo aquí o en el componente que llama la función
-    if (error.isAuthError) {
+    /* if (error.isAuthError) {
       console.error("Error de autenticación:", error.message);
       return "TOKEN_EXPIRED";
-    }
+    } */
 
     console.error(
       "Error al registrar el Usuario Estra Administrador de cuenta de negocio en MongoDB Atlas:",
@@ -646,7 +647,7 @@ export async function getBusinessAdminUsersCount() {
 //Solicitud que trae un listado de todos los usuarios asociados a un negocio en particular
 export async function fetchAsociatedBusinessUsers() {
   try {
-    const response = await apiClient.get(
+    const response = await axios.get(
       `/api/asociated_business_users`,
       {
         withCredentials: true, // Esta línea asegura que las cookies (entre ellas va la del token que es indispensable en esta ruta) se envíen con la solicitud
@@ -668,10 +669,10 @@ export async function fetchAsociatedBusinessUsers() {
     }
   } catch (error: any) {
     // Si el error tiene el flag `isAuthError`, puedo manejarlo aquí o en el componente que llama la función
-    if (error.isAuthError) {
+    /* if (error.isAuthError) {
       console.error("Error de autenticación:", error.message);
       return "TOKEN_EXPIRED";
-    }
+    } */
 
     console.error(
       "Error al pedir un Listado de usuarios asociados a una cuenta de negocio al backend:",
@@ -686,7 +687,7 @@ export async function fetchAsociatedBusinessUsers() {
 export const desactivateUser = async (userId: string) => {
     console.log("Valor de userId en la funcion desactivateUser: ", userId);
     try {
-      const response = await apiClient.patch(
+      const response = await axios.patch(
         `/api/desactivate_user/${userId}`,
         {
           withCredentials: true,
@@ -695,10 +696,10 @@ export const desactivateUser = async (userId: string) => {
       return response.data;
     } catch (error: any) {
       // Si el error tiene el flag `isAuthError`, puedo manejarlo aquí o en el componente que llama la función
-    if (error.isAuthError) {
+    /* if (error.isAuthError) {
       console.error("Error de autenticación:", error.message);
       return "TOKEN_EXPIRED";
-    }
+    } */
 
       console.error("Error al desactivar usuario:", error.message);
       return "Error al desactivar usuario";
@@ -710,7 +711,7 @@ export const desactivateUser = async (userId: string) => {
 export const activateUser = async (userId: string) => {
     console.log("Valor de userId en la funcion desactivateUser: ", userId);
     try {
-      const response = await apiClient.patch(`/api/activate_user/${userId}`,
+      const response = await axios.patch(`/api/activate_user/${userId}`,
         {
           withCredentials: true,
         } // Asegúrate de que las cookies de autenticación se envíen con la solicitud
@@ -718,10 +719,10 @@ export const activateUser = async (userId: string) => {
       return response.data;
     } catch (error: any) {
       // Si el error tiene el flag `isAuthError`, puedo manejarlo aquí o en el componente que llama la función
-    if (error.isAuthError) {
+    /* if (error.isAuthError) {
       console.error("Error de autenticación:", error.message);
       return "TOKEN_EXPIRED";
-    }
+    } */
 
       console.error("Error al activar al usuario:", error.message);
       return "Error al activar al usuario";
@@ -731,7 +732,7 @@ export const activateUser = async (userId: string) => {
 
   export async function deleteUser(userId: string) {
     try {
-      const response = await apiClient.delete(
+      const response = await axios.delete(
         `/api/delete_user/${userId}`,
         {
           withCredentials: true,
@@ -753,10 +754,10 @@ export const activateUser = async (userId: string) => {
       }
     } catch (error: any) {
       // Si el error tiene el flag `isAuthError`, puedo manejarlo aquí o en el componente que llama la función
-    if (error.isAuthError) {
+    /* if (error.isAuthError) {
       console.error("Error de autenticación:", error.message);
       return "TOKEN_EXPIRED";
-    }
+    } */
     
       console.error("Error al eliminar el usuario:", error.message);
       return "Error al eliminar el usuario";

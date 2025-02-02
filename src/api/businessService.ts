@@ -3,7 +3,7 @@ import Cookies from "js-cookie";
 import { verifyToken } from "@/services/tokenVerificationService";
 import { Business } from "@/types/businessTypes";
 //import apiClient from "@/utils/axiosConfig";
-import apiClient from "./axiosConfig";
+//import apiClient from "./axiosConfig";
 
 // Configuro Axios para enviar cookies automáticamente
 axios.defaults.withCredentials = true;
@@ -71,7 +71,7 @@ export async function createBusiness(
   //Solicitud para obtener el detalle de los datos de un negocio en particular
 export async function businessDetail(): Promise<Business | string> {
     try {
-      const response = await apiClient.get(`/api/business_detail`,
+      const response = await axios.get(`/api/business_detail`,
         {
           withCredentials: true,
         }
@@ -92,10 +92,10 @@ export async function businessDetail(): Promise<Business | string> {
       }
     } catch (error: any) {
       // Si el error tiene el flag `isAuthError`, puedo manejarlo aquí o en el componente que llama la función
-      if (error.isAuthError) {
+      /* if (error.isAuthError) {
         console.error("Error de autenticación:", error.message);
         return "TOKEN_EXPIRED";
-      }
+      } */
       
       console.error(
         "Error al pedir detalles del negocio al backend:",
@@ -109,7 +109,7 @@ export async function businessDetail(): Promise<Business | string> {
   //Solicitud que trae el detalle de los datos de un negocio en particular
 export const getBusinessById = async () => {
   try {
-    const response = await apiClient.get(`/api/business_detail`, {
+    const response = await axios.get(`/api/business_detail`, {
       withCredentials: true,
     });
     /* return response.data; */
@@ -128,10 +128,10 @@ export const getBusinessById = async () => {
     }
   } catch (error: any) {
     // Si el error tiene el flag `isAuthError`, puedo manejarlo aquí o en el componente que llama la función
-    if (error.isAuthError) {
+    /* if (error.isAuthError) {
       console.error("Error de autenticación:", error.message);
       return "TOKEN_EXPIRED";
-    }
+    } */
     
     console.error(
       "Error al pedir datos del negocio al backend:",
@@ -149,7 +149,7 @@ export const updateBusiness = async (formData: FormData) => {
         console.log(pair[0] + ": " + pair[1]);
       }
   
-      const response = await apiClient.patch(
+      const response = await axios.patch(
         `/api/update_business`,
         formData,
         {
@@ -181,10 +181,10 @@ export const updateBusiness = async (formData: FormData) => {
       return response.data;
     } catch (error:any) {
       // Si el error tiene el flag `isAuthError`, puedo manejarlo aquí o en el componente que llama la función
-      if (error.isAuthError) {
+      /* if (error.isAuthError) {
         console.error("Error de autenticación:", error.message);
         return "TOKEN_EXPIRED";
-      }
+      } */
 
       console.error("Error al actualizar negocio:", error);
       throw error;
@@ -194,7 +194,7 @@ export const updateBusiness = async (formData: FormData) => {
 //Solicitud de negocios pendientes de aprobacion de cuenta
   export async function fetchPendingBusinessFromAPI(businessId: string | null) {
     try {
-      const response = await apiClient.get(
+      const response = await axios.get(
         `/api/pending_business/${businessId}`,
         {
           withCredentials: true, // Asegura que las cookies se envíen con la solicitud.
@@ -210,10 +210,10 @@ export const updateBusiness = async (formData: FormData) => {
       }
     } catch (error:any) {
       // Si el error tiene el flag `isAuthError`, puedo manejarlo aquí o en el componente que llama la función
-      if (error.isAuthError) {
+      /* if (error.isAuthError) {
         console.error("Error de autenticación:", error.message);
         return "TOKEN_EXPIRED";
-      }
+      } */
 
       // Aquí manejo los posibles errores de la solicitud
       if (axios.isAxiosError(error)) {

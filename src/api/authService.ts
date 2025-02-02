@@ -34,7 +34,7 @@ export async function login(
     data: UserLogin
   ): Promise<{ userId: string; userLoged: boolean } | { error: string }> {
     try {
-      const response = await apiClient.post(
+      const response = await axios.post(
         `/api/login`,
         {
           email: data.email,

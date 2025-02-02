@@ -69,6 +69,12 @@ const nextConfig = {
       },
       {
         protocol: 'https',
+        hostname: 'wrong-lisa-oluciani-3ba92637.koyeb.app',
+        pathname: '/img/**',
+        //pathname: '/**',
+      },
+      {
+        protocol: 'https',
         hostname: 'firebasestorage.googleapis.com', // Agrega esta sección
         pathname: '/**', // Permitir todas las rutas de Firebase Storage
       },

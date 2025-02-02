@@ -3,7 +3,7 @@ import Cookies from "js-cookie";
 import { verifyToken } from "@/services/tokenVerificationService";
 import { Discount, DiscountsList, DiscountDetail } from "@/types/discountTypes";
 //import apiClient from "@/utils/axiosConfig";
-import apiClient from "./axiosConfig";
+//import apiClient from "./axiosConfig";
 
 // Configuro Axios para enviar cookies automáticamente
 axios.defaults.withCredentials = true;
@@ -76,7 +76,7 @@ const handleError = (error: any): string => {
     data: FormData
   ): Promise<Discount | string> {
     try {
-      const response = await apiClient.post(
+      const response = await axios.post(
         `/api/discount_create`,
         data,
         {
@@ -105,10 +105,10 @@ const handleError = (error: any): string => {
       }
     } catch (error: any) {
       // Si el error tiene el flag `isAuthError`, puedo manejarlo aquí o en el componente que llama la función
-      if (error.isAuthError) {
+      /* if (error.isAuthError) {
         console.error("Error de autenticación:", error.message);
         return "TOKEN_EXPIRED";
-      }
+      } */
 
       console.error("Error al crear el descuento:", error.message);
       return "Error al crear el descuento";
@@ -157,7 +157,7 @@ const handleError = (error: any): string => {
   } */
   export async function discountsList(): Promise<DiscountsList[] | string> {
     try {
-      const response = await apiClient.get(
+      const response = await axios.get(
         `/api/discounts_list_one_business`,
         {
           withCredentials: true,
@@ -179,10 +179,10 @@ const handleError = (error: any): string => {
       }
     } catch (error: any) {
       // Si el error tiene el flag `isAuthError`, puedo manejarlo aquí o en el componente que llama la función
-      if (error.isAuthError) {
+      /* if (error.isAuthError) {
         console.error("Error de autenticación:", error.message);
         return "TOKEN_EXPIRED";
-      }
+      } */
       
       console.error(
         "Error al pedir un listado de descuentos del negocio al backend:",
@@ -201,7 +201,7 @@ export async function discountDetail(
       //console.log("Valor de discountId en pedido get: ", discountId);
       //console.log("Valor de userToken en pedido get: ", userToken);
   
-      const response = await apiClient.get(
+      const response = await axios.get(
         `/api/discount_detail/${discountId}`,
         {
           withCredentials: true,
@@ -223,10 +223,10 @@ export async function discountDetail(
       }
     } catch (error: any) {
       // Si el error tiene el flag `isAuthError`, puedo manejarlo aquí o en el componente que llama la función
-      if (error.isAuthError) {
+      /* if (error.isAuthError) {
         console.error("Error de autenticación:", error.message);
         return "TOKEN_EXPIRED";
-      }
+      } */
 
       console.error(
         "Error al pedir el descuento del negocio al backend:",
@@ -244,7 +244,7 @@ export async function editDiscount(
   ): Promise<Discount | string> {
     console.log("ID DEL DESCUENTOOOOOOO:", discountId);
    try {
-      const response = await apiClient.patch(
+      const response = await axios.patch(
         `/api/discount_update/${discountId}`,
         data,
         {
@@ -270,10 +270,10 @@ export async function editDiscount(
       }
     } catch (error: any) {
       // Si el error tiene el flag `isAuthError`, puedo manejarlo aquí o en el componente que llama la función
-      if (error.isAuthError) {
+      /* if (error.isAuthError) {
         console.error("Error de autenticación:", error.message);
         return "TOKEN_EXPIRED";
-      }
+      } */
 
       console.error("Error al modificar el descuento:", error.message);
       return "Error al modificar el descuento";
@@ -286,7 +286,7 @@ export async function deleteDiscount(
     discountId: string
   ): Promise<{ success: boolean; message: string } | string> {
     try {
-      const response = await apiClient.delete(`/api/discount_delete/${discountId}`,
+      const response = await axios.delete(`/api/discount_delete/${discountId}`,
         {
           withCredentials: true,
         }
@@ -307,10 +307,10 @@ export async function deleteDiscount(
       }
     } catch (error: any) {
       // Si el error tiene el flag `isAuthError`, puedo manejarlo aquí o en el componente que llama la función
-      if (error.isAuthError) {
+      /* if (error.isAuthError) {
         console.error("Error de autenticación:", error.message);
         return "TOKEN_EXPIRED";
-      }
+      } */
 
       console.error("Error al eliminar el descuento:", error.message);
       return "Error al eliminar el descuento";
