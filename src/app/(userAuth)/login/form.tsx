@@ -239,7 +239,7 @@ const LoginForm = () => {
         } else if (localUserRole === roleBusinessDirector || localUserRole === roleBusinessManager || localUserRole === roleBusinessEmployee) {
           router.push("dashboardBusinessAdmin");
           setSelectedOption("Mi cuenta");
-        } else {
+        } /* else {
           setTimeout(() => {
             setIsAccessModalOpen(true);//Modal para informar al usuario que no tiene credenciales para iniciar sesión
 
@@ -261,11 +261,11 @@ const LoginForm = () => {
 
             setIsLoggedIn(false);
 
-            /* router.push("/login");
+            //router.push("/login");
           
-            setSelectedOption("Iniciar sesión"); */
+            //setSelectedOption("Iniciar sesión");
           }, 2000);
-        }
+        } */
       }
     } catch (err) {
       console.error("Error al obtener el perfil del usuario:", err);
