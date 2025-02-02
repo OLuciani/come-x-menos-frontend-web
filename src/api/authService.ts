@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from "axios";
 import Cookies from "js-cookie";
 import { verifyToken } from "@/services/tokenVerificationService";
 import { UserLogin } from "@/types/authTypes";
-import apiClient from "./axiosConfig";
+//import apiClient from "./axiosConfig";
 
 // Configuro Axios para enviar cookies automáticamente
 axios.defaults.withCredentials = true;
@@ -68,7 +68,7 @@ export async function login(
 
   export async function userProfile() {
     try {
-      const response = await apiClient.get(
+      const response = await axios.get(
         `/api/user_profile`,
         {
           withCredentials: true, // Esta línea asegura que las cookies (entre ellas va la del token que es indispensable en esta ruta) se envíen con la solicitud
@@ -92,10 +92,10 @@ export async function login(
       }
     } catch (error: any) {
       // Si el error tiene el flag `isAuthError`, puedo manejarlo aquí o en el componente que llama la función
-      if (error.isAuthError) {
+      /* if (error.isAuthError) {
         console.error("Error de autenticación: ", error.message);
         return "TOKEN_EXPIRED";
-      }
+      } */
 
       console.error(
         "Error al pedir el perfil del usuario al backend:",
