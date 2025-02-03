@@ -47,11 +47,17 @@ const LoginForm = () => {
     setUserSubRole
   } = useContext(Context);
 
-  const roleAppAdmin = process.env.NEXT_PUBLIC_ROLE_APP_ADMIN;
-  const roleBusinessDirector = process.env.NEXT_PUBLIC_ROLE_BUSINESS_DIRECTOR;
-  const roleBusinessManager = process.env.NEXT_PUBLIC_ROLE_BUSINESS_MANAGER;
-  const roleBusinessEmployee = process.env.NEXT_PUBLIC_ROLE_BUSINESS_EMPLOYEE;
+  //const roleAppAdmin = process.env.NEXT_PUBLIC_ROLE_APP_ADMIN;
+  //const roleBusinessDirector = process.env.NEXT_PUBLIC_ROLE_BUSINESS_DIRECTOR;
+  //const roleBusinessManager = "process.env.NEXT_PUBLIC_ROLE_BUSINESS_MANAGER";
+  //const roleBusinessEmployee = process.env.NEXT_PUBLIC_ROLE_BUSINESS_EMPLOYEE;
   //const roleMobileCustomer = process.env.NEXT_PUBLIC_ROLE_MOBILE_CUSTOMER;
+
+  const roleAppAdmin = "appAdmin";
+  const roleBusinessDirector = "businessDirector";
+  const roleBusinessManager = "businessManager";
+  const roleBusinessEmployee = "businessEmployee";
+
 
   console.log("Valor de roleBusinessEmploye: ", roleBusinessEmployee);
   console.log("Valor de roleBusinessDirector: ", roleBusinessDirector);

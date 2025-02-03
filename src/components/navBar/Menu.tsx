@@ -41,7 +41,7 @@ const Menu: React.FC<MenuProps> = ({ open, closeMenu }) => {
 
   useEffect(() => {
     //Configuro una variable de estado p/cada rol y le adjudico el valor que dicho rol tiene en la variable de entorno.
-    const appAdmin: string | undefined = process.env.NEXT_PUBLIC_ROLE_APP_ADMIN;
+    /* const appAdmin: string | undefined = process.env.NEXT_PUBLIC_ROLE_APP_ADMIN;
     setRoleAppAdmin(appAdmin);
   
     const businessDirector: string | undefined = process.env.NEXT_PUBLIC_ROLE_BUSINESS_DIRECTOR;
@@ -51,7 +51,14 @@ const Menu: React.FC<MenuProps> = ({ open, closeMenu }) => {
     setRoleBusinessManager(businessManager);
 
     const businessEmployee: string | undefined = process.env.NEXT_PUBLIC_ROLE_BUSINESS_EMPLOYEE;
-    setRoleBusinessEmployee(businessEmployee);
+    setRoleBusinessEmployee(businessEmployee); */
+    setRoleAppAdmin("appAdmin");
+    
+    setRoleBusinessDirector("businessDirector");
+
+    setRoleBusinessManager("businessManager");
+
+    setRoleBusinessEmployee("businessEmployee");
   }, [setRoleAppAdmin, setRoleBusinessDirector, setRoleBusinessManager, setRoleBusinessEmployee]);
 
   const activo =

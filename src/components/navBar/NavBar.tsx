@@ -53,17 +53,21 @@ const Navbar = () => {
       setUserToken(storedToken);
 
       //Configuro una variable de estado p/cada rol y le adjudico el valor que dicho rol tiene en la variable de entorno.
-      const appAdmin: string | undefined = process.env.NEXT_PUBLIC_ROLE_APP_ADMIN;
-      setRoleAppAdmin(appAdmin);
+      /* const appAdmin: string | undefined = process.env.NEXT_PUBLIC_ROLE_APP_ADMIN;
+      setRoleAppAdmin(appAdmin); */
+      setRoleAppAdmin("appAdmin");
     
-      const businessDirector: string | undefined = process.env.NEXT_PUBLIC_ROLE_BUSINESS_DIRECTOR;
-      setRoleBusinessDirector(businessDirector);
+      /* const businessDirector: string | undefined = process.env.NEXT_PUBLIC_ROLE_BUSINESS_DIRECTOR;
+      setRoleBusinessDirector(businessDirector); */
+      setRoleBusinessDirector("businessDirector");
 
-      const businessManager: string | undefined = process.env.NEXT_PUBLIC_ROLE_BUSINESS_MANAGER;
-      setRoleBusinessManager(businessManager);
+      /* const businessManager: string | undefined = process.env.NEXT_PUBLIC_ROLE_BUSINESS_MANAGER;
+      setRoleBusinessManager(businessManager); */
+      setRoleBusinessManager("businessManager");
 
-      const businessEmployee: string | undefined = process.env.NEXT_PUBLIC_ROLE_BUSINESS_EMPLOYEE;
-      setRoleBusinessEmployee(businessEmployee);
+      /* const businessEmployee: string | undefined = process.env.NEXT_PUBLIC_ROLE_BUSINESS_EMPLOYEE;
+      setRoleBusinessEmployee(businessEmployee); */
+      setRoleBusinessEmployee("businessEmployee");
 
       /* const user: string | undefined = process.env.NEXT_PUBLIC_ROLE_USER;
       setRoleUser(user); */
