@@ -2,8 +2,7 @@ import axios, { AxiosResponse } from "axios";
 import Cookies from "js-cookie";
 import { verifyToken } from "@/services/tokenVerificationService";
 import { Discount, DiscountsList, DiscountDetail } from "@/types/discountTypes";
-//import apiClient from "@/utils/axiosConfig";
-//import apiClient from "./axiosConfig";
+import apiClient from "./axiosConfig";
 
 // Configuro Axios para enviar cookies automáticamente
 axios.defaults.withCredentials = true;
@@ -115,49 +114,10 @@ const handleError = (error: any): string => {
     }
   }
   
-  //export async function discountsList(businessId: string, userToken: string): Promise<DiscountsList[] | string> {
-  /* export async function discountsList(): Promise<DiscountsList[] | string> {
-    // Verifico el token antes de hacer la solicitud
-    //const isTokenValid = await verifyToken();
-    //if (!isTokenValid) {
-      //console.log("Token inválido o expirado en discountList");
-     // return "Token inválido o expirado en discountList";
-    //}
   
-    try {
-      //console.log("Valor de userId en pedido get: ", businessId);
-      //console.log("Valor de userToken en pedido get: ", userToken);
-      const response = await axios.get(
-        `/api/discounts_list_one_business`,
-        {
-          withCredentials: true,
-        }
-      );
-  
-      if (response.status === 200 && response.data) {
-        console.log(
-          "Listado de descuentos vigentes del negocio traidos de MongoDB Atlas:",
-          response.data
-        );
-        return response.data;
-      } else {
-        console.log(
-          "El pedido de la lista de descuentos al backend no fue exitoso:",
-          response.data
-        );
-        return "Error al pedir el listado de descuentos del negocio al backend";
-      }
-    } catch (error: any) {
-      console.error(
-        "Error al pedir un listado de descuentos del negocio al backend:",
-        error.message
-      );
-      return "Error al pedir un listado de descuentos del negocio al backend";
-    }
-  } */
   export async function discountsList(): Promise<DiscountsList[] | string> {
     try {
-      const response = await axios.get(
+      const response = await apiClient.get(
         `/api/discounts_list_one_business`,
         {
           withCredentials: true,
@@ -179,10 +139,10 @@ const handleError = (error: any): string => {
       }
     } catch (error: any) {
       // Si el error tiene el flag `isAuthError`, puedo manejarlo aquí o en el componente que llama la función
-      /* if (error.isAuthError) {
+      if (error.isAuthError) {
         console.error("Error de autenticación:", error.message);
         return "TOKEN_EXPIRED";
-      } */
+      }
       
       console.error(
         "Error al pedir un listado de descuentos del negocio al backend:",

@@ -52,7 +52,8 @@ const LoginForm = () => {
   //const roleBusinessManager = "process.env.NEXT_PUBLIC_ROLE_BUSINESS_MANAGER";
   //const roleBusinessEmployee = process.env.NEXT_PUBLIC_ROLE_BUSINESS_EMPLOYEE;
   //const roleMobileCustomer = process.env.NEXT_PUBLIC_ROLE_MOBILE_CUSTOMER;
-
+  
+  //Adjudico los roles a las constantes directamente y no con variables de entorno, ya que al utilizar un proxy en next.config.mjs para solucionar el problema con las cookies de terceros en algunos dispositivos que tienen por defecto navegadores como por ejemplo safari que no acepta cookies de terceros ese proxy crea conflicto con las variables de entorno en producción de vercel. Lo hago porque los valores que se adjudican no son datos sensibles, ya que los verdaderos roles son secrets que van en las cookies y se utilizan solo en el backend para autenticar roles en las rutas de las solicitudes.
   const roleAppAdmin = "appAdmin";
   const roleBusinessDirector = "businessDirector";
   const roleBusinessManager = "businessManager";

@@ -55,18 +55,18 @@ const Navbar = () => {
       //Configuro una variable de estado p/cada rol y le adjudico el valor que dicho rol tiene en la variable de entorno.
       /* const appAdmin: string | undefined = process.env.NEXT_PUBLIC_ROLE_APP_ADMIN;
       setRoleAppAdmin(appAdmin); */
-      setRoleAppAdmin("appAdmin");
-    
       /* const businessDirector: string | undefined = process.env.NEXT_PUBLIC_ROLE_BUSINESS_DIRECTOR;
       setRoleBusinessDirector(businessDirector); */
-      setRoleBusinessDirector("businessDirector");
-
       /* const businessManager: string | undefined = process.env.NEXT_PUBLIC_ROLE_BUSINESS_MANAGER;
       setRoleBusinessManager(businessManager); */
-      setRoleBusinessManager("businessManager");
-
       /* const businessEmployee: string | undefined = process.env.NEXT_PUBLIC_ROLE_BUSINESS_EMPLOYEE;
       setRoleBusinessEmployee(businessEmployee); */
+
+
+      //Adjudico los roles a las constantes directamente y no con variables de entorno, ya que al utilizar un proxy en next.config.mjs para solucionar el problema con las cookies de terceros en algunos dispositivos que tienen por defecto navegadores como por ejemplo safari que no acepta cookies de terceros ese proxy crea conflicto con las variables de entorno en producción de vercel. Lo hago porque los valores que se adjudican no son datos sensibles, ya que los verdaderos roles son secrets que van en las cookies y se utilizan solo en el backend para autenticar roles en las rutas de las solicitudes.
+      setRoleAppAdmin("appAdmin");
+      setRoleBusinessDirector("businessDirector");
+      setRoleBusinessManager("businessManager");
       setRoleBusinessEmployee("businessEmployee");
 
       /* const user: string | undefined = process.env.NEXT_PUBLIC_ROLE_USER;
@@ -77,9 +77,10 @@ const Navbar = () => {
   useEffect(() => {
     const storedToken = Cookies.get("userToken") || "";
     console.log("Valor de storedToken: ", storedToken);
+    setUserToken(storedToken);
 
     //Configuro cada rol
-    const appAdmin: string | undefined = process.env.NEXT_PUBLIC_ROLE_APP_ADMIN;
+    /* const appAdmin: string | undefined = process.env.NEXT_PUBLIC_ROLE_APP_ADMIN;
     setRoleAppAdmin(appAdmin);
   
     const businessDirector: string | undefined = process.env.NEXT_PUBLIC_ROLE_BUSINESS_DIRECTOR;
@@ -89,10 +90,12 @@ const Navbar = () => {
     setRoleBusinessManager(businessManager);
 
     const businessEmployee: string | undefined = process.env.NEXT_PUBLIC_ROLE_BUSINESS_EMPLOYEE;
-    setRoleBusinessEmployee(businessEmployee);
+    setRoleBusinessEmployee(businessEmployee); */
 
-    setUserToken(storedToken);
-    
+    setRoleAppAdmin("appAdmin");
+    setRoleBusinessDirector("businessDirector");
+    setRoleBusinessManager("businessManager");
+    setRoleBusinessEmployee("businessEmployee");
   }, [setUserToken]); // Solo se ejecuta una vez cuando el componente se monta
 
 
