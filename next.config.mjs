@@ -87,7 +87,7 @@ const nextConfig = {
     return [
       {
         source: '/:path*', // Ruta interna en el frontend
-        destination: 'http://localhost:5050/:path*', // Backend en Koyeb
+        destination: 'https://wrong-lisa-oluciani-3ba92637.koyeb.app/:path*', // Backend en Koyeb
       },
     ];
   },
