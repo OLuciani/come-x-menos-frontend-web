@@ -165,12 +165,13 @@ const handleError = (error: any): string => {
         return "Error al pedir el listado de descuentos del negocio al backend";
       }
     } catch (error: any) {
-      // Verificamos si el error es por token expirado
+      // Verificar si el error es por token expirado
       if (error.response && error.response.status === 401) {
         const errorMessage = error.response.data.message;
+        //console.log("Valor de errorMessage: ", errorMessage);
         if (errorMessage === "Token expired. Please log in again.") {
           console.error("El token ha expirado. Redirigiendo al login...");
-          return "TOKEN_EXPIRED"; // Retornamos un mensaje específico para manejarlo en el componente que utilice esta función en el frontend
+          return "TOKEN_EXPIRED"; // Retornamos un mensaje específico para manejarlo en el frontend
         }
       }
   
