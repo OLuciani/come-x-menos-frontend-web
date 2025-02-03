@@ -115,7 +115,7 @@ const handleError = (error: any): string => {
   }
   
   
-  export async function discountsList(): Promise<DiscountsList[] | string> {
+  /* export async function discountsList(): Promise<DiscountsList[] | string> {
     try {
       const response = await axios.get(
         `/api/discounts_list_one_business`,
@@ -138,12 +138,42 @@ const handleError = (error: any): string => {
         return "Error al pedir el listado de descuentos del negocio al backend";
       }
     } catch (error: any) {
-      // Si el error tiene el flag `isAuthError`, puedo manejarlo aquí o en el componente que llama la función
-      /* if (error.isAuthError) {
-        console.error("Error de autenticación:", error.message);
-        return "TOKEN_EXPIRED";
-      } */
-      
+      console.error(
+        "Error al pedir un listado de descuentos del negocio al backend:",
+        error.message
+      );
+      return "Error al pedir un listado de descuentos del negocio al backend";
+    }
+  } */
+  export async function discountsList(): Promise<DiscountsList[] | string> {
+    try {
+      const response = await axios.get(`/api/discounts_list_one_business`, {
+        withCredentials: true,
+      });
+  
+      if (response.status === 200 && response.data) {
+        console.log(
+          "Listado de descuentos vigentes del negocio traídos de MongoDB Atlas:",
+          response.data
+        );
+        return response.data;
+      } else {
+        console.log(
+          "El pedido de la lista de descuentos al backend no fue exitoso:",
+          response.data
+        );
+        return "Error al pedir el listado de descuentos del negocio al backend";
+      }
+    } catch (error: any) {
+      // Verificamos si el error es por token expirado
+      if (error.response && error.response.status === 401) {
+        const errorMessage = error.response.data.message;
+        if (errorMessage === "Token expired. Please log in again.") {
+          console.error("El token ha expirado. Redirigiendo al login...");
+          return "TOKEN_EXPIRED"; // Retornamos un mensaje específico para manejarlo en el componente que utilice esta función en el frontend
+        }
+      }
+  
       console.error(
         "Error al pedir un listado de descuentos del negocio al backend:",
         error.message
@@ -151,6 +181,7 @@ const handleError = (error: any): string => {
       return "Error al pedir un listado de descuentos del negocio al backend";
     }
   }
+  
 
 
   //Solicitud para obtener el detalle de un descuento en particular ofrecido por un negocio

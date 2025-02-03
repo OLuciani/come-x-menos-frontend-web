@@ -81,10 +81,10 @@ const Overview: React.FC = () => {
         const response = await discountsList();
 
         //Si el token expiró va a mostrar un modal informando al usuario
-        /* if (response === "TOKEN_EXPIRED") {
+        if (response === "TOKEN_EXPIRED") {
           setIsModalOpen(true); // Muestra el modal TokenExpiredModal.tsx si el token es inválido y redirecciona a login
           return; // Detiene la ejecución para evitar errores con response
-        } */
+        }
 
         if (typeof response !== "string") {
           const now = new Date();
