@@ -44,7 +44,7 @@ export async function login(
   
       if (response.status === 200) {
         console.log(
-          "Usuario autenticado con éxito en Mongo DB Atlas: ",
+          "Usuario autenticado con éxito en Mongo db Atlas: ",
           response.data
         );
         return response.data;

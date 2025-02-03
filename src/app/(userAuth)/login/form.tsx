@@ -34,6 +34,7 @@ const LoginForm = () => {
 
   const {
     setUserToken,
+    userToken,
     setUserRole,
     setUserName,
     setBusinessName,
@@ -52,6 +53,7 @@ const LoginForm = () => {
   const roleBusinessEmployee = process.env.NEXT_PUBLIC_ROLE_BUSINESS_EMPLOYEE;
   const roleMobileCustomer = process.env.NEXT_PUBLIC_ROLE_MOBILE_CUSTOMER;
 
+  //console.log("Valor de roleBusinessEmploye: ", roleBusinessEmployee);
 
   const validationSchema = Yup.object({
     email: Yup.string()
@@ -86,6 +88,7 @@ const LoginForm = () => {
   const handleLogin = async (values: { email: string; password: string }) => {
     const loginResponse: LoginResponse = await login(values);
 
+    
     console.log("Valor de loginResponse en login: ", loginResponse);
 
     if (loginResponse.error) {
@@ -95,6 +98,7 @@ const LoginForm = () => {
     }
     
   };
+
 
   // Manejo de errores del backend
   const handleBackendError = (backendError: any) => {
@@ -120,23 +124,10 @@ const LoginForm = () => {
 
   // Manejo del inicio de sesión exitoso
   const handleSuccessfulLogin = async () => {
-    setIsLoggedIn(true); //
-    setUserToken("true"); //Como loginResponse.success === true le doy un valor true a userToken sin exponer el verdadero token.
-
-    //Como loginResponse.success === true creo una cokie con el valor en string true.
-    Cookies.set("userToken", "true", {
-      expires: 1,
-      secure: true,
-      sameSite: "strict",
-    });
-
-    //Esto lo agrego para que ni bien se loguea el usuario lo redirige a Inicio, pero sigue trabajando fetchUserProfile()
-    //router.push("/");  
+    setIsLoggedIn(true); //  
 
     // No es necesario verificar si la cookie está establecida, asumiendo que set fue exitoso
     await fetchUserProfile();
-
-    handleSuccessfulLogin();
   };
 
   // Función para obtener el perfil del usuario
@@ -145,11 +136,19 @@ const LoginForm = () => {
       const response = await userProfile();
       console.log("Valor de response en userProfile()", response);
 
-      //Si el token expiró va a mostrar un modal informando al usuario
-      if (response === "TOKEN_EXPIRED") {
+      /* if (response === "Token inválido o expirado") {
         setIsModalOpen(true);
-        return; // Detiene la ejecución para evitar errores con response
-      }
+        return;
+      } */
+
+      setUserToken("true"); //Como loginResponse.success === true le doy un valor true a userToken sin exponer el verdadero token.
+
+    //Como loginResponse.success === true creo una cokie con el valor en string true.
+    Cookies.set("userToken", "true", {
+      expires: 1,
+      secure: true,
+      sameSite: "strict",
+    });
 
       Cookies.set("userRole", response.userRole, {
         expires: 1,
@@ -229,19 +228,27 @@ const LoginForm = () => {
 
       console.log("Valor del rol que llega en response: ", response.userRole);
 
+      /* if(response.userStatus === "active") {
+        router.push("/");
+      } else {
+        router.push("/notifications");
+        setSelectedOption("Notificaciones")
+      } */
       console.log("valor de response.userSTatus: ", response.userStatus);
-      
+      console.log("Valor de roleBusinessEmploye: ", roleBusinessEmployee);
+
+      console.log("Valor de userToken:  ", userToken);
       if(response.userStatus !== "active") {
         router.push("/notifications");
         setSelectedOption("Notificaciones")
-      }  /* else { */
-        if(response.userStatus === "active" && response.userRole === roleAppAdmin) {
+      }  else {
+        if(response.userRole === roleAppAdmin) {
           router.push("/dashboardAplicationAdmin");
           setSelectedOption("Mi cuenta");
-        } else if (response.userStatus === "active" &&  (response.userRole === roleBusinessDirector || response.userRole === roleBusinessManager || response.userRole === roleBusinessEmployee)) {
+        } else if (response.userRole === roleBusinessDirector || response.userRole === roleBusinessManager || response.userRole === roleBusinessEmployee) {
           router.push("dashboardBusinessAdmin");
           setSelectedOption("Mi cuenta");
-        } /* else {
+        } else {
           setTimeout(() => {
             setIsAccessModalOpen(true);//Modal para informar al usuario que no tiene credenciales para iniciar sesión
 
@@ -267,19 +274,21 @@ const LoginForm = () => {
           
             //setSelectedOption("Iniciar sesión");
           }, 2000);
-        } */
-      /* } */
+        }
+      }
     } catch (err) {
       console.error("Error al obtener el perfil del usuario:", err);
     }
   }, [router, setUserRole, setUserName, setBusinessName, setBusinessType, setUserStatus]);
 
+
+
   return (
     <div>
-      <TokenExpiredModal
+      {/* <TokenExpiredModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-      />
+      /> */}
       <UnauthorizedAccesssModal
         isOpenUnauthorizedAccess ={isAccessModalOpen} 
         onCloseUnauthorizedAccess = {() => setIsAccessModalOpen(false)}
