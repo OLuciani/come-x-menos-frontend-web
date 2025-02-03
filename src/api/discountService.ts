@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from "axios";
 import Cookies from "js-cookie";
 import { verifyToken } from "@/services/tokenVerificationService";
 import { Discount, DiscountsList, DiscountDetail } from "@/types/discountTypes";
-import apiClient from "./axiosConfig";
+//import apiClient from "./axiosConfig";
 
 // Configuro Axios para enviar cookies automáticamente
 axios.defaults.withCredentials = true;
@@ -117,7 +117,7 @@ const handleError = (error: any): string => {
   
   export async function discountsList(): Promise<DiscountsList[] | string> {
     try {
-      const response = await apiClient.get(
+      const response = await axios.get(
         `/api/discounts_list_one_business`,
         {
           withCredentials: true,
@@ -139,10 +139,10 @@ const handleError = (error: any): string => {
       }
     } catch (error: any) {
       // Si el error tiene el flag `isAuthError`, puedo manejarlo aquí o en el componente que llama la función
-      if (error.isAuthError) {
+      /* if (error.isAuthError) {
         console.error("Error de autenticación:", error.message);
         return "TOKEN_EXPIRED";
-      }
+      } */
       
       console.error(
         "Error al pedir un listado de descuentos del negocio al backend:",
