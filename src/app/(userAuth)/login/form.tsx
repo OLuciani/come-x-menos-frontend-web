@@ -51,9 +51,9 @@ const LoginForm = () => {
   const roleBusinessDirector = process.env.NEXT_PUBLIC_ROLE_BUSINESS_DIRECTOR;
   const roleBusinessManager = process.env.NEXT_PUBLIC_ROLE_BUSINESS_MANAGER;
   const roleBusinessEmployee = process.env.NEXT_PUBLIC_ROLE_BUSINESS_EMPLOYEE;
-  const roleMobileCustomer = process.env.NEXT_PUBLIC_ROLE_MOBILE_CUSTOMER;
+  //const roleMobileCustomer = process.env.NEXT_PUBLIC_ROLE_MOBILE_CUSTOMER;
 
-  //console.log("Valor de roleBusinessEmploye: ", roleBusinessEmployee);
+  console.log("Valor de roleBusinessEmploye: ", roleBusinessEmployee);
 
   const validationSchema = Yup.object({
     email: Yup.string()
@@ -228,12 +228,7 @@ const LoginForm = () => {
 
       console.log("Valor del rol que llega en response: ", response.userRole);
 
-      /* if(response.userStatus === "active") {
-        router.push("/");
-      } else {
-        router.push("/notifications");
-        setSelectedOption("Notificaciones")
-      } */
+      
       console.log("valor de response.userSTatus: ", response.userStatus);
       console.log("Valor de roleBusinessEmploye: ", roleBusinessEmployee);
 
