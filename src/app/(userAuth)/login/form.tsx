@@ -54,6 +54,7 @@ const LoginForm = () => {
   //const roleMobileCustomer = process.env.NEXT_PUBLIC_ROLE_MOBILE_CUSTOMER;
 
   console.log("Valor de roleBusinessEmploye: ", roleBusinessEmployee);
+  console.log("Valor de roleBusinessDirector: ", roleBusinessDirector);
 
   const validationSchema = Yup.object({
     email: Yup.string()
