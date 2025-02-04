@@ -75,16 +75,15 @@ export async function createUser(
 
     return response.data;
   } catch (error: any) {
-    // Si el error tiene el flag `isAuthError`, puedo manejarlo aquí o en el componente que llama la función
-    if (error.isAuthError) {
-      console.error("Error de autenticación:", error.message);
-      return "TOKEN_EXPIRED";
-    }
+    if (error.response && error.response.status === 401) {
+      return "TOKEN_EXPIRED"; // Retornamos un mensaje específico para manejarlo en el frontend
+   }
 
     console.error("Error al registrar el usuario en MongoDB Atlas:", error);
     return "Error al registrar el usuario";
   }
 }
+
 
 export const updateUserWithBusinessId = async (
   userId: string,
@@ -154,6 +153,7 @@ export async function checkAdminAppPermissions() {
       }
     );
 
+
     if (response.status === 200 && response.data) {
       console.log(
         "Datos de la verificación de acceso a la vista dashboardAdmin:",
@@ -195,11 +195,9 @@ export const getUserById = async () => {
     return "Error al pedir datos del usuario al backend";
   }
 } catch (error: any) {
-  // Si el error tiene el flag `isAuthError`, puedo manejarlo aquí o en el componente que llama la función
-  /* if (error.isAuthError) {
-    console.error("Error de autenticación:", error.message);
-    return "TOKEN_EXPIRED";
-  } */
+  if (error.response && error.response.status === 401) {
+    return "TOKEN_EXPIRED"; // Retornamos un mensaje específico para manejarlo en el frontend
+  }
 
   console.error(
     "Error al pedir datos del usuario al backend:",
@@ -251,11 +249,9 @@ export const updateUser = async (data: Partial<User>) => {
       return "Error al modificar el usuario";
     }
   } catch (error: any) {
-    // Si el error tiene el flag `isAuthError`, puedo manejarlo aquí o en el componente que llama la función
-    /* if (error.isAuthError) {
-      console.error("Error de autenticación:", error.message);
-      return "TOKEN_EXPIRED";
-    } */
+    if (error.response && error.response.status === 401) {
+      return "TOKEN_EXPIRED"; // Retornamos un mensaje específico para manejarlo en el frontend
+    }
 
     console.error("Error al modificar el usuario:", error.message);
     return "Error al modificar el usuario";
@@ -283,11 +279,9 @@ export async function fetchPendingUsersFromAPI() {
       return "Error al pedir Usuarios Pendientes al backend";
     }
   } catch (error: any) {
-    // Si el error tiene el flag `isAuthError`, puedo manejarlo aquí o en el componente que llama la función
-    /* if (error.isAuthError) {
-      console.error("Error de autenticación:", error.message);
-      return "TOKEN_EXPIRED";
-    } */
+    if (error.response && error.response.status === 401) {
+      return "TOKEN_EXPIRED"; // Retornamos un mensaje específico para manejarlo en el frontend
+    }
 
     console.error(
       "Error al pedir Usuarios Pendientes al backend:",
@@ -309,11 +303,9 @@ export const approveUser = async (userId: string) => {
     );
     return response.data;
   } catch (error: any) {
-    // Si el error tiene el flag `isAuthError`, puedo manejarlo aquí o en el componente que llama la función
-    /* if (error.isAuthError) {
-      console.error("Error de autenticación:", error.message);
-      return "TOKEN_EXPIRED";
-    } */
+    if (error.response && error.response.status === 401) {
+      return "TOKEN_EXPIRED"; // Retornamos un mensaje específico para manejarlo en el frontend
+    }
 
     console.error("Error al aprobar usuario:", error.message);
     return "Error al aprobar usuario";
@@ -341,11 +333,9 @@ export async function fetchAllUsersFromAPI() {
       return "Error al pedir Usuarios Activos al backend";
     }
   } catch (error: any) {
-    // Si el error tiene el flag `isAuthError`, puedo manejarlo aquí o en el componente que llama la función
-    /* if (error.isAuthError) {
-      console.error("Error de autenticación:", error.message);
-      return "TOKEN_EXPIRED";
-    } */
+    if (error.response && error.response.status === 401) {
+      return "TOKEN_EXPIRED"; // Retornamos un mensaje específico para manejarlo en el frontend
+    }
     
     console.error("Error al pedir Usuarios Activos al backend:", error.message);
     return "Error al pedir Usuarios Activos al backend";
@@ -367,11 +357,9 @@ export const getUserNotifications = async () => {
       response
     );
   } catch (error:any) {
-    // Si el error tiene el flag `isAuthError`, puedo manejarlo aquí o en el componente que llama la función
-    /* if (error.isAuthError) {
-      console.error("Error de autenticación:", error.message);
-      return "TOKEN_EXPIRED";
-    } */
+    if (error.response && error.response.status === 401) {
+      return "TOKEN_EXPIRED"; // Retornamos un mensaje específico para manejarlo en el frontend
+    }
 
     if (axios.isAxiosError(error)) {
       throw new Error(
@@ -391,11 +379,9 @@ export const sendUserNotification = async (userId: string, message: string) => {
     );
     return response.data;
   } catch (error: any) {
-    // Si el error tiene el flag `isAuthError`, puedo manejarlo aquí o en el componente que llama la función
-    /* if (error.isAuthError) {
-      console.error("Error de autenticación:", error.message);
-      return "TOKEN_EXPIRED";
-    } */
+    if (error.response && error.response.status === 401) {
+      return "TOKEN_EXPIRED"; // Retornamos un mensaje específico para manejarlo en el frontend
+    }
 
     console.error("Error al enviar notificación:", error.message);
     return { success: false, message: "Error al enviar notificación" };
@@ -417,11 +403,9 @@ export const markUserNotificationsAsRead = async (notificationId?: string) => {
     return response.data; // Devuelvo la respuesta para que el componente la maneje
   //} catch (error: unknown) { // Antes de usar error.isAuthError estaba asi
   } catch (error: any) {
-    // Si el error tiene el flag `isAuthError`, puedo manejarlo aquí o en el componente que llama la función
-    /* if (error.isAuthError) {
-      console.error("Error de autenticación:", error.message);
-      return "TOKEN_EXPIRED";
-    } */
+    if (error.response && error.response.status === 401) {
+      return "TOKEN_EXPIRED"; // Retornamos un mensaje específico para manejarlo en el frontend
+    }
 
     console.error("Error al marcar la notificación como leída:", error);
 
@@ -452,11 +436,9 @@ export const invitationBusinessEmployeeUser = async (
     );
     return response.data;
   } catch (error: any) {
-    // Si el error tiene el flag `isAuthError`, puedo manejarlo aquí o en el componente que llama la función
-    /* if (error.isAuthError) {
-      console.error("Error de autenticación:", error.message);
-      return "TOKEN_EXPIRED";
-    } */
+    if (error.response && error.response.status === 401) {
+      return "TOKEN_EXPIRED"; // Retornamos un mensaje específico para manejarlo en el frontend
+    }
 
     throw new Error(
       error.response?.data?.message ||
@@ -507,11 +489,9 @@ export async function createBusinessEmployeeUser(
 
     return response.data;
   } catch (error: any) {
-    // Si el error tiene el flag `isAuthError`, puedo manejarlo aquí o en el componente que llama la función
-    /* if (error.isAuthError) {
-      console.error("Error de autenticación:", error.message);
-      return "TOKEN_EXPIRED";
-    } */
+    if (error.response && error.response.status === 401) {
+      return "TOKEN_EXPIRED"; // Retornamos un mensaje específico para manejarlo en el frontend
+    }
 
     console.error(
       "Error al registrar el usuario con acceso a scanner en aplicación movil en MongoDB Atlas:",
@@ -536,11 +516,9 @@ export const invitationExtraBusinessAdminUser = async (
     );
     return response.data;
   } catch (error: any) {
-    // Si el error tiene el flag `isAuthError`, puedo manejarlo aquí o en el componente que llama la función
-    /* if (error.isAuthError) {
-      console.error("Error de autenticación:", error.message);
-      return "TOKEN_EXPIRED";
-    } */
+    if (error.response && error.response.status === 401) {
+      return "TOKEN_EXPIRED"; // Retornamos un mensaje específico para manejarlo en el frontend
+    }
 
     throw new Error(
       error.response?.data?.message ||
@@ -591,11 +569,9 @@ export async function createExtraBusinessAdminUser(
 
     return response.data;
   } catch (error: any) {
-    // Si el error tiene el flag `isAuthError`, puedo manejarlo aquí o en el componente que llama la función
-    /* if (error.isAuthError) {
-      console.error("Error de autenticación:", error.message);
-      return "TOKEN_EXPIRED";
-    } */
+    if (error.response && error.response.status === 401) {
+      return "TOKEN_EXPIRED"; // Retornamos un mensaje específico para manejarlo en el frontend
+    }
 
     console.error(
       "Error al registrar el Usuario Estra Administrador de cuenta de negocio en MongoDB Atlas:",
@@ -607,13 +583,6 @@ export async function createExtraBusinessAdminUser(
 
 //Solicitud al backend que trae un listado de todos los usuarios con roles roleBusinessDirector y roleBusinessManager con status active.
 export async function getBusinessAdminUsersCount() {
-  /* // Verifico el token antes de hacer la solicitud
-    const isTokenValid = await verifyToken();
-    if (!isTokenValid) {
-      console.log("Token inválido o expirado en discountList");
-      return "Token inválido o expirado en discountList";
-    } */
-
   try {
     const response = await axios.get(
       `/api/all_business_admin_users`,
@@ -668,11 +637,9 @@ export async function fetchAsociatedBusinessUsers() {
       return "Error al pedir un Listado de usuarios asociados a una cuenta de negocio al backend";
     }
   } catch (error: any) {
-    // Si el error tiene el flag `isAuthError`, puedo manejarlo aquí o en el componente que llama la función
-    /* if (error.isAuthError) {
-      console.error("Error de autenticación:", error.message);
-      return "TOKEN_EXPIRED";
-    } */
+    if (error.response && error.response.status === 401) {
+      return "TOKEN_EXPIRED"; // Retornamos un mensaje específico para manejarlo en el frontend
+   }
 
     console.error(
       "Error al pedir un Listado de usuarios asociados a una cuenta de negocio al backend:",
@@ -695,11 +662,9 @@ export const desactivateUser = async (userId: string) => {
       );
       return response.data;
     } catch (error: any) {
-      // Si el error tiene el flag `isAuthError`, puedo manejarlo aquí o en el componente que llama la función
-    /* if (error.isAuthError) {
-      console.error("Error de autenticación:", error.message);
-      return "TOKEN_EXPIRED";
-    } */
+      if (error.response && error.response.status === 401) {
+        return "TOKEN_EXPIRED"; // Retornamos un mensaje específico para manejarlo en el frontend
+      }
 
       console.error("Error al desactivar usuario:", error.message);
       return "Error al desactivar usuario";
@@ -718,11 +683,9 @@ export const activateUser = async (userId: string) => {
       );
       return response.data;
     } catch (error: any) {
-      // Si el error tiene el flag `isAuthError`, puedo manejarlo aquí o en el componente que llama la función
-    /* if (error.isAuthError) {
-      console.error("Error de autenticación:", error.message);
-      return "TOKEN_EXPIRED";
-    } */
+      if (error.response && error.response.status === 401) {
+        return "TOKEN_EXPIRED"; // Retornamos un mensaje específico para manejarlo en el frontend
+     }
 
       console.error("Error al activar al usuario:", error.message);
       return "Error al activar al usuario";
@@ -753,11 +716,9 @@ export const activateUser = async (userId: string) => {
         return "Error al eliminar el usuario";
       }
     } catch (error: any) {
-      // Si el error tiene el flag `isAuthError`, puedo manejarlo aquí o en el componente que llama la función
-    /* if (error.isAuthError) {
-      console.error("Error de autenticación:", error.message);
-      return "TOKEN_EXPIRED";
-    } */
+      if (error.response && error.response.status === 401) {
+        return "TOKEN_EXPIRED"; // Retornamos un mensaje específico para manejarlo en el frontend
+      }
     
       console.error("Error al eliminar el usuario:", error.message);
       return "Error al eliminar el usuario";

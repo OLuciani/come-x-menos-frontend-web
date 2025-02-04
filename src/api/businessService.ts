@@ -91,11 +91,9 @@ export async function businessDetail(): Promise<Business | string> {
         return "Error al pedir detalles del negocio al backend";
       }
     } catch (error: any) {
-      // Si el error tiene el flag `isAuthError`, puedo manejarlo aquí o en el componente que llama la función
-      /* if (error.isAuthError) {
-        console.error("Error de autenticación:", error.message);
-        return "TOKEN_EXPIRED";
-      } */
+      if (error.response && error.response.status === 401) {
+        return "TOKEN_EXPIRED"; // Retornamos un mensaje específico para manejarlo en el frontend
+      }
       
       console.error(
         "Error al pedir detalles del negocio al backend:",
@@ -127,11 +125,9 @@ export const getBusinessById = async () => {
       return "Error al pedir datos del negocio al backend";
     }
   } catch (error: any) {
-    // Si el error tiene el flag `isAuthError`, puedo manejarlo aquí o en el componente que llama la función
-    /* if (error.isAuthError) {
-      console.error("Error de autenticación:", error.message);
-      return "TOKEN_EXPIRED";
-    } */
+    if (error.response && error.response.status === 401) {
+      return "TOKEN_EXPIRED"; // Retornamos un mensaje específico para manejarlo en el frontend
+    }
     
     console.error(
       "Error al pedir datos del negocio al backend:",
@@ -180,16 +176,16 @@ export const updateBusiness = async (formData: FormData) => {
   
       return response.data;
     } catch (error:any) {
-      // Si el error tiene el flag `isAuthError`, puedo manejarlo aquí o en el componente que llama la función
-      /* if (error.isAuthError) {
-        console.error("Error de autenticación:", error.message);
-        return "TOKEN_EXPIRED";
-      } */
+      if (error.response && error.response.status === 401) {
+        return "TOKEN_EXPIRED"; // Retornamos un mensaje específico para manejarlo en el frontend
+      }
 
       console.error("Error al actualizar negocio:", error);
       throw error;
     }
   };
+
+  
 
 //Solicitud de negocios pendientes de aprobacion de cuenta
   export async function fetchPendingBusinessFromAPI(businessId: string | null) {
@@ -209,11 +205,9 @@ export const updateBusiness = async (formData: FormData) => {
         throw new Error(`Error inesperado: ${response.status}`);
       }
     } catch (error:any) {
-      // Si el error tiene el flag `isAuthError`, puedo manejarlo aquí o en el componente que llama la función
-      /* if (error.isAuthError) {
-        console.error("Error de autenticación:", error.message);
-        return "TOKEN_EXPIRED";
-      } */
+      if (error.response && error.response.status === 401) {
+        return "TOKEN_EXPIRED"; // Retornamos un mensaje específico para manejarlo en el frontend
+      }
 
       // Aquí manejo los posibles errores de la solicitud
       if (axios.isAxiosError(error)) {

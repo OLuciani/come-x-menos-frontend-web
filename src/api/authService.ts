@@ -91,10 +91,8 @@ export async function login(
         return "Error al pedir el perfil del usuario al backend";
       }
     } catch (error: any) {
-      // Si el error tiene el flag `isAuthError`, puedo manejarlo aquí o en el componente que llama la función
-      /* if (error.isAuthError) {
-        console.error("Error de autenticación: ", error.message);
-        return "TOKEN_EXPIRED";
+      /* if (error.response && error.response.status === 401) {
+        return "TOKEN_EXPIRED"; // Retornamos un mensaje específico para manejarlo en el frontend
       } */
 
       console.error(

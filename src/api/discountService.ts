@@ -102,11 +102,9 @@ const handleError = (error: any): string => {
         return "Error al crear el descuento";
       }
     } catch (error: any) {
-      // Si el error tiene el flag `isAuthError`, puedo manejarlo aquí o en el componente que llama la función
-      /* if (error.isAuthError) {
-        console.error("Error de autenticación:", error.message);
-        return "TOKEN_EXPIRED";
-      } */
+      if (error.response && error.response.status === 401) {
+        return "TOKEN_EXPIRED"; // Retornamos un mensaje específico para manejarlo en el frontend
+      }
 
       console.error("Error al crear el descuento:", error.message);
       return "Error al crear el descuento";
@@ -164,15 +162,6 @@ const handleError = (error: any): string => {
         return "Error al pedir el listado de descuentos del negocio al backend";
       }
     } catch (error: any) {
-      // Verificar si el error es por token expirado
-      /* if (error.response && error.response.status === 401) {
-        const errorMessage = error.response.data.message;
-        //console.log("Valor de errorMessage: ", errorMessage);
-        if (errorMessage === "Token expired. Please log in again.") {
-          console.error("El token ha expirado. Redirigiendo al login...");
-          return "TOKEN_EXPIRED"; // Retornamos un mensaje específico para manejarlo en el frontend
-        }
-      } */
       if (error.response && error.response.status === 401) {
           return "TOKEN_EXPIRED"; // Retornamos un mensaje específico para manejarlo en el frontend
       }
@@ -216,11 +205,9 @@ export async function discountDetail(
         return "Error al pedir el descuento del negocio al backend";
       }
     } catch (error: any) {
-      // Si el error tiene el flag `isAuthError`, puedo manejarlo aquí o en el componente que llama la función
-      /* if (error.isAuthError) {
-        console.error("Error de autenticación:", error.message);
-        return "TOKEN_EXPIRED";
-      } */
+      if (error.response && error.response.status === 401) {
+        return "TOKEN_EXPIRED"; // Retornamos un mensaje específico para manejarlo en el frontend
+      }
 
       console.error(
         "Error al pedir el descuento del negocio al backend:",
@@ -263,11 +250,9 @@ export async function editDiscount(
         return "Error al modificar el descuento";
       }
     } catch (error: any) {
-      // Si el error tiene el flag `isAuthError`, puedo manejarlo aquí o en el componente que llama la función
-      /* if (error.isAuthError) {
-        console.error("Error de autenticación:", error.message);
-        return "TOKEN_EXPIRED";
-      } */
+      if (error.response && error.response.status === 401) {
+        return "TOKEN_EXPIRED"; // Retornamos un mensaje específico para manejarlo en el frontend
+      }
 
       console.error("Error al modificar el descuento:", error.message);
       return "Error al modificar el descuento";
@@ -300,11 +285,9 @@ export async function deleteDiscount(
         return "Error al eliminar el descuento";
       }
     } catch (error: any) {
-      // Si el error tiene el flag `isAuthError`, puedo manejarlo aquí o en el componente que llama la función
-      /* if (error.isAuthError) {
-        console.error("Error de autenticación:", error.message);
-        return "TOKEN_EXPIRED";
-      } */
+      if (error.response && error.response.status === 401) {
+        return "TOKEN_EXPIRED"; // Retornamos un mensaje específico para manejarlo en el frontend
+      }
 
       console.error("Error al eliminar el descuento:", error.message);
       return "Error al eliminar el descuento";
