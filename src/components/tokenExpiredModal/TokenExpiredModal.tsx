@@ -85,7 +85,7 @@ const TokenExpiredModal: React.FC<SessionExpiredModalProps> = ({ isOpen, onClose
           <h2 className="text-xl md:text-2xl text-white font-semibold">Sesión Expirada</h2>
         </div>
         <p className="text-gray-700 text-base md:text-lg leading-relaxed">
-          Tu sesión ha expirado. Serás redirigido a Inicio de sesión.
+         Tu sesión ha expirado o no se encontró un token válido. Serás redirigido a Inicio de sesión.`
         </p>
 
         <div className='flex justify-center md:justify-end mt-8'>

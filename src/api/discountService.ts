@@ -2,7 +2,6 @@ import axios, { AxiosResponse } from "axios";
 import Cookies from "js-cookie";
 import { verifyToken } from "@/services/tokenVerificationService";
 import { Discount, DiscountsList, DiscountDetail } from "@/types/discountTypes";
-//import apiClient from "./axiosConfig";
 
 // Configuro Axios para enviar cookies automáticamente
 axios.defaults.withCredentials = true;
@@ -166,13 +165,16 @@ const handleError = (error: any): string => {
       }
     } catch (error: any) {
       // Verificar si el error es por token expirado
-      if (error.response && error.response.status === 401) {
+      /* if (error.response && error.response.status === 401) {
         const errorMessage = error.response.data.message;
         //console.log("Valor de errorMessage: ", errorMessage);
         if (errorMessage === "Token expired. Please log in again.") {
           console.error("El token ha expirado. Redirigiendo al login...");
           return "TOKEN_EXPIRED"; // Retornamos un mensaje específico para manejarlo en el frontend
         }
+      } */
+      if (error.response && error.response.status === 401) {
+          return "TOKEN_EXPIRED"; // Retornamos un mensaje específico para manejarlo en el frontend
       }
   
       console.error(
