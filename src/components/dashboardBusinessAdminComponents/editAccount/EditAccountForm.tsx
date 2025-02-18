@@ -310,7 +310,7 @@ const EditAccountForm: React.FC<EditAccountFormProps> = ({
             setBusinessType(cookieBusinessType);
 
             //Variables para el mensaje de edición exitosa de la cuenta al usuario
-            const title: string = "Tu cuenta se ha editado exitosamente";
+            const title: string = "Tu cuenta se ha editada exitosamente";
             setMessageTitle(title);
 
             const text: string = `Serás redirigido a la sección Resumen del dashboard.`;
@@ -348,6 +348,9 @@ const EditAccountForm: React.FC<EditAccountFormProps> = ({
 
           const text: string = `Serás redirigido a la sección Resumen del dashboard.`;
           setMessageText(text);
+
+          const route: string = "/dashboardBusinessAdmin";
+          setMessageRouterRedirection(route);
 
           setIsOpenMessageModal(true);
 
