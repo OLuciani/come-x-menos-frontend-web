@@ -140,7 +140,7 @@ const SidebarDashboard: React.FC<SidebarBusinessAdminDashboardProps> = ({
                   mainElement.scrollTo(0, 0);
                 }
               }}
-              className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white ${
+              className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-gray-100 ${
                 section === "overview"
                   ? "border-[2px] border-[#2C2C2C] hover:border-[#FD7B03]"
                   : "text-[#2C2C2C]"
@@ -149,6 +149,7 @@ const SidebarDashboard: React.FC<SidebarBusinessAdminDashboardProps> = ({
               <FiFileText className="inline mr-2" />
               Resumen
             </button>
+
             <button
               onClick={() => {
                 setSection("activeDiscountsOverview");
@@ -161,7 +162,7 @@ const SidebarDashboard: React.FC<SidebarBusinessAdminDashboardProps> = ({
                   mainElement.scrollTo(0, 0);
                 }
               }}
-              className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white ${
+              className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-gray-100 ${
                 section === "activeDiscountsOverview"
                   ? "border-[2px] border-[#2C2C2C] hover:border-[#FD7B03]"
                   : "text-[#2C2C2C]"
@@ -170,6 +171,7 @@ const SidebarDashboard: React.FC<SidebarBusinessAdminDashboardProps> = ({
               <AiOutlineTag className="inline mr-2" />
               {`Descuentos activos (ver actividad)`}
             </button>
+            
             <button
               onClick={() => {
                 setSection("sales");
@@ -182,7 +184,7 @@ const SidebarDashboard: React.FC<SidebarBusinessAdminDashboardProps> = ({
                   mainElement.scrollTo(0, 0);
                 }
               }}
-              className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white ${
+              className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-gray-100 ${
                 section === "sales"
                   ? "border-[2px] border-[#2C2C2C] hover:border-[#FD7B03]"
                   : "text-[#2C2C2C]"
@@ -191,6 +193,7 @@ const SidebarDashboard: React.FC<SidebarBusinessAdminDashboardProps> = ({
               <FaChartLine className="inline mr-2" />
               {`Total de Ventas (descuentos utilizados)`}
             </button>
+
             <button
               onClick={() => {
                 setSection("notificaciones");
@@ -204,7 +207,7 @@ const SidebarDashboard: React.FC<SidebarBusinessAdminDashboardProps> = ({
                   mainElement.scrollTo(0, 0);
                 }
               }}
-              className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white relative ${
+              className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-gray-100 relative ${
                 section === "notificaciones"
                   ? "border-[2px] border-[#2C2C2C] hover:border-[#FD7B03]"
                   : "text-[#2C2C2C]"
@@ -239,7 +242,7 @@ const SidebarDashboard: React.FC<SidebarBusinessAdminDashboardProps> = ({
                   mainElement.scrollTo(0, 0);
                 }
               }}
-              className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white ${
+              className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-gray-100 ${
                 section === "discountCreate"
                   ? "border-[2px] border-[#2C2C2C] hover:border-[#FD7B03]"
                   : "text-[#2C2C2C]"
@@ -260,7 +263,7 @@ const SidebarDashboard: React.FC<SidebarBusinessAdminDashboardProps> = ({
                   mainElement.scrollTo(0, 0);
                 }
               }}
-              className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white ${
+              className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-gray-100 ${
                 section === "activeDiscountsGallery"
                   ? "border-[2px] border-[#2C2C2C] hover:border-[#FD7B03]"
                   : "text-[#2C2C2C]"
@@ -282,7 +285,7 @@ const SidebarDashboard: React.FC<SidebarBusinessAdminDashboardProps> = ({
                     mainElement.scrollTo(0, 0);
                   }
                 }}
-                className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white ${
+                className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-gray-100 ${
                   section === "editAccount"
                     ? "border-[2px] border-[#2C2C2C] hover:border-[#FD7B03]"
                     : "text-[#2C2C2C]"
@@ -306,7 +309,7 @@ const SidebarDashboard: React.FC<SidebarBusinessAdminDashboardProps> = ({
                       mainElement.scrollTo(0, 0);
                     }
                   }}
-                  className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white ${
+                  className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-gray-100 ${
                     section === "invitationExtraBusinessAdmin"
                       ? "border-[2px] border-[#2C2C2C] hover:border-[#FD7B03]"
                       : "text-[#2C2C2C]"
@@ -327,7 +330,7 @@ const SidebarDashboard: React.FC<SidebarBusinessAdminDashboardProps> = ({
                       mainElement.scrollTo(0, 0);
                     }
                   }}
-                  className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white ${
+                  className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-gray-100 ${
                     section === "invitationBusinessEmployee"
                       ? "border-[2px] border-[#2C2C2C] hover:border-[#FD7B03]"
                       : "text-[#2C2C2C]"
@@ -348,7 +351,7 @@ const SidebarDashboard: React.FC<SidebarBusinessAdminDashboardProps> = ({
                       mainElement.scrollTo(0, 0);
                     }
                   }}
-                  className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-white ${
+                  className={`block w-full text-left p-2 rounded transition-colors duration-300 ease-in-out hover:bg-[#FD7B03] hover:text-gray-100 ${
                     section === "activeBusinessUsers"
                       ? "border-[2px] border-[#2C2C2C] hover:border-[#FD7B03]"
                       : "text-[#2C2C2C]"

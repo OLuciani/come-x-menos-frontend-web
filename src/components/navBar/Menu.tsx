@@ -111,106 +111,92 @@ const Menu: React.FC<MenuProps> = ({ open, closeMenu }) => {
       } ${!userToken ? "mt-[42px] xxs:mt-[9px] custom-w-450:mt-[21px]" : "mt-[42px] xxs:mt-[14px] custom-w-450:mt-[21px] md:mt-[22px]"} shadow-md shadow-gray-500`}
     >
       <div className="w-[100%] h-4 relative mb-2">
-        <p className="absolute right-7 text-[15px] text-[#FD7B03] font-bold" onClick={handleLinkClick}>
+        <p className="absolute right-7 text-[15px] text-[black] font-semibold" onClick={handleLinkClick}>
           X
         </p>
       </div>
-      <ul className="flex flex-col gap-2 mb-2 text-[15px] font-medium">
-        <Link href={"/"} onClick={handleLinkClick}>
-          <li
-            className={`${
-              currentRoute === "/"
-              ? "text-[#FD7B03] font-bold bg-white" // Estilo cuando está seleccionado
-                : "text-[#FD7B03] font-bold hover:bg-[#FFCF91] hover:text-[#FD7B03]"
-            } py-2 px-8`}
-          >
+      <ul className="flex flex-col gap-2 mb-2 text-[15px]">
+        <li
+          className={`${
+            currentRoute === "/"
+            ? "text-[black] font-semibold bg-gray-100" // Estilo cuando está seleccionado
+              : "text-[black] font-semibold hover:bg-[#FFCF91] hover:text-[black]"
+          } py-2 px-8`}
+        >
+          <Link href={"/"} onClick={handleLinkClick}>
             Inicio
-          </li>
-        </Link>
+          </Link>
+        </li>
 
         {userToken && (userRole === roleBusinessDirector || userRole === roleBusinessManager || userRole === roleBusinessEmployee) && userStatus === "active" && (
-          <Link href={"/dashboardBusinessAdmin"} onClick={handleLinkClick}>
-            <li
-              className={`${
-                currentRoute === "/dashboardBusinessAdmin"
-                  ? "text-[#FD7B03] font-bold bg-white"
-                  : "text-[#FD7B03] font-bold hover:bg-[#FFCF91] hover:text-[#FD7B03]"
-              } px-8 py-2`}
-            >
+          <li
+            className={`${
+              currentRoute === "/dashboardBusinessAdmin"
+                ? "text-[black] font-semibold bg-gray-100"
+                : "text-[black] font-semibold hover:bg-[#FFCF91] hover:text-[black]"
+            } px-8 py-2`}
+          >
+            <Link href={"/dashboardBusinessAdmin"} onClick={handleLinkClick}>
               Mi cuenta
-            </li>
-          </Link>
+            </Link>
+          </li>
         )}
 
         {userToken  && userStatus === "pending" && (
-          <Link href={"/notifications"} onClick={handleLinkClick}>
-            <li
-              className={`${
-                currentRoute === "/notifications"
-                ? "text-[#FD7B03] font-bold bg-white"
-                  : "text-[#FD7B03] font-bold hover:bg-[#FFCF91] hover:text-[#FD7B03]"
-              } px-8 py-2`}
-            >
+          <li
+            className={`${
+              currentRoute === "/notifications"
+              ? "text-[black] font-semibold bg-gray-100"
+                : "text-[black] font-semibold hover:bg-[#FFCF91] hover:text-[black]"
+            } px-8 py-2`}
+          >
+            <Link href={"/notifications"} onClick={handleLinkClick}>
               Notificaciones
-            </li>
-          </Link>
+            </Link>
+          </li>
         )}
 
         {userToken && userRole === roleAppAdmin && (
-          <Link href={"/dashboardAplicationAdmin"} onClick={handleLinkClick}>
-            <li
-              className={`${
-                currentRoute === "/dashboardAppAdmin"
-                ? "text-[#FD7B03] font-bold bg-white"
-                  : "text-[#FD7B03] font-bold hover:bg-[#FFCF91] hover:text-[#FD7B03]"
-              } px-8 py-2`}
-            >
+          <li
+            className={`${
+              currentRoute === "/dashboardAppAdmin"
+              ? "text-[black] font-semibold bg-gray-100"
+                : "text-[black] font-semibold hover:bg-[#FFCF91] hover:text-[black]"
+            } px-8 py-2`}
+          >
+            <Link href={"/dashboardAplicationAdmin"} onClick={handleLinkClick}>
               Mi cuenta
-            </li>
-          </Link>
+            </Link>
+          </li>
         )}
 
         {userToken === "" && userRole === "" && (
-          <Link href={"/emailConfirm"} onClick={handleLinkClick}>
-            <li
-              className={`${
-                currentRoute === "/emailConfirm"
-                ? "text-[#FD7B03] font-bold bg-white"
-                  : "text-[#FD7B03] font-bold hover:bg-[#FFCF91] hover:text-[#FD7B03]"
-              } px-8 py-2`}
-            >
+          <li
+            className={`${
+              currentRoute === "/emailConfirm"
+              ? "text-[black] font-semibold bg-gray-100"
+                : "text-[black] font-semibold hover:bg-[#FFCF91] hover:text-[black]"
+            } px-8 py-2`}
+          >
+            <Link href={"/emailConfirm"} onClick={handleLinkClick}>
               Crear cuenta
-            </li>
-          </Link>
+            </Link>
+          </li>
         )}
 
         {userToken === "" && userRole === "" && (
-          <Link href={"/login"} onClick={handleLinkClick}>
-            <li
-              className={`${
-                currentRoute === "/login"
-                ? "text-[#FD7B03] font-bold bg-white"
-                  : "text-[#FD7B03] font-bold hover:bg-[#FFCF91] hover:text-[#FD7B03]"
-              } px-8 py-2`}
-            >
+          <li
+            className={`${
+              currentRoute === "/login"
+              ? "text-[black] font-semibold bg-gray-100"
+                : "text-[black] font-semibold hover:bg-[#FFCF91] hover:text-[black]"
+            } px-8 py-2`}
+          >
+            <Link href={"/login"} onClick={handleLinkClick}>
               Iniciar sesión
-            </li>
-          </Link>
+            </Link>
+          </li>
         )}
-
-       {/*  {userToken !== "" && userRole !== "" && (
-          <Link href={"/"}>
-            <li
-              className={`text-[#FD7B03] font-bold px-8 py-2 cursor-pointer`}
-              onClick={() => {
-                console.log("<Cerrar sesión>");
-                handleLogOutUser();
-              }}
-            >
-              Cerrar sesión
-            </li>
-          </Link>
-        )} */}
       </ul>
     </div>
   );

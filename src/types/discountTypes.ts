@@ -38,7 +38,8 @@ export interface Discount {
     description: string;
     normalPrice: string;
     discountAmount: string;
-    imageURL: File | null;
+    //imageURL: File | null;
+    imageURL: string;
     businessName: string;
     businessId: string;
     businessType: string;

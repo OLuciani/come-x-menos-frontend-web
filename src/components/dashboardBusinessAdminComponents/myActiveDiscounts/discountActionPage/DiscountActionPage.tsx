@@ -159,43 +159,65 @@ const DiscountActionPage: React.FC<DiscountDetailPageProps> = ({
               Detalles del descuento
             </h1>
 
-            <div className="w-[95%] xs:w-[380px] xs:mx-0 border-[1px] border-black rounded-lg py-5 ">
+            <div /* className="w-[95%] xs:w-[380px] xs:mx-0 border-[1px] border-black rounded-lg py-5" */className="w-full custom-w-450:w-[380px] py-5 rounded-2xl cursor-pointer shadow-[0_6px_12px_rgba(0,0,0,0.2)]">
               <p className="text-[18px] font-bold text-center mb-[10px]">
                 {discount.title}
               </p>
 
               <div className="w-full h-auto flex flex-row flex-wrap justify-evenly">
-                <div className="w-[45%] flex items-center ">
+                {/* <div className="w-[45%] flex items-center ">
                   <p className="w-full h-auto text-[14px] text-left line-clamp-6 break-words">
                     {discount.description}
                   </p>
-                </div>
+                </div> */}
                 <div className="w-[45%] flex justify-center items-start relative">
-                  <Image
+                  {/* <Image
                     src={
-                      typeof discount.imageURL === "string" &&
-                      (discount.imageURL as string).includes(
-                        "firebasestorage.googleapis.com"
-                      )
+                      typeof discount.imageURL === "string" 
                         ? discount.imageURL // Si es una URL de Firebase
                         : typeof discount.imageURL === "string"
-                        ? /* ? 'https://discount-project-backend.onrender.com/' + discount.imageURL // Si es de tu backend */
+                        ?
                           `${BASE_BACKEND_URL}/` + discount.imageURL // Si es de tu backend
                         : "" // Si no es un string, manejar el caso con una cadena vacía o una imagen por defecto
                     }
                     alt="Imagen descuento"
                     width={169}
                     height={112}
-                    //className="w-[169px] h-[112px]"
-                  />
+                    className="rounded-lg"
+                  /> */}
+                  <Image
+                    src={discount.imageURL}
+                    alt="Imagen descuento"
+                    width={169}
+                    height={112}
+                    className="rounded-md"
+                    priority
+                  /> 
+
                   <p className="text-[12px] text-black bg-yellow-300 font-bold p-[4px] rounded-[30px] absolute bottom-[8px] left-[4%]">
                     {" "}
                     {/* antes tenía left-[18px] */}- {discount.discountAmount} %
                   </p>
                 </div>
+
+                {/* <div className="w-[45%] flex items-center "> */}
+                <div className=" w-[45%] flex flex-col gap-[30px] mt-[10px] justify-center items-center">
+                <div className="flex felx-row items-center font-bold">
+                  <p className="text-[14px] flex flex-row">Antes: </p>
+                  <div className="relative flex flex-row justify-center ">
+                    <p className="text-[14px]">$ {discount.normalPrice}</p>
+                    <div className="absolute top-[50%] h-[1px] bg-black w-[110%]"></div>
+                  </div>
+                </div>
+
+                <p className="flex flex-row text-[14px] font-bold">
+                  Ahora: $ {discount.priceWithDiscount}
+                </p>
+              </div>
+                {/* </div> */}
               </div>
 
-              <div className="flex felx-row gap-[10px] mt-[10px] justify-center">
+              {/* <div className="flex felx-row gap-[10px] mt-[10px] justify-center">
                 <div className="flex felx-row items-center font-bold">
                   <p className="text-[14px] flex flex-row">Antes: </p>
                   <div className="relative flex flex-row justify-center ">
@@ -206,6 +228,12 @@ const DiscountActionPage: React.FC<DiscountDetailPageProps> = ({
 
                 <p className="flex flex-row text-[14px] font-bold">
                   Con Descuento: $ {discount.priceWithDiscount}
+                </p>
+              </div> */}
+
+              <div className="w-[100%]">
+                <p className="w-full px-4 pt-4 h-auto text-[14px] text-left break-words">
+                  {discount.description}
                 </p>
               </div>
 
@@ -228,7 +256,7 @@ const DiscountActionPage: React.FC<DiscountDetailPageProps> = ({
               </div>
             </div>
 
-            <div className="w-[95%] mx-3 xs:w-[380px] xs:mx-0 flex flex-col justify-between gap-5 my-6">
+            <div className="w-[95%] mx-3 xs:w-[380px] xs:mx-0 flex flex-col justify-between gap-2 mt-3">
                 <Button 
                 buttonText="Editar descuento" 
                 onClickButton={() => {
