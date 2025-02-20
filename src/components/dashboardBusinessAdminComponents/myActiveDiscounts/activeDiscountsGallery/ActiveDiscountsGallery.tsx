@@ -233,6 +233,7 @@ const ActiveDiscountsGallery = () => {
                     color="secondary"
                     size={24}
                     className="mr-2"
+                    aria-labelledby="Cargando datos"
                   />
                   <span className="text-gray-600">Cargando datos...</span>
                 </div>

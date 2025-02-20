@@ -187,8 +187,8 @@ const Overview: React.FC = () => {
                         color="secondary"
                         size={24}
                         className="mr-2"
+                        aria-label="Cargando contenido"
                       />
-                      {/* <span className="text-gray-600">Cargando datos...</span> */}
                     </div>
                   ) : (
                     <p className="text-lg font-bold">{totalPublishedDiscounts}</p>
@@ -215,8 +215,8 @@ const Overview: React.FC = () => {
                         color="secondary"
                         size={24}
                         className="mr-2"
+                        aria-label="Cargando contenido"
                       />
-                      {/* <span className="text-gray-600">Cargando datos...</span> */}
                     </div>
                   ) : (
                     <p className="text-lg font-bold">{totalGeneratedDiscounts}</p>
@@ -243,8 +243,8 @@ const Overview: React.FC = () => {
                         color="secondary"
                         size={24}
                         className="mr-2"
+                        aria-label="Cargando contenido"
                       />
-                      {/* <span className="text-gray-600">Cargando datos...</span> */}
                     </div>
                   ) : (
                     <p className="text-lg font-bold">{totalConsumedDiscounts}</p>

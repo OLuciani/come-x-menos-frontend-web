@@ -386,14 +386,21 @@ const Navbar = () => {
               </div>
             )}
 
-            <div className="lg:hidden flex items-center">
+            {/* <div className="lg:hidden flex items-center">
               {
               <GiHamburgerMenu
                 className="text-gray-100 text-[22px] md:text-[25px]"
                 onClick={openMenu}
               />
               }
-            </div>
+            </div> */}
+            <button
+              className="lg:hidden flex items-center"
+              onClick={openMenu}
+              aria-label="Abrir menú"
+            >
+              <GiHamburgerMenu className="text-gray-100 text-[22px] md:text-[25px]" />
+            </button>
           </ul>
         </div>
       </nav>
