@@ -407,8 +407,8 @@ const Navbar = () => {
             <li className="lg:hidden flex items-center">
               <button 
               onClick={openMenu} 
-              aria-label="Abrir menú"
               >
+                <span className="sr-only">Abrir menú</span>
                 <GiHamburgerMenu className="text-gray-100 text-[22px] md:text-[25px]" />
               </button>
             </li>
