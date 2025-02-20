@@ -342,7 +342,7 @@ const Navbar = () => {
             )}
 
             {userToken && (
-              <div className="relative">
+              <li className="relative">
                 {userMenuOpen && (
                     <div className="absolute w-48 right-[-52px] custom-w-450:right-[-50px] sm:right-[-66px] md:right-[-71px] lg:right-[-22px] mt-[54px] custom-w-450:mt-[57px] md:mt-[62px] lg:mt-[73px] p-2 bg-gray-300 rounded-lg shadow-xl z-20">
                       <div className="w-full flex justify-end mb-3">
@@ -379,11 +379,12 @@ const Navbar = () => {
                     <FiUser
                       className="cursor-pointer"
                       size={22}
+                      aria-label="El usuario inició sesión"
                     />
                     <p className="hidden md:block cursor-pointer">{userName}</p>
                   </div>
                 </div>
-              </div>
+              </li>
             )}
 
             {/* <div className="lg:hidden flex items-center">
@@ -394,13 +395,15 @@ const Navbar = () => {
               />
               }
             </div> */}
-            <button
-              className="lg:hidden flex items-center"
-              onClick={openMenu}
-              aria-label="Abrir menú"
-            >
-              <GiHamburgerMenu className="text-gray-100 text-[22px] md:text-[25px]" />
-            </button>
+            <li>
+              <button
+                className="lg:hidden flex items-center"
+                onClick={openMenu}
+                aria-label="Abrir menú"
+              >
+                <GiHamburgerMenu className="text-gray-100 text-[22px] md:text-[25px]" />
+              </button>
+            </li>
           </ul>
         </div>
       </nav>
