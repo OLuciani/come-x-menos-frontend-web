@@ -110,21 +110,22 @@ const Menu: React.FC<MenuProps> = ({ open, closeMenu }) => {
         open ? activo : inactivo
       } ${!userToken ? "mt-[42px] xxs:mt-[9px] custom-w-450:mt-[21px]" : "mt-[42px] xxs:mt-[14px] custom-w-450:mt-[21px] md:mt-[22px]"} shadow-md shadow-gray-500`}
     >
-      <div className="w-[100%] h-4 relative mb-2">
-        <p className="absolute right-7 text-[15px] text-[black] font-semibold" onClick={handleLinkClick}>
+      <div className="w-[100%] h-4 relative mb-5">
+        <p className="absolute px-1 right-0 bg-gray-100 text-[15px] text-[#FD7B03] font-semibold hover:border-[#FD7B03] rounded" onClick={handleLinkClick}>
           X
         </p>
       </div>
-      <ul className="flex flex-col gap-2 mb-2 text-[15px]">
+      <ul className="flex flex-col gap-2 mb-2 text-[18px] font-semibold">
         <li
           className={`${
             currentRoute === "/"
-            ? "text-[black] font-semibold bg-gray-100" // Estilo cuando está seleccionado
-              : "text-[black] font-semibold hover:bg-[#FFCF91] hover:text-[black]"
+            ? "bg-[#FD7B03] text-[white]" // Estilo cuando está seleccionado
+              : "bg-gray-100 text-[#FD7B03] hover:bg-[#FD7B03] hover:text-gray-100"
           } py-2 px-8`}
+          onClick={handleLinkClick}
         >
-          <Link href={"/"} onClick={handleLinkClick}>
-            Inicio
+          <Link href={"/"}>
+            <p>Inicio</p>
           </Link>
         </li>
 
@@ -132,12 +133,13 @@ const Menu: React.FC<MenuProps> = ({ open, closeMenu }) => {
           <li
             className={`${
               currentRoute === "/dashboardBusinessAdmin"
-                ? "text-[black] font-semibold bg-gray-100"
-                : "text-[black] font-semibold hover:bg-[#FFCF91] hover:text-[black]"
-            } px-8 py-2`}
+              ? "bg-[#FD7B03] text-[white]" // Estilo cuando está seleccionado
+                : "bg-gray-100 text-[#FD7B03] hover:bg-[#FD7B03] hover:text-gray-100"
+            } py-2 px-8`}
+            onClick={handleLinkClick}
           >
-            <Link href={"/dashboardBusinessAdmin"} onClick={handleLinkClick}>
-              Mi cuenta
+            <Link href={"/dashboardBusinessAdmin"}>
+              <p>Mi cuenta</p>
             </Link>
           </li>
         )}
@@ -146,12 +148,13 @@ const Menu: React.FC<MenuProps> = ({ open, closeMenu }) => {
           <li
             className={`${
               currentRoute === "/notifications"
-              ? "text-[black] font-semibold bg-gray-100"
-                : "text-[black] font-semibold hover:bg-[#FFCF91] hover:text-[black]"
-            } px-8 py-2`}
+              ? "bg-[#FD7B03] text-[white]" // Estilo cuando está seleccionado
+                : "bg-gray-100 text-[#FD7B03] hover:bg-[#FD7B03] hover:text-gray-100"
+            } py-2 px-8`}
+            onClick={handleLinkClick}
           >
-            <Link href={"/notifications"} onClick={handleLinkClick}>
-              Notificaciones
+            <Link href={"/notifications"} >
+              <p>Notificaciones</p>
             </Link>
           </li>
         )}
@@ -159,13 +162,14 @@ const Menu: React.FC<MenuProps> = ({ open, closeMenu }) => {
         {userToken && userRole === roleAppAdmin && (
           <li
             className={`${
-              currentRoute === "/dashboardAppAdmin"
-              ? "text-[black] font-semibold bg-gray-100"
-                : "text-[black] font-semibold hover:bg-[#FFCF91] hover:text-[black]"
-            } px-8 py-2`}
+              currentRoute === "/dashboardAplicationAdmin"
+              ? "bg-[#FD7B03] text-[white]" // Estilo cuando está seleccionado
+                : "bg-gray-100 text-[#FD7B03] hover:bg-[#FD7B03] hover:text-gray-100"
+            } py-2 px-8`}
+            onClick={handleLinkClick}
           >
-            <Link href={"/dashboardAplicationAdmin"} onClick={handleLinkClick}>
-              Mi cuenta
+            <Link href={"/dashboardAplicationAdmin"} >
+              <p>Mi cuenta</p>
             </Link>
           </li>
         )}
@@ -174,12 +178,13 @@ const Menu: React.FC<MenuProps> = ({ open, closeMenu }) => {
           <li
             className={`${
               currentRoute === "/emailConfirm"
-              ? "text-[black] font-semibold bg-gray-100"
-                : "text-[black] font-semibold hover:bg-[#FFCF91] hover:text-[black]"
-            } px-8 py-2`}
+              ? "bg-[#FD7B03] text-[white]" // Estilo cuando está seleccionado
+                : "bg-gray-100 text-[#FD7B03] hover:bg-[#FD7B03] hover:text-gray-100"
+            } py-2 px-8`}
+            onClick={handleLinkClick}
           >
-            <Link href={"/emailConfirm"} onClick={handleLinkClick}>
-              Crear cuenta
+            <Link href={"/emailConfirm"}>
+              <p>Crear cuenta</p>
             </Link>
           </li>
         )}
@@ -188,12 +193,13 @@ const Menu: React.FC<MenuProps> = ({ open, closeMenu }) => {
           <li
             className={`${
               currentRoute === "/login"
-              ? "text-[black] font-semibold bg-gray-100"
-                : "text-[black] font-semibold hover:bg-[#FFCF91] hover:text-[black]"
-            } px-8 py-2`}
+              ? "bg-[#FD7B03] text-[white]" // Estilo cuando está seleccionado
+                : "bg-gray-100 text-[#FD7B03] hover:bg-[#FD7B03] hover:text-gray-100"
+            } py-2 px-8`}
+            onClick={handleLinkClick}
           >
-            <Link href={"/login"} onClick={handleLinkClick}>
-              Iniciar sesión
+            <Link href={"/login"}>
+              <p>Iniciar sesión</p>
             </Link>
           </li>
         )}

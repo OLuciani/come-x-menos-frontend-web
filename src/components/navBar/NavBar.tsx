@@ -229,7 +229,7 @@ const Navbar = () => {
         {/* <div className="w-[70%] custom-w-450:w-auto"> */}
         <div className="">
           <p
-            className={`${krona.className} text-[22px] text-gray-100 custom-w-450:text-[30px] lg:text-[35px]`}
+            className={`${krona.className} text-[22px] text-white font-bold custom-w-450:text-[30px] lg:text-[35px]`}
           >
             <Link href={"/"} onClick={() => handleOptionClick("Inicio")}>
               Comé x menos
@@ -238,13 +238,12 @@ const Navbar = () => {
         </div>
 
         <div className="w-[30%] custom-w-450:w-auto">
-          <ul className="w-full flex flex-row justify-end text-[18px] font-medium gap-6">
+          <ul className="w-full flex flex-row justify-end text-lg font-semibold gap-6">
             <li
-              className={`border-[2px] border-[#FFCF91] py-2 px-4 hidden lg:flex text-gray-100 hover:bg-[#FFCF91] hover:text-[black]`}
+              className={`border-[2px] border-[#FFCF91] py-2 px-4 hidden lg:flex text-white hover:bg-[#FFCF91] hover:text-[#FD7B03]`}
               /* style={{ textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)" }}
               onMouseEnter={(e) => (e.currentTarget.style.textShadow = "1px 1px 2px rgba(255, 255, 255, 0.7)")}
               onMouseLeave={(e) => (e.currentTarget.style.textShadow = "2px 2px 4px rgba(0, 0, 0, 0.5)")} */
-              
             >
               <Link href={"/"} onClick={() => handleOptionClick("Inicio")}>
                   Inicio
@@ -258,7 +257,7 @@ const Navbar = () => {
 
             {userToken  && (userRole === roleBusinessDirector || userRole === roleBusinessManager || userRole === roleBusinessEmployee) && userStatus === "active" && (
               <li
-                className={`border-[2px] border-[#FFCF91] py-2 px-4 hidden lg:flex text-gray-100 hover:bg-[#FFCF91] hover:text-[black]`}
+                className={`border-[2px] border-[#FFCF91] py-2 px-4 hidden lg:flex text-white hover:bg-[#FFCF91] hover:text-[#FD7B03]`}
               >
                 <Link
                   //href={"/myAccount"}
@@ -275,7 +274,7 @@ const Navbar = () => {
 
             {userToken  && userStatus === "pending" && (
               <li
-                className={`border-[2px] border-[#FFCF91] py-2 px-4 hidden lg:flex text-gray-100 hover:bg-[#FFCF91] hover:text-[black]`}
+                className={`border-[2px] border-[#FFCF91] py-2 px-4 hidden lg:flex text-white hover:bg-[#FFCF91] hover:text-[#FD7B03]`}
               >
                 <Link
                   href={"/notifications"}
@@ -289,10 +288,9 @@ const Navbar = () => {
               </li>
             )}
 
-
             {userToken  && userRole === roleAppAdmin && userStatus === "active" && (
               <li
-                className={`border-[2px] border-[#FFCF91] py-2 px-4 hidden lg:flex text-gray-100 hover:bg-[#FFCF91] hover:text-[black]`}
+                className={`border-[2px] border-[#FFCF91] py-2 px-4 hidden lg:flex text-white hover:bg-[#FFCF91] hover:text-[#FD7B03]`}
               >
                 <Link
                   //href={"/dashboardAppAdmin"}
@@ -310,7 +308,7 @@ const Navbar = () => {
 
             {(userToken === "" && userRole === "")  && (
               <li
-                className={`border-[2px] border-[#FFCF91] py-2 px-4 hidden lg:flex text-gray-100 hover:bg-[#FFCF91] hover:text-[black]`}
+                className={`border-[2px] border-[#FFCF91] py-2 px-4 hidden lg:flex text-white hover:bg-[#FFCF91] hover:text-[#FD7B03]`}
               >
                 <Link
                   //href={"/register"}
@@ -327,7 +325,7 @@ const Navbar = () => {
 
             {userToken === "" && userRole === "" && (
               <li
-                className={`border-[2px] border-[#FFCF91] py-2 px-4 hidden lg:flex text-gray-100 hover:bg-[#FFCF91] hover:text-[black]`}
+                className={`border-[2px] border-[#FFCF91] py-2 px-4 hidden lg:flex text-white hover:bg-[#FFCF91] hover:text-[#FD7B03]`}
               >
                 <Link
                   href={"/login"}
@@ -344,10 +342,10 @@ const Navbar = () => {
             {userToken && (
               <li className="relative">
                 {userMenuOpen && (
-                    <div className="absolute w-48 right-[-52px] custom-w-450:right-[-50px] sm:right-[-66px] md:right-[-71px] lg:right-[-22px] mt-[54px] custom-w-450:mt-[57px] md:mt-[62px] lg:mt-[73px] p-2 bg-gray-300 rounded-lg shadow-xl z-20">
+                    <div className="absolute w-48 right-[-62px] custom-w-450:right-[-60px] sm:right-[-66px] md:right-[-71px] lg:right-[-22px] mt-[54px] custom-w-450:mt-[57px] md:mt-[62px] lg:mt-[73px] p-2 bg-[#FFCF91] rounded-lg shadow-xl z-20">
                       <div className="w-full flex justify-end mb-3">
                         <p
-                          className="w-6 text-center block text-gray-600 font-bold mb-1 cursor-pointer border-2 rounded border-gray-300 hover:border-black"
+                          className="w-6 text-center block text-[#FD7B03] font-bold mb-1 cursor-pointer border-2 rounded bg-white hover:border-[#FD7B03]"
                           onClick={() => setUserMenuOpen(!userMenuOpen)}
                         >
                           X
@@ -360,7 +358,7 @@ const Navbar = () => {
 
                       <Link href={"/"}>
                         <button
-                          className="block w-full px-4 py-1 text-[black] text-center bg-white hover:bg-gray-600 hover:text-white rounded"
+                          className="block w-full bg-white px-4 py-1 text-[#FD7B03] text-center bg-text-gray-100 hover:bg-[#FD7B03] hover:text-white rounded"
                           onClick={handleLogOutUser}
                         >
                           Cerrar sesión
@@ -369,7 +367,7 @@ const Navbar = () => {
                     </div>
                   )}
                 <div
-                  className="md:px-4 py-2 flex gap-2 items-center md:hover:bg-[#FFCF91] md:border-[2px] md:border-[#FFCF91] cursor-pointer text-gray-100 md:hover:text-[black] z-10"
+                  className="md:px-4 py-2 flex gap-2 items-center md:hover:bg-[#FFCF91] md:border-[2px] md:border-[#FFCF91] cursor-pointer text-white md:hover:text-[#FD7B03] z-10"
                   onClick={() => setUserMenuOpen(!userMenuOpen)}
                 >
                   <div 
@@ -387,31 +385,6 @@ const Navbar = () => {
               </li>
             )}
 
-            {/* <div className="lg:hidden flex items-center">
-              {
-              <GiHamburgerMenu
-                className="text-gray-100 text-[22px] md:text-[25px]"
-                onClick={openMenu}
-              />
-              }
-            </div> */}
-            {/* <li>
-              <button
-                className="lg:hidden flex items-center"
-                onClick={openMenu}
-                aria-label="Abrir menú"
-              >
-                <GiHamburgerMenu className="text-gray-100 text-[22px] md:text-[25px]" />
-              </button>
-            </li> */}
-            {/* <li className="lg:hidden flex items-center">
-              <button 
-              onClick={openMenu} 
-              >
-                <span className="sr-only">Abrir menú</span>
-                <GiHamburgerMenu className="text-gray-100 text-[22px] md:text-[25px]" />
-              </button>
-            </li> */}
             <li className="lg:hidden flex items-center">
               <button 
                 onClick={openMenu} 
@@ -419,7 +392,7 @@ const Navbar = () => {
                 aria-label="Abrir menú"
                 title="Abrir menú"
               >
-                <GiHamburgerMenu className="text-gray-100 text-[22px] md:text-[25px]" aria-hidden="true" />
+                <GiHamburgerMenu className="text-white text-[22px] md:text-[25px]" aria-hidden="true" />
               </button>
             </li>
           </ul>

@@ -49,4 +49,5 @@ export interface Discount {
     startDateTime: Date;
     businessLocationLatitude: number;
     businessLocationLongitude: number;
+    expirationDate?: Date;
   }

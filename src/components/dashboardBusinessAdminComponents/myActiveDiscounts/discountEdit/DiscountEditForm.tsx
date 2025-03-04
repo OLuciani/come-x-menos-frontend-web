@@ -28,7 +28,7 @@ interface ErrorResponse {
 
     
 const FormEditDiscount: React.FC<DiscountEditFormProps> = ({ setShowDiscountActionPage }) => {
-  const { discountId, discountRecovered, isLoggedIn, setDiscountId, setUserRole, setUserId, setUserName, setBusinessName, setBusinessId, setBusinessType, setSelectedOption, setDiscountsArrayList } = useContext(Context);
+  const { discountId, discountRecovered, isLoggedIn, setDiscountId, setUserRole, setUserName, setBusinessName, setBusinessType, setSelectedOption, setDiscountsArrayList } = useContext(Context);
   const [error, setError] = useState<string | undefined>(undefined);
   const [discount, setDiscount] = useState<Discount | null>(null);
   const [userToken, setUserToken] = useState<string>("");
@@ -80,17 +80,11 @@ const FormEditDiscount: React.FC<DiscountEditFormProps> = ({ setShowDiscountActi
     const cookieUserRole = Cookies.get('userRole') || '';
     setUserRole(cookieUserRole); 
 
-    /* const cookieUserId = Cookies.get("userId") || "";
-    setUserId(cookieUserId); */
-
     const cookieUserName = Cookies.get("userName") || "";
     setUserName(cookieUserName);
 
     const cookieBusinessName = Cookies.get("businessName") || "";
     setBusinessName(cookieBusinessName);
-
-    /* const cookieBusinessId = Cookies.get("businessId") || "";
-    setBusinessId(cookieBusinessId); */
 
     const cookieBusinessType = Cookies.get("businessType") || "";
     setBusinessType(cookieBusinessType);
@@ -131,7 +125,7 @@ const FormEditDiscount: React.FC<DiscountEditFormProps> = ({ setShowDiscountActi
     imageURL: Yup.mixed().nullable(),
     validityPeriod: Yup.number()
       .nullable()
-      .min(1, "La duración mínima del descuento es 1 día"), // Es opcional, y en caso de implementar a duración  lo mínimo es 1 día
+      .min(0, "La duración mínima del descuento es 0 día."), // Es opcional, y en caso de implementar a duración  lo mínimo es 1 día
   });
 
   const formik = useFormik({
@@ -162,9 +156,13 @@ const FormEditDiscount: React.FC<DiscountEditFormProps> = ({ setShowDiscountActi
       //formData.append("businessId", values.businessId);
       formData.append("isActive", String(values.isActive));
       
-      if (values.validityPeriod !== null) {
-        formData.append("validityPeriod", values.validityPeriod.toString());
-      }
+      // Solo agregar validityPeriod si el usuario ingresó un nuevo valor y diferente al original.
+  if (
+    values.validityPeriod !== null && // El usuario escribió algo
+    values.validityPeriod !== discount?.validityPeriod // Es diferente al valor original
+  ) {
+    formData.append("validityPeriod", values.validityPeriod.toString());
+  }
 
       if (values.imageURL instanceof File || values.imageURL instanceof Blob) {
         formData.append("imageURL", values.imageURL);
@@ -453,8 +451,8 @@ const FormEditDiscount: React.FC<DiscountEditFormProps> = ({ setShowDiscountActi
 
               <div className="w-full">
               <Input
-                label="Periodo de Validez del descuento (Es opcional, y por días)"
-                placeholder="1"
+                label="Periodo de Validez del descuento (Es opcional, y por días). Si dejas el valor en 0 el descuento se publicará de manera permanente."
+                placeholder="0"
                 type="number"
                 name="validityPeriod"
                 value={
@@ -465,8 +463,8 @@ const FormEditDiscount: React.FC<DiscountEditFormProps> = ({ setShowDiscountActi
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
               />
-              
-              {(formik.touched.validityPeriod || formik.submitCount > 0) && formik.errors.validityPeriod ? (
+              {/* Si el numero de d */}
+              {(formik.touched.validityPeriod || formik.submitCount >= 0) && formik.errors.validityPeriod ? (
                 <p className="text-red-700 text-center mt-1">{formik.errors.validityPeriod}</p>
               ) : null}
             </div>

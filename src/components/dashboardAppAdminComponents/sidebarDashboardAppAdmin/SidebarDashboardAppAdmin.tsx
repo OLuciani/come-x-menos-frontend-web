@@ -53,11 +53,13 @@ const SidebarDashboardAppAdmin: React.FC<SidebarDashboardAppAdminProps> = ({
               setReduceHeight(false)
             }
           }}
+          aria-label="Abrir menú"
+          title="Abrir menú"
         >
           {isSidebarOpen ? (
-            <AiOutlineClose size={25} />
+            <AiOutlineClose size={25} aria-hidden="true" />
           ) : (
-            <AiOutlineMenu size={25} />
+            <AiOutlineMenu size={25} aria-hidden="true" />
           )}
         </button>
       </div>

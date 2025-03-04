@@ -132,7 +132,7 @@ const DiscountCreateForm: React.FC<DiscountCreateFormProps> = ({
     imageURL: Yup.mixed().required("El archivo de imagen es requerido"),
     validityPeriod: Yup.number()
       .nullable()
-      .min(1, "La duración mínima del descuento es 1 día"), // Es opcional, y en caso de implementar a duración  lo mínimo es 1 día
+      .min(0, "La duración mínima del descuento es 1 día"), // Es opcional, y en caso de implementar a duración  lo mínimo es 1 día
   });
 
   const formik = useFormik({
@@ -458,8 +458,8 @@ const DiscountCreateForm: React.FC<DiscountCreateFormProps> = ({
 
             <div className="w-full">
               <Input
-                label="Periodo de Validez del descuento (Es opcional, y por días)"
-                placeholder="1"
+                label="Periodo de Validez del descuento (Es opcional, y por días). Si dejas el valor en 0 el descuento se publicará de manera permanente."
+                placeholder="0"
                 type="number"
                 name="validityPeriod"
                 value={
@@ -471,7 +471,7 @@ const DiscountCreateForm: React.FC<DiscountCreateFormProps> = ({
                 onBlur={formik.handleBlur}
               />
 
-              {(formik.touched.validityPeriod || formik.submitCount > 0) &&
+              {(formik.touched.validityPeriod || formik.submitCount >= 0) &&
               formik.errors.validityPeriod ? (
                 <p className="text-red-700 text-center mt-1">
                   {formik.errors.validityPeriod}
