@@ -64,6 +64,8 @@ const DiscountCreateForm: React.FC<DiscountCreateFormProps> = ({
     useState<string>("");
   const [selectedNavBarOption, setSelectedNavBarOption] = useState<string>("");
 
+  const [isPermanent, setIsPermanent] = useState<boolean>(true);
+
   useEffect(() => {
     if (isLoggedIn) {
       const storedUserToken = Cookies.get("userToken") || "";
@@ -132,7 +134,7 @@ const DiscountCreateForm: React.FC<DiscountCreateFormProps> = ({
     imageURL: Yup.mixed().required("El archivo de imagen es requerido"),
     validityPeriod: Yup.number()
       .nullable()
-      .min(0, "La duración mínima del descuento es 1 día"), // Es opcional, y en caso de implementar a duración  lo mínimo es 1 día
+      .min(1, "El período de validez debe ser al menos 1 día"),
   });
 
   const formik = useFormik({
@@ -456,28 +458,62 @@ const DiscountCreateForm: React.FC<DiscountCreateFormProps> = ({
               ) : null}
             </div>
 
-            <div className="w-full">
-              <Input
-                label="Periodo de Validez del descuento (Es opcional, y por días). Si dejas el valor en 0 el descuento se publicará de manera permanente."
-                placeholder="0"
-                type="number"
-                name="validityPeriod"
-                value={
-                  formik.values.validityPeriod
-                    ? formik.values.validityPeriod.toString()
-                    : ""
-                } // Convertir a cadena o dejar vacío
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-              />
+          
+            <div className="w-full px-1 py-3 border-[1px] rounded-lg border-[gray] text-sm">
+              <p className="text-center mb-2 font-bold">Selecciona la duración del descuento:</p>
+              <div className="w-full flex flex-col gap-3">
+                <label className="">
+                  <input 
+                    type="radio" 
+                    name="durationType" 
+                    value="permanent" 
+                    checked={isPermanent} 
+                    //onChange={() => setIsPermanent(true)} 
+                    onChange={() => {
+                      setIsPermanent(true);
+                      formik.setFieldValue("validityPeriod", 0); // 🔥 Resetea validityPeriod en Formik
+                    }} 
+                    className="mr-3"
+                  />
+                  Permanente (hasta que lo desactives manualmente)
+                </label>
 
-              {(formik.touched.validityPeriod || formik.submitCount >= 0) &&
-              formik.errors.validityPeriod ? (
-                <p className="text-red-700 text-center mt-1">
-                  {formik.errors.validityPeriod}
-                </p>
-              ) : null}
+                <label>
+                  <input 
+                    type="radio" 
+                    name="durationType" 
+                    value="limited" 
+                    checked={!isPermanent} 
+                    onChange={() => setIsPermanent(false)} 
+                    className="mr-3"
+                  />
+                  Con duración específica (define cuántos días estará activo)
+                </label>
+              </div>
+              {!isPermanent && (
+                <div className="w-full pt-5">
+                  <Input
+                    label="Periodo de Validez del descuento (Es opcional, y por días)."
+                    placeholder=""
+                    min={0}
+                    type="number"
+                    name="validityPeriod"
+                    value={formik.values.validityPeriod !== null && formik.values.validityPeriod !== undefined ? formik.values.validityPeriod : 0}  // Asegúrate de que no sea null o undefined
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                  />
+
+                  {(formik.touched.validityPeriod || formik.submitCount >= 0) &&
+                  formik.errors.validityPeriod ? (
+                    <p className="text-red-700 text-center mt-1">
+                      {formik.errors.validityPeriod}
+                    </p>
+                  ) : null}
+                </div>
+              )}
             </div>
+            
+
 
             <Button buttonText={isLoading ? "Cargando..." : "Enviar"} />
 

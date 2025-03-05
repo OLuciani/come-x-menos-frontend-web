@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useState, useEffect, useContext } from "react";
 import Input from "@/components/InputAuth/Input";
 import { editDiscount, discountsList } from "@/api/discountService";
@@ -16,19 +16,30 @@ import TokenExpiredModal from "@/components/tokenExpiredModal/TokenExpiredModal"
 import { isAfter } from "date-fns";
 import MessageModal from "@/components/messageModal/MessageModal";
 
-
 interface DiscountEditFormProps {
-    //setShowDiscountEdit: (showDiscountEdit: boolean) => void;
-    setShowDiscountActionPage: (showDiscountActionPage: boolean) => void;
+  //setShowDiscountEdit: (showDiscountEdit: boolean) => void;
+  setShowDiscountActionPage: (showDiscountActionPage: boolean) => void;
 }
 
 interface ErrorResponse {
-    error: string;
-  }
+  error: string;
+}
 
-    
-const FormEditDiscount: React.FC<DiscountEditFormProps> = ({ setShowDiscountActionPage }) => {
-  const { discountId, discountRecovered, isLoggedIn, setDiscountId, setUserRole, setUserName, setBusinessName, setBusinessType, setSelectedOption, setDiscountsArrayList } = useContext(Context);
+const FormEditDiscount: React.FC<DiscountEditFormProps> = ({
+  setShowDiscountActionPage,
+}) => {
+  const {
+    discountId,
+    discountRecovered,
+    isLoggedIn,
+    setDiscountId,
+    setUserRole,
+    setUserName,
+    setBusinessName,
+    setBusinessType,
+    setSelectedOption,
+    setDiscountsArrayList,
+  } = useContext(Context);
   const [error, setError] = useState<string | undefined>(undefined);
   const [discount, setDiscount] = useState<Discount | null>(null);
   const [userToken, setUserToken] = useState<string>("");
@@ -39,32 +50,42 @@ const FormEditDiscount: React.FC<DiscountEditFormProps> = ({ setShowDiscountActi
   const [isOpenMessageModal, setIsOpenMessageModal] = useState<boolean>(false);
   const [messageText, setMessageText] = useState<string>("");
   const [messageTitle, setMessageTitle] = useState<string>("");
-  const [messageRouterRedirection, setMessageRouterRedirection] = useState<string>("");
+  const [messageRouterRedirection, setMessageRouterRedirection] =
+    useState<string>("");
   const [selectedNavBarOption, setSelectedNavBarOption] = useState<string>("");
+
+  const [isPermanent, setIsPermanent] = useState<boolean>(true);
 
   useEffect(() => {
     if (isLoggedIn) {
       const storedUserToken = Cookies.get("userToken") || "";
       setUserToken(storedUserToken);
     }
-  }, [isLoggedIn]); 
-
+  }, [isLoggedIn]);
 
   useEffect(() => {
     if (discountRecovered !== null) {
       console.log("Setting discount from discountRecovered", discountRecovered);
       setDiscount(discountRecovered);
 
+      if (discountRecovered.validityPeriod === null || discountRecovered.validityPeriod === 0) {
+        setIsPermanent(true);
+      } else {
+        setIsPermanent(false)
+      }
+
+      console.log(
+        "******valor que llega de validityPeriod******: ",
+        discountRecovered.validityPeriod
+      );
+
       const cookieDiscountId = Cookies.get("discountId") || "";
-        setDiscountId(cookieDiscountId);
+      setDiscountId(cookieDiscountId);
 
       // Guardar discountRecovered en una cookie
       Cookies.set("discountRecovered", JSON.stringify(discountRecovered));
     }
   }, [discountRecovered, setDiscountId]);
-
-
-  
 
   //A este useEffect lo creé para cuando se refresca la vista de este componente
   useEffect(() => {
@@ -73,12 +94,12 @@ const FormEditDiscount: React.FC<DiscountEditFormProps> = ({ setShowDiscountActi
       const parsedDiscount = JSON.parse(savedDiscount);
       setDiscount(parsedDiscount);
     }
-    
+
     const storedUserToken = Cookies.get("userToken") || "";
     setUserToken(storedUserToken);
 
-    const cookieUserRole = Cookies.get('userRole') || '';
-    setUserRole(cookieUserRole); 
+    const cookieUserRole = Cookies.get("userRole") || "";
+    setUserRole(cookieUserRole);
 
     const cookieUserName = Cookies.get("userName") || "";
     setUserName(cookieUserName);
@@ -92,9 +113,9 @@ const FormEditDiscount: React.FC<DiscountEditFormProps> = ({ setShowDiscountActi
     const cookieDiscountId = Cookies.get("discountId") || "";
     setDiscountId(cookieDiscountId);
 
-   setSelectedOption("Mi cuenta");
-
-}, [setUserToken,
+    setSelectedOption("Mi cuenta");
+  }, [
+    setUserToken,
     setUserRole,
     //setUserId,
     setUserName,
@@ -102,8 +123,8 @@ const FormEditDiscount: React.FC<DiscountEditFormProps> = ({ setShowDiscountActi
     //setBusinessId,
     setBusinessType,
     setDiscountId,
-    setSelectedOption
-    ]);   
+    setSelectedOption,
+  ]);
 
   const validationSchema = Yup.object({
     businessName: Yup.string()
@@ -123,9 +144,7 @@ const FormEditDiscount: React.FC<DiscountEditFormProps> = ({ setShowDiscountActi
       .min(1, "El porcentaje de descuento debe ser al menos 1")
       .required("El porcentaje de descuento es requerido"),
     imageURL: Yup.mixed().nullable(),
-    validityPeriod: Yup.number()
-      .nullable()
-      .min(0, "La duración mínima del descuento es 0 día."), // Es opcional, y en caso de implementar a duración  lo mínimo es 1 día
+    validityPeriod: Yup.number().nullable().min(0, ""), // Es opcional, y en caso de implementar a duración  lo mínimo es 1 día
   });
 
   const formik = useFormik({
@@ -139,7 +158,8 @@ const FormEditDiscount: React.FC<DiscountEditFormProps> = ({ setShowDiscountActi
       //businessId: discount?.businessId || "",
       businessType: discount?.businessType || "",
       isActive: discount?.isActive ?? true,
-      validityPeriod: discount?.validityPeriod || null as number | null,
+      //validityPeriod: discount?.validityPeriod || null as number | null,
+      validityPeriod: discount?.validityPeriod ?? 0, // Usamos '0' como valor predeterminado si no existe 'validityPeriod'
     },
     validationSchema,
     onSubmit: async (values) => {
@@ -155,14 +175,15 @@ const FormEditDiscount: React.FC<DiscountEditFormProps> = ({ setShowDiscountActi
       formData.append("businessName", values.businessName);
       //formData.append("businessId", values.businessId);
       formData.append("isActive", String(values.isActive));
-      
+
       // Solo agregar validityPeriod si el usuario ingresó un nuevo valor y diferente al original.
-  if (
-    values.validityPeriod !== null && // El usuario escribió algo
-    values.validityPeriod !== discount?.validityPeriod // Es diferente al valor original
-  ) {
-    formData.append("validityPeriod", values.validityPeriod.toString());
-  }
+      /* if (
+        values.validityPeriod !== null && // El usuario escribió algo
+        values.validityPeriod !== discount?.validityPeriod // Es diferente al valor original
+      ) {
+        formData.append("validityPeriod", values.validityPeriod.toString());
+      } */
+      formData.append("validityPeriod", values.validityPeriod.toString());
 
       if (values.imageURL instanceof File || values.imageURL instanceof Blob) {
         formData.append("imageURL", values.imageURL);
@@ -186,13 +207,13 @@ const FormEditDiscount: React.FC<DiscountEditFormProps> = ({ setShowDiscountActi
               if (userToken) {
                 //console.log("Valor de userToken en fetchDiscounts: ", userToken);
                 const response = await discountsList();
-      
+
                 //Si el token expiró va a mostrar un modal informando al usuario
                 if (response === "TOKEN_EXPIRED") {
                   setIsModalOpen(true); // Muestra el modal TokenExpiredModal.tsx si el token es inválido y redirecciona a login
                   return; // Detiene la ejecución para evitar errores con response
                 }
-                
+
                 if (typeof response !== "string") {
                   // Filtramos los descuentos expirados antes de establecer el estado
                   const now = new Date();
@@ -224,9 +245,12 @@ const FormEditDiscount: React.FC<DiscountEditFormProps> = ({ setShowDiscountActi
                   "Error en la solicitud de actualización";
                 console.error("Error al obtener descuentos: ", errorMessage);
               } else {
-                console.error("Error desconocido al obtener descuentos: ", error);
+                console.error(
+                  "Error desconocido al obtener descuentos: ",
+                  error
+                );
               }
-            } 
+            }
           };
 
           fetchDiscounts();
@@ -245,7 +269,7 @@ const FormEditDiscount: React.FC<DiscountEditFormProps> = ({ setShowDiscountActi
           const navBarOption: string = "Mi cuenta";
           setSelectedNavBarOption(navBarOption);
 
-          setTimeout(() => {   
+          setTimeout(() => {
             setShowDiscountActionPage(false);
             const mainElement = document.querySelector("main");
             if (mainElement) {
@@ -302,7 +326,8 @@ const FormEditDiscount: React.FC<DiscountEditFormProps> = ({ setShowDiscountActi
         businessType: discount.businessType || "",
         isActive: discount.isActive ?? true,
         imageURL: null,
-        validityPeriod: discount.validityPeriod || null as number | null,
+        //validityPeriod: discount.validityPeriod || null as number | null,
+        validityPeriod: discount.validityPeriod ?? 0, // ⚡ Fuerza a 0 en caso de null/undefined
       });
     }
   }, [discount]);
@@ -313,17 +338,17 @@ const FormEditDiscount: React.FC<DiscountEditFormProps> = ({ setShowDiscountActi
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
       />
-      
+
       <div className="w-sreen flex justify-center">
         {/* Modal para mostrar mensajes al usuario */}
         <MessageModal
-            isOpenMessageModal={isOpenMessageModal}
-            onCloseMessageModal={() => setIsOpenMessageModal(false)}
-            messageTitle={messageTitle}
-            messageText={messageText}
-            messageRouterRedirection={messageRouterRedirection}
-            selectedNavBarOption={selectedNavBarOption}
-        /> 
+          isOpenMessageModal={isOpenMessageModal}
+          onCloseMessageModal={() => setIsOpenMessageModal(false)}
+          messageTitle={messageTitle}
+          messageText={messageText}
+          messageRouterRedirection={messageRouterRedirection}
+          selectedNavBarOption={selectedNavBarOption}
+        />
 
         <div className="w-full px-6 sm:w-[500px] sm:px-0">
           <form
@@ -338,7 +363,6 @@ const FormEditDiscount: React.FC<DiscountEditFormProps> = ({ setShowDiscountActi
               onBlur={formik.handleBlur}
             />
 
-
             <Input
               label="Título del descuento"
               placeholder=""
@@ -352,7 +376,6 @@ const FormEditDiscount: React.FC<DiscountEditFormProps> = ({ setShowDiscountActi
             {formik.touched.title && formik.errors.title ? (
               <p className="text-red-700">{formik.errors.title}</p>
             ) : null}
-
 
             <div className="w-full flex justify-start text-sm font-normal">
               <label className="text-sm ml-[15px] mb-[-10px] font-medium text-black">
@@ -375,7 +398,6 @@ const FormEditDiscount: React.FC<DiscountEditFormProps> = ({ setShowDiscountActi
               <p className="text-red-700">{formik.errors.description}</p>
             ) : null}
 
-
             <div className="w-full">
               <div className="w-full flex justify-start text-sm font-normal mb-1.5">
                 <label className="text-sm font-medium text-black ml-3">
@@ -397,7 +419,6 @@ const FormEditDiscount: React.FC<DiscountEditFormProps> = ({ setShowDiscountActi
                 <p className="text-red-700">{formik.errors.normalPrice}</p>
               ) : null}
             </div>
-
 
             <div className="w-full flex justify-start text-sm font-normal">
               <label className="text-sm font-medium text-black ml-3 mb-[-20px]">
@@ -428,7 +449,6 @@ const FormEditDiscount: React.FC<DiscountEditFormProps> = ({ setShowDiscountActi
               <p className="text-red-700">{formik.errors.discountAmount}</p>
             ) : null}
 
-
             <Input
               label="Cargar Imagen"
               placeholder=""
@@ -436,7 +456,10 @@ const FormEditDiscount: React.FC<DiscountEditFormProps> = ({ setShowDiscountActi
               name="imageURL"
               onChange={(event) => {
                 if (event.currentTarget.files && event.currentTarget.files[0]) {
-                  formik.setFieldValue("imageURL", event.currentTarget.files[0]);
+                  formik.setFieldValue(
+                    "imageURL",
+                    event.currentTarget.files[0]
+                  );
                 } else {
                   formik.setFieldValue("imageURL", null); // Limpiar el valor si se cancela la selección
                 }
@@ -447,29 +470,89 @@ const FormEditDiscount: React.FC<DiscountEditFormProps> = ({ setShowDiscountActi
             {formik.touched.imageURL && formik.errors.imageURL ? (
               <p className="text-red-700">{formik.errors.imageURL}</p>
             ) : null}
+            
 
+            <div className="w-full px-1 py-3 border-[1px] rounded-lg border-[gray] text-sm">
+              <p className="text-center mb-2 font-bold">
+                Selecciona la duración del descuento:
+              </p>
+              <p className="font-semibold mb-5">
+              ⚠️ <strong className="mr-1">Importante:</strong>Si cambias la duración de este descuento, se actualizará la fecha de inicio y la cuenta regresiva se reiniciará. Los cambios en el precio, descripción, porcentaje o foto no afectarán la duración original del descuento.
+              </p>
+              <div className="w-full flex flex-col gap-3">
+                <label className="">
+                  <input
+                    type="radio"
+                    name="durationType"
+                    value="permanent"
+                    checked={isPermanent}
+                    //onChange={() => setIsPermanent(true)}
+                    onChange={() => {
+                      setIsPermanent(true);
+                      formik.setFieldValue("validityPeriod", 0); // Resetea validityPeriod en Formik
+                    }}
+                    className="mr-3"
+                  />
+                  Permanente (hasta que lo desactives manualmente)
+                </label>
 
-              <div className="w-full">
+                <label>
+                  <input
+                    type="radio"
+                    name="durationType"
+                    value="limited"
+                    checked={!isPermanent}
+                    onChange={() => setIsPermanent(false)}
+                    className="mr-3"
+                  />
+                  Con duración específica (define cuántos días estará activo)
+                </label>
+              </div>
+              {!isPermanent && (
+                <div className="w-full">
+                  <Input
+                    label="Periodo de Validez del descuento (Es opcional, y por días)."
+                    type="number"
+                    name="validityPeriod"
+                    placeholder=""
+                    min={0}
+                    value={
+                      formik.values.validityPeriod !== null &&
+                      formik.values.validityPeriod !== undefined
+                        ? formik.values.validityPeriod
+                        : 0
+                    } // Asegúrate de que no sea null o undefined
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                  />
+
+                  {(formik.touched.validityPeriod || formik.submitCount >= 0) &&
+                  formik.errors.validityPeriod ? (
+                    <p className="text-red-700 text-center mt-1">
+                      {formik.errors.validityPeriod}
+                    </p>
+                  ) : null}
+                </div>
+              )}
+            </div>
+
+            {/* <div className="w-full">
               <Input
                 label="Periodo de Validez del descuento (Es opcional, y por días). Si dejas el valor en 0 el descuento se publicará de manera permanente."
-                placeholder="0"
                 type="number"
                 name="validityPeriod"
-                value={
-                  formik.values.validityPeriod
-                    ? formik.values.validityPeriod.toString()
-                    : ""
-                } // Convertir a cadena o dejar vacío
+                placeholder=""
+                min={0}
+                value={formik.values.validityPeriod !== null && formik.values.validityPeriod !== undefined ? formik.values.validityPeriod : 0}  // Asegúrate de que no sea null o undefined
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
               />
-              {/* Si el numero de d */}
+
               {(formik.touched.validityPeriod || formik.submitCount >= 0) && formik.errors.validityPeriod ? (
                 <p className="text-red-700 text-center mt-1">{formik.errors.validityPeriod}</p>
               ) : null}
-            </div>
+            </div> */}
 
-            
             <Button buttonText={isLoading ? "Enviando..." : "Enviar"} />
 
             {error && <p className="text-red-700">{error}</p>}
