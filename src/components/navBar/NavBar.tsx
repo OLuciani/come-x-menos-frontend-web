@@ -198,6 +198,7 @@ const Navbar = () => {
     console.log("Valor de roleAppAdmin en useEffect navbar: ", roleAppAdmin);
 
     setUserMenuOpen(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -367,8 +368,8 @@ const Navbar = () => {
                     </div>
                   )}
                 <div
-                  className="md:px-4 py-2 flex gap-2 items-center md:hover:bg-[#FFCF91] md:border-[2px] md:border-[#FFCF91] cursor-pointer text-white md:hover:text-[#FD7B03] z-10"
-                  onClick={() => setUserMenuOpen(!userMenuOpen)}
+                  className="md:px-4 pt-2 pb-[19px] flex gap-2 items-center md:hover:bg-[#FFCF91] md:border-[2px] md:border-[#FFCF91] cursor-pointer text-white md:hover:text-[#FD7B03] z-10"
+                  onClick={() => setUserMenuOpen(!userMenuOpen)} //A pb le di un valor de 19px en vez de pb-4 p/compensar los 3px de la linea que marca el boton seleccionado
                 >
                   <div 
                     className="flex gap-2 items-center md:hover:bg-[#FFCF91]"
