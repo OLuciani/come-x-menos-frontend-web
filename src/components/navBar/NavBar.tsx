@@ -346,7 +346,7 @@ const Navbar = () => {
                     <div className="absolute w-48 right-[-62px] custom-w-450:right-[-60px] sm:right-[-66px] md:right-[-71px] lg:right-[-22px] mt-[54px] custom-w-450:mt-[57px] md:mt-[62px] lg:mt-[73px] p-2 bg-[#FFCF91] rounded-lg shadow-xl z-20">
                       <div className="w-full flex justify-end mb-3">
                         <p
-                          className="w-6 text-center block text-[#FD7B03] font-bold mb-1 cursor-pointer border-2 rounded bg-white hover:border-[#FD7B03]"
+                          className="w-6 text-center block text-[#FD7B03] font-bold mb-1 cursor-pointer rounded hover:bg-white hover:border-[#FD7B03]"
                           onClick={() => setUserMenuOpen(!userMenuOpen)}
                         >
                           X

@@ -111,7 +111,7 @@ const Menu: React.FC<MenuProps> = ({ open, closeMenu }) => {
       } ${!userToken ? "mt-[42px] xxs:mt-[9px] custom-w-450:mt-[21px]" : "mt-[42px] xxs:mt-[14px] custom-w-450:mt-[21px] md:mt-[22px]"} shadow-md shadow-gray-500`}
     >
       <div className="w-[100%] h-4 relative mb-5">
-        <p className="absolute px-1 right-0 bg-gray-100 text-[15px] text-[#FD7B03] font-semibold hover:border-[#FD7B03] rounded" onClick={handleLinkClick}>
+        <p className="absolute px-1 right-0 hover:bg-gray-100 text-[18px] text-[#FD7B03] font-semibold hover:border-[#FD7B03] rounded" onClick={handleLinkClick}>
           X
         </p>
       </div>
