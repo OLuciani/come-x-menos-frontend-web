@@ -6,8 +6,6 @@ import {
   BusinessEmployee,
   ExtraBusinessAdminUser,
 } from "@/types/userTypes";
-//import apiClient from "@/utils/axiosConfig";
-//import apiClient from "./axiosConfig";
 
 // Configuro Axios para enviar cookies automáticamente
 axios.defaults.withCredentials = true;

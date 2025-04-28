@@ -10,17 +10,18 @@ interface ValidationErrors {
   [key: string]: string;
 }
 
-// Configuro Axios para enviar cookies automáticamente
+// Configura Axios para enviar cookies automáticamente con cada solicitud
 axios.defaults.withCredentials = true;
 
+// Componente de formulario para restablecer la contraseña
 const PasswordResetForm: React.FC = () => {
-  //Creo constante con la variable de entorno de la url del backend
-  //const BASE_BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL; 
-
+  // Obtener parámetros de la URL (token y email)
   const searchParams = useSearchParams();
+
   const router = useRouter();
   const { setSelectedOption } = useContext(Context);
 
+  // Definición de los estados locales para manejar los valores del formulario y errores
   const [newPassword, setNewPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [errors, setErrors] = useState<ValidationErrors>({});
@@ -28,6 +29,7 @@ const PasswordResetForm: React.FC = () => {
   const [email, setEmail] = useState<string | null>(null);
   const [showMessage, setShowMessage] = useState<boolean>(false);
 
+  // useEffect para obtener el token y el email desde los parámetros de la URL
   useEffect(() => {
     const tokenFromUrl = searchParams.get("token");
     const emailFromUrl = searchParams.get("email");
@@ -45,6 +47,7 @@ const PasswordResetForm: React.FC = () => {
   console.log("Valor del token: ", token);
   console.log("Valor del email que llega en el resetLink: ", email);
 
+  // Esquema de validación para las contraseñas con Yup
   const resetValidationSchema = Yup.object().shape({
     newPassword: Yup.string()
       .min(6, "La contraseña debe tener al menos 6 caracteres")
@@ -57,6 +60,7 @@ const PasswordResetForm: React.FC = () => {
       .required("La confirmación de la contraseña es obligatoria"),
   });
 
+  // Función que maneja el envío del formulario de restablecimiento de contraseña
   const handleSubmitReset = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log(token);
@@ -74,7 +78,7 @@ const PasswordResetForm: React.FC = () => {
 
       console.log("Reseteando contraseña...");
 
-      // Primero, actualiza la contraseña en MongoDB
+      // Realiza la solicitud para restablecer la contraseña en el backend
       const response = await axios.patch(`/api/resetPassword`,
         {
           email: email,
@@ -87,6 +91,7 @@ const PasswordResetForm: React.FC = () => {
         }
       );
 
+      // Si la respuesta es exitosa
       if (response.status === 200) {
         console.log("Contraseña restablecida correctamente en MongoDB");
         setShowMessage(true); // Para mostrar mensaje de restablecimiento exitoso de la contraseña
@@ -183,6 +188,7 @@ const PasswordResetForm: React.FC = () => {
   );
 };
 
+// Componente que maneja el renderizado con Suspense (cargando el formulario)
 export default function PasswordResetPage() {
   return (
     <Suspense fallback={<div>Cargando...</div>}>

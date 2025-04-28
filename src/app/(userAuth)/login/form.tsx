@@ -5,8 +5,6 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Context } from "@/context/Context";
 import Input from "@/components/InputAuth/Input";
-//import { login, userProfile } from "@/services/apiCall";
-//import { UserProfile } from '../../../services/apiCall';
 import { login, userProfile } from "@/api/authService"
 import { loginUserWithFirebase } from "@/services/firebaseAuthService";
 import PasswordResetModal from "@/components/passwordResetModal/PasswordResetModal";
@@ -15,6 +13,7 @@ import Button from "@/components/button/Button";
 import TokenExpiredModal from "@/components/tokenExpiredModal/TokenExpiredModal";
 import UnauthorizedAccesssModal from "@/components/unauthorizedAccessModal/UnauthorizedAccessModal";
 
+// Definición de la estructura de la respuesta de inicio de sesión
 interface LoginResponse {
   message?: string;
   success?: boolean;
@@ -24,14 +23,18 @@ interface LoginResponse {
 }
 
 const LoginForm = () => {
+  // Estados locales para manejar errores, carga y modales
   const [error, setError] = useState<string | undefined>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isPasswordResetModalVisible, setPasswordResetModalVisible] =
     useState(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isAccessModalOpen, setIsAccessModalOpen] = useState<boolean>(false);
+
+  // Hook de enrutador para redirigir a otras páginas
   const router = useRouter();
 
+  // Contexto para acceder y actualizar el estado global de la sesión de usuario
   const {
     setUserToken,
     userToken,
@@ -60,9 +63,10 @@ const LoginForm = () => {
   const roleBusinessEmployee = "businessEmployee";
 
 
-  console.log("Valor de roleBusinessEmploye: ", roleBusinessEmployee);
-  console.log("Valor de roleBusinessDirector: ", roleBusinessDirector);
+  //console.log("Valor de roleBusinessEmploye: ", roleBusinessEmployee);
+  //console.log("Valor de roleBusinessDirector: ", roleBusinessDirector);
 
+  // Esquema de validación de formulario con Yup
   const validationSchema = Yup.object({
     email: Yup.string()
       .email("Ingresa un correo electrónico válido")
@@ -72,6 +76,7 @@ const LoginForm = () => {
       .min(6, "La contraseña debe tener al menos 6 caracteres"),
   });
 
+  // Formik para manejar el estado del formulario y la validación
   const formik = useFormik({
     initialValues: { email: "", password: "" },
     validationSchema,
@@ -80,7 +85,7 @@ const LoginForm = () => {
       setIsLoading(true);
 
       try {
-        // Si decides usar solo el backend
+        // Llamada a la función para manejar el inicio de sesión
         await handleLogin(values); 
       } catch (err) {
         setError("Error de red o el servidor no está disponible");
@@ -92,13 +97,14 @@ const LoginForm = () => {
   });
 
 
-  // Manejo de respuesta de inicio de sesión 
+  // Función para manejar el inicio de sesión 
   const handleLogin = async (values: { email: string; password: string }) => {
     const loginResponse: LoginResponse = await login(values);
 
     
-    console.log("Valor de loginResponse en login: ", loginResponse);
+    //console.log("Valor de loginResponse en login: ", loginResponse);
 
+    // Si hay un error, se maneja el error del backend
     if (loginResponse.error) {
       handleBackendError(loginResponse.error);
     } else if (loginResponse.success) {
@@ -108,7 +114,7 @@ const LoginForm = () => {
   };
 
 
-  // Manejo de errores del backend
+  // Función para manejar los errores del backend
   const handleBackendError = (backendError: any) => {
     let backendErrorMessage = "Error desconocido";
 
@@ -130,11 +136,11 @@ const LoginForm = () => {
     setError(backendErrorMessage);
   };
 
-  // Manejo del inicio de sesión exitoso
+  // Función para manejar el inicio de sesión exitoso
   const handleSuccessfulLogin = async () => {
     setIsLoggedIn(true); //  
 
-    // No es necesario verificar si la cookie está establecida, asumiendo que set fue exitoso
+    // Obtener el perfil del usuario después de un inicio de sesión exitoso
     await fetchUserProfile();
   };
 
@@ -142,16 +148,12 @@ const LoginForm = () => {
   const fetchUserProfile = useCallback(async () => {
     try {
       const response = await userProfile();
-      console.log("Valor de response en userProfile()", response);
+      //console.log("Valor de response en userProfile()", response);
 
-      /* if (response === "Token inválido o expirado") {
-        setIsModalOpen(true);
-        return;
-      } */
-
+      // Guardar datos del usuario en cookies y actualizar el estado global
       setUserToken("true"); //Como loginResponse.success === true le doy un valor true a userToken sin exponer el verdadero token.
 
-    //Como loginResponse.success === true creo una cokie con el valor en string true.
+    
     Cookies.set("userToken", "true", {
       expires: 1,
       secure: true,
@@ -209,31 +211,6 @@ const LoginForm = () => {
 
       setBackgroundButtonNavBar(true);
 
-      /* const expirationTime = 15 * 60 * 1000;
-
-      setTimeout(() => {
-        Cookies.remove("userToken");
-        Cookies.remove("token"); //Remueve la cookie con el token
-        Cookies.remove("userRole");
-        Cookies.remove("userName");
-        Cookies.remove("businessName");
-        Cookies.remove("businessType");
-        Cookies.remove("userStatus");
-
-        setUserRole("");
-        setUserToken("");
-        setUserName("");
-        setBusinessName("");
-        setBusinessType("");
-        setUserStatus("");
-
-        setIsLoggedIn(false);
-
-        router.push("/login");
-      
-        setSelectedOption("Iniciar sesión");
-      }, expirationTime); */
-
       console.log("Valor del rol que llega en response: ", response.userRole);
 
       
@@ -273,16 +250,13 @@ const LoginForm = () => {
 
             setIsLoggedIn(false);
 
-            //router.push("/login");
-          
-            //setSelectedOption("Iniciar sesión");
           }, 2000);
         }
       }
     } catch (err) {
       console.error("Error al obtener el perfil del usuario:", err);
     }
-  }, [router, setUserRole, setUserName, setBusinessName, setBusinessType, setUserStatus]);
+  }, [router, setUserRole, setUserName, setBusinessName, setBusinessType, setUserStatus, setUserToken, setIsLoggedIn, setSelectedOption, setBackgroundButtonNavBar, setUserSubRole, userToken]);
 
 
 
@@ -292,10 +266,12 @@ const LoginForm = () => {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
       /> */}
+      {/* Modal de acceso no autorizado */}
       <UnauthorizedAccesssModal
         isOpenUnauthorizedAccess ={isAccessModalOpen} 
         onCloseUnauthorizedAccess = {() => setIsAccessModalOpen(false)}
       />
+      {/* Formulario de inicio de sesión */}
       <form
         onSubmit={formik.handleSubmit}
         className="w-screen px-4 sm:w-[450px] flex flex-col justify-center items-center gap-12 mx-auto mt-4"
@@ -347,6 +323,7 @@ const LoginForm = () => {
         />
       </form>
 
+      {/* Modal de restablecimiento de contraseña */}
       <PasswordResetModal
         visible={isPasswordResetModalVisible}
         onClose={() => setPasswordResetModalVisible(false)}

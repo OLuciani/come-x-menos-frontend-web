@@ -28,48 +28,6 @@ const handleError = (error: any): string => {
 
 
 //Solicitud al backend para crear un descuento
-/* export async function createDiscount(
-    data: FormData
-  ): Promise<Discount | string> {
-    // Verifico el token antes de hacer la solicitud
-    //const isTokenValid = await verifyToken();
-    //if (!isTokenValid) {
-      //return "Token inválido o expirado";
-    //}
-  
-    try {
-      const response = await axios.post(
-        `/api/discount_create`,
-        data,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            //Authorization: `Bearer ${userToken}`,
-          },
-          withCredentials: true, // Esta línea asegura que las cookies (entre ellas va la del token que es indispensable en esta ruta) se envíen con la solicitud
-        }
-      );
-  
-      console.log("RESPONSE EN APICALL PARA VERIFICAR RESPUESTA DEL BACKEND  CRATE_DISCOUNT: ", response.data);
-  
-      if (response.status === 200 && response.data) {
-        console.log(
-          "Descuento creado correctamente en MongoDB Atlas:",
-          response.data
-        );
-        return response.data;
-      } else {
-        console.log(
-          "La creación del descuento en MongoDB Atlas no fue exitosa:",
-          response.data
-        );
-        return "Error al crear el descuento";
-      }
-    } catch (error: any) {
-      console.error("Error al crear el descuento:", error.message);
-      return "Error al crear el descuento";
-    }
-  } */
   export async function createDiscount(
     data: FormData
   ): Promise<Discount | string> {
@@ -112,36 +70,7 @@ const handleError = (error: any): string => {
   }
   
   
-  /* export async function discountsList(): Promise<DiscountsList[] | string> {
-    try {
-      const response = await axios.get(
-        `/api/discounts_list_one_business`,
-        {
-          withCredentials: true,
-        }
-      );
-  
-      if (response.status === 200 && response.data) {
-        console.log(
-          "Listado de descuentos vigentes del negocio traidos de MongoDB Atlas:",
-          response.data
-        );
-        return response.data;
-      } else {
-        console.log(
-          "El pedido de la lista de descuentos al backend no fue exitoso:",
-          response.data
-        );
-        return "Error al pedir el listado de descuentos del negocio al backend";
-      }
-    } catch (error: any) {
-      console.error(
-        "Error al pedir un listado de descuentos del negocio al backend:",
-        error.message
-      );
-      return "Error al pedir un listado de descuentos del negocio al backend";
-    }
-  } */
+ // Solicitud de listado de descuentos vigentes
   export async function discountsList(): Promise<DiscountsList[] | string> {
     try {
       const response = await axios.get(`/api/discounts_list_one_business`, {
