@@ -1,97 +1,86 @@
 # Comé x Menos
 
-Aplicación web diseñada para que los negocios gestionen los descuentos que ofrecen a través de la aplicación móvil **"Comé x Menos"**, donde los usuarios finales pueden descubrir y aprovechar ofertas en restaurantes, cafeterías, panaderías y más.
+Aplicación web para que negocios gestionen descuentos visibles en la app móvil **"Comé x Menos"**.
 
-Los negocios pueden crear, editar y eliminar descuentos, y obtener métricas detalladas sobre el rendimiento de sus ofertas, las cuales son vistas por los usuarios en la app móvil. Esta plataforma facilita la gestión eficiente de las promociones, mientras que la app móvil permite a los clientes interactuar fácilmente con las ofertas disponibles.
+---
 
-## Impacto del Proyecto
+## 🚀 Despliegue
 
-- **Optimización de la gestión de descuentos**: El dashboard permite a los negocios gestionar sus ofertas de manera eficiente, aumentando la visibilidad de los descuentos hasta en un 30%.
-- **Interfaz de usuario moderna y responsiva**: Diseñada con **Tailwind CSS**, la interfaz se adapta perfectamente a dispositivos móviles y escritorio, brindando una experiencia de usuario atractiva y fluida.
-- **Autenticación segura y flujo de usuario**: Implementación de una autenticación **doble** con **Firebase Authentication** y validación adicional mediante datos almacenados en **MongoDB**, garantizando la seguridad de los usuarios.
-- **Almacenamiento eficiente de archivos**: Uso de **Firebase Storage** para guardar imágenes y documentos, ofreciendo una gestión de archivos sencilla y segura.
+- Frontend: [https://discount-project-web.vercel.app](https://discount-project-web.vercel.app)
+- Backend: [https://wrong-lisa-oluciani-3ba92637.koyeb.app](https://wrong-lisa-oluciani-3ba92637.koyeb.app)
+- Video demo: [Ver video de presentación](https://discount-project-web.vercel.app/videos/demo-video-app-funcionando.mp4)
 
-## Capturas de pantalla
+## 🔑 Prueba la app iniciando sesión como visitante
 
-![Vista principal](images/vista-principal.png)
-![Gestión de descuentos 1](images/gestion-descuentos.png)
-![Gestión de descuentos 2](images/editar-eliminar-descuento.png)
-
-## Tecnologías utilizadas
-
-- **Frontend**:
-  - Next.js
-  - React
-  - Tailwind CSS
-  - Firebase Authentication
-  - Firebase Storage
-- **Backend**:
-  - Node.js
-  - Express
-  - MongoDB Atlas
-- **Hosting**:
-  - Vercel (para el frontend)
-  - Firebase (para el almacenamiento de archivos)
-
-## Instalación y ejecución
-
-1. Clona este repositorio:
-    ```bash
-    git clone https://github.com/OLuciani/discount-project-web.git
-    ```
-
-2. Navega al directorio del proyecto:
-    ```bash
-    cd discount-project-web
-    ```
-
-3. Instala las dependencias:
-    ```bash
-    npm install
-    ```
-
-4. Ejecuta el servidor de desarrollo:
-    ```bash
-    npm run dev
-    ```
-
-5. Luego abre [http://localhost:8081](http://localhost:8081) en tu navegador para ver la aplicación en funcionamiento.
-
-## Características principales
-
-- **Autenticación segura**: Implementación de un flujo de autenticación doble utilizando Firebase Authentication y validación adicional con datos almacenados en MongoDB, garantizando seguridad tanto en el acceso como en la gestión de la sesión.
-- **Gestión de roles**: Los usuarios tienen diferentes niveles de acceso según su rol (negocio o usuario final) para una administración eficiente de los descuentos.
-- **Dashboard para negocios**: Los negocios tienen acceso a un panel de control donde pueden gestionar sus descuentos y visualizar métricas en tiempo real sobre el rendimiento de sus ofertas.
-- **Sistema de descuentos**: Los negocios pueden crear, editar, activar y eliminar descuentos de manera sencilla, con un temporizador dinámico que se actualiza en tiempo real.
-- **Dashboard para administradores de la app**: Los administradores pueden acceder a un panel donde verifican los datos enviados por los dueños de los negocios durante el registro. Luego de la revisión, pueden cambiar el estado del negocio de "pendiente" a "activo", permitiendo que comiencen a ofrecer descuentos.
-- **Interfaz moderna y responsiva**: Desarrollada con Tailwind CSS para ofrecer una experiencia de usuario atractiva en todos los dispositivos.
-- **Almacenamiento de archivos**: Uso de Firebase Storage para guardar imágenes y documentos relacionados con los descuentos de manera eficiente y segura.
-
-## Video de presentación
-
-Haz clic en el siguiente enlace para ver una demostración de la aplicación:  
-[Ver video de presentación](https://discount-project-web.vercel.app/videos/demo-video-app-funcionando.mp4)
-
-## Prueba la app iniciando sesión como visitante
-
-- Accede a la app aquí: [https://discount-project-web.vercel.app/](https://discount-project-web.vercel.app/)
-- Puedes iniciar sesión como **usuario visitante** usando:
-  - **Email**: `visituser@demo.com`
-  - **Contraseña**: `12345678`
+- Accede aquí: [https://discount-project-web.vercel.app](https://discount-project-web.vercel.app)
+- Usuario demo:
+  - Email: `visituser@demo.com`
+  - Contraseña: `12345678`
 
 (Este usuario representa un empleado asociado a un negocio. Podrás crear, editar y eliminar descuentos.)
 
 ---
 
-## Información adicional
+## 💻 Tecnologías utilizadas
 
-Este proyecto fue creado usando [Next.js](https://nextjs.org/) y personalizado para satisfacer las necesidades específicas de **"Comé x Menos"**.  
+- **Frontend:**  
+  Next.js, React, Tailwind CSS, Firebase Authentication, Firebase Storage
 
-Para aprender más sobre Next.js, puedes consultar su [documentación oficial](https://nextjs.org/docs).
+- **Backend:**  
+  Node.js, Express, MongoDB Atlas
 
-## Posibles mejoras futuras
+- **Hosting:**  
+  Frontend en Vercel  
+  Backend en Koyeb  
+  Archivos en Firebase Storage
 
-- **Modularización del código**: Separar y organizar mejor algunos componentes y páginas que actualmente son extensos, para mejorar el mantenimiento y la escalabilidad del proyecto.
-- **Optimización del manejo de errores**: Implementar un sistema más robusto de manejo de errores en el frontend y backend para brindar una experiencia de usuario más clara y amigable.
-- **Refinamiento de la experiencia de usuario (UX)**: Mejorar ciertos flujos de navegación y feedback visual en algunas interacciones, para hacer la experiencia aún más fluida.
-- **Implementación de testing automatizado**: Agregar pruebas unitarias y de integración para fortalecer la calidad y confiabilidad del sistema.
+---
+
+## 🛠 Instalación y ejecución local
+
+1. Clona el repositorio:
+    ```bash
+    git clone https://github.com/OLuciani/discount-project-web.git
+    ```
+2. Entra al directorio:
+    ```bash
+    cd discount-project-web
+    ```
+3. Instala las dependencias:
+    ```bash
+    npm install
+    ```
+4. Ejecuta la app en modo desarrollo:
+    ```bash
+    npm run dev
+    ```
+5. Abre en tu navegador [http://localhost:3000](http://localhost:3000).
+
+---
+
+## 🎯 Características principales
+
+- Autenticación segura con Firebase Authentication y validación en MongoDB.
+- Gestión de roles para acceso diferenciado entre negocios y usuarios finales.
+- Dashboard para negocios con gestión y métricas de descuentos en tiempo real.
+- Sistema de creación, edición, activación y eliminación de descuentos.
+- Panel administrativo para aprobar y activar negocios.
+- Interfaz moderna y responsiva diseñada con Tailwind CSS.
+- Almacenamiento de imágenes y documentos con Firebase Storage.
+
+---
+
+## 🛠 Posibles mejoras futuras
+
+- 📦 Modularizar y organizar mejor el código para mayor mantenimiento y escalabilidad.  
+- ⚠️ Mejorar manejo de errores en frontend y backend para mejor experiencia de usuario.  
+- 🎨 Refinar UX y flujos de navegación para mayor fluidez.  
+- ✅ Agregar pruebas unitarias e integración para mayor confiabilidad.
+
+---
+
+## 📚 Información adicional
+
+Este proyecto fue creado usando [Next.js](https://nextjs.org/) y personalizado para las necesidades específicas de **"Comé x Menos"**.
+
+Para aprender más sobre Next.js, consulta la [documentación oficial](https://nextjs.org/docs).
