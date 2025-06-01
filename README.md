@@ -1,49 +1,59 @@
-# Comé x Menos 
+# Comé x Menos
 
-Aplicación web para que negocios gestionen descuentos visibles en la app móvil **"Comé x Menos"**.
+Aplicación híbrida para promover descuentos en locales gastronómicos (restaurantes, bares, panaderías, etc.), compuesta por una app móvil para los usuarios y una app web para los negocios. Ambos frontends se comunican con un backend centralizado que gestiona toda la lógica de negocio.
+
+---
+
+## 🎥 Demo
+
+- Video de presentación: [Ver video de demo](https://discount-project-web.vercel.app/videos/demo-video-app-funcionando.mp4)
 
 ---
 
 ## 🚀 Despliegue
 
-- Frontend: [https://discount-project-web.vercel.app](https://discount-project-web.vercel.app)
-- Video demo: [Ver video de presentación](https://discount-project-web.vercel.app/videos/demo-video-app-funcionando.mp4)
+- Web app (negocios): [https://discount-project-web.vercel.app](https://discount-project-web.vercel.app)
 
-## 🔑 Prueba la app iniciando sesión como visitante
+---
+
+## 🔑 Prueba la app web iniciando sesión como visitante
 
 - Accede aquí: [https://discount-project-web.vercel.app](https://discount-project-web.vercel.app)
 - Usuario demo:
   - Email: `visituser@demo.com`
   - Contraseña: `12345678`
 
-(Este usuario representa un empleado asociado a un negocio. Podrás crear, editar y eliminar descuentos.)
+_Este usuario representa un empleado asociado a un negocio. Podrás crear, editar y eliminar descuentos._
 
 ---
 
 ## 💻 Tecnologías utilizadas
 
-- **Frontend:**  
-  Next.js, React, Tailwind CSS, Firebase Authentication, Firebase Storage
-
-- **Backend:**  
-  Node.js, Express, MongoDB Atlas
-
-- **Hosting:**  
-  Frontend en Vercel  
-  Backend en Koyeb  
-  Archivos en Firebase Storage
+- Next.js  
+- React  
+- Tailwind CSS  
+- Formik + Yup (validación de formularios)
 
 ---
 
-## 🔧 Backend
+### Hosting
 
-El backend de esta aplicación está desarrollado con Node.js, Express y MongoDB Atlas. Está desplegado y funcionando en Koyeb, donde expone una API REST que interactúa con el frontend y la base de datos. 
-
-> ⚠️ El backend no tiene una interfaz visual ya que su función es únicamente ofrecer servicios a través de endpoints protegidos y conectarse con Firebase y MongoDB.
+- Vercel  
 
 ---
 
-## 🛠 Instalación y ejecución local
+## 🎯 Características principales del Frontend Web
+
+- Formularios validados con **Formik** y **Yup** para una mejor experiencia de usuario.
+- Dashboard para negocios con métricas y gestión de descuentos en tiempo real.
+- Gestión de roles: administradores, negocios y empleados (visibles según permisos).
+- Sistema completo de creación, edición, activación y eliminación de descuentos con expiración automática.
+- Panel administrativo para aprobación y activación de nuevos negocios.
+- Interfaz moderna, responsiva y accesible diseñada con **Tailwind CSS**.
+
+---
+
+## 🛠 Instalación y ejecución local del Frontend Web
 
 1. Clona el repositorio:
     ```bash
@@ -61,34 +71,40 @@ El backend de esta aplicación está desarrollado con Node.js, Express y MongoDB
     ```bash
     npm run dev
     ```
-5. Abre en tu navegador [http://localhost:3000](http://localhost:3000).
+5. Abre en tu navegador [http://localhost:3000](http://localhost:3000)
 
 ---
 
-## 🎯 Características principales
+## 🛠 Posibles mejoras futuras
 
-- Autenticación segura con Firebase Authentication y validación en MongoDB.
-- Gestión de roles para acceso diferenciado entre negocios y usuarios finales.
-- Dashboard para negocios con gestión y métricas de descuentos en tiempo real.
-- Sistema de creación, edición, activación y eliminación de descuentos.
-- Panel administrativo para aprobar y activar negocios.
-- Interfaz moderna y responsiva diseñada con Tailwind CSS.
-- Almacenamiento de imágenes y documentos con Firebase Storage.
+- 📦 Mejor modularización del código.
+- ⚠️ Mejor manejo de errores globales en frontend y backend.
+- 🎨 Mejora de la experiencia de usuario (UX).
+- ✅ Inclusión de pruebas unitarias y de integración.
 
 ---
 
-## 🚧 Posibles mejoras futuras
+## 🏗 Arquitectura general del sistema
 
-- 📦 Modularizar y organizar mejor el código para mayor mantenimiento y escalabilidad.  
-- ⚠️ Mejorar manejo de errores en frontend y backend para mejor experiencia de usuario.  
-- 🎨 Refinar UX y flujos de navegación para mayor fluidez.  
-- ✅ Agregar pruebas unitarias e integración para mayor confiabilidad.
+**Comé x Menos** consta de tres componentes principales:
+
+### 1. Frontend Móvil
+- App para usuarios finales (React Native con Expo).
+- Permite explorar descuentos en tiempo real según ubicación.
+
+### 2. Backend compartido
+- API REST en Node.js + Express.
+- Base de datos en MongoDB Atlas.
+- Autenticación con Firebase Auth y gestión de roles en MongoDB.
+- Firebase Storage para archivos.
+- Lógica compartida para frontend web y móvil.
+
+### 3. Frontend Web
+- App web para negocios (Next.js + React + Tailwind CSS).
+- Los negocios pueden crear, editar y eliminar sus descuentos, así como visualizar métricas relevantes desde su panel.
+- Panel exclusivo para administradores de la plataforma: permite validar cuentas de negocios, enviar mensajes a los clientes y gestionar configuraciones globales.
 
 ---
 
-## 📚 Información adicional
-
-Este proyecto fue creado usando [Next.js](https://nextjs.org/) y personalizado para las necesidades específicas de **"Comé x Menos"**.
-
-Para aprender más sobre Next.js, consulta la [documentación oficial](https://nextjs.org/docs).
+Si te interesa conocer más sobre los otros componentes (app móvil o backend), consulta sus repositorios respectivos o contacta al equipo de desarrollo.
 
