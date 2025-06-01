@@ -1,4 +1,4 @@
-# Comé x Menos
+# Comé x Menos 
 
 Aplicación web para que negocios gestionen descuentos visibles en la app móvil **"Comé x Menos"**.
 
@@ -7,7 +7,6 @@ Aplicación web para que negocios gestionen descuentos visibles en la app móvil
 ## 🚀 Despliegue
 
 - Frontend: [https://discount-project-web.vercel.app](https://discount-project-web.vercel.app)
-- Backend: [https://wrong-lisa-oluciani-3ba92637.koyeb.app](https://wrong-lisa-oluciani-3ba92637.koyeb.app)
 - Video demo: [Ver video de presentación](https://discount-project-web.vercel.app/videos/demo-video-app-funcionando.mp4)
 
 ## 🔑 Prueba la app iniciando sesión como visitante
@@ -36,15 +35,23 @@ Aplicación web para que negocios gestionen descuentos visibles en la app móvil
 
 ---
 
+## 🔧 Backend
+
+El backend de esta aplicación está desarrollado con Node.js, Express y MongoDB Atlas. Está desplegado y funcionando en Koyeb, donde expone una API REST que interactúa con el frontend y la base de datos. 
+
+> ⚠️ El backend no tiene una interfaz visual ya que su función es únicamente ofrecer servicios a través de endpoints protegidos y conectarse con Firebase y MongoDB.
+
+---
+
 ## 🛠 Instalación y ejecución local
 
 1. Clona el repositorio:
     ```bash
-    git clone https://github.com/OLuciani/discount-project-web.git
+    git clone https://github.com/OLuciani/come-x-menos-frontend-web.git
     ```
 2. Entra al directorio:
     ```bash
-    cd discount-project-web
+    cd come-x-menos-frontend-web
     ```
 3. Instala las dependencias:
     ```bash
@@ -70,7 +77,7 @@ Aplicación web para que negocios gestionen descuentos visibles en la app móvil
 
 ---
 
-## 🛠 Posibles mejoras futuras
+## 🚧 Posibles mejoras futuras
 
 - 📦 Modularizar y organizar mejor el código para mayor mantenimiento y escalabilidad.  
 - ⚠️ Mejorar manejo de errores en frontend y backend para mejor experiencia de usuario.  
@@ -84,3 +91,4 @@ Aplicación web para que negocios gestionen descuentos visibles en la app móvil
 Este proyecto fue creado usando [Next.js](https://nextjs.org/) y personalizado para las necesidades específicas de **"Comé x Menos"**.
 
 Para aprender más sobre Next.js, consulta la [documentación oficial](https://nextjs.org/docs).
+
